@@ -6,7 +6,9 @@
 
 ## Resources
 
-### Data Base 
+
+
+### Data Base (PostgreSQL)
 
 SQL basic
 https://sqlbolt.com/
