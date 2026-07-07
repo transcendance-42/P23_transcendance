@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS swipes (
+    id BIGSERIAL PRIMARY KEY,
+    swiper_dog_id BIGINT NOT NULL REFERENCES dogs(id) ON DELETE CASCADE,
+    swiped_dog_id BIGINT NOT NULL REFERENCES dogs(id) ON DELETE CASCADE,
+    direction VARCHAR (7) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
