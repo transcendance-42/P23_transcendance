@@ -11,11 +11,17 @@ We use React for building the user interface. React seems like the appropriate c
 
 We use Vite as our build tool and dev server. Compared to the older Create React App, Vite is significantly faster to start and rebuild, which improves the development experience. It is now the recommended standard for React projects.
 
+We chose JavaScript over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster. 
+
 ### Backend
 
 We use Node.js as our runtime environment, which allows us to run JavaScript server-side. 
 
 On top of it, we use Fastify as our web framework to handle HTTP requests and expose our REST API. We chose Fastify over alternatives like Express because it is significantly faster, has native TypeScript support, and includes built-in request validation and logging.
+
+We chose JavaScript for the same reasons as the frontend:
+- consistency across the codebase
+- a lower barrier to entry for the team.
 
 ### Database 
 
