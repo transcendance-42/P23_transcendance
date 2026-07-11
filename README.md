@@ -2,7 +2,64 @@
 
 ## Description
 
+### Frontend
+
+We use React for building the user interface. React seems like the appropriate choice since: 
+- mainly used amoung companies 
+- easy to build reusable UI elements 
+- manage dynamic state across the app
+
+We use Vite as our build tool and dev server. Compared to the older Create React App, Vite is significantly faster to start and rebuild, which improves the development experience. It is now the recommended standard for React projects.
+
+We chose JavaScript over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster. 
+
+### Backend
+
+We use Node.js as our runtime environment, which allows us to run JavaScript server-side. 
+
+On top of it, we use Fastify as our web framework to handle HTTP requests and expose our REST API. We chose Fastify over alternatives like Express because it is significantly faster, has native TypeScript support, and includes built-in request validation and logging.
+
+We chose JavaScript for the same reasons as the frontend:
+- consistency across the codebase
+- a lower barrier to entry for the team.
+
+### Database 
+
+We use PostgreSQL as our primary database. We made this choice becuase PostgreSQL is:
+- robust
+- opensource
+- well-suited for structured data with complex relationships 
+- support foreign key
+- compatible with PRISMA
+
+We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using TypeScript, with auto-generated types and built-in protection against SQL injection.
+
+(Redis: an ultra-fast, open-source, in-memory NoSQL key-value data store. It is widely used to achieve sub-millisecond response times for dynamic applications. It operates primarily in RAM but supports persistence options, and functions as a database, cache, message broker, and streaming engine.)
+
 ## Instruction 
+
+## Getting Started
+
+1. Copy the environment file and fill in your values:
+```bash
+   cp .env.example .env
+```
+
+2. Start all services:
+```bash
+   make up
+```
+
+## Makefile Commands
+
+| Command | Description |
+| `make up` | Build and start all containers |
+| `make down` | Stop all containers |
+| `make re` | Restart all containers |
+| `make clean` | Stop containers and remove volumes |
+| `make fclean` | Full reset — removes all Docker images and containers |
+| `make logs` | Stream logs from all containers |
+| `make ps` | Show running containers |
 
 ## Resources
 
@@ -14,7 +71,24 @@ https://www.youtube.com/watch?v=d3N2yeAaLkc&themeRefresh=1
 Intro to github issues
 https://www.youtube.com/watch?v=c67GaAkf1BE
 
-### Data Base (PostgreSQL)
+### Frontend 
+
+Dockerrise React app using vite
+https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
+
+### Backend 
+
+Fastify official docs
+https://fastify.dev/docs/latest/Guides/Getting-Started/
+
+Fastify in docker 
+https://fastify.dev/docs/latest/Guides/Serverless/#docker
+
+Prisma ORM 
+https://www.youtube.com/watch?v=gimSKEsWYb4&t=1076s
+
+
+### Database 
 
 SQL basic
 https://sqlbolt.com/
@@ -24,5 +98,3 @@ https://www.postgresql.org/docs/
 
 PostgreSQL for beginners (youtube)
 https://www.youtube.com/watch?v=qw--VYLpxG4&t=593s
-
-

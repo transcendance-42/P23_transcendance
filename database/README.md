@@ -10,7 +10,6 @@ PostgreSQL is an open-source, free, and production-grade relational database. We
 - **Prisma compatible** — works seamlessly with the ORM used by our backend
 - **Extensible** — supports PostGIS for geolocation features if needed in the future
 
-
 ## Tables structures 
 
 ### `users`
@@ -38,9 +37,10 @@ Stores dog profiles linked to their owner.
 | id         | BIGSERIAL    | PRIMARY KEY                        |
 | owner_id   | BIGINT       | NOT NULL, REFERENCES users(id)     |
 | dog_name   | VARCHAR(50)  | NOT NULL                           |
-| breed      | VARCHAR(50)  |                                    |
+| breed      | VARCHAR(50)  |  
+| gender     | VARCHAR(50)  | ('Female', 'Male', 'Other')                           |
 | age        | INT          |                                    |
-| size       | VARCHAR(20)  |  ('small', 'medium', or 'large')   |
+| size       | VARCHAR(20)  |  ('Small', 'Medium', or 'Large')   |
 | bio        | TEXT         |                                    |
 | created_at | TIMESTAMP    | DEFAULT NOW()                      |
 
@@ -114,8 +114,6 @@ users ──────────── dogs
 - A `match` is created when two dogs mutually like each other
 - A `match` generates a conversation stored in `messages`
 - A `message` is sent by a `user` (the owner), not the dog
-
-
 
 ## How to run the database?
 
