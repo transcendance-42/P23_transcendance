@@ -5,6 +5,7 @@
     "dev": "node src/index.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "fastify": "^4.0.0"
   }
 }
