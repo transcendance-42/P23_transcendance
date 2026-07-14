@@ -1,7 +1,5 @@
 const fastify = require('fastify')({ logger: true })
-BigInt.prototype.toJSON = function() {
-  return this.toString()
-}
+
 const prisma = require('./utils/prisma')
 
 fastify.get('/health', async () => {
