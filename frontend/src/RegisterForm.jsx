@@ -11,16 +11,34 @@ function RegisterForm(){
         date_of_birth: ''
     });
 
+    const [message, setMessage] = useState('');
+
     const isEmpty = Object.values(formData).some(value => value === '');
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
         if (isEmpty){
             console.error('error formData vide');
             return;
         }
-        console.log(formData)
+        const response = await fetch('http://localhost:3000/register',{
+            method: 'POST',
+            headers: {'Content-type' : 'application/json'},
+            body: JSON.stringify(formData)
+        })
+        const data = await response.json();
+        console.log(response.status, data);
+        if (response.status === 400){
+            setMessage('Payload invalide');
+        } else if (response.status == 409){
+            setMessage('email déja existant');
+        } else if (response.ok){
+            setMessage('compte créer avec succès');
+        } else {
+            setMessage('Error invalide');
+        }
     }
+
 
     return (
         <div>
@@ -62,6 +80,7 @@ function RegisterForm(){
                     value={formData.date_of_birth}
                     onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value})}
                 />
+                {message && <p>{message}</p>}
                 <button>submit</button>
             </form>
         </div>
