@@ -7,7 +7,11 @@ fastify.get('/health', async () => {
 })
 
 fastify.get('/users', async () => {
-  const users = await prisma.users.findFirst()
+  const users = await prisma.users.findMany({
+    omit: {
+      password_hash: true
+    }
+  })
   return users
 })
 
