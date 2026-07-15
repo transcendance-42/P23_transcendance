@@ -23,6 +23,9 @@ We chose JavaScript for the same reasons as the frontend:
 - consistency across the codebase
 - a lower barrier to entry for the team.
 
+We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using JavaScript, with auto-generated types and built-in protection against SQL injection.
+
+
 ### Database 
 
 We use PostgreSQL as our primary database. We made this choice becuase PostgreSQL is:
@@ -31,8 +34,6 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 - well-suited for structured data with complex relationships 
 - support foreign key
 - compatible with PRISMA
-
-We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using TypeScript, with auto-generated types and built-in protection against SQL injection.
 
 (Redis: an ultra-fast, open-source, in-memory NoSQL key-value data store. It is widely used to achieve sub-millisecond response times for dynamic applications. It operates primarily in RAM but supports persistence options, and functions as a database, cache, message broker, and streaming engine.)
 
@@ -84,9 +85,14 @@ https://fastify.dev/docs/latest/Guides/Getting-Started/
 Fastify in docker 
 https://fastify.dev/docs/latest/Guides/Serverless/#docker
 
-Prisma ORM 
+Prisma ORM (youtube vidéo for begginner)
 https://www.youtube.com/watch?v=gimSKEsWYb4&t=1076s
 
+Primsa Official Docs 
+https://www.prisma.io/docs/getting-started
+
+Primsa CRUD operations
+https://www.prisma.io/docs/orm/prisma-client/queries/crud
 
 ### Database 
 
