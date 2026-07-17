@@ -9,7 +9,7 @@ down:
 re: down up
 
 clean: down
-	docker-compose down -v
+	docker-compose down
 
 fclean: clean
 	docker system prune -af
