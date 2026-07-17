@@ -1,4 +1,9 @@
 const fastify = require('fastify')({ logger: true })
+const cors = require('@fastify/cors')
+
+fastify.register(cors, {
+  origin: 'http://localhost:5173'
+})
 
 const prisma = require('./utils/prisma')
 
