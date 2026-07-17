@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS dogs (
     gender VARCHAR (50) CHECK (gender IN ('Male', 'Female', 'Other')),
     breed VARCHAR(50), 
     age INT,
-    size VARCHAR(20) CHECK (gender IN ('Small', 'Medium', 'Large')), 
+    size VARCHAR(20) CHECK (size IN ('Small', 'Medium', 'Large')), 
     bio TEXT NOT NULL, 
     created_at TIMESTAMP DEFAULT NOW()
 );
