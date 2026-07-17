@@ -1,15 +1,15 @@
-const fastify = require('fastify');
+// const fastify = require('fastify');
 
 
-function buildApp() {
-    const app = fastify({logger: true})
+// function buildApp() {
+//     const app = fastify({logger: true})
 
 
-app.get('/health', async () => {
-  return { status: 'config minimal ok prêt pour developper backend' }
-})
+// app.get('/health', async () => {
+//   return { status: 'config minimal ok prêt pour developper backend' }
+// })
 
-    return app
-}
+//     return app
+// }
 
-module.exports = buildApp
+// module.exports = buildApp
