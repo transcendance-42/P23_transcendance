@@ -54,6 +54,7 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 ## Makefile Commands
 
 | Command | Description |
+|---------|-------------|
 | `make up` | Build and start all containers |
 | `make down` | Stop all containers |
 | `make re` | Restart all containers |
