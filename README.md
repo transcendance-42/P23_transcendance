@@ -91,13 +91,13 @@ Dockerrise React app using vite
 https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
 
 Fetch API call
-javascript.info/fetch
+https://javascript.info/fetch
 
 useState
-react.dev/learn/state-a-components-memory
+https://react.dev/learn/state-a-components-memory
 
 useEffect
-react.dev/reference/react/useEffect
+https://react.dev/reference/react/useEffect
 
 ### Backend 
 
