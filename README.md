@@ -2,6 +2,12 @@
 
 ## Description
 
+Tindog is our ft_transcendence project, the final mandatory project at 42 School.
+
+Inspired by Tinder, Tindog is a swipe-based matching app, but for dog owners. Users create a profile for their dog and browse other dogs nearby. A simple swipe right means interest, swipe left means pass. When two dogs mutually like each other, it's a match and their owners can start chatting.
+
+The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
+
 ### Frontend
 
 We use React for building the user interface. React seems like the appropriate choice since: 
@@ -58,7 +64,7 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 | `make up` | Build and start all containers |
 | `make down` | Stop all containers |
 | `make re` | Restart all containers |
-| `make clean` | Stop containers and remove volumes |
+| `make clean` | Stop containers|
 | `make fclean` | Full reset — removes all Docker images and containers |
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
