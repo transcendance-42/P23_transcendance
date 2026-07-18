@@ -1,6 +1,13 @@
 const fastify = require('fastify')({ logger: true })
-BigInt.prototype.toJSON = function() { return this.toString() }
+const cors = require('@fastify/cors')
+
+fastify.register(cors, {
+  origin: 'http://localhost:5173'
+})
+
 const prisma = require('./utils/prisma')
+
+BigInt.prototype.toJSON = function() { return this.toString() }
 
 fastify.get('/health', async () => {
   return { status: 'ok' }
