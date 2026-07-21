@@ -5,6 +5,8 @@ fastify.register(cors, {
   origin: 'http://localhost:5173'
 })
 
+BigInt.prototype.toJSON = function() { return this.toString() }
+
 const prisma = require('./utils/prisma')
 
 fastify.get('/health', async () => {
