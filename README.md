@@ -99,6 +99,12 @@ https://react.dev/learn/state-a-components-memory
 useEffect
 https://react.dev/reference/react/useEffect
 
+Learn JavaScript (interactive course)
+https://learnjavascript.online
+
+Doc for Javascript 
+https://developer.mozilla.org/fr/
+
 ### Backend 
 
 Fastify official docs
