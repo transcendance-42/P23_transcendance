@@ -116,6 +116,9 @@ https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-us
 
 Style with tailwind (Official doc)
 https://tailwindcss.com/docs/font-size
+
+Frame-motion 
+https://motion.dev/docs/react
  
 ### Backend 
 
