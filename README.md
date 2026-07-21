@@ -77,11 +77,21 @@ https://www.youtube.com/watch?v=c67GaAkf1BE
 Dockerrise React app using vite
 https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
 
+Fetch API call
+https://javascript.info/fetch
+
+useState
+https://react.dev/learn/state-a-components-memory
+
+useEffect
+https://react.dev/reference/react/useEffect
+
 Learn JavaScript (interactive course)
 https://learnjavascript.online
 
 Doc for Javascript 
 https://developer.mozilla.org/fr/
+
 ### Backend 
 
 Fastify official docs
