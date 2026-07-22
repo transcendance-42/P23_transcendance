@@ -5,7 +5,7 @@ import joyaImg from '../assets/joya.jpg'
 import woodyImg from '../assets/woody.jpg'
 import {sendRequestSwipes} from '../api/swipes'
 
-const Card = ({ dog, index, total, onSwipe }) => {
+const Card = ({ dog, index, total, onSwipe, onMatch }) => {
     const x = useMotionValue(0);
     const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
     const rotateRaw = useTransform(x, [-150, 150], [-10, 10]);
@@ -14,11 +14,15 @@ const Card = ({ dog, index, total, onSwipe }) => {
         const offset = isFront? 0: index % 2 ? 6: -6;
         return `${rotateRaw.get() +offset}deg`;
     });
-    const handleDragEnd = () => {
+    const handleDragEnd = async () => {
         if (Math.abs(x.get()) > 50)
         {
-            const direction = x ? 'right' : 'left'
-            sendRequestSwipes(direction)
+            const direction = x.get() > 0 ? 'right' : 'left'
+            const result = await sendRequestSwipes(direction)
+            console.log(result)
+            if (result?.matched) {
+                onMatch()
+            }
             onSwipe()
         }      
     };
@@ -70,7 +74,7 @@ const Card = ({ dog, index, total, onSwipe }) => {
 // le useState() qui est mnt hardcodé sera remplacé par useEffet() qui va fetch Get /api/dogs
 //les images qui sont mnt en local dans /assets seront remplacés par els vrai chehmins depuis dog_pics
 //mais on gardera removeCard
-const DogCard = () => {
+const DogCard = ({ onMatch }) => {
   const [dogs, setDogs] = useState([
     { name: 'Surf', age: 11, city: 'Mont-Sur-Lausanne', breed: 'Berger australien toy', size: 'Small', gender: 'Male', bio: 'Funny looking, does a lot of noise but is kinda nice', img: surfImg },
     { name: 'Joya', age: 1, city: 'Gland', breed: 'unknown', size: 'Medium', gender: 'Female', bio: 'Joya has a lot of energy and loves to play with humans and other dogs.', img: joyaImg },
@@ -89,6 +93,7 @@ const DogCard = () => {
             index={index}
             total={dogs.length} 
             onSwipe={() =>removeCard(dog.name)}
+            onMatch={onMatch}
         />
       ))}
     </div>
