@@ -22,6 +22,4 @@ fastify.get('/users', async () => {
   return users
 })
 
-fastify.register(require('./routes/swipes'), { prefix: '/api' })
-
 fastify.listen({ port: 3000, host: '0.0.0.0' })
