@@ -83,6 +83,16 @@ const DogCard = ({ onMatch }) => {
   const removeCard = (name) => {
     setDogs(dogs.filter(dog => dog.name !== name))
   }
+  if (dogs.length === 0) {
+    return (
+        <div className="w-100 h-150 bg-pink-200 rounded-2xl shadow-md flex flex-col items-center justify-center">
+          <p style={{ fontFamily: 'Bevan, serif' }} className="text-3xl text-pink-400 text-center">
+            No more dogs nearby
+          </p>
+          <p className="text-gray-400 mt-2">Come back later!</p>
+        </div>
+    )
+  }
 
   return (
     <div className="relative w-100 h-150">
