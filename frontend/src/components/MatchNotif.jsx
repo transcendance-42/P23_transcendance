@@ -19,8 +19,8 @@ const MatchNotif = ({onClose}) => {
                     It's a Match!
                 </h1>
                 <div className="flex gap-2 p-4">
-                    <img src={userPhoto} alt="your dog" className='w-1/2 h-80 object-cover rounded-2xl border-6 border-pink-400'/>
-                    <img src={matchPhoto} alt="other dog" className='w-1/2 h-80 object-cover rounded-2xl border-6 border-pink-400'/>
+                    <img src={userPhoto} alt="your dog" className='w-1/2 h-80 pointer-events-nonepointer-events-none object-cover rounded-2xl border-6 border-pink-400'/>
+                    <img src={matchPhoto} alt="other dog" className='w-1/2 h-80 pointer-events-none object-cover rounded-2xl border-6 border-pink-400'/>
                 </div>
                 <div className='w-full flex justify-center'>
                     <button onClick={() => navigate('/chat/1')} className="bg-pink-200 text-pink-500 font-bold px-6 py-2 rounded-full hover:text-pink-800 transition-colors">
