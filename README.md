@@ -105,6 +105,18 @@ https://learnjavascript.online
 Doc for Javascript 
 https://developer.mozilla.org/fr/
 
+Introduction to React
+https://www.geeksforgeeks.org/reactjs/react/
+
+Tinder style swipe cards
+https://www.youtube.com/watch?v=bzJHOoiu1Bs
+
+How to create Tinder card swipe gesture 
+https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-using-react-and-framer-motion/
+
+Style with tailwind (Official doc)
+https://tailwindcss.com/docs/font-size
+
 ### Backend 
 
 Fastify official docs
