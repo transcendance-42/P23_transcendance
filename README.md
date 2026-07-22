@@ -105,6 +105,12 @@ https://react.dev/learn/state-a-components-memory
 useEffect
 https://react.dev/reference/react/useEffect
 
+Learn JavaScript (interactive course)
+https://learnjavascript.online
+
+Doc for Javascript 
+https://developer.mozilla.org/fr/
+
 Introduction to React
 https://www.geeksforgeeks.org/reactjs/react/
 
@@ -117,9 +123,6 @@ https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-us
 Style with tailwind (Official doc)
 https://tailwindcss.com/docs/font-size
 
-Frame-motion 
-https://motion.dev/docs/react
- 
 ### Backend 
 
 Fastify official docs
