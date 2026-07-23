@@ -2,6 +2,12 @@
 
 ## Description
 
+Tindog is our ft_transcendence project, the final mandatory project at 42 School.
+
+Inspired by Tinder, Tindog is a swipe-based matching app, but for dog owners. Users create a profile for their dog and browse other dogs nearby. A simple swipe right means interest, swipe left means pass. When two dogs mutually like each other, it's a match and their owners can start chatting.
+
+The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
+
 ### Frontend
 
 We use React for building the user interface. React seems like the appropriate choice since: 
@@ -54,15 +60,22 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 ## Makefile Commands
 
 | Command | Description |
+|---------|-------------|
 | `make up` | Build and start all containers |
 | `make down` | Stop all containers |
 | `make re` | Restart all containers |
-| `make clean` | Stop containers and remove volumes |
+| `make clean` | Stop containers|
 | `make fclean` | Full reset — removes all Docker images and containers |
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
-## Resources
+## Lancer des fake data en local pour dev
+```bash
+cd backend
+node prisma/seed.js
+```
+
+# Resources
 
 ### Workflow Github
 
@@ -76,6 +89,36 @@ https://www.youtube.com/watch?v=c67GaAkf1BE
 
 Dockerrise React app using vite
 https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
+
+Fetch API call
+https://javascript.info/fetch
+
+useState
+https://react.dev/learn/state-a-components-memory
+
+useEffect
+https://react.dev/reference/react/useEffect
+
+Learn JavaScript (interactive course)
+https://learnjavascript.online
+
+Doc for Javascript 
+https://developer.mozilla.org/fr/
+
+Introduction to React
+https://www.geeksforgeeks.org/reactjs/react/
+
+Tinder style swipe cards
+https://www.youtube.com/watch?v=bzJHOoiu1Bs
+
+How to create Tinder card swipe gesture 
+https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-using-react-and-framer-motion/
+
+Style with tailwind (Official doc)
+https://tailwindcss.com/docs/font-size
+
+Google font et icons 
+https://fonts.google.com/?preview.script=Latn
 
 ### Backend 
 
