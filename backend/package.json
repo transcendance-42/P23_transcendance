@@ -2,7 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node src/index.js",
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
     "postinstall": "prisma generate --schema=./prisma/schema.prisma"
   },
   "prisma": {
@@ -15,6 +16,7 @@
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "fastify": "^4.0.0",
+    "fastify-plugin": "^6.0.0",
     "pg": "^8.22.0",
     "prisma": "^7.8.0"
   }
