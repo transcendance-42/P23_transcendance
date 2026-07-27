@@ -1,5 +1,4 @@
 const buildApp = require('./app')
-const { Server } = require("socket.io");
 const attachwebsocket = require('./websocket/index');
 
 const app = buildApp()
