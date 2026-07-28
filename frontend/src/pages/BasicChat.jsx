@@ -1,4 +1,7 @@
 // client/src/App.jsx
+// page qui permet d'addionner des messages dans un navigateur
+// si on reload la page les messages disparraisee car stocker du coté client
+// pour le moment
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
