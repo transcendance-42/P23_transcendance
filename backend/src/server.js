@@ -1,8 +1,11 @@
 const buildApp = require('./app')
 const attachwebsocket = require('./websocket/index');
+const authenticateSocket = require('./websocket/index')
 
 const app = buildApp()
 const io  = attachwebsocket(app)
+
+io.use(authenticateSocket)
 
 const start = async () => {
   try {
