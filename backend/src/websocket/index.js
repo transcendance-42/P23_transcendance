@@ -1,4 +1,5 @@
 const { Server } = require("socket.io")
+require('dotenv').config();
 const jwt = require('jsonwebtoken')
 
 
@@ -31,4 +32,4 @@ return io;
     
 }
 
-module.exports = attachwebsocket
+module.exports = {attachwebsocket, authenticateSocket}
