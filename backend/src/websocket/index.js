@@ -1,4 +1,17 @@
 const { Server } = require("socket.io")
+require('dotenv').config();
+const jwt = require('jsonwebtoken')
+
+
+function authenticateSocket(socket, next){
+  const token = socket.handshake.auth.token;
+  try{
+    socket.user = jwt.verify(token, process.env.JWT_SECRET)
+    next();
+  } catch (err){
+    next(new Error("Authentication error: invalid token"));
+  }
+}
 
 function attachwebsocket(app){
 
@@ -25,4 +38,4 @@ return io;
     
 }
 
-module.exports = attachwebsocket
+module.exports = {attachwebsocket, authenticateSocket}
