@@ -19,12 +19,18 @@ function attachwebsocket(app){
 
     io.on("connection", (socket) => {
       console.log(`User connected ${socket.id}`)
-      socket.on('joinRoom', (rooName) =>{
+      socket.on('join_room', (roomName) =>{
         socket.join(roomName);
         console.log(`${socket.id} joined room: ${roomName}`)
 
-        io.to(rooName).emit('send_message', `User ${socket.id} connected to the ${roomName} room`)
+        io.to(roomName).emit('send_message', `User ${socket.id} connected to the ${roomName} room`)
       })
+      socket.on('leave_room', (roomName) =>{
+        socket.leave(roomName);
+        console.log(`${socket.id} leave room: ${roomName}`)
+
+        io.to(roomName).emit('send_message', `User ${socket.id} leave the ${roomName} room`)
+      })      
       socket.on('disconnect', () => {
         console.log(`A user disconnect: ${socket.id}`)
       })
