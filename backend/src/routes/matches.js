@@ -33,6 +33,16 @@ async function matchesRoutes(fastify) {
         }
     })
 
+    fastify.get('/matches', async (request, reply) => {
+        try {
+            const matches = await prisma.matches.findMany()
+            return matches;
+        }
+        catch (e) {
+          return reply.code(500).send({ error: e.message })  
+        }
+    })
+
   //DELETE /matches/:id
   fastify.delete('/matches/:id', {
         schema: {

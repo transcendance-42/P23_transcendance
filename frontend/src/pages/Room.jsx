@@ -1,9 +1,9 @@
 import React from 'react';
-export function Room({name, participants}) {
+export function Room({id, id_dog1}) {
         return (
             <div className="channel-item" >
-               <div>{name}</div> 
-                <span>{participants}</span>
+               <div>{id}</div> 
+                <span>{id_dog1}</span>
             </div>
         )
     };

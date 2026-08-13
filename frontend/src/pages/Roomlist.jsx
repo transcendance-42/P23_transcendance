@@ -1,15 +1,19 @@
 import React from 'react'
 import { Room } from './Room';
 
-export function RoomList ({channels}) {
+// les crochet a l'intérieur c'est pour la destructuration javascript sinon ca serait
+// export function RoomList (props)
+// et ensuite dans la fonction il faudarit faire
+// const rooms = props.rooms 
+export function RoomList ({rooms}) {
         let list = `There is no channels to show`;
-        if (channels) {
-            list = channels.map(c => (
+        if (rooms) {
+            list = rooms.map(c => (
             <Room
-                key={c.id}
                 id={c.id}
-                name={c.name}
-                participants={c.participants}
+                id_dog1={c.id_dog1}
+                id_dog2={c.id_dog2}
+                created_at={c.created_at}
             />
             ));
         }
