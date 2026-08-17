@@ -10,6 +10,7 @@ export function RoomList ({rooms}) {
         if (rooms) {
             list = rooms.map(c => (
             <Room
+                key={c.id}
                 id={c.id}
                 id_dog1={c.id_dog1}
                 id_dog2={c.id_dog2}
