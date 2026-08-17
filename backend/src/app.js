@@ -13,7 +13,7 @@ function buildApp() {
   fastify.register(require('./routes/swipes'), { prefix: '/api' })
   fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
   fastify.register(require('./routes/matches'), { prefix: '/api' })
-  fastify.register(require('./routes/messages'), { prefix: '/api' })
+  fastify.register(require('./routes/messages'), { prefix: '/api' }) 
 
   return fastify
 }

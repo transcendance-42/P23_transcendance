@@ -1,6 +1,8 @@
 const buildApp = require('./app')
+const attachwebsocket = require('./websocket/index');
 
 const app = buildApp()
+const io  = attachwebsocket(app)
 
 const start = async () => {
   try {
@@ -10,5 +12,6 @@ const start = async () => {
     process.exit(1)
   }
 }
+console.log("le serveur va start")
 
 start()
