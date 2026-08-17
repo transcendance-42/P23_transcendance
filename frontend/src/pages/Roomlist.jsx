@@ -14,6 +14,8 @@ export function RoomList ({rooms}) {
                 id_dog1={c.id_dog1}
                 id_dog2={c.id_dog2}
                 created_at={c.created_at}
+                dog1_name={c.matchesAsDog1.dog_name}
+                dog2_name={c.matchesAsDog2.dog_name}
             />
             ));
         }

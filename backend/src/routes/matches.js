@@ -17,13 +17,13 @@ async function matchesRoutes(fastify) {
             const matches = await prisma.matches.findMany({
                 where: {
                     OR: [
-                        { dogs_matches_id_dog1Todogs: { owner_id: BigInt(request.params.userId) } },
-                        { dogs_matches_id_dog2Todogs: { owner_id: BigInt(request.params.userId) } },
+                        { matchesAsDog1: { owner_id: BigInt(request.params.userId) } },
+                        { matchesAsDog2: { owner_id: BigInt(request.params.userId) } },
                     ]
                 },
                 include: {
-                    dogs_matches_id_dog1Todogs: true,
-                    dogs_matches_id_dog2Todogs: true,
+                    matchesAsDog1: true,
+                    matchesAsDog2: true,
                 },
                 orderBy: { created_at: 'asc' }
             })
@@ -35,7 +35,12 @@ async function matchesRoutes(fastify) {
 
     fastify.get('/matches', async (request, reply) => {
         try {
-            const matches = await prisma.matches.findMany()
+            const matches = await prisma.matches.findMany({
+                include:{
+                    matchesAsDog1:true,
+                    matchesAsDog2:true
+                }
+            })
             return matches;
         }
         catch (e) {
