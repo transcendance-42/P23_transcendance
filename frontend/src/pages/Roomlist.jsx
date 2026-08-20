@@ -5,12 +5,13 @@ import { Room } from './Room';
 // export function RoomList (props)
 // et ensuite dans la fonction il faudarit faire
 // const rooms = props.rooms 
-export function RoomList ({rooms}) {
+export function RoomList ({rooms, handleClickOnRoom}) {
         let list = `There is no channels to show`;
         if (rooms) {
             list = rooms.map(c => (
             <Room
                 key={c.id}
+                onClick={()=> handleClickOnRoom(c)}
                 id={c.id}
                 id_dog1={c.id_dog1}
                 id_dog2={c.id_dog2}

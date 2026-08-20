@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 
 export default function Chat ()
 {
-    const [rooms, setRooms] = useState([
-    ]);
+    const [rooms, setRooms] = useState([]);
+    const [selectRoom, changeRoom] = useState(null);
+
 
     const loadRooms = async () => {
         console.log("start the loading of the rooms")
@@ -23,14 +24,20 @@ export default function Chat ()
     }, [])
 
     useEffect(() => {
+        console.log("ROOMS SELECTED: ");
+        console.log(selectRoom);
+    }, [selectRoom]);
+
+    useEffect(() => {
         console.log("rooms was updated:");
         console.log(rooms);
     }, [rooms]);
 
     return (
         <div className="chat-app">
-            <RoomList rooms={rooms}/>
-            <MessagePanel/>
+            <RoomList rooms={rooms}
+                        handleClickOnRoom={changeRoom}/>
+            <MessagePanel channel={selectRoom}/>
         </div>
     );
 }

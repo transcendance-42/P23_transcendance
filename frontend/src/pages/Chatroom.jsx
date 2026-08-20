@@ -36,7 +36,7 @@ function App() {
     socket.emit('send_message', messageData)
 
     setMessages((prevMessages) => [...prevMessages, messageData])
-
+    
     // Clear message input
     setFormData((prev) => ({ ...prev, message: '' }))
   }

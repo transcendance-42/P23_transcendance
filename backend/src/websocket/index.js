@@ -1,6 +1,7 @@
 const { Server } = require("socket.io")
 require('dotenv').config();
 const jwt = require('jsonwebtoken')
+const prisma = require('../utils/prisma')
 
 
 function authenticateSocket(socket, next){
@@ -11,6 +12,16 @@ function authenticateSocket(socket, next){
   } catch (err){
     next(new Error("Authentication error: invalid token"));
   }
+}
+
+async function createMessage({match_id, sender_id, content}){
+      return await prisma.messages.create({
+        data: {
+            match_id: BigInt(match_id),
+            sender_id: BigInt(sender_id),
+            contents
+          }
+        })
 }
 
 function attachwebsocket(app){
@@ -34,9 +45,16 @@ function attachwebsocket(app){
       socket.on('disconnect', () => {
         console.log(`A user disconnect: ${socket.id}`)
       })
-      socket.on('send_message', (message) =>{
-        console.log(message)
-        io.emit('receive_message', {...message})
+      socket.on('send_message', async (message) =>{
+        try{
+            const r_message = await createMessage(message);
+            console.log(r_message)
+            io.emit('receive_message', {r_message})
+        }
+        catch (error)
+        {
+          console.error(error);
+        }
       })
 })
 
