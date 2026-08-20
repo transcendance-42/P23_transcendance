@@ -137,6 +137,9 @@ https://www.prisma.io/docs/getting-started
 Primsa CRUD operations
 https://www.prisma.io/docs/orm/prisma-client/queries/crud
 
+JWT authentification 
+https://www.youtube.com/watch?v=Y2H3DXDeS3Q&t=21s
+
 ### Database 
 
 SQL basic
