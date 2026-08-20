@@ -12,7 +12,7 @@ model dog_pics {
   dog_id    BigInt
   file_path String @db.VarChar(500)
   position  Int?
-  dogs      dogs   @relation(fields: [dog_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  dogs      dogs   @relation(fields: [dog_id], references: [id], onUpdate: NoAction)
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -27,7 +27,7 @@ model dogs {
   bio                               String
   created_at                        DateTime?  @default(now()) @db.Timestamp(6)
   dog_pics                          dog_pics[]
-  users                             users      @relation(fields: [owner_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users                             users      @relation(fields: [owner_id], references: [id], onUpdate: NoAction)
   matchesAsDog1                     matches[]  @relation("matchDog1")
   matchesAsDog2                     matches[]  @relation("matchDog2")
   swipesAsSwiper                    swipes[]   @relation("swipesSwiper")
@@ -39,8 +39,8 @@ model matches {
   id_dog1                    BigInt
   id_dog2                    BigInt
   created_at                 DateTime?  @default(now()) @db.Timestamp(6)
-  matchesAsDog1              dogs       @relation("matchDog1", fields: [id_dog1], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  matchesAsDog2              dogs       @relation("matchDog2", fields: [id_dog2], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  matchesAsDog1              dogs       @relation("matchDog1", fields: [id_dog1], references: [id], onUpdate: NoAction)
+  matchesAsDog2              dogs       @relation("matchDog2", fields: [id_dog2], references: [id], onUpdate: NoAction)
   messages                   messages[]
 
   @@unique([id_dog1, id_dog2], map: "unique_match")
@@ -52,9 +52,8 @@ model messages {
   sender_id BigInt
   content   String
   send_at   DateTime? @default(now()) @db.Timestamp(6)
-  matches   matches   @relation(fields: [match_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  users     users     @relation(fields: [sender_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  @@index([match_id])
+  matches   matches   @relation(fields: [match_id], references: [id], onUpdate: NoAction)
+  users     users     @relation(fields: [sender_id], references: [id], onUpdate: NoAction)
 }
 
 model swipes {
@@ -63,8 +62,8 @@ model swipes {
   target_id                       BigInt
   direction                       String    @db.VarChar(7)
   created_at                      DateTime? @default(now()) @db.Timestamp(6)
-  swipesAsSwiper                  dogs      @relation("swipesSwiper", fields: [swiper_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  swipesAsTarget                  dogs      @relation("swipesTarget", fields: [target_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  swipesAsSwiper                  dogs      @relation("swipesSwiper", fields: [swiper_id], references: [id], onUpdate: NoAction)
+  swipesAsTarget                  dogs      @relation("swipesTarget", fields: [target_id], references: [id], onUpdate: NoAction)
 }
 
 model users {
@@ -77,6 +76,7 @@ model users {
   date_of_birth DateTime   @db.Date
   avatar        String?    @db.VarChar(500)
   created_at    DateTime?  @default(now()) @db.Timestamp(6)
+  is_active     Boolean    @default(true)
   dogs          dogs[]
   messages      messages[]
 }
