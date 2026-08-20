@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS dogs (
     id BIGSERIAL PRIMARY KEY,
-    owner_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE, 
+    owner_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT, 
     dog_name VARCHAR(50) NOT NULL,
     gender VARCHAR (50) CHECK (gender IN ('Male', 'Female', 'Other')),
     breed VARCHAR(50), 
