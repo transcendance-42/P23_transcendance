@@ -43,29 +43,29 @@ curl -X DELETE http://localhost:3000/api/dog-pics/1
 # Swipe right & right = MATCH (matched: true)
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 3, "swiped_dog_id": 4, "direction": "right"}'
+  -d '{"swiper_id": 3, "target_id": 4, "direction": "right"}'
  
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 4, "swiped_dog_id": 3, "direction": "right"}'
+  -d '{"swiper_id": 4, "target_id": 3, "direction": "right"}'
  
 # Swipe left & left = pas de match (matched: false)
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 5, "swiped_dog_id": 6, "direction": "left"}'
+  -d '{"swiper_id": 5, "target_id": 6, "direction": "left"}'
  
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 6, "swiped_dog_id": 5, "direction": "left"}'
+  -d '{"swiper_id": 6, "target_id": 5, "direction": "left"}'
  
 # Swipe asymétrique = pas de match (matched: false)
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 7, "swiped_dog_id": 8, "direction": "right"}'
+  -d '{"swiper_id": 7, "target_id": 8, "direction": "right"}'
  
 curl -X POST http://localhost:3000/api/swipes \
   -H "Content-Type: application/json" \
-  -d '{"swiper_dog_id": 8, "swiped_dog_id": 7, "direction": "left"}'
+  -d '{"swiper_id": 8, "target_id": 7, "direction": "left"}'
 ```
 
 

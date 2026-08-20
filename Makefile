@@ -9,10 +9,11 @@ down:
 re: down up
 
 clean: down
-	docker-compose down
+	docker-compose down 
 
-fclean: clean
-	docker system prune -af
+fclean:
+	docker-compose down -v
+	docker system prune -af --volumes
 
 logs:
 	docker-compose logs -f

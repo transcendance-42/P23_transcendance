@@ -7,33 +7,33 @@ async function swipesRoutes(fastify) {
             body: {
                 type: 'object',
                 properties: {
-                    swiper_dog_id: { type: 'integer' },
-                    swiped_dog_id: { type: 'integer' },
+                    swiper_id: { type: 'integer' },
+                    target_id: { type: 'integer' },
                     direction: { type: 'string', enum: ['left', 'right'] }
                 },
-                required: ['swiper_dog_id', 'swiped_dog_id', 'direction']
+                required: ['swiper_id', 'target_id', 'direction']
             }
         }
     }, async (request, reply) => {
         try {
-            const { swiper_dog_id, swiped_dog_id, direction } = request.body
+            const { swiper_id, target_id, direction } = request.body
 
             const swipe = await prisma.swipes.create({
                 data: {
                     direction,
-                    swiped_dog_id: BigInt(swiped_dog_id),
-                    swiper_dog_id: BigInt(swiper_dog_id)
+                    target_id: BigInt(target_id),
+                    swiper_id: BigInt(swiper_id)
                 }
             })
 
-            if (swiper_dog_id === swiped_dog_id)
+            if (swiper_id === target_id)
                 return reply.code(400).send({ error: 'A dog cannot swipe itself' })
 
             if (direction === 'right') {
                 const isItAMatch = await prisma.swipes.findFirst({
                     where: {
-                        swiper_dog_id: BigInt(swiped_dog_id),
-                        swiped_dog_id: BigInt(swiper_dog_id),
+                        swiper_id: BigInt(target_id),
+                        target_id: BigInt(swiper_id),
                         direction: 'right',
                     }
                 })
@@ -42,15 +42,15 @@ async function swipesRoutes(fastify) {
                     const existingMatch = await prisma.matches.findFirst({
                         where: {
                             OR: [
-                                { id_dog1: BigInt(swiper_dog_id), id_dog2: BigInt(swiped_dog_id) },
-                                { id_dog1: BigInt(swiped_dog_id), id_dog2: BigInt(swiper_dog_id) }
+                                { id_dog1: BigInt(swiper_id), id_dog2: BigInt(target_id) },
+                                { id_dog1: BigInt(target_id), id_dog2: BigInt(swiper_id) }
                             ]
                         }
                     })
 
                     if (!existingMatch) {
                         const match = await prisma.matches.create({
-                            data: { id_dog1: BigInt(swiper_dog_id), id_dog2: BigInt(swiped_dog_id) }
+                            data: { id_dog1: BigInt(swiper_id), id_dog2: BigInt(target_id) }
                         })
                         return { swipe, match, matched: true }
                     }

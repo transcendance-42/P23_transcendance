@@ -43,7 +43,7 @@ const Card = ({ dog, index, total, onSwipe, onMatch }) => {
             rotate,
         }}
         drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
+        dragConstraints={{ left: 0, right: 0}}
         onDragEnd={handleDragEnd} >
         <motion.div style={{ opacity: likeOpacity }} className="absolute inset-0 bg-green-400 rounded-2xl z-10" />
         <motion.div style={{ opacity: passOpacity }} className="absolute inset-0 bg-red-400 rounded-2xl z-10" />

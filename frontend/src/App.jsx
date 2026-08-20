@@ -1,17 +1,23 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import SwipePage from './pages/SwipePage'
 import MatchesPage from './pages/MatchesPage'
-import ChatPage from './pages/ChatPage'
+import './App.css'
+import {Routes, Route } from 'react-router'
+import BasicChat from './pages/BasicChat'
+import Chatroom from './pages/Chatroom'
+import Chat from './pages/Chat'
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SwipePage />} />
-        <Route path="/matches" element={<MatchesPage />} />
-        <Route path="/chat/:matchId" element={<ChatPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+        <Route path="/" element={<h1>Tindog page d'accueil</h1>} />
+        <Route path="/swipes" element={<SwipePage/>} />
+        <Route path="/matches" element={<MatchesPage/>} />
+        <Route path="/register" element ={<h1>contenu actuel register</h1>}/>
+        <Route path="/basicchat" element = {<BasicChat />} />
+        <Route path="/chatroom" element = {<Chatroom />} />
+        <Route path="/chat" element = {<Chat />} />
+    </Routes>
   )
 }
 

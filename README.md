@@ -123,6 +123,9 @@ https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-us
 Style with tailwind (Official doc)
 https://tailwindcss.com/docs/font-size
 
+Google font et icons 
+https://fonts.google.com/?preview.script=Latn
+
 ### Backend 
 
 Fastify official docs
@@ -139,6 +142,9 @@ https://www.prisma.io/docs/getting-started
 
 Primsa CRUD operations
 https://www.prisma.io/docs/orm/prisma-client/queries/crud
+
+JWT authentification 
+https://www.youtube.com/watch?v=Y2H3DXDeS3Q&t=21s
 
 ### Database 
 

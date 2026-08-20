@@ -184,10 +184,10 @@ async function main() {
   for (let m = 0; m < matchingPairs.length; m++) {
     const [i, j] = matchingPairs[m]
     await prisma.swipes.create({
-      data: { swiper_dog_id: createdDogs[i].id, swiped_dog_id: createdDogs[j].id, direction: 'right' }
+      data: { swiper_id: createdDogs[i].id, target_id: createdDogs[j].id, direction: 'right' }
     })
     await prisma.swipes.create({
-      data: { swiper_dog_id: createdDogs[j].id, swiped_dog_id: createdDogs[i].id, direction: 'right' }
+      data: { swiper_id: createdDogs[j].id, target_id: createdDogs[i].id, direction: 'right' }
     })
     const match = await prisma.matches.create({
       data: { id_dog1: createdDogs[i].id, id_dog2: createdDogs[j].id }
@@ -199,10 +199,10 @@ async function main() {
   // Create non-matching swipes
   for (const [i, j, dir1, dir2] of nonMatchingPairs) {
     await prisma.swipes.create({
-      data: { swiper_dog_id: createdDogs[i].id, swiped_dog_id: createdDogs[j].id, direction: dir1 }
+      data: { swiper_id: createdDogs[i].id, target_id: createdDogs[j].id, direction: dir1 }
     })
     await prisma.swipes.create({
-      data: { swiper_dog_id: createdDogs[j].id, swiped_dog_id: createdDogs[i].id, direction: dir2 }
+      data: { swiper_id: createdDogs[j].id, target_id: createdDogs[i].id, direction: dir2 }
     })
     console.log(`No match: ${dogs[i].dog_name} (${dir1}) / ${dogs[j].dog_name} (${dir2})`)
   }

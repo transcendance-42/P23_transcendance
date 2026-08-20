@@ -1,7 +1,7 @@
 import react from 'react'
 import userPhoto from '../assets/surf.jpg'
 import matchPhoto from '../assets/joya.jpg'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 //pour l'instant on envoie que sur le chat de 1 mais il faudrait relier ca une fois que la partie chat est develop
 const MatchNotif = ({onClose}) => {
