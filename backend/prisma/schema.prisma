@@ -28,10 +28,10 @@ model dogs {
   created_at                        DateTime?  @default(now()) @db.Timestamp(6)
   dog_pics                          dog_pics[]
   users                             users      @relation(fields: [owner_id], references: [id], onUpdate: NoAction)
-  matches_matches_id_dog1Todogs     matches[]  @relation("matches_id_dog1Todogs")
-  matches_matches_id_dog2Todogs     matches[]  @relation("matches_id_dog2Todogs")
-  swipes_swipes_swiped_dog_idTodogs swipes[]   @relation("swipes_swiped_dog_idTodogs")
-  swipes_swipes_swiper_dog_idTodogs swipes[]   @relation("swipes_swiper_dog_idTodogs")
+  matchesAsDog1                     matches[]  @relation("matchDog1")
+  matchesAsDog2                     matches[]  @relation("matchDog2")
+  swipesAsSwiper                    swipes[]   @relation("swipesSwiper")
+  swipesAsTarget                    swipes[]   @relation("swipesTarget")
 }
 
 model matches {
@@ -39,8 +39,8 @@ model matches {
   id_dog1                    BigInt
   id_dog2                    BigInt
   created_at                 DateTime?  @default(now()) @db.Timestamp(6)
-  dogs_matches_id_dog1Todogs dogs       @relation("matches_id_dog1Todogs", fields: [id_dog1], references: [id], onUpdate: NoAction)
-  dogs_matches_id_dog2Todogs dogs       @relation("matches_id_dog2Todogs", fields: [id_dog2], references: [id], onUpdate: NoAction)
+  matchesAsDog1              dogs       @relation("matchDog1", fields: [id_dog1], references: [id], onUpdate: NoAction)
+  matchesAsDog2              dogs       @relation("matchDog2", fields: [id_dog2], references: [id], onUpdate: NoAction)
   messages                   messages[]
 
   @@unique([id_dog1, id_dog2], map: "unique_match")
@@ -58,12 +58,12 @@ model messages {
 
 model swipes {
   id                              BigInt    @id @default(autoincrement())
-  swiper_dog_id                   BigInt
-  swiped_dog_id                   BigInt
+  swiper_id                       BigInt
+  target_id                       BigInt
   direction                       String    @db.VarChar(7)
   created_at                      DateTime? @default(now()) @db.Timestamp(6)
-  dogs_swipes_swiped_dog_idTodogs dogs      @relation("swipes_swiped_dog_idTodogs", fields: [swiped_dog_id], references: [id], onUpdate: NoAction)
-  dogs_swipes_swiper_dog_idTodogs dogs      @relation("swipes_swiper_dog_idTodogs", fields: [swiper_dog_id], references: [id], onUpdate: NoAction)
+  swipesAsSwiper                  dogs      @relation("swipesSwiper", fields: [swiper_id], references: [id], onUpdate: NoAction)
+  swipesAsTarget                  dogs      @relation("swipesTarget", fields: [target_id], references: [id], onUpdate: NoAction)
 }
 
 model users {
