@@ -37,51 +37,35 @@ export default function MessagePanel({channel})
             console.log(`on devrait load les messages de ${channel.id}`)            
             loadMessages(channel.id);
         }
-
-    },[])
-
-    useEffect(() => {
-        if (channel && channel.id)
-        {
-            console.log(`on devrait load les messages de ${channel.id}`)            
-            loadMessages(channel.id);
-        }
     },[channel])
 
-    useEffect(() => {
-       
-        if (channel && channel.match_id)
-            {
-                console.log(`on devrait load les messages de ${channel.id}`)
-                loadMessages(channel.match_id);
-                console.log(messages);
-            } 
+    // useEffect(() => {
+    // if (channel && channel.id)
+    // {
+    //     console.log(`on devrait load les messages de ${channel.id}`)            
+    //     loadMessages(channel.id);
+    // }
+    // },[messages])
 
-    },[channel?.id])
-
-    useEffect(() => {
-       
-        if (channel && channel.match_id)
-            {
-                console.log(`les messages on changé ont doit chargé ${channel.id}`)
-            } 
-
-    },[messages])    
+    socket.on('receive_message', (message) => {
+        console.log("on show le message envoyé et rerecu ducoup")
+        console.log(message)
+        setMessages((prev) => [...prev, message])
+    } )
 
     const handleSendMessage = () => {
 
         const messageData = {
-        match_id: formData.match_id,
-        sender_id: formData.sender_id,
-        userName: formData.userName,           
+        match_id: channel.id,
+        sender_id: formData.sender_id,        
         content: formData.content,
-        send_at: new Date().toISOString(),
-        status: 'sent',
-        type: 'text',
+        // send_at: new Date().toISOString(),
+        // status: 'sent',
+        // type: 'text',
         }
         socket.emit('send_message', messageData)
 
-        setMessages((prevMessages) => [...prevMessages, messageData])
+        // setMessages((prevMessages) => [...prevMessages, messageData])
 
         // Clear content input
         setFormData((prev) => ({ ...prev, content: '' }))

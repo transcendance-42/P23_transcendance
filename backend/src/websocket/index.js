@@ -19,8 +19,11 @@ async function createMessage({match_id, sender_id, content}){
         data: {
             match_id: BigInt(match_id),
             sender_id: BigInt(sender_id),
-            contents
-          }
+            content
+          },
+        include: {
+          users:true
+        }
         })
 }
 
