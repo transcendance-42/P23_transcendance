@@ -6,7 +6,7 @@ import {useState} from 'react';
 function SwipePage() {
 const [showMatch, setShowMatch] = useState(false)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-100">
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#4a4540' }}>
         <DogCard onMatch={() => setShowMatch(true)} />
         {showMatch && <MatchNotif onClose={() => setShowMatch(false)}/>}
     </div>
