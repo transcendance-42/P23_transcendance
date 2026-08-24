@@ -1,21 +1,24 @@
 import React from 'react'
-import Message from './Message'
+import Message from './../components/MessagePanel/Message'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
+import { useParams } from 'react-router-dom'
+
 
 const socket = io('http://localhost:3000')
 
 const initalFormData = {
   match_id: 1,
   sender_id: 1,  
-  userName: 'boloss',
   content: '',
 }
 
-export default function MessagePanel({channel})
+export default function MessagePanel()
 {
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
+
+    const { id } = useParams()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -32,45 +35,38 @@ export default function MessagePanel({channel})
     }
 
     useEffect(() => {
-        if (channel && channel.id)
-        {
-            console.log(`on devrait load les messages de ${channel.id}`)            
-            loadMessages(channel.id);
+        // if (channel && channel.id)
+        // {
+            console.log(`on devrait load les messages de ${id}` )            
+            loadMessages(id);
+        // }
+    },[])
+
+    useEffect(()=> {
+        const handeleReceiveMessage = (message) => {
+            console.log("on show le message envoyé et rerecu ducoup")
+            console.log(message)            
+            setMessages((preMessages) => [...preMessages, message])
         }
-    },[channel])
+        socket.on("receive_message", handeleReceiveMessage)
 
-    // useEffect(() => {
-    // if (channel && channel.id)
-    // {
-    //     console.log(`on devrait load les messages de ${channel.id}`)            
-    //     loadMessages(channel.id);
-    // }
-    // },[messages])
-
-    socket.on('receive_message', (message) => {
-        console.log("on show le message envoyé et rerecu ducoup")
-        console.log(message)
-        setMessages((prev) => [...prev, message])
-    } )
+        return () => {
+            socket.off("receive_message", handeleReceiveMessage)
+        }
+    }, [])
 
     const handleSendMessage = () => {
 
         const messageData = {
-        match_id: channel.id,
+        match_id: id,
         sender_id: formData.sender_id,        
         content: formData.content,
-        // send_at: new Date().toISOString(),
-        // status: 'sent',
         // type: 'text',
         }
         socket.emit('send_message', messageData)
-
-        // setMessages((prevMessages) => [...prevMessages, messageData])
-
         // Clear content input
         setFormData((prev) => ({ ...prev, content: '' }))
     }    
-
 
     let list = "There is no content to display"
     if (messages)
@@ -85,22 +81,35 @@ export default function MessagePanel({channel})
         )
     }
     return(
-        <div>
-            <div className='content-panel'></div>
-                <div className='messages-list'>
-                    {list}
-                </div>
-            <div className='content-input'>
-                <input
-                    name='content'
-                    placeholder='Message...'
-                    value={formData.content}
-                    onChange={handleChange}
-                    type="text"
-                />
-                <button onClick={handleSendMessage}>Send</button>
-            </div>
+    <div className="mx-auto mt-10 flex h-150 w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+
+        <div className="h-16 shrink-0 border-b border-gray-200 bg-indigo-600"></div>
+
+        <div className="flex flex-1 flex-col gap-3 overflow-y-auto bg-gray-50 p-5">
+            {list}
         </div>
+
+        <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
+
+            <input
+                name="content"
+                placeholder="Message..."
+                value={formData.content}
+                onChange={handleChange}
+                type="text"
+                className="flex-1 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
+            />
+
+            <button
+                onClick={handleSendMessage}
+                className="cursor-pointer rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+                Send
+            </button>
+
+        </div>
+    </div>
+
     );
 }
 

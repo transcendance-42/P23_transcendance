@@ -52,7 +52,7 @@ function attachwebsocket(app){
         try{
             const r_message = await createMessage(message);
             console.log(r_message)
-            io.emit('receive_message', {r_message})
+            io.emit('receive_message', r_message)
         }
         catch (error)
         {
