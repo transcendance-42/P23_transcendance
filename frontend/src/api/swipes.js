@@ -8,7 +8,8 @@ const sendRequestSwipes = async (direction) => {
     }
     const response = await fetch('http://localhost:3000/api/swipes', requestOptions)
     const data = await response.json()
-    console.log(data)
+    if (!response.ok)
+        throw new Error(data.error || 'Swipe failed')
     return data
 }
 export { sendRequestSwipes }
