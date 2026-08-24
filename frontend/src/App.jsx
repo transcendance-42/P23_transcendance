@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router'
 import BasicChat from './pages/BasicChat'
 import Chatroom from './pages/Chatroom'
 import Chat from './pages/Chat'
-
+import Login from './pages/Login'
+import LoginEmail from './pages/LoginEmail'
 
 function App() {
 
@@ -14,6 +15,8 @@ function App() {
         <Route path="/basicchat" element = {<BasicChat />} />
         <Route path="/chatroom" element = {<Chatroom />} />
         <Route path="/chat" element = {<Chat />} />
+        <Route path="/login" element = {<Login />} />
+        <Route path="/login/email" element = {<LoginEmail />} />
     </Routes>
   )
 }
