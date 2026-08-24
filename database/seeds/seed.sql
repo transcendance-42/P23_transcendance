@@ -11,7 +11,7 @@ INSERT INTO dogs (owner_id, dog_name, breed, gender, age, size, bio) VALUES
 (4, 'Surf', 'Berger australien nain', 7, 'Female', 'Small', 'Funny looking but nice I swear, even if he makes a lot of noise'),
 (5, 'Joya', 'Labrador', 2, 'Male', 'Large', 'Big dog but really sweet and loves to play');
 
-INSERT INTO swipes (swiper_dog_id, swiped_dog_id, direction) VALUES
+INSERT INTO swipes (swiper_id, _id, direction) VALUES
 (1, 2, 'like'),
 (2, 1, 'like');
 
