@@ -29,5 +29,7 @@ fastify.register(require('./routes/swipes'), { prefix: '/api' })
 fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
 fastify.register(require('./routes/matches'), { prefix: '/api' })
 fastify.register(require('./routes/messages'), { prefix: '/api' })
+fastify.register('./routes/auth', { prefix: '/api' })
+
 
 fastify.listen({ port: 3000, host: '0.0.0.0' })
