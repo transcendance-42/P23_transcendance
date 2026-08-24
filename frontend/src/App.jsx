@@ -1,15 +1,18 @@
+import SwipePage from './pages/SwipePage'
+import MatchesPage from './pages/MatchesPage'
 import './App.css'
-import { Routes, Route } from 'react-router'
+import {Routes, Route } from 'react-router'
 import BasicChat from './pages/BasicChat'
 import Chatroom from './pages/Chatroom'
 import Chat from './pages/Chat'
 
 
 function App() {
-
   return (
     <Routes>
         <Route path="/" element={<h1>Tindog page d'accueil</h1>} />
+        <Route path="/swipes" element={<SwipePage/>} />
+        <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<h1>contenu actuel register</h1>}/>
         <Route path="/basicchat" element = {<BasicChat />} />
         <Route path="/chatroom" element = {<Chatroom />} />
@@ -17,4 +20,5 @@ function App() {
     </Routes>
   )
 }
+
 export default App

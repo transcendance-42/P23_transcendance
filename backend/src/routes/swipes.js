@@ -21,7 +21,7 @@ async function swipesRoutes(fastify) {
             const swipe = await prisma.swipes.create({
                 data: {
                     direction,
-                    target_id_id: BigInt(target_id),
+                    target_id: BigInt(target_id),
                     swiper_id: BigInt(swiper_id)
                 }
             })

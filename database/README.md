@@ -64,8 +64,8 @@ Records every swipe action between two dogs.
 | Column        | Type      | Constraints                   |
 |---------------|-----------|-------------------------------|
 | id            | BIGSERIAL | PRIMARY KEY                   |
-| swiper_dog_id | BIGINT    | NOT NULL, REFERENCES dogs(id) |
-| swiped_dog_id | BIGINT    | NOT NULL, REFERENCES dogs(id) |
+| swiper_id | BIGINT    | NOT NULL, REFERENCES dogs(id) |
+| target_id | BIGINT    | NOT NULL, REFERENCES dogs(id) |
 | direction     | VARCHAR(7)| NOT NULL, CHECK ('like','pass')|
 | created_at    | TIMESTAMP | DEFAULT NOW()                 |
 
