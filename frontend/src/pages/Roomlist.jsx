@@ -3,17 +3,17 @@ import { Room } from './../components/Roomlist/Room';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 
-// les crochet a l'intérieur c'est pour la destructuration javascript sinon ca serait
-// export function RoomList (props)
-// et ensuite dans la fonction il faudarit faire
-// const rooms = props.rooms 
-export function RoomList ({}) {
+export function RoomList () {
+
+    const id = localStorage.getItem('userId')
+
+    console.log(`the user id ${id}`);
 
     const [rooms, setRooms] = useState([]);
 
     const loadRooms = async () => {
         console.log("start the loading of the rooms")
-        const response = await fetch('/api/matches');
+        const response = await fetch(`/api/matches/${id}`);
         const data = await response.json();
         setRooms(data);
         console.log("i want show what i got")
@@ -21,10 +21,11 @@ export function RoomList ({}) {
     }
 
     useEffect(() => {
-        loadRooms();
+        if (id)
+            loadRooms();
     }, [])
 
-    let list = `There is no channels to show`;
+    let list = `You don't have any matchs yet. Go swipe :)`;
     if (rooms) {
         list = rooms.map(c => (
         <Link    

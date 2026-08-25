@@ -1,37 +1,37 @@
 const prisma = require('../utils/prisma')
 
 async function matchesRoutes(fastify) {
-    //GET matches:userId
-    //the function receive the id of the user connected 
-    //and return to the frontend if the match exist, who are the 2 dogs, the infos of the dogs 
-    // fastify.get('/matches/:userId', {
-    //     schema: {
-    //         params: {
-    //             type: 'object',
-    //             properties: { userId: { type: 'integer' } },
-    //             required: ['userId']
-    //         }
-    //     }
-    // }, async (request, reply) => {
-    //     try {
-    //         const matches = await prisma.matches.findMany({
-    //             where: {
-    //                 OR: [
-    //                     { matchesAsDog1: { owner_id: BigInt(request.params.userId) } },
-    //                     { matchesAsDog2: { owner_id: BigInt(request.params.userId) } },
-    //                 ]
-    //             },
-    //             include: {
-    //                 matchesAsDog1: true,
-    //                 matchesAsDog2: true,
-    //             },
-    //             orderBy: { created_at: 'asc' }
-    //         })
-    //         return matches
-    //     } catch (e) {
-    //         return reply.code(500).send({ error: e.message })
-    //     }
-    // })
+   // GET matches:userId
+   // the function receive the id of the user connected 
+   // and return to the frontend if the match exist, who are the 2 dogs, the infos of the dogs 
+    fastify.get('/matches/:userId', {
+        schema: {
+            params: {
+                type: 'object',
+                properties: { userId: { type: 'integer' } },
+                required: ['userId']
+            }
+        }
+    }, async (request, reply) => {
+        try {
+            const matches = await prisma.matches.findMany({
+                where: {
+                    OR: [
+                        { matchesAsDog1: { owner_id: BigInt(request.params.userId) } },
+                        { matchesAsDog2: { owner_id: BigInt(request.params.userId) } },
+                    ]
+                },
+                include: {
+                    matchesAsDog1: true,
+                    matchesAsDog2: true,
+                },
+                orderBy: { created_at: 'asc' }
+            })
+            return matches
+        } catch (e) {
+            return reply.code(500).send({ error: e.message })
+        }
+    })
     fastify.get('/matches/:match_id/messages', async (request, reply) => {
         try {
             const messages = await prisma.messages.findMany({
@@ -63,6 +63,33 @@ async function matchesRoutes(fastify) {
           return reply.code(500).send({ error: e.message })  
         }
     })
+
+
+    // trying a route to get the matches info with the id of the match
+    // fastify.get('/matches/:id', {
+    //     schema: {
+    //         params: {
+    //             type: 'object',
+    //             properties: { id: { type: 'integer' } },
+    //             required: ['id']
+    //         }
+    //     }        
+    // }, async (request, reply) => {
+    // try {
+    //     const matches = await prisma.matches.findUnique({
+    //         where: { id: BigInt(request.params.id)},
+    //         include:{
+    //             matchesAsDog1:true,
+    //             matchesAsDog2:true
+    //         }
+    //     })
+    //     if (!matches) return reply.code(404).send({ error: 'Macthes not found' })       
+    //     return matches;
+    // }
+    // catch (e) {
+    // return reply.code(500).send({ error: e.message })  
+    // }
+    // })
 
 
 

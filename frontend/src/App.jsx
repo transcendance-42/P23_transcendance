@@ -4,7 +4,6 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import { RoomList } from './pages/Roomlist'
 import MessagePanel from './pages/MessagePanel'
-import {Routes, Route } from 'react-router'
 import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 
@@ -16,7 +15,7 @@ function App() {
         <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<h1>contenu actuel register</h1>}/>
         <Route path="/roomlist" element = {<RoomList  />} />
-        <Route path='/room/:id' element = {<MessagePanel />} />
+        <Route path='/room/:roomId' element = {<MessagePanel />} />
         <Route path="/login" element = {<Login />} />
         <Route path="/login/email" element = {<LoginEmail />} />
     </Routes>
