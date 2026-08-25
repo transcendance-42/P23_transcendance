@@ -19,6 +19,12 @@ We use Vite as our build tool and dev server. Compared to the older Create React
 
 We chose JavaScript over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster. 
 
+We use Tailwind CSS for styling. It's an utility-first CSS framework that allows us to style components directly in JSX without writing separate CSS files. It keeps the code consistent and speeds up UI development.
+
+We use Framer Motion for animations. It integrates natively with React and makes it straightforward to implement gesture-based interactions like the swipe cards.
+
+¨
+
 ### Backend
 
 We use Node.js as our runtime environment, which allows us to run JavaScript server-side. 
@@ -136,6 +142,9 @@ https://www.prisma.io/docs/getting-started
 
 Primsa CRUD operations
 https://www.prisma.io/docs/orm/prisma-client/queries/crud
+
+JWT authentification 
+https://www.youtube.com/watch?v=Y2H3DXDeS3Q&t=21s
 
 ### Database 
 
