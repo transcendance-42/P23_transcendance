@@ -34,7 +34,7 @@ const Card = ({ dog, index, total, onSwipe, onMatch }) => {
 
   return (
     <motion.div
-      className={`absolute w-100 h-150 bg-orange-300 rounded-2xl shadow-md hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-sm' : ''}`}
+      className={`absolute w-100 h-150 bg-pink-200 rounded-2xl shadow-md hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-sm' : ''}`}
       style={{
         top: index * 8,
         left: index * 4,
@@ -99,7 +99,7 @@ const DogCard = ({ onMatch }) => {
 
 if (dogs.length === 0) {
     return (
-        <div className="w-100 h-150 bg-orange-200 rounded-2xl shadow-md flex flex-col items-center justify-center">
+        <div className="w-100 h-150 bg-pink-200 rounded-2xl shadow-md flex flex-col items-center justify-center">
           <p style={{ fontFamily: 'Bevan, serif' }} className="text-3xl text-pink-400 text-center">
             No more dogs nearby
           </p>
@@ -123,8 +123,8 @@ return (
         ))}
       </div>
       <div className="flex gap-8">
-        <button onClick={() => handleButtonSwipe('left')} className="w-14 h-14 rounded-full bg-black shadow-md text-red-400 text-2xl hover:scale-110 transition-transform">✕</button>
-        <button onClick={() => handleButtonSwipe('right')} className="w-14 h-14 rounded-full bg-black shadow-md text-green-400 text-2xl hover:scale-110 transition-transform">♥</button>
+        <button onClick={() => handleButtonSwipe('left')} className="w-14 h-14 rounded-full bg-white shadow-md text-red-400 text-2xl hover:scale-110 transition-transform">✕</button>
+        <button onClick={() => handleButtonSwipe('right')} className="w-14 h-14 rounded-full bg-white shadow-md text-green-400 text-2xl hover:scale-110 transition-transform">♥</button>
       </div>
     </div>
   )
