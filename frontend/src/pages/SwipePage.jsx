@@ -1,12 +1,12 @@
-import DogCard from '../components/swipe/DogCard'
+import DogCards from '../components/swipe/DogCards'
 import MatchNotif from '../components/swipe/MatchNotif'
 import {useState} from 'react';
 
 function SwipePage() {
 const [showMatch, setShowMatch] = useState(false)
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-100">
-        <DogCard onMatch={() => setShowMatch(true)} />
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#4a4540' }}>
+        <DogCards onMatch={() => setShowMatch(true)} />
         {showMatch && <MatchNotif onClose={() => setShowMatch(false)}/>}
     </div>
   )

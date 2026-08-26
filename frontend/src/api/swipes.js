@@ -1,5 +1,4 @@
-//pour le moment swiper_id et swiped_dog_id sont hardcoder mais à changer quand connecté à backend 
-//console.log jsute pour tester en attendant de pouvoir tester avec backend
+
 const sendRequestSwipes = async (direction) => {
     const swiperId = localStorage.getItem('userId')
     const response = await fetch('/api/swipes', {
