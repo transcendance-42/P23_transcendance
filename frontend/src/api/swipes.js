@@ -1,12 +1,12 @@
 //pour le moment swiper_id et swiped_dog_id sont hardcoder mais à changer quand connecté à backend 
 //console.log jsute pour tester en attendant de pouvoir tester avec backend
 const sendRequestSwipes = async (direction) => {
-    const requestOptions = {
-        method: 'POST', 
+    const swiperId = localStorage.getItem('userId')
+    const response = await fetch('/api/swipes', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({direction, swiper_id: 1, target_id: 2 })
-    }
-    const response = await fetch('http://localhost:3000/api/swipes', requestOptions)
+        body: JSON.stringify({ direction, swiper_id: Number(swiperId), target_id: targetId })
+    })
     const data = await response.json()
     if (!response.ok)
         throw new Error(data.error || 'Swipe failed')

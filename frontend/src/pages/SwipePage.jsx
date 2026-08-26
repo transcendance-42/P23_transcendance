@@ -1,8 +1,7 @@
-import DogCard from '../components/DogCard'
-import MatchNotif from '../components/MatchNotif'
+import DogCard from '../components/swipe/DogCard'
+import MatchNotif from '../components/swipe/MatchNotif'
 import {useState} from 'react';
 
-//pour l'instant à chaque swipe on a un match vu quon a hardcoer les valeurs evidemments à modifier quand lier avec le backend
 function SwipePage() {
 const [showMatch, setShowMatch] = useState(false)
   return (
