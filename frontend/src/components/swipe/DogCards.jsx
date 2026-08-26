@@ -32,7 +32,7 @@ const DogCards = ({ onMatch }) => {
 
     return (
         <div className="relative w-100 h-150">
-            {dogs.map((dog, index) => (
+            {dogs.slice(0, 5).map((dog, index) => (
                 <DogCard
                     key={dog.id}
                     dog={dog}
@@ -42,7 +42,7 @@ const DogCards = ({ onMatch }) => {
                     onMatch={onMatch}
                 />
             ))}
-            
+
             <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 flex gap-8 z-50">
                 <SwipeButton direction="left" onClick={() => handleButtonSwipe('left')} />
                 <SwipeButton direction="right" onClick={() => handleButtonSwipe('right')} />
