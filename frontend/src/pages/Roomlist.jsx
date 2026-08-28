@@ -6,17 +6,16 @@ import { Link } from 'react-router-dom'
 export function RoomList () {
 
     const id = localStorage.getItem('userId')
+    let userDogName;
+    let matchDogName;
 
-    console.log(`the user id ${id}`);
 
     const [rooms, setRooms] = useState([]);
 
     const loadRooms = async () => {
-        console.log("start the loading of the rooms")
         const response = await fetch(`/api/matches/${id}`);
         const data = await response.json();
         setRooms(data);
-        console.log("i want show what i got")
         console.log(data)
     }
 
@@ -26,18 +25,27 @@ export function RoomList () {
     }, [])
 
     let list = `You don't have any matchs yet. Go swipe :)`;
-    if (rooms) {
-        list = rooms.map(c => (
+    if (rooms && rooms.lenght > 0) {
+        list = rooms.map(c => {
+        if (c.matchesAsDog1.owner_id === id) {
+            matchDogName = c.matchesAsDog2.dog_name;
+            userDogName = c.matchesAsDog1.dog_name;
+        }
+        else {
+            matchDogName = c.matchesAsDog1.dog_name;
+            userDogName = c.matchesAsDog2.dog_name;
+        }
+        console.log(matchDogName);
+        return(        
         <Link    
             key={c.id}
             to={`/room/${c.id}`}
         >
         <Room
-            dog1_name={c.matchesAsDog1.dog_name}
-            dog2_name={c.matchesAsDog2.dog_name}
+            match_dog_name={matchDogName}
         />
-        </Link>
-        ));
+        </Link>)
+        });
     }
     return (
     <div className="min-h-screen w-full bg-gray-50 px-4 py-10">
@@ -45,7 +53,7 @@ export function RoomList () {
 
             <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                    Vos matchs 🐶
+                    Les matchs de {userDogName} 🐶
                 </h1>
 
                 <p className="mt-2 text-sm text-gray-500">

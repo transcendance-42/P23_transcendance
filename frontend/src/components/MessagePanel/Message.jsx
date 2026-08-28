@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Message({senderName, text})
+export default function Message({senderName, dogName, text})
 {   
     return (
         <div className="message-item">
