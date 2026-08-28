@@ -64,35 +64,6 @@ async function matchesRoutes(fastify) {
         }
     })
 
-
-    // trying a route to get the matches info with the id of the match
-    // fastify.get('/matches/:id', {
-    //     schema: {
-    //         params: {
-    //             type: 'object',
-    //             properties: { id: { type: 'integer' } },
-    //             required: ['id']
-    //         }
-    //     }        
-    // }, async (request, reply) => {
-    // try {
-    //     const matches = await prisma.matches.findUnique({
-    //         where: { id: BigInt(request.params.id)},
-    //         include:{
-    //             matchesAsDog1:true,
-    //             matchesAsDog2:true
-    //         }
-    //     })
-    //     if (!matches) return reply.code(404).send({ error: 'Macthes not found' })       
-    //     return matches;
-    // }
-    // catch (e) {
-    // return reply.code(500).send({ error: e.message })  
-    // }
-    // })
-
-
-
   //DELETE /matches/:id
   fastify.delete('/matches/:id', {
         schema: {
