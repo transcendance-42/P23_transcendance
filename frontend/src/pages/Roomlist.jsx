@@ -25,7 +25,7 @@ export function RoomList () {
     }, [])
 
     let list = `You don't have any matchs yet. Go swipe :)`;
-    if (rooms && rooms.lenght > 0) {
+    if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
         if (c.matchesAsDog1.owner_id === id) {
             matchDogName = c.matchesAsDog2.dog_name;
