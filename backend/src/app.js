@@ -22,6 +22,13 @@ function buildApp() {
   fastify.register(swaggerUI, {
     routePrefix: '/documentation'
   })
+  fastify.register('fastify-cookie', {
+    secret: `${COOKIE_SECRET}`
+  })
+
+  fastify.register('fastify-jwt', {
+    secret: `${JWT_SECRET}`
+  })
 
   fastify.register(require('./plugins/cors'))
   fastify.register(require('./routes/users'))
