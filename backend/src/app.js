@@ -3,6 +3,8 @@ require('./plugins/bigint');
 const fastify = require('fastify')({ logger: true });
 const swagger = require('@fastify/swagger');
 const swaggerUI = require('@fastify/swagger-ui');
+const fastifyCookie = require('@fastify/cookie');
+const fastifyJWT = require('@fastify/jwt');
 
 
 function buildApp() {
@@ -22,12 +24,12 @@ function buildApp() {
   fastify.register(swaggerUI, {
     routePrefix: '/documentation'
   })
-  fastify.register('fastify-cookie', {
-    secret: `${COOKIE_SECRET}`
+  fastify.register(fastifyCookie, {
+    secret: COOKIE_SECRET
   })
 
-  fastify.register('fastify-jwt', {
-    secret: `${JWT_SECRET}`
+  fastify.register(fastifyJWT, {
+    secret: JWT_SECRET
   })
 
   fastify.register(require('./plugins/cors'))
@@ -37,7 +39,8 @@ function buildApp() {
   fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
   fastify.register(require('./routes/matches'), { prefix: '/api' })
   fastify.register(require('./routes/messages'), { prefix: '/api' }) 
-  fastify.register(require('./routes/auth'), { prefix: '/api' }) 
+  fastify.register(require('./routes/auth'), { prefix: '/api' })
+  fastify.register(require('./modules/auth/providers/google.provider'), { prefix: '/api' })
 
   return fastify
 }
