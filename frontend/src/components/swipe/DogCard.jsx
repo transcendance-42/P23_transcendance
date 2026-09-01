@@ -1,0 +1,50 @@
+import {motion, useMotionValue, useTransform } from 'framer-motion'
+import {sendRequestSwipes} from '../../api/swipes'
+import DogInfo from '../ui/DogInfo'
+import Badge from '../ui/Badge'
+import defaultDog from '../../assets/defaultPic.png'
+
+const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
+    const x = useMotionValue(0)
+    const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0])
+    const rotateRaw = useTransform(x, [-150, 150], [-10, 10])
+    const isFront = index === 0
+    
+    const rotate = useTransform(() => {
+        const offset = isFront ? 0 : index % 2 ? 6 : -6;
+        return `${rotateRaw.get() + offset}deg`;
+    })
+
+    const handleDragEnd = async () => {
+        if (Math.abs(x.get()) > 50) {
+            const direction = x.get() > 0 ? 'right' : 'left'
+            try {
+                const data = await sendRequestSwipes(direction, dog.id)
+                if (data.matched) onMatch()
+            } catch (e) {
+                console.error('Swipe error:', e.message)
+            }
+            onSwipe()
+        }
+    }
+
+    const likeOpacity = useTransform(x, [0, 100], [0, 0.4])
+    const passOpacity = useTransform(x, [-100, 0], [0.4, 0])
+    const likeOpacityBadge = useTransform(x, [0, 50], [0, 1])
+    const passOpacityBadge = useTransform(x, [-50, 0], [1, 0])
+
+    return (
+        <motion.div
+            className={`absolute w-100 h-150 bg-pink-200 rounded-2xl shadow-md hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-[2px]' : ''}`}
+            style={{ top: index * 8, left: index * 4, zIndex: total - index, x, opacity, rotate }}
+            drag="x" dragConstraints={{ left: 0, right: 0 }} onDragEnd={handleDragEnd}>
+            <motion.div style={{ opacity: likeOpacity }} className="absolute inset-0 bg-green-400 rounded-2xl z-10" />
+            <motion.div style={{ opacity: passOpacity }} className="absolute inset-0 bg-red-400 rounded-2xl z-10" />
+            <Badge type="like" opacity={likeOpacityBadge} />
+            <Badge type="pass" opacity={passOpacityBadge} />
+            <img src={dog.img || defaultDog} alt={dog.dog_name} className="w-full h-80 object-cover pointer-events-none rounded-2xl mt-2 px-2" />
+            <DogInfo dog={dog} />
+        </motion.div>
+    )
+}
+export default DogCard
