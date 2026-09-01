@@ -7,11 +7,12 @@ import Chatroom from './pages/Chatroom'
 import Chat from './pages/Chat'
 import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
+import LandingPage from './pages/LandingPage'
 
 function App() {
   return (
     <Routes>
-        <Route path="/" element={<h1>Tindog page d'accueil</h1>} />
+        <Route path="/" element={<LandingPage/>} />
         <Route path="/swipes" element={<SwipePage/>} />
         <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<h1>contenu actuel register</h1>}/>

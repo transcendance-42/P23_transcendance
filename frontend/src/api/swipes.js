@@ -1,5 +1,5 @@
 
-const sendRequestSwipes = async (direction) => {
+const sendRequestSwipes = async (direction, targetId) => {
     const swiperId = localStorage.getItem('userId')
     const response = await fetch('/api/swipes', {
         method: 'POST',
