@@ -25,11 +25,11 @@ function buildApp() {
     routePrefix: '/documentation'
   })
   fastify.register(fastifyCookie, {
-    secret: COOKIE_SECRET
+    secret: process.env.COOKIE_SECRET
   })
 
   fastify.register(fastifyJWT, {
-    secret: JWT_SECRET
+    secret: process.env.JWT_SECRET
   })
 
   fastify.register(require('./plugins/cors'))
