@@ -15,8 +15,15 @@ function authenticateSocket(socket, next){
 
 function attachwebsocket(app){
 
-  const io = new Server(app.server, {cors: {origin: 'http://localhost:5173', methods: ['GET', 'POST']}})
-
+    const io = new Server(app.server, {
+        cors: {
+            origin: [
+                'http://localhost:5173',
+                'http://127.0.0.1:5173'
+            ],
+            methods: ['GET', 'POST']
+        }
+    })
     io.on("connection", (socket) => {
       console.log(`User connected ${socket.id}`)
       socket.on('join_room', (roomName) =>{
