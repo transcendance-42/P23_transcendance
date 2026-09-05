@@ -40,7 +40,7 @@ function buildApp() {
   fastify.register(require('./routes/matches'), { prefix: '/api' })
   fastify.register(require('./routes/messages'), { prefix: '/api' }) 
   fastify.register(require('./routes/auth'), { prefix: '/api' })
-  fastify.register(require('./modules/auth/providers/google.provider'), { prefix: '/api' })
+  fastify.register(require('./modules/auth/providers/google.provider'))
 
   return fastify
 }
