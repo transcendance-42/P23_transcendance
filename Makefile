@@ -1,7 +1,8 @@
 all: up
 
 up:
-	docker-compose up --build -d
+	docker-compose build --no-cache
+	docker-compose up -d -V
 
 down:
 	docker-compose down
