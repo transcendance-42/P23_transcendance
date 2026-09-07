@@ -1,4 +1,3 @@
-const jwtDecode = require('jwt-decode')
 const {OAuth2Client} = require('google-auth-library')
 const crypto = require('crypto')
 
@@ -51,6 +50,7 @@ async function authGoogleRoutes(fastify){
                 })
                 const payload = ticket.getPayload()
                 userCredential = {
+                    userId:payload.sub,
                     email:payload.email,
                     first_name:payload.given_name,
                     last_name:payload.family_name
