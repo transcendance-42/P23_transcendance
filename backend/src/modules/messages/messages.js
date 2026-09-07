@@ -14,7 +14,8 @@ async function messagesRoutes(fastify) {
         try {
             const messages = await prisma.messages.findMany({
                 where: { match_id: BigInt(request.params.matchId) },
-                orderBy: { send_at: 'asc' }
+                orderBy: { send_at: 'asc' },
+                include:{users:true}
             })
             return messages
         } catch (e) {

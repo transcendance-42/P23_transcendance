@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router'
+import { useNavigate, Link } from 'react-router-dom'
 import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
