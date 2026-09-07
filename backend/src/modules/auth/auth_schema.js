@@ -1,4 +1,4 @@
-const loginchema = {
+const loginSchema = {
 	schema: {
     body: {
       type: 'object',
@@ -11,4 +11,4 @@ const loginchema = {
     }
 }
 
-module.exports = { loginchema }
+module.exports = { loginSchema }

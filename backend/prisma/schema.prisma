@@ -90,5 +90,24 @@ model users {
   is_active     Boolean    @default(true)
   dogs          dogs[]
   messages      messages[]
+  refresh_tokens refresh_tokens[]
 }
+
+model refresh_tokens{
+  id            BigInt                      @id @default(autoincrement())
+  user_id       BigInt
+  token_hash    String                      @unique
+  expires_at    DateTime
+  is_revoked    Boolean                     @default(false)
+  created_at    DateTime                    @default(now())
+  users         users                       @relation(fields: [user_id], references: [id], onUpdate: NoAction)
+
+  @@index([user_id])
+  @@index([expires_at])
+  @@map("refresh_tokens")
+
+}
+
+
+
 
