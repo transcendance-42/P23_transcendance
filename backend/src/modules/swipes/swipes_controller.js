@@ -1,0 +1,30 @@
+const {creatSwipe, findReverseSwipe, findExistingMatch, createMatch} = require('./swipes_queries')
+
+async function postSwipe(request, reply) {
+        try {
+            const { swiper_id, target_id, direction } = request.body
+
+            const swipe = await creatSwipe(swiper_id, target_id, direction);
+            if (swiper_id === target_id)
+                return reply.code(400).send({ error: 'A dog cannot swipe itself' })
+
+            if (direction === 'right') {
+                const isItAMatch = await findReverseSwipe(swiper_id, target_id)
+
+                if (isItAMatch) {
+                    const existingMatch = await findExistingMatch(swiper_id, target_id)
+
+                    if (!existingMatch) {
+                        const match = await createMatch(swiper_id, target_id)
+                        return { swipe, match, matched: true }
+                    }
+                    return { swipe, match: existingMatch, matched: true }
+                }
+            }
+            return { swipe, matched: false }
+        } catch (e) {
+            return reply.code(500).send({ error: e.message })
+        }
+    }
+
+module.export = postSwipe
