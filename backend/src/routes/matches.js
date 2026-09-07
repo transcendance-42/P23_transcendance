@@ -1,9 +1,9 @@
 const prisma = require('../utils/prisma')
 
 async function matchesRoutes(fastify) {
-    //GET matches:userId
-    //the function receive the id of the user connected 
-    //and return to the frontend if the match exist, who are the 2 dogs, the infos of the dogs 
+   // GET matches:userId
+   // the function receive the id of the user connected 
+   // and return to the frontend if the match exist, who are the 2 dogs, the infos of the dogs 
     fastify.get('/matches/:userId', {
         schema: {
             params: {
@@ -30,6 +30,22 @@ async function matchesRoutes(fastify) {
             return matches
         } catch (e) {
             return reply.code(500).send({ error: e.message })
+        }
+    })
+    fastify.get('/matches/:match_id/messages', async (request, reply) => {
+        try {
+            const messages = await prisma.messages.findMany({
+                where: {
+                    match_id: BigInt(request.params.match_id)
+                },
+                orderBy:{
+                    created_at: 'asc'
+                }
+        });
+            return messages;
+        }
+        catch (e) {
+            return reply.code(500).send({error: e.message})
         }
     })
 

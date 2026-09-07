@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
