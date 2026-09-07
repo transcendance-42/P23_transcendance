@@ -1,4 +1,4 @@
-const prisma = require('../utils/prisma')
+const prisma = require('../../utils/prisma')
 const {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} = require('./dogs_schema')
 const {GetDogsByID, PostDogs, PutDogs, DeleteDogs} = require('./dogs_controller')
 

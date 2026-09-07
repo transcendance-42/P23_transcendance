@@ -1,8 +1,8 @@
-const {findDogsId, } = require('./dogs_queries')
+const {findDogsId, creatDogs, updateDogs, deleteDogs} = require('./dogs_queries')
 
 async function GetDogsByID (request, reply) {
     try {
-      const dog = await findDogsId()
+      const dog = await findDogsId(request)
       if (!dog) return reply.code(404).send({ error: 'Dog not found' })
       return dog
     } catch (e) {
@@ -13,9 +13,7 @@ async function GetDogsByID (request, reply) {
 async function PostDogs(request, reply) {
     try {
       const { owner_id, ...rest } = request.body
-      const dog = await prisma.dogs.create({
-        data: { owner_id: BigInt(owner_id), ...rest }
-      })
+      const dog = await creatDogs(owner_id, rest)
       return dog
     } catch (e) {
       return reply.code(500).send({ error: e.message })
@@ -24,10 +22,7 @@ async function PostDogs(request, reply) {
 
 async function PutDogs (request, reply) {
     try {
-      const dog = await prisma.dogs.update({
-        where: { id: BigInt(request.params.id) },
-        data: request.body
-      })
+      const dog = await updateDogs(request)
       return dog
     } catch (e) {
         if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
@@ -37,9 +32,7 @@ async function PutDogs (request, reply) {
 
 async function DeleteDogs (request, reply) {
     try {
-      const dog = await prisma.dogs.delete({
-        where: { id: BigInt(request.params.id) }
-      })
+      const dog = await deleteDogs(request)
       return dog
     } catch (e) {
       if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
