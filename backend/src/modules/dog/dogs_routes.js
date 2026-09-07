@@ -11,14 +11,13 @@ async function dogRoutes(fastify) {
     }
   })
 
-
   //GET /dogs/:id
   fastify.get('/dogs/:id', {
     schema: {
       params: {
         type: 'object',
         properties: { id: { type: 'integer' } },
-        required: ['id']
+        required: ['id'] 
       }
     }
   }, async (request, reply) => {

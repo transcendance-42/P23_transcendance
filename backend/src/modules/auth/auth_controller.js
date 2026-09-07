@@ -1,4 +1,4 @@
-const { findUser } = require('./auth_queries')
+const findUser = require('./auth_queries')
 
 async function login(request, reply) {
         const email = request.body.email
@@ -9,4 +9,4 @@ async function login(request, reply) {
         return { success: true, userId: user.id }
     }
 
-module.exports = { login }
+module.exports = login
