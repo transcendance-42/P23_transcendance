@@ -1,4 +1,4 @@
-const { findActiveUsers, findUserById, updateUser, deactivateUser } = require('./users.queries')
+const { findActiveUsers, findUserById, updateUser, deactivateUser } = require('./users_queries')
 
 async function getUsers(request, reply) {
   try {

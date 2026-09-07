@@ -27,4 +27,4 @@ async function postSwipe(request, reply) {
         }
     }
 
-module.export = postSwipe
+module.exports = postSwipe

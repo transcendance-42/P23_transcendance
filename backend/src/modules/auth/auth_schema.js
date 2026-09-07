@@ -1,5 +1,4 @@
 const loginchema = {
-	schema: {
     body: {
       type: 'object',
       properties: {
@@ -8,7 +7,6 @@ const loginchema = {
       },
       required: ['email', 'password']
     }
-    }
 }
 
-module.exports = { loginchema }
+module.exports = loginchema

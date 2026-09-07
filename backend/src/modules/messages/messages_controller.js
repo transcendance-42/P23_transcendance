@@ -1,4 +1,4 @@
-const { findMessagesByMatchId, createMessage, deleteMessage } = require('./messages.queries')
+const { findMessagesByMatchId, createMessage, deleteMessage } = require('./messages_queries')
 
 async function getMessages(request, reply) {
   try {

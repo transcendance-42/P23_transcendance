@@ -1,4 +1,4 @@
-const { findPicsByDogId, createDogPic, deleteDogPic } = require('./dog-pics.queries')
+const { findPicsByDogId, createDogPic, deleteDogPic } = require('./dog_pics_queries')
 
 async function getDogPics(request, reply) {
   try {

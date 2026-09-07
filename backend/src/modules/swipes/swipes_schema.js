@@ -10,4 +10,4 @@ const createSwipeSchema = {
             }
     }
 
-module.export = createSwipeSchema
+module.exports = createSwipeSchema

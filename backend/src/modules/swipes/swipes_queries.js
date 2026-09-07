@@ -37,4 +37,4 @@ async function createMatch(dog1_id, dog2_id) {
   })
 }
 
-module.export = {creatSwipe, findReverseSwipe, findExistingMatch, createMatch}
+module.exports = {creatSwipe, findReverseSwipe, findExistingMatch, createMatch}

@@ -24,13 +24,13 @@ function buildApp() {
   })
 
   fastify.register(require('./plugins/cors'))
-  fastify.register(require('./routes/users'), { prefix: '/api' })
-  fastify.register(require('./routes/dogs'), { prefix: '/api' })
-  fastify.register(require('./routes/swipes'), { prefix: '/api' })
-  fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
-  fastify.register(require('./routes/matches'), { prefix: '/api' })
-  fastify.register(require('./routes/messages'), { prefix: '/api' }) 
-  fastify.register(require('./routes/auth'), { prefix: '/api' }) 
+  fastify.register(require('./modules/users/users_routes'), { prefix: '/api' })
+  fastify.register(require('./modules/dog/dogs_routes'), { prefix: '/api' })
+  fastify.register(require('./modules/swipes/swipes_routes'), { prefix: '/api' })
+  fastify.register(require('./modules/dog-pics/dog_pics_routes'), { prefix: '/api' })
+  fastify.register(require('./modules/matches/matches_routes'), { prefix: '/api' })
+  fastify.register(require('./modules/messages/messages_routes'), { prefix: '/api' }) 
+  fastify.register(require('./modules/auth/auth_routes'), { prefix: '/api' }) 
 
   return fastify
 }
