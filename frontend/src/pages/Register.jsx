@@ -52,8 +52,7 @@ export default function Register() {
     const allFilled = Object.values(formData).every(v => v !== '')
 
     return (
-        <div className="min-h-screen bg-orange-100">
-            <Modal>
+            <Modal bg="bg-orange-100">
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                     <InputField placeholder="First name" value={formData.first_name} onChange={handleChange('first_name')} />
@@ -75,6 +74,5 @@ export default function Register() {
                     Already have an account?
                 </p>
             </Modal>
-        </div>
     )
 }
