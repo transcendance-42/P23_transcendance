@@ -5,8 +5,7 @@ import ModalHeader from '../components/ui/ModalHeader'
 
 export default function Login() {
     return (
-        <div className="min-h-screen bg-orange-100">
-        <Modal>
+        <Modal bg="bg-orange-100">
             <ModalHeader title="Get Started" />
             <p className="text-xs text-gray-400 text-center">
                 By tapping Log In, you agree to our{' '}
@@ -32,6 +31,5 @@ export default function Login() {
                 Trouble Logging In?
             </p>
         </Modal>
-        </div>
     )
 }
