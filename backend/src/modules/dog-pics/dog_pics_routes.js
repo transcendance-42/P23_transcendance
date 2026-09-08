@@ -2,9 +2,9 @@ const { getDogPicsSchema, createDogPicSchema, deleteDogPicSchema } = require('./
 const { getDogPics, postDogPic, removeDogPic } = require('./dog_pics_controller')
 
 async function dogPicsRoutes(fastify) {
-  fastify.get('/dog-pics/:dogId', getDogPicsSchema, getDogPics)
-  fastify.post('/dog-pics', createDogPicSchema, postDogPic)
-  fastify.delete('/dog-pics/:id', deleteDogPicSchema, removeDogPic)
+  fastify.get('/dog-pics/:dogId', {schema : getDogPicsSchema}, getDogPics)
+  fastify.post('/dog-pics', {schema : createDogPicSchema}, postDogPic)
+  fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema}, removeDogPic)
 }
 
 module.exports = dogPicsRoutes

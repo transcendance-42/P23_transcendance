@@ -3,7 +3,6 @@ const {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} = require
 const {GetDogsByID, PostDogs, PutDogs, DeleteDogs} = require('./dogs_controller')
 
 async function dogRoutes(fastify) {
-  //GET /dogs
   fastify.get('/dogs', async (request, reply) => {
     try {
       const dogs = await prisma.dogs.findMany()
@@ -12,18 +11,10 @@ async function dogRoutes(fastify) {
       return reply.code(500).send({ error: e.message })
     }
   })
-
-  //GET /dogs/:id
-  fastify.get('/dogs/:id', SchemaDogGetId, GetDogsByID)
-
-  //POST /dogs
-  fastify.post('/dogs', SchemaDogPost, PostDogs)
-
-  //PUT dogs/:id
-  fastify.put('/dogs/:id', SchemaDogsPut, PutDogs)
-
-  //DELETE /dogs/:id
-  fastify.delete('/dogs/:id', SchemaDogsDelete, DeleteDogs)
+  fastify.get('/dogs/:id', {schema : SchemaDogGetId}, GetDogsByID)
+  fastify.post('/dogs', {schema : SchemaDogPost}, PostDogs)
+  fastify.put('/dogs/:id', {schema : SchemaDogsPut}, PutDogs)
+  fastify.delete('/dogs/:id', {schema : SchemaDogsDelete}, DeleteDogs)
 }
 
 module.exports = dogRoutes

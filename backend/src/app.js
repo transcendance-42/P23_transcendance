@@ -4,7 +4,6 @@ const fastify = require('fastify')({ logger: true });
 const swagger = require('@fastify/swagger');
 const swaggerUI = require('@fastify/swagger-ui');
 
-
 function buildApp() {
   fastify.get('/health', async () => {
     return { status: 'ok' }

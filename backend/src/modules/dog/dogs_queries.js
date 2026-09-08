@@ -1,3 +1,5 @@
+const prisma = require('../../utils/prisma')
+
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
 }

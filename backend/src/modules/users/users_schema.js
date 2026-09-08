@@ -9,14 +9,19 @@ const getUserByIdSchema = {
 const updateUserSchema = {
   params: {
     type: 'object',
-    properties: { id: { type: 'integer' } },
+    properties: {
+      id: { type: 'integer' }
+    },
     required: ['id']
   },
+
   body: {
     type: 'object',
     properties: {
-      username: { type: 'string' },
-      email: { type: 'string' }
+      email: { type: 'string' },
+      first_name: { type: 'string' },
+      last_name: { type: 'string' },
+      city: { type: 'string' }
     },
     additionalProperties: false
   }
