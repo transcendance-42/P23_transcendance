@@ -35,4 +35,4 @@ const deactivateUserSchema = {
   }
 }
 
-module.exports = { getUserByIdSchema, updateUserSchema, deactivateUserSchema }
+export { getUserByIdSchema, updateUserSchema, deactivateUserSchema }

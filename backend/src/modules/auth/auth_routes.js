@@ -1,8 +1,8 @@
-const loginschema = require('./auth_schema')
-const login = require('./auth_controller')
+import { loginSchema } from './auth_schema.js'
+import { login } from './auth_controller.js'
 
 async function authRoutes(fastify) {
-    fastify.post("/auth/login", {schema :loginschema}, login)
+    fastify.post("/auth/login", {schema :loginSchema}, login)
   }
 
-module.exports = authRoutes
+export { authRoutes }

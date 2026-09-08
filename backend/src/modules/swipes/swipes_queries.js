@@ -1,4 +1,4 @@
-const prisma = require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function creatSwipe(swiper_id, target_id, direction) {
 	return prisma.swipes.create({
@@ -37,4 +37,4 @@ async function createMatch(dog1_id, dog2_id) {
   })
 }
 
-module.exports = {creatSwipe, findReverseSwipe, findExistingMatch, createMatch}
+export {creatSwipe, findReverseSwipe, findExistingMatch, createMatch}

@@ -1,4 +1,4 @@
-const prisma = require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function findPicsByDogId(dogId) {
   return prisma.dog_pics.findMany({
@@ -17,4 +17,4 @@ async function deleteDogPic(id) {
   return prisma.dog_pics.delete({ where: { id: BigInt(id) } })
 }
 
-module.exports = { findPicsByDogId, createDogPic, deleteDogPic }
+export { findPicsByDogId, createDogPic, deleteDogPic }

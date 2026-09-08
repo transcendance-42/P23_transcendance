@@ -26,4 +26,4 @@ const deleteDogPicSchema = {
   }
 }
 
-module.exports = { getDogPicsSchema, createDogPicSchema, deleteDogPicSchema }
+export { getDogPicsSchema, createDogPicSchema, deleteDogPicSchema }

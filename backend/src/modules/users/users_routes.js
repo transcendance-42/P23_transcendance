@@ -1,11 +1,11 @@
-const { getUserByIdSchema, updateUserSchema, deactivateUserSchema } = require('./users_schema')
-const { getUsers, getUser, putUser, patchDeactivateUser } = require('./users_controller')
+import { getUserByIdSchema, updateUserSchema, deactivateUserSchema } from './users_schema.js'
+import { getUsers, getUser, putUser, patchDeactivateUser } from './users_controller.js'
 
-async function userRoutes(fastify) {
+async function usersRoutes(fastify) {
     fastify.get('/users', getUsers)
     fastify.get('/users/:id', {schema : getUserByIdSchema}, getUser)
     fastify.put('/users/:id', {schema : updateUserSchema}, putUser)
     fastify.patch('/users/:id/deactivate', {schema : deactivateUserSchema}, patchDeactivateUser)
 }
 
-module.exports = userRoutes
+export {usersRoutes}

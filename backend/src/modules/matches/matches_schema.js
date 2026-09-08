@@ -22,4 +22,4 @@ const deleteMatchSchema = {
   }
 }
 
-module.exports = { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema }
+export { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema }

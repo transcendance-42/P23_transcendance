@@ -1,4 +1,4 @@
-const { findPicsByDogId, createDogPic, deleteDogPic } = require('./dog_pics_queries')
+import { findPicsByDogId, createDogPic, deleteDogPic } from './dog_pics_queries.js'
 
 async function getDogPics(request, reply) {
   try {
@@ -25,5 +25,5 @@ async function removeDogPic(request, reply) {
     return reply.code(500).send({ error: e.message })
   }
 }
-	
-module.exports = { getDogPics, postDogPic, removeDogPic }
+
+export { getDogPics, postDogPic, removeDogPic }
