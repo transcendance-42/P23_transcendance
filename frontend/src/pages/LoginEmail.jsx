@@ -33,7 +33,7 @@ export default function LoginEmail() {
     }
 
     return (
-        <Modal>
+        <Modal bg="bg-orange-100">
             <Link to="/login" className="absolute top-4 right-4 text-gray-400 hover:text-white transition text-xl">✕</Link>
             <ModalHeader title="What's your email?" />
             <p className="text-xs text-gray-400 text-center">

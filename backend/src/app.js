@@ -1,9 +1,18 @@
-require('./plugins/bigint');
+import './plugins/bigint.js';
 
-const fastify = require('fastify')({ logger: true });
-const swagger = require('@fastify/swagger');
-const swaggerUI = require('@fastify/swagger-ui');
+import Fastify from 'fastify';
+import swagger from '@fastify/swagger';
+import swaggerUI from '@fastify/swagger-ui';
+import corsPlugin from './plugins/cors.js';
+import { usersRoutes } from './modules/users/users_routes.js';
+import { dogsRoutes } from './modules/dog/dogs_routes.js';
+import { swipesRoutes }from './modules/swipes/swipes_routes.js';
+import { dogPicsRoutes} from './modules/dog-pics/dog_pics_routes.js';
+import { matchesRoutes }from './modules/matches/matches_routes.js';
+import { messagesRoutes } from './modules/messages/messages_routes.js';
+import { authRoutes } from './modules/auth/auth_routes.js';
 
+const fastify = Fastify({ logger: true });
 
 function buildApp() {
   fastify.get('/health', async () => {
@@ -30,16 +39,16 @@ function buildApp() {
 
 
 
-  fastify.register(require('./plugins/cors'))
-  fastify.register(require('./modules/users/users'), { prefix: '/api' })
-  // fastify.register(require('./routes/dogs'), { prefix: '/api' })
-  // fastify.register(require('./routes/swipes'), { prefix: '/api' })
-  // fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
-  // fastify.register(require('./routes/matches'), { prefix: '/api' })
-  // fastify.register(require('./routes/messages'), { prefix: '/api' }) 
-  fastify.register(require('./modules/auth/auth_routes'), { prefix: '/api' }) 
+  fastify.register(corsPlugin)
+  fastify.register(usersRoutes, { prefix: '/api' })
+  fastify.register(dogsRoutes, { prefix: '/api' })
+  fastify.register(swipesRoutes, { prefix: '/api' })
+  fastify.register(dogPicsRoutes, { prefix: '/api' })
+  fastify.register(matchesRoutes, { prefix: '/api' })
+  fastify.register(messagesRoutes, { prefix: '/api' }) 
+  fastify.register(authRoutes, { prefix: '/api' }) 
 
   return fastify
 }
 
-module.exports = buildApp
+export default buildApp

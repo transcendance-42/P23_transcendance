@@ -1,8 +1,4 @@
-const findUser = require('./auth_queries')
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
-const saveRefreshToken = require('../tokens/tokens_queries')
-const bcrypt = require('bcryptjs')
+import { findUser } from './auth_queries.js'
 
 async function login(request, reply) {
         const email = request.body.email
@@ -33,4 +29,4 @@ async function login(request, reply) {
         }
 
     }
-module.exports = login
+export { login }
