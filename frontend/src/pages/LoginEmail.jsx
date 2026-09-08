@@ -4,6 +4,7 @@ import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
+import Mascot from '../components/ui/Mascot'
 
 export default function LoginEmail() {
     const [email, setEmail] = useState("")
@@ -35,6 +36,7 @@ export default function LoginEmail() {
     return (
         <Modal>
             <Link to="/login" className="absolute top-4 right-4 text-gray-400 hover:text-white transition text-xl">✕</Link>
+            <Mascot index={1} size="lg"/>
             <ModalHeader title="What's your email?" />
             <p className="text-xs text-gray-400 text-center">
                 Enter your email and password to log in.

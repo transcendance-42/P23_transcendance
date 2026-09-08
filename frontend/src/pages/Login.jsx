@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
+import Mascot from '../components/ui/Mascot'
 
 export default function Login() {
     return (
         <div className="min-h-screen bg-orange-100">
         <Modal>
+            <Mascot index={0} size="lg"/>
             <ModalHeader title="Get Started" />
             <p className="text-xs text-gray-400 text-center">
                 By tapping Log In, you agree to our{' '}
