@@ -11,3 +11,4 @@ CREATE TABLE IF NOT EXISTS users
     avatar VARCHAR(500),
     created_at TIMESTAMP DEFAULT NOW()
 );
+ 

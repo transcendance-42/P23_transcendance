@@ -1,4 +1,4 @@
-
+-- unused
 INSERT INTO users (email, password_hash, first_name, last_name, city, date_of_birth) VALUES
 ('parissa.chatagny@gmail.com', 'hash23', 'Parissa', 'Chatagny', 'Lausanne', '2000-09-03'),
 ('dlepore@gmail.com', 'hash23', 'Davide', 'Lepore', 'Renens', '2000-07-15'),
