@@ -1,5 +1,5 @@
 import React from 'react'
-import Message from './../components/MessagePanel/Message'
+import MessageBubble from './../components/chat/MessageBubble'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -74,12 +74,12 @@ export default function MessagePanel()
     if (messages)
     {
         list = messages.map (m =>
-            <Message
+            <MessageBubble
             key={m.id}
-            id={m.id}
             senderName={m.users.first_name}
-            // dogName={} // ilfaudrait creer une route qui inclut le dogname
+            send_at= {m.send_at}
             text={m.content}
+            isMine={m.sender_id === userId}
             />
         )
     }
