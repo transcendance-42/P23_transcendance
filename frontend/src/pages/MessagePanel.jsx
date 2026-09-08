@@ -1,5 +1,6 @@
 import React from 'react'
 import MessageBubble from './../components/chat/MessageBubble'
+import MessageList from '../components/chat/MessageList'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -70,19 +71,6 @@ export default function MessagePanel()
         setFormData((prev) => ({ ...prev, content: '' }))
     }    
 
-    let list = "There is no content to display"
-    if (messages)
-    {
-        list = messages.map (m =>
-            <MessageBubble
-            key={m.id}
-            senderName={m.users.first_name}
-            send_at= {m.send_at}
-            text={m.content}
-            isMine={m.sender_id === userId}
-            />
-        )
-    }
     return(
     <div className="mx-auto mt-10 flex h-150 w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
 
@@ -98,9 +86,7 @@ export default function MessagePanel()
             </button>
         </div>
 
-        <div className="flex flex-1 flex-col gap-3 overflow-y-auto bg-gray-50 p-5">
-            {list}
-        </div>
+        <MessageList messages={messages} userId={userId} />
 
         <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
 
