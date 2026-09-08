@@ -1,7 +1,12 @@
 import React from "react";
 import MessageBubble from "./MessageBubble";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 export default function MessageList({messages, userId}){
+    const bottomRef = useRef(null);
+    useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })}, [messages])
     if (messages.length === 0){
         return (
             <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 p-5 text-text-caption">
@@ -21,6 +26,7 @@ export default function MessageList({messages, userId}){
                         isMine={m.sender_id === userId}
                         />
                     )}
+                    <div ref={bottomRef} />
         </div>
     )
 }
