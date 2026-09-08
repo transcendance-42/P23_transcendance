@@ -23,14 +23,21 @@ function buildApp() {
     routePrefix: '/documentation'
   })
 
+  fastify.register(require('@fastify/cookie'), {
+    secret: process.env.COOKIE_SECRET,
+    parseOptions:{}
+  })
+
+
+
   fastify.register(require('./plugins/cors'))
-  fastify.register(require('./routes/users'), { prefix: '/api' })
-  fastify.register(require('./routes/dogs'), { prefix: '/api' })
-  fastify.register(require('./routes/swipes'), { prefix: '/api' })
-  fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
-  fastify.register(require('./routes/matches'), { prefix: '/api' })
-  fastify.register(require('./routes/messages'), { prefix: '/api' }) 
-  fastify.register(require('./routes/auth'), { prefix: '/api' }) 
+  fastify.register(require('./modules/users/users'), { prefix: '/api' })
+  // fastify.register(require('./routes/dogs'), { prefix: '/api' })
+  // fastify.register(require('./routes/swipes'), { prefix: '/api' })
+  // fastify.register(require('./routes/dog-pics'), { prefix: '/api' })
+  // fastify.register(require('./routes/matches'), { prefix: '/api' })
+  // fastify.register(require('./routes/messages'), { prefix: '/api' }) 
+  fastify.register(require('./modules/auth/auth_routes'), { prefix: '/api' }) 
 
   return fastify
 }

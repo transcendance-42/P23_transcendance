@@ -1,7 +1,8 @@
-require('dotenv').config()
-const { PrismaClient } = require('@prisma/client')
-const { PrismaPg } = require('@prisma/adapter-pg')
-const bcrypt = require('bcryptjs')
+import 'dotenv/config'
+import prismaPkg from '@prisma/client'
+const { PrismaClient } = prismaPkg
+import { PrismaPg } from '@prisma/adapter-pg'
+import bcrypt from 'bcryptjs'
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
