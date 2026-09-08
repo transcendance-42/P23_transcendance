@@ -1,7 +1,8 @@
 all: up
 
 up:
-	docker-compose up --build -d
+	docker-compose build --no-cache
+	docker-compose up -d -V
 
 down:
 	docker-compose down
@@ -9,10 +10,11 @@ down:
 re: down up
 
 clean: down
-	docker-compose down -v
+	docker-compose down 
 
-fclean: clean
-	docker system prune -af
+fclean:
+	docker-compose down -v
+	docker system prune -af --volumes
 
 logs:
 	docker-compose logs -f

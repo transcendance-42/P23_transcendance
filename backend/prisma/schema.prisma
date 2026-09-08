@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Gender {
+  Male
+  Female
+  Other
+}
+
+enum Size {
+  Small
+  Medium
+  Large
+}
+
+model dog_pics {
+  id        BigInt @id @default(autoincrement())
+  dog_id    BigInt
+  file_path String @db.VarChar(500)
+  position  Int?
+  dogs      dogs   @relation(fields: [dog_id], references: [id], onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model dogs {
+  id                                BigInt     @id @default(autoincrement())
+  owner_id                          BigInt
+  dog_name                          String     @db.VarChar(50)
+  gender                            Gender?    
+  breed                             String?    @db.VarChar(50)
+  age                               Int?
+  size                              Size?       
+  bio                               String
+  created_at                        DateTime?  @default(now()) @db.Timestamp(6)
+  dog_pics                          dog_pics[]
+  users                             users      @relation(fields: [owner_id], references: [id], onUpdate: NoAction)
+  matchesAsDog1                     matches[]  @relation("matchDog1")
+  matchesAsDog2                     matches[]  @relation("matchDog2")
+  swipesAsSwiper                    swipes[]   @relation("swipesSwiper")
+  swipesAsTarget                    swipes[]   @relation("swipesTarget")
+}
+
+model matches {
+  id                         BigInt     @id @default(autoincrement())
+  id_dog1                    BigInt
+  id_dog2                    BigInt
+  created_at                 DateTime?  @default(now()) @db.Timestamp(6)
+  matchesAsDog1              dogs       @relation("matchDog1", fields: [id_dog1], references: [id], onUpdate: NoAction)
+  matchesAsDog2              dogs       @relation("matchDog2", fields: [id_dog2], references: [id], onUpdate: NoAction)
+  messages                   messages[]
+
+  @@unique([id_dog1, id_dog2], map: "unique_match")
+}
+
+model messages {
+  id        BigInt    @id @default(autoincrement())
+  match_id  BigInt
+  sender_id BigInt
+  content   String
+  send_at   DateTime? @default(now()) @db.Timestamp(6)
+  matches   matches   @relation(fields: [match_id], references: [id], onUpdate: NoAction)
+  users     users     @relation(fields: [sender_id], references: [id], onUpdate: NoAction)
+}
+
+model swipes {
+  id                              BigInt    @id @default(autoincrement())
+  swiper_id                       BigInt
+  target_id                       BigInt
+  direction                       String    @db.VarChar(7)
+  created_at                      DateTime? @default(now()) @db.Timestamp(6)
+  swipesAsSwiper                  dogs      @relation("swipesSwiper", fields: [swiper_id], references: [id], onUpdate: NoAction)
+  swipesAsTarget                  dogs      @relation("swipesTarget", fields: [target_id], references: [id], onUpdate: NoAction)
+}
+
+model users {
+  id            BigInt     @id @default(autoincrement())
+  email         String     @unique @db.VarChar(100)
+  password_hash String?    @db.VarChar(255)
+  first_name    String     @db.VarChar(50)
+  last_name     String     @db.VarChar(50)
+  city          String     @db.VarChar(100)
+  date_of_birth DateTime   @db.Date
+  avatar        String?    @db.VarChar(500)
+  created_at    DateTime?  @default(now()) @db.Timestamp(6)
+  is_active     Boolean    @default(true)
+  dogs          dogs[]
+  messages      messages[]
+}
+

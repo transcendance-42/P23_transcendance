@@ -2,6 +2,12 @@
 
 ## Description
 
+Tindog is our ft_transcendence project, the final mandatory project at 42 School.
+
+Inspired by Tinder, Tindog is a swipe-based matching app, but for dog owners. Users create a profile for their dog and browse other dogs nearby. A simple swipe right means interest, swipe left means pass. When two dogs mutually like each other, it's a match and their owners can start chatting.
+
+The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
+
 ### Frontend
 
 We use React for building the user interface. React seems like the appropriate choice since: 
@@ -13,6 +19,12 @@ We use Vite as our build tool and dev server. Compared to the older Create React
 
 We chose JavaScript over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster. 
 
+We use Tailwind CSS for styling. It's an utility-first CSS framework that allows us to style components directly in JSX without writing separate CSS files. It keeps the code consistent and speeds up UI development.
+
+We use Framer Motion for animations. It integrates natively with React and makes it straightforward to implement gesture-based interactions like the swipe cards.
+
+¨
+
 ### Backend
 
 We use Node.js as our runtime environment, which allows us to run JavaScript server-side. 
@@ -23,6 +35,9 @@ We chose JavaScript for the same reasons as the frontend:
 - consistency across the codebase
 - a lower barrier to entry for the team.
 
+We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using JavaScript, with auto-generated types and built-in protection against SQL injection.
+
+
 ### Database 
 
 We use PostgreSQL as our primary database. We made this choice becuase PostgreSQL is:
@@ -31,8 +46,6 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 - well-suited for structured data with complex relationships 
 - support foreign key
 - compatible with PRISMA
-
-We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using TypeScript, with auto-generated types and built-in protection against SQL injection.
 
 (Redis: an ultra-fast, open-source, in-memory NoSQL key-value data store. It is widely used to achieve sub-millisecond response times for dynamic applications. It operates primarily in RAM but supports persistence options, and functions as a database, cache, message broker, and streaming engine.)
 
@@ -53,15 +66,22 @@ We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma
 ## Makefile Commands
 
 | Command | Description |
+|---------|-------------|
 | `make up` | Build and start all containers |
 | `make down` | Stop all containers |
 | `make re` | Restart all containers |
-| `make clean` | Stop containers and remove volumes |
+| `make clean` | Stop containers|
 | `make fclean` | Full reset — removes all Docker images and containers |
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
-## Resources
+## Lancer des fake data en local pour dev
+```bash
+cd backend
+node prisma/seed.js
+```
+
+# Resources
 
 ### Workflow Github
 
@@ -76,6 +96,36 @@ https://www.youtube.com/watch?v=c67GaAkf1BE
 Dockerrise React app using vite
 https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
 
+Fetch API call
+https://javascript.info/fetch
+
+useState
+https://react.dev/learn/state-a-components-memory
+
+useEffect
+https://react.dev/reference/react/useEffect
+
+Learn JavaScript (interactive course)
+https://learnjavascript.online
+
+Doc for Javascript 
+https://developer.mozilla.org/fr/
+
+Introduction to React
+https://www.geeksforgeeks.org/reactjs/react/
+
+Tinder style swipe cards
+https://www.youtube.com/watch?v=bzJHOoiu1Bs
+
+How to create Tinder card swipe gesture 
+https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-using-react-and-framer-motion/
+
+Style with tailwind (Official doc)
+https://tailwindcss.com/docs/font-size
+
+Google font et icons 
+https://fonts.google.com/?preview.script=Latn
+
 ### Backend 
 
 Fastify official docs
@@ -84,9 +134,17 @@ https://fastify.dev/docs/latest/Guides/Getting-Started/
 Fastify in docker 
 https://fastify.dev/docs/latest/Guides/Serverless/#docker
 
-Prisma ORM 
+Prisma ORM (youtube vidéo for begginner)
 https://www.youtube.com/watch?v=gimSKEsWYb4&t=1076s
 
+Primsa Official Docs 
+https://www.prisma.io/docs/getting-started
+
+Primsa CRUD operations
+https://www.prisma.io/docs/orm/prisma-client/queries/crud
+
+JWT authentification 
+https://www.youtube.com/watch?v=Y2H3DXDeS3Q&t=21s
 
 ### Database 
 
