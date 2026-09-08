@@ -25,8 +25,15 @@ async function findAllMatches() {
   })
 }
 
+async function findMessagesByMatchId(match_id) {
+  return prisma.messages.findMany({
+    where: { match_id: BigInt(match_id) },
+    orderBy: { created_at: 'asc' }
+  })
+}
+
 async function deleteMatch(id) {
   return prisma.matches.delete({ where: { id: BigInt(id) } })
 }
 
-module.exports = { findMatchesByUserId, findAllMatches, deleteMatch }
+module.exports = { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch }

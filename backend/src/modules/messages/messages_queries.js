@@ -3,7 +3,8 @@ const prisma = require('../../utils/prisma')
 async function findMessagesByMatchId(matchId) {
   return prisma.messages.findMany({
     where: { match_id: BigInt(matchId) },
-    orderBy: { send_at: 'asc' }
+    orderBy: { send_at: 'asc' },
+    include: { users: true }
   })
 }
 

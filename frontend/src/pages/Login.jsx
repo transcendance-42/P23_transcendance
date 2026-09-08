@@ -1,11 +1,11 @@
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 
 export default function Login() {
     return (
-
+        <div className="min-h-screen bg-orange-100">
         <Modal>
             <ModalHeader title="Get Started" />
             <p className="text-xs text-gray-400 text-center">
@@ -32,5 +32,6 @@ export default function Login() {
                 Trouble Logging In?
             </p>
         </Modal>
+        </div>
     )
 }

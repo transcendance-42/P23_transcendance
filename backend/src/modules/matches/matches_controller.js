@@ -16,6 +16,14 @@ async function getAllMatches(request, reply) {
   }
 }
 
+async function getMatchMessages(request, reply) {
+  try {
+    return await findMessagesByMatchId(request.params.match_id)
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
 async function removeMatch(request, reply) {
   try {
     return await deleteMatch(request.params.id)
@@ -25,4 +33,4 @@ async function removeMatch(request, reply) {
   }
 }
 
-module.exports = { getMatchesByUser, getAllMatches, removeMatch }
+module.exports = { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch }

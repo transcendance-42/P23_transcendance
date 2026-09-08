@@ -6,6 +6,14 @@ const getMatchesByUserSchema = {
   }
 }
 
+const getMatchMessagesSchema = {
+  params: {
+    type: 'object',
+    properties: { match_id: { type: 'integer' } },
+    required: ['match_id']
+  }
+}
+
 const deleteMatchSchema = {
   params: {
     type: 'object',
@@ -14,4 +22,4 @@ const deleteMatchSchema = {
   }
 }
 
-module.exports = { getMatchesByUserSchema, deleteMatchSchema }
+module.exports = { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema }
