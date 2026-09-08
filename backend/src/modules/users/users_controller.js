@@ -1,4 +1,4 @@
-const { findActiveUsers, findUserById, updateUser, deactivateUser } = require('./users_queries')
+import { findActiveUsers, findUserById, updateUser, deactivateUser } from './users_queries.js'
 
 async function getUsers(request, reply) {
   try {
@@ -37,4 +37,4 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-module.exports = { getUsers, getUser, putUser, patchDeactivateUser }
+export { getUsers, getUser, putUser, patchDeactivateUser }

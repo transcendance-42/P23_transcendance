@@ -1,8 +1,8 @@
-const createSwipeSchema = require('./swipes_schema')
-const postSwipe = require('./swipes_controller')
+import { createSwipeSchema } from './swipes_schema.js'
+import { postSwipe } from './swipes_controller.js'
 
 async function swipesRoutes(fastify) {
     fastify.post('/swipes', {schema : createSwipeSchema}, postSwipe)
 }
 
-module.exports = swipesRoutes
+export { swipesRoutes }

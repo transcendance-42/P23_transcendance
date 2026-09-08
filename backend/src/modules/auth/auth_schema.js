@@ -1,4 +1,4 @@
-const loginchema = {
+const loginSchema = {
     body: {
       type: 'object',
       properties: {
@@ -9,4 +9,4 @@ const loginchema = {
     }
 }
 
-module.exports = loginchema
+export {loginSchema}

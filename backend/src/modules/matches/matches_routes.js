@@ -1,5 +1,5 @@
-const { getMatchesByUserSchema, deleteMatchSchema, getMatchMessagesSchema } = require('./matches_schema')
-const { getMatchesByUser, getAllMatches, removeMatch, getMatchMessages } = require('./matches_controller')
+import { getMatchesByUserSchema, deleteMatchSchema, getMatchMessagesSchema } from './matches_schema.js'
+import { getMatchesByUser, getAllMatches, removeMatch, getMatchMessages } from './matches_controller.js'
 
 async function matchesRoutes(fastify) {
     fastify.get('/matches/:userId', {schema : getMatchesByUserSchema}, getMatchesByUser)
@@ -8,4 +8,4 @@ async function matchesRoutes(fastify) {
     fastify.delete('/matches/:id', {schema : deleteMatchSchema}, removeMatch)
 }
 
-module.exports = matchesRoutes 
+export { matchesRoutes } 

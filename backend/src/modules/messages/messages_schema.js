@@ -26,4 +26,4 @@ const deleteMessageSchema = {
   }
 }
 
-module.exports = { getMessagesSchema, createMessageSchema, deleteMessageSchema }
+export { getMessagesSchema, createMessageSchema, deleteMessageSchema }

@@ -1,7 +1,7 @@
-const { Server } = require("socket.io")
-require('dotenv').config();
-const jwt = require('jsonwebtoken')
-const prisma = require('../utils/prisma')
+import { Server } from 'socket.io'
+import 'dotenv/config'
+import jwt from 'jsonwebtoken'
+import prisma from '../utils/prisma.js'
 
 // not test yet
 function authenticateSocket(socket, next){
@@ -69,4 +69,4 @@ return io;
     
 }
 
-module.exports = {attachwebsocket, authenticateSocket}
+export {attachwebsocket, authenticateSocket}

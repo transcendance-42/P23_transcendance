@@ -1,4 +1,4 @@
-const { findMessagesByMatchId, createMessage, deleteMessage } = require('./messages_queries')
+import { findMessagesByMatchId, createMessage, deleteMessage } from './messages_queries.js'
 
 async function getMessages(request, reply) {
   try {
@@ -26,4 +26,4 @@ async function removeMessage(request, reply) {
   }
 }
 
-module.exports = { getMessages, postMessage, removeMessage }
+export { getMessages, postMessage, removeMessage }

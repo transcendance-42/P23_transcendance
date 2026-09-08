@@ -1,4 +1,4 @@
-const prisma = require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function findActiveUsers() {
   return prisma.users.findMany({
@@ -30,4 +30,4 @@ async function deactivateUser(id) {
   })
 }
 
-module.exports = { findActiveUsers, findUserById, updateUser, deactivateUser }
+export { findActiveUsers, findUserById, updateUser, deactivateUser }

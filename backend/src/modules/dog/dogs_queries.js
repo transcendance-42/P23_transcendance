@@ -1,4 +1,4 @@
-const prisma = require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function findAllDogs(){
 	return prisma.dogs.findMany()
@@ -25,4 +25,4 @@ async function deleteDogs(request) {
 		})
 }
 
-module.exports = {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs}
+export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs}

@@ -1,5 +1,5 @@
-const fp = require('fastify-plugin')
-const cors = require('@fastify/cors')
+import fp from 'fastify-plugin'
+import cors from '@fastify/cors'
 
 async function corsPlugin(fastify){
     fastify.register(cors, {
@@ -10,4 +10,4 @@ async function corsPlugin(fastify){
 })
 }
 
-module.exports = fp(corsPlugin)
+export default fp(corsPlugin)

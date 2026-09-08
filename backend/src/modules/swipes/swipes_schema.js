@@ -14,4 +14,4 @@ const createSwipeSchema = {
     }
 }
 
-module.exports = createSwipeSchema
+export { createSwipeSchema }

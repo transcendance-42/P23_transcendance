@@ -1,5 +1,5 @@
-const { getMessagesSchema, createMessageSchema, deleteMessageSchema } = require('./messages_schema')
-const { getMessages, postMessage, removeMessage } = require('./messages_controller')
+import { getMessagesSchema, createMessageSchema, deleteMessageSchema } from './messages_schema.js'
+import { getMessages, postMessage, removeMessage } from './messages_controller.js'
 
 async function messagesRoutes(fastify) {
     fastify.get('/messages/:matchId', {schema : getMessagesSchema}, getMessages)
@@ -7,4 +7,4 @@ async function messagesRoutes(fastify) {
     fastify.delete('/messages/:id', {schema : deleteMessageSchema}, removeMessage)
 }
 
-module.exports = messagesRoutes
+export { messagesRoutes }

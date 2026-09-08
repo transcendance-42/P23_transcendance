@@ -46,4 +46,4 @@ const SchemaDogsDelete = {
       }
     }
 
-module.exports = {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete}
+export {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete}
