@@ -1,4 +1,4 @@
-const { findMatchesByUserId, findAllMatches, deleteMatch } = require('./matches_queries')
+const { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId } = require('./matches_queries')
 
 async function getMatchesByUser(request, reply) {
   try {

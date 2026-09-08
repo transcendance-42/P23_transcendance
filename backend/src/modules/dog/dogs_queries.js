@@ -1,5 +1,9 @@
 const prisma = require('../../utils/prisma')
 
+async function findAllDogs(){
+	return prisma.dogs.findMany()
+}
+
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
 }
@@ -21,4 +25,4 @@ async function deleteDogs(request) {
 		})
 }
 
-module.exports = {findDogsId, creatDogs, updateDogs, deleteDogs}
+module.exports = {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs}

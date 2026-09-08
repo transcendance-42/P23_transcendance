@@ -28,7 +28,8 @@ async function findAllMatches() {
 async function findMessagesByMatchId(match_id) {
   return prisma.messages.findMany({
     where: { match_id: BigInt(match_id) },
-    orderBy: { created_at: 'asc' }
+    orderBy: { send_at: 'asc' },
+    include: { users: true }
   })
 }
 

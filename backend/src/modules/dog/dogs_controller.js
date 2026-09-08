@@ -1,4 +1,15 @@
-const {findDogsId, creatDogs, updateDogs, deleteDogs} = require('./dogs_queries')
+const {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs} = require('./dogs_queries')
+
+async function GetAllDogs() {
+    try {
+      const dogs = findAllDogs()
+      return dogs
+    } 
+    catch (e) {
+      return reply.code(500).send({ error: e.message })
+    }
+}
+
 
 async function GetDogsByID (request, reply) {
     try {
@@ -40,4 +51,4 @@ async function DeleteDogs (request, reply) {
     }
   }
 
-module.exports = {GetDogsByID, PostDogs, PutDogs, DeleteDogs}
+module.exports = {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs}
