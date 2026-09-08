@@ -4,6 +4,7 @@ import Fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUI from '@fastify/swagger-ui';
 import corsPlugin from './plugins/cors.js';
+import fastifyCookie from '@fastify/cookie';
 import { usersRoutes } from './modules/users/users_routes.js';
 import { dogsRoutes } from './modules/dog/dogs_routes.js';
 import { swipesRoutes }from './modules/swipes/swipes_routes.js';
@@ -32,7 +33,7 @@ function buildApp() {
     routePrefix: '/documentation'
   })
 
-  fastify.register(require('@fastify/cookie'), {
+  fastify.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET,
     parseOptions:{}
   })

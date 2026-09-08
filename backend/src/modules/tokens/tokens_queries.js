@@ -1,4 +1,4 @@
-const prisma =  require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function saveRefreshToken(userId, token, expiresAt)
 {
@@ -12,4 +12,4 @@ async function saveRefreshToken(userId, token, expiresAt)
     }
 }
 
-module.exports = saveRefreshToken
+export { saveRefreshToken }
