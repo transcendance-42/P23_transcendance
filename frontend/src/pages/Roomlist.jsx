@@ -6,10 +6,6 @@ import { Link } from 'react-router-dom'
 export function RoomList () {
 
     const id = localStorage.getItem('userId')
-    let userDogName;
-    let matchDogName;
-
-
     const [rooms, setRooms] = useState([]);
 
     const loadRooms = async () => {
@@ -24,17 +20,15 @@ export function RoomList () {
             loadRooms();
     }, [])
 
+    const monChien = (match) => (
+            match.matchesAsDog1.owner_id === id ? match.matchesAsDog1.dog_name : match.matchesAsDog2.dog_name
+    )
+    const userDogName = rooms.length > 0 ? monChien(rooms[0]) : '';
+
     let list = `You don't have any matchs yet. Go swipe :)`;
     if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
-        if (c.matchesAsDog1.owner_id === id) {
-            matchDogName = c.matchesAsDog2.dog_name;
-            userDogName = c.matchesAsDog1.dog_name;
-        }
-        else {
-            matchDogName = c.matchesAsDog1.dog_name;
-            userDogName = c.matchesAsDog2.dog_name;
-        }
+        const matchDogName = c.matchesAsDog1.owner_id === id ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
         console.log(matchDogName);
         return(        
         <Link    

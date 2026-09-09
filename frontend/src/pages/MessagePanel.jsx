@@ -1,6 +1,7 @@
 import React from 'react'
 import MessageBubble from './../components/chat/MessageBubble'
 import MessageList from '../components/chat/MessageList'
+import ChatHeader from '../components/chat/ChatHeader'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -16,6 +17,7 @@ export default function MessagePanel()
 {
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
+    const [dogName, setDogName] = useState('');
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
     const userId = localStorage.getItem('userId')
     const navigate = useNavigate()
@@ -31,6 +33,19 @@ export default function MessagePanel()
         const data = await response.json();
         setMessages(data)
     }
+
+    const loadDogName = async () => {
+        const response = await fetch(`/api/matches/${userId}`);
+        const data = await response.json();
+        const match = data.find((element) => element.id === roomId);
+        if (match){
+            const name = match.matchesAsDog1.owner_id === userId ? match.matchesAsDog2.dog_name : match.matchesAsDog1.dog_name; 
+            setDogName(name);
+        }
+    }
+    
+    useEffect(() => {loadDogName()}, [roomId, userId]);
+    
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {     
@@ -73,19 +88,7 @@ export default function MessagePanel()
 
     return(
     <div className="mx-auto mt-10 flex h-150 w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
-
-        <div className="h-16 shrink-0 border-b border-gray-200 bg-indigo-600 text-sm font-semibold text-white">
-            Le Nom du chien avec qui on a match 
-        </div>
-        <div className='flex h-16 shrink-0 items-center border-b border-gray-200 bg-indigo-600 px-4 '>
-            <button
-                onClick={() => {navigate('/roomlist')}}
-                className='rounded-lg bg-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/30'
-            >
-                Back
-            </button>
-        </div>
-
+        <ChatHeader link={() => navigate('/roomlist')} dogName={dogName}/>
         <MessageList messages={messages} userId={userId} />
 
         <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
