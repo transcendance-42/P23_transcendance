@@ -91,4 +91,3 @@ model users {
   dogs          dogs[]
   messages      messages[]
 }
-
