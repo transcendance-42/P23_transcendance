@@ -7,7 +7,7 @@ const NavBar = () => {
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4">
             <div className="flex items-center justify-between">
-                <span className="text-xl text-primary font-heading">PawMatch</span>
+                <span className="text-xl text-primary font-heading">Tindog</span>
                 <button className="sm:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                 <div className="hidden sm:flex gap-4">
                     <SecondaryButton to="/login">Log in</SecondaryButton>
