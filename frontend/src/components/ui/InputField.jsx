@@ -4,7 +4,7 @@ const InputField = ({ type = 'text', value, onChange, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full bg-transparent border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+        className="w-full bg-transparent border border-text-tertiary rounded-lg px-4 py-3 text-white placeholder-text-caption focus:outline-none focus:border-primary transition"
     />
 )
 

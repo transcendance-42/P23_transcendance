@@ -8,15 +8,15 @@ const MatchNotif = ({onClose}) => {
     const navigate = useNavigate()
     
     return (
-        <Modal onClose={onClose} width="w-180" bgColor="bg-pink-400">
+        <Modal onClose={onClose} width="w-full mx-4 sm:w-180" bg="bg-action-match/20">
             <ModalHeader title="It's a Match!!" />
 
             <div className="flex gap-2 p-4">
-                <img src={defaultPic} alt="your dog" className="w-1/2 h-80 object-cover rounded-2xl border-6 border-pink-400 pointer-events-none"/>
-                <img src={defaultPic} alt="other dog" className="w-1/2 h-80 object-cover rounded-2xl border-6 border-pink-400 pointer-events-none"/>
+                <img src={defaultDog} alt="your dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
+                <img src={defaultDog} alt="other dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
             </div>
 
-            <PrimaryButton onClick={() => navigate('/chat/1')}>
+            <PrimaryButton onClick={() => navigate('/roomlist')}>
                 Start chatting ...
             </PrimaryButton>
         </Modal>
