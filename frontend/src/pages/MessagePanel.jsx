@@ -1,5 +1,4 @@
 import React from 'react'
-import MessageBubble from './../components/chat/MessageBubble'
 import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
 import { useEffect, useState } from 'react'
@@ -104,7 +103,7 @@ export default function MessagePanel()
 
             <button
                 onClick={handleSendMessage}
-                className="cursor-pointer rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+                className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
             >
                 Send
             </button>

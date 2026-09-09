@@ -4,14 +4,13 @@ export default function ChatHeader({link, dogName}){
     
     return (
         <div>
-            <div className='flex items-center justify-between h-16 shrink-0 border-b border-gray-200 bg-indigo-600 px-4 '>
-                <button
-                    onClick={link}
-                    className='rounded-lg bg-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/30'
+            <div className='flex items-center justify-between h-16 shrink-0 border-b border-gray-200 bg-surface-sunken px-4 '>
+                <button onClick={link}
+                    className='bg-primary hover:bg-primary-hover text-surface-white rounded-md px-3 py-2 text-sm font-semibold transition'
                 >
                 Back
                 </button>
-                <div>{dogName}</div>
+                <div className="text-surface-white font-semibold">{dogName}</div>
             </div>
         </div>
     );

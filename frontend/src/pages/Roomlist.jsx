@@ -12,7 +12,6 @@ export function RoomList () {
         const response = await fetch(`/api/matches/${id}`);
         const data = await response.json();
         setRooms(data);
-        console.log(data)
     }
 
     useEffect(() => {
@@ -29,7 +28,6 @@ export function RoomList () {
     if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
         const matchDogName = c.matchesAsDog1.owner_id === id ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
-        console.log(matchDogName);
         return(        
         <Link    
             key={c.id}
