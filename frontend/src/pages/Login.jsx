@@ -34,5 +34,6 @@ export default function Login() {
                 Trouble Logging In?
             </p>
         </Modal>
+        </div>
     )
 }
