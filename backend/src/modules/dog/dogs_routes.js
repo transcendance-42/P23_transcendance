@@ -1,8 +1,8 @@
-const prisma = require('../../utils/prisma')
-const {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} = require('./dogs_schema')
-const {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs } = require('./dogs_controller')
+import prisma from '../../utils/prisma.js'
+import {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} from './dogs_schema.js'
+import {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs } from './dogs_controller.js'
 
-async function dogRoutes(fastify) {
+async function dogsRoutes(fastify) {
   fastify.get('/dogs', GetAllDogs)
   fastify.get('/dogs/:id', {schema : SchemaDogGetId}, GetDogsByID)
   fastify.post('/dogs', {schema : SchemaDogPost}, PostDogs)
@@ -10,4 +10,4 @@ async function dogRoutes(fastify) {
   fastify.delete('/dogs/:id', {schema : SchemaDogsDelete}, DeleteDogs)
 }
 
-module.exports = dogRoutes
+export { dogsRoutes }

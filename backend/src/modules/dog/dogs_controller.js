@@ -1,4 +1,4 @@
-const {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs} = require('./dogs_queries')
+import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs} from './dogs_queries.js'
 
 async function GetAllDogs() {
     try {
@@ -51,4 +51,4 @@ async function DeleteDogs (request, reply) {
     }
   }
 
-module.exports = {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs}
+export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs}

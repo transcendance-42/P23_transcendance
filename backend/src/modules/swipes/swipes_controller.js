@@ -1,4 +1,4 @@
-const {creatSwipe, findReverseSwipe, findExistingMatch, createMatch} = require('./swipes_queries')
+import {creatSwipe, findReverseSwipe, findExistingMatch, createMatch} from './swipes_queries.js'
 
 async function postSwipe(request, reply) {
         try {
@@ -27,4 +27,4 @@ async function postSwipe(request, reply) {
         }
     }
 
-module.exports = postSwipe
+export { postSwipe }

@@ -1,4 +1,4 @@
-const prisma = require('../../utils/prisma')
+import prisma from '../../utils/prisma.js'
 
 async function findMessagesByMatchId(matchId) {
   return prisma.messages.findMany({
@@ -22,4 +22,4 @@ async function deleteMessage(id) {
   return prisma.messages.delete({ where: { id: BigInt(id) } })
 }
 
-module.exports = { findMessagesByMatchId, createMessage, deleteMessage }
+export { findMessagesByMatchId, createMessage, deleteMessage }

@@ -1,4 +1,4 @@
-const findUser = require('./auth_queries')
+import { findUser } from './auth_queries.js'
 
 async function login(request, reply) {
         const email = request.body.email
@@ -9,4 +9,5 @@ async function login(request, reply) {
         return { success: true, userId: user.id }
     }
 
-module.exports = login
+
+export { login } 

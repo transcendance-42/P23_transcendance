@@ -1,4 +1,4 @@
-const { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId } = require('./matches_queries')
+import { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId } from './matches_queries.js'
 
 async function getMatchesByUser(request, reply) {
   try {
@@ -33,4 +33,4 @@ async function removeMatch(request, reply) {
   }
 }
 
-module.exports = { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch }
+export { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch }
