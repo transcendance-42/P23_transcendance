@@ -2,6 +2,7 @@ import React from 'react'
 import { Room } from './../components/Roomlist/Room';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
+import NavBarAuth from '../components/ui/NavBarAuth';
 
 export function RoomList () {
 
@@ -48,6 +49,8 @@ export function RoomList () {
         });
     }
     return (
+    <div>
+        <NavBarAuth/>
     <div className="min-h-screen w-full bg-gray-50 px-4 py-10">
         <div className="mx-auto w-full max-w-4xl">
 
@@ -68,6 +71,7 @@ export function RoomList () {
             </div>
 
         </div>
+    </div>
     </div>
         );
     }
