@@ -86,8 +86,8 @@ export default function MessagePanel()
     }    
 
     return(
-    <div className="mx-auto mt-10 flex h-150 w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
-        <ChatHeader link={() => navigate('/roomlist')} dogName={dogName}/>
+    <div className="flex flex-1 flex-col min-h-0 bg-white">
+        <ChatHeader link={() => navigate('/chat')} dogName={dogName}/>
         <MessageList messages={messages} userId={userId} />
 
         <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
