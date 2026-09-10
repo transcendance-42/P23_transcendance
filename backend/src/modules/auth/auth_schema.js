@@ -15,13 +15,13 @@ const registerSchema = {
     properties: {
       first_name: {
         type: 'string',
-        minLenght: 3,
-        maxLenght: 20
+        minLength: 3,
+        maxLength: 20
       },
       last_name: {
         type: 'string',
-        minLenght: 3,
-        maxLenght: 20
+        minLength: 3,
+        maxLength: 20
       },
       age: {
         type: 'integer',
@@ -33,11 +33,11 @@ const registerSchema = {
       },
       password: {
         type: 'string',
-        minLenght: 8,
-        maxLenght: 20
+        minLength: 8,
+        maxLength: 20
       }
     },
-    required: ['first_name', 'last_name', 'age', 'email', 'password']
+    required: ['first_name', 'last_name', 'email', 'password']
   }
 }
 

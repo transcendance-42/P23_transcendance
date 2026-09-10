@@ -1,4 +1,5 @@
 import { creatUser, findUser } from './auth_queries.js'
+import bcrypt from 'bcryptjs'
 
 async function login(request, reply) {
         const email = request.body.email
@@ -10,6 +11,8 @@ async function login(request, reply) {
     }
 
 async function register(request, reply) {
+        const saltRound = 12
+        bcrypt.hash(request.body.password, saltRound, )
         const existingUser = await findUser(request.body.email)
         if (existingUser)
                 return reply.code(409).send({error : 'Email already exists'})

@@ -11,7 +11,7 @@ async function creatUser(request) {
 			last_name: request.body.last_name,
 			age: request.body.age,
 			email: request.body.email,
-			password: request.body.password
+			password_hash: request.body.password
 		}
 	})
 }
