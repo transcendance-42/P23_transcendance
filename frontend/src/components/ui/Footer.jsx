@@ -10,7 +10,6 @@ const Footer = () => (
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                 <Link to="/privacy" className="hover:text-surface-white transition">Privacy Policy</Link>
                 <Link to="/terms" className="hover:text-surface-white transition">Terms of Service</Link>
-                <Link to="/safety" className="hover:text-surface-white transition">Safety Tips</Link>
                 <Link to="/contact" className="hover:text-surface-white transition">Contact Us</Link>
             </div>
             <p>© 2026 Tindog. All rights reserved.</p>
