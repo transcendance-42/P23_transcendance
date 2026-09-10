@@ -8,6 +8,8 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path='/room/:roomId' element = {<MessagePanel />} />
         <Route path="/login" element = {<Login />} />
         <Route path="/login/email" element = {<LoginEmail />} />
+        <Route path="/privacy" element = {<Privacy />} />
+        <Route path="/terms" element = {<Terms/>} />
     </Routes>
   )
 }
