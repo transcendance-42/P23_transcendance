@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import RegisterDog from './pages/RegisterDog'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/swipes" element={<SwipePage/>} />
         <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<Register/>}/>
+        <Route path="/registerDog" element ={<RegisterDog/>}/>
         <Route path="/roomlist" element = {<RoomList  />} />
         <Route path='/room/:roomId' element = {<MessagePanel />} />
         <Route path="/login" element = {<Login />} />
