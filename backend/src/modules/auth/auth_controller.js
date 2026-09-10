@@ -13,7 +13,7 @@ const COOKIE_OPTIONS = {
 }
 
 function generateAccessToken (user){
-        const token = jwt.sign({id:user.id}, process.env.JWT_SECRET, {expiresIn:'1h'})
+        const token = jwt.sign({id:user.id, email:user.email}, process.env.JWT_SECRET, {expiresIn:'15m'})
         return token
 }
 
@@ -51,4 +51,4 @@ async function login(request, reply) {
 
     }
 
-export { login }
+export { login, generateRefreshToken, generateAccessToken , COOKIE_OPTIONS }
