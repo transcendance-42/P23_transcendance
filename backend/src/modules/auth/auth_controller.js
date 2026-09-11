@@ -21,13 +21,20 @@ async function register(request, reply) {
         }
         const birthDate = new Date(request.body.date_of_birth);
         const today = new Date();
-        const minimumBirthDate = new Date(
-        today.getFullYear() - 18,
-        today.getMonth(),
-        today.getDate()
-        );
-        if (birthDate > minimumBirthDate)
-                return reply.code(401).send({error : 'Bad request'})
+        const maxBirthDate = new Date(
+                1899,
+                today.getMonth(),
+                today.getDate()
+        )
+        const minBirthDate = new Date(
+                today.getFullYear() - 18,
+                today.getMonth(),
+                today.getDate()
+        )
+        if (birthDate > minBirthDate)
+                return reply.code(401).send({error : 'TOO_YOUNG'})
+        if (birthDate < maxBirthDate)
+                return reply.code(401).send({error : 'TOO_OLD'})
         try {
                 const hashPassword = await bcrypt.hash(request.body.password, 10)
                 await creatUser(request, hashPassword, birthDate)
