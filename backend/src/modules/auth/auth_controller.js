@@ -27,16 +27,12 @@ async function login(request, reply) {
         const { email, password } = request.body
         try{
                 const user = await findUser(email)
-                if (!user)
-                        return reply.code(401).send({ error: 'Invalid credentials' })
+                const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
                 const isMatch = await bcrypt.compare(password, user.password_hash)
-                if (!isMatch){
-                        return reply.code(400).send({error:'Invalid credentials'})
-                }
+                if (!user || !isMatch)
+                        return reply.code(401).send({error:'Invalid credentials'})
                 const token = generateAccessToken(user)
                 const {refresh_token, refresh_token_hash} = generateRefreshToken()
-                console.log('REFRESH TOKEN')
-                console.log(refresh_token)
                 const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
                 await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
                 return reply

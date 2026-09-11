@@ -1,29 +1,37 @@
-import { findRefreshToken, saveRefreshToken, revokeToken } from "./tokens_queries.js"
+import { findRefreshToken, saveRefreshToken, revokeToken, revokeAllUserToken } from "./tokens_queries.js"
 import { generateRefreshToken, generateAccessToken, COOKIE_OPTIONS } from "../auth/auth_controller.js"
 import { findUserById } from "../users/users_queries.js"
 import crypto  from 'crypto'
+import { error } from "console"
 
 async function GetRefreshToken(request, reply){
     try{
         const token = request.cookies.refresh_token
         if (!token)
-            reply.code(401).send({error: 'No refresh token'})
+            return reply.code(401).send({error: 'No refresh token'})
         const hash_token = crypto.createHash('sha256').update(token).digest('hex')
+        if (!hash_token)
+            return reply.code(401).send({error: 'No refresh token'})        
         const stored = await findRefreshToken(hash_token)
-        if (!stored || stored?.is_revoked || stored.expires_at < new Date())
-            reply.code(401).send({error: 'Invalid Token'})
-        
-        //reuse state to implement for security to do
-
+        if (!stored || stored.expires_at < new Date())
+            return reply.code(401).send({error: 'Invalid token'})
+        if (stored?.is_revoked )
+        {
+            await revokeAllUserToken(stored.user_id)
+            return reply.code(401).send({error: 'Invalid token'})
+        }
         //revoke the passed token
         await revokeToken(stored)
 
         //trouver le user
         const user = await findUserById(stored.user_id)
-
+        if (!user)
+            return reply.code(401).send({error: 'User not found'})
         // generate two new token
         const acces_token = generateAccessToken(user)
         const {refresh_token, refresh_token_hash} = generateRefreshToken()
+        if (!acces_token || !refresh_token || !refresh_token_hash)
+            return reply.code(401).send({error: 'Failed to generate token'})    
         const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
         await saveRefreshToken(stored.user_id, refresh_token_hash, expiresAt)
         return reply
@@ -33,7 +41,7 @@ async function GetRefreshToken(request, reply){
     }
     catch(e)
     {
-        return reply.code(500).send({message: e.message})        
+        return reply.code(500).send({error: 'Internal server error'})        
     }
 
 }

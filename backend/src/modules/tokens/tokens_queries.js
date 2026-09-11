@@ -19,4 +19,11 @@ async function revokeToken(token) {
     })
 }
 
-export { saveRefreshToken, findRefreshToken, revokeToken }
+async function revokeAllUserToken(userId){
+    return prisma.refresh_tokens.updateMany({
+    where:{user_id: userId},
+    data: {is_revoked: true}
+})
+}
+
+export { saveRefreshToken, findRefreshToken, revokeToken, revokeAllUserToken }
