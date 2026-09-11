@@ -40,6 +40,7 @@ export default function Register() {
     })
     const data = await response.json()
     if (response.status === 400) return setError('Invalid data')
+    if (response.status === 401) return setError('You must be at least 18 year old')
     if (response.status === 409) return setError('Email already exists')
     if (response.ok) {
         setSuccess('Account created!')

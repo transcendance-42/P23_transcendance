@@ -14,8 +14,17 @@ async function register(request, reply) {
         const existingUser = await findUser(request.body.email)
         if (existingUser)
                 return reply.code(409).send({error : 'Email already exists'})
+        const birthDate = new Date(request.body.date_of_birth);
+        const today = new Date();
+        const minimumBirthDate = new Date(
+        today.getFullYear() - 18,
+        today.getMonth(),
+        today.getDate()
+        );
+        if (birthDate > minimumBirthDate)
+                return reply.code(401).send({error : 'Bad request'})
         const hashPassword = await bcrypt.hash(request.body.password, 10)
-        await creatUser(request, hashPassword)
+        await creatUser(request, hashPassword, birthDate)
 }
 
 export { login, register }

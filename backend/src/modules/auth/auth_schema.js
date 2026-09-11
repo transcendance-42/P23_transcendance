@@ -23,10 +23,6 @@ const registerSchema = {
         minLength: 3,
         maxLength: 20
       },
-      age: {
-        type: 'integer',
-        minimum: 18
-      },
       email: {
         type: 'string',
         format: 'email'
@@ -35,9 +31,11 @@ const registerSchema = {
         type: 'string',
         minLength: 8,
         maxLength: 20
-      }
+      },
+      city: {type: 'string'},
+      date_of_birth: { type: 'string'},
     },
-    required: ['first_name', 'last_name', 'email', 'password']
+    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth']
   }
 }
 
