@@ -28,7 +28,7 @@ async function login(request, reply) {
         try{
                 const user = await findUser(email)
                 const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
-                const isMatch = await bcrypt.compare(password, user.password_hash)
+                const isMatch = await bcrypt.compare(password, hash)
                 if (!user || !isMatch)
                         return reply.code(401).send({error:'Invalid credentials'})
                 const token = generateAccessToken(user)
@@ -38,11 +38,11 @@ async function login(request, reply) {
                 return reply
                         .code(200)
                         .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-                        .send({success:true, userId: user.id, message: 'Login successful', token})
+                        .send({success:true, userId: user.id, message: 'Login successful', access_token: token})
         }
         catch(e)
         {
-                return reply.code(500).send({message: e.message})
+                return reply.code(500).send({message: 'Internal server error'})
         }
 
     }

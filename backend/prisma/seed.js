@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs'
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
 
-const passwordHash = await bcrypt.hash('ekip', 12)
+const passwordHash = await bcrypt.hash('ekipekip', 10)
 
 const users = [
   { email: 'parissa@tindog.com', password_hash: passwordHash, first_name: 'Parissa', last_name: 'Chatagny', city: 'Lausanne', date_of_birth: new Date('2000-09-03') },

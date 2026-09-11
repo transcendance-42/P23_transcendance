@@ -9,7 +9,7 @@ const loginSchema = {
          },
         password: {
           type: 'string',
-          minLength:4,
+          minLength:8,
           maxLength:40
          }
       },
