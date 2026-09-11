@@ -4,7 +4,7 @@ async function findUser(email) {
 	return prisma.users.findUnique({ where: { email } })
 }
 
-async function creatUser(request) {
+async function creatUser(request, hashPassword) {
 	return prisma.users.create({
 		data: {
 			first_name: request.body.first_name,

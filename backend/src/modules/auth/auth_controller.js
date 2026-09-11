@@ -11,12 +11,11 @@ async function login(request, reply) {
     }
 
 async function register(request, reply) {
-        const saltRound = 12
-        bcrypt.hash(request.body.password, saltRound, )
         const existingUser = await findUser(request.body.email)
         if (existingUser)
                 return reply.code(409).send({error : 'Email already exists'})
-        await creatUser(request)
+        const hashPassword = await bcrypt.hash(request.body.password, 10)
+        await creatUser(request, hashPassword)
 }
 
 export { login, register }
