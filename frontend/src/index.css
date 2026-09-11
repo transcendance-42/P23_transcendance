@@ -24,8 +24,8 @@
     --color-action-pass: #F0554D;
 
     /* Typography */
-    --font-family-heading: 'Fredoka', sans-serif;
-    --font-family-body: 'Nunito', sans-serif;
+    --font-heading: 'Fredoka', sans-serif;
+    --font-body: 'Nunito', sans-serif;
 
     /* Radius */
     --radius-sm: 0.875rem;
