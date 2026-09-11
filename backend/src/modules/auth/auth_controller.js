@@ -23,6 +23,18 @@ function generateRefreshToken(){
         return {refresh_token, refresh_token_hash}
 }
 
+async function issueSession(user, reply)
+{
+        const token = generateAccessToken(user)
+        const {refresh_token, refresh_token_hash} = generateRefreshToken()
+        const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
+        await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
+        return reply
+                .code(200)
+                .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
+                .send({success:true, userId: user.id, message: 'Login successful', access_token: token})
+}
+
 async function login(request, reply) {
         const { email, password } = request.body
         try{
@@ -31,14 +43,7 @@ async function login(request, reply) {
                 const isMatch = await bcrypt.compare(password, hash)
                 if (!user || !isMatch)
                         return reply.code(401).send({error:'Invalid credentials'})
-                const token = generateAccessToken(user)
-                const {refresh_token, refresh_token_hash} = generateRefreshToken()
-                const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
-                await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
-                return reply
-                        .code(200)
-                        .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-                        .send({success:true, userId: user.id, message: 'Login successful', access_token: token})
+                return issueSession(user, reply)
         }
         catch(e)
         {
@@ -47,4 +52,4 @@ async function login(request, reply) {
 
     }
 
-export { login, generateRefreshToken, generateAccessToken , COOKIE_OPTIONS }
+export { login, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS }

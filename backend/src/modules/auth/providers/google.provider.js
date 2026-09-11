@@ -1,6 +1,7 @@
-const {OAuth2Client} = require('google-auth-library')
-const crypto = require('crypto')
-
+import {OAuth2Client} from 'google-auth-library'
+import crypto from 'crypto'
+import { findUser } from '../auth_queries.js'
+import { issueSession } from '../auth_controller.js'
 // ajouter fonction de revocation
 
 async function authGoogleRoutes(fastify){
@@ -50,11 +51,13 @@ async function authGoogleRoutes(fastify){
                 })
                 const payload = ticket.getPayload()
                 userCredential = {
-                    userId:payload.sub,
+                    googleId:payload.sub,
                     email:payload.email,
                     first_name:payload.given_name,
                     last_name:payload.family_name
                 }
+                console.log("LE TOKEN")
+                console.log(tokens)
                 console.log("CREDENTAILS DU USER QUI S'EST LOG")
                 console.log(userCredential)                
             }
@@ -63,8 +66,19 @@ async function authGoogleRoutes(fastify){
                 console.log('error', e)
             }
         }
+        // le user est deja in
+        let user = await findUser(userCredential.email)
+        if(!user)
+        {
+            // create user account
+        }
+        return issueSession(user, reply)
+                        
+
+
+
     })
 }
 
-module.exports = authGoogleRoutes
+export { authGoogleRoutes }
 
