@@ -11,9 +11,14 @@ async function login(request, reply) {
     }
 
 async function register(request, reply) {
-        const existingUser = await findUser(request.body.email)
-        if (existingUser)
-                return reply.code(409).send({error : 'Email already exists'})
+        try {
+                const existingUser = await findUser(request.body.email)
+                if (existingUser)
+                        return reply.code(409).send({error : 'Email already exists'})
+        } catch (e) {
+                console.error(e)
+                return reply.code(500).send({error : e.message})
+        }
         const birthDate = new Date(request.body.date_of_birth);
         const today = new Date();
         const minimumBirthDate = new Date(
@@ -23,8 +28,13 @@ async function register(request, reply) {
         );
         if (birthDate > minimumBirthDate)
                 return reply.code(401).send({error : 'Bad request'})
-        const hashPassword = await bcrypt.hash(request.body.password, 10)
-        await creatUser(request, hashPassword, birthDate)
+        try {
+                const hashPassword = await bcrypt.hash(request.body.password, 10)
+                await creatUser(request, hashPassword, birthDate)
+        } catch (e) {
+                console.error(e)
+                return reply.code(500).send({error : e.message})
+        }
 }
 
 export { login, register }
