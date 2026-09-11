@@ -32,7 +32,6 @@ export default function Register() {
 
     const { confirm_password, ...body } = formData
     console.log('TODO: POST /api/auth/register', body)
-    // en attente: brancher quand la route backend POST /api/auth/register existe
     const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,7 +48,6 @@ export default function Register() {
         setError('Server error, please try again')
     }
 }
-
     const allFilled = Object.values(formData).every(v => v !== '')
 
     return (
