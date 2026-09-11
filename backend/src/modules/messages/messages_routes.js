@@ -1,0 +1,10 @@
+import { getMessagesSchema, createMessageSchema, deleteMessageSchema } from './messages_schema.js'
+import { getMessages, postMessage, removeMessage } from './messages_controller.js'
+
+async function messagesRoutes(fastify) {
+    fastify.get('/messages/:matchId', {schema : getMessagesSchema}, getMessages)
+    fastify.post('/messages', {schema : createMessageSchema}, postMessage)
+    fastify.delete('/messages/:id', {schema : deleteMessageSchema}, removeMessage)
+}
+
+export { messagesRoutes }

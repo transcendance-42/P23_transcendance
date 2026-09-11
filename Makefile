@@ -2,7 +2,7 @@ all: up
 
 up:
 	docker-compose build --no-cache
-	docker compose up -d -V
+	docker-compose up -d -V
 
 down:
 	docker-compose down

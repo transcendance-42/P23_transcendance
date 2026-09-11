@@ -1,5 +1,5 @@
-require('dotenv').config()
-const prisma = require('./utils/prisma')
+import'dotenv/config'
+import prisma from './utils/prisma.js'
 
 async function main() {
   const count = await prisma.users.count()

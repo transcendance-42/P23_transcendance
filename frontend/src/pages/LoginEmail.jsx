@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router'
+import { useNavigate, Link } from 'react-router-dom'
 import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
@@ -33,7 +33,7 @@ export default function LoginEmail() {
     }
 
     return (
-        <Modal>
+        <Modal bg="bg-orange-100">
             <Link to="/login" className="absolute top-4 right-4 text-gray-400 hover:text-white transition text-xl">✕</Link>
             <ModalHeader title="What's your email?" />
             <p className="text-xs text-gray-400 text-center">
