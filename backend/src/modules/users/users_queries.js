@@ -10,6 +10,7 @@ async function findActiveUsers() {
 async function findUserById(id) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
+    include: {dogs:true},
     omit: { password_hash: true }
   })
 }

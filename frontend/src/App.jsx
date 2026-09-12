@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/swipes" element={<SwipePage/>} />
         <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<Register/>}/>
+        <Route path="/registerDog" element ={<RegisterDog/>}/>
         <Route path="/login" element = {<Login />} />
         <Route path="/login/email" element = {<LoginEmail />} />
         <Route path="/chat" element ={<ChatLayout/>}/>
