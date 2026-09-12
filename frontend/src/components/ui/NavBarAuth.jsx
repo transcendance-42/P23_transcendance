@@ -3,6 +3,11 @@ import SecondaryButton from './SecondaryButton'
 
 const NavBarAuth = () => {
     const [open, setOpen] = useState(false)
+    useEffect(() => {
+            const handleScroll = () => setOpen(false)
+            window.addEventListener('scroll', handleScroll)
+            return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4">
             <div className="flex items-center justify-between">

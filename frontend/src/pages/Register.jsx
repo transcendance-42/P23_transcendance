@@ -50,7 +50,6 @@ export default function Register() {
     //     setError('Server error, please try again')
     // }
 }
-
     const allFilled = Object.values(formData).every(v => v !== '')
 
     return (
