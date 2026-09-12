@@ -1,17 +1,20 @@
 import {OAuth2Client} from 'google-auth-library'
 import crypto from 'crypto'
-import { findUser } from '../auth_queries.js'
+import { creatUserRawData, findUser } from '../auth_queries.js'
 import { issueSession } from '../auth_controller.js'
-// ajouter fonction de revocation
 
-async function authGoogleRoutes(fastify){
+    const OAUTH_STATE_COOKIE_OPTIONS = {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 10 * 60 * 1000
+    }
 
     const oauth2Client = new OAuth2Client(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
     process.env.REDIRECT_URL)
-
-    let userCredential = null
 
     const scopes = [
         'openid',
@@ -19,66 +22,67 @@ async function authGoogleRoutes(fastify){
     'https://www.googleapis.com/auth/userinfo.profile'
     ];
 
-    fastify.get("/auth/google", async (request, reply) => {
-
-        // a implementer des qu'on setup les session state et cookie
-        // const state = crypto.randomBytes(32).toString('hex');
-        // request.session.state = state
+    async function generateGoogleUrl(request, reply){
+        const state = crypto.randomBytes(32).toString('hex'); 
 
         const authUrl = oauth2Client.generateAuthUrl({
-            access_type: 'offline',
             scope: scopes,
-            // state:state
+            state: state
         })
-        return reply.redirect (authUrl)
-    })
+        return reply
+        .setCookie('oauth_state', state, OAUTH_STATE_COOKIE_OPTIONS)
+        .redirect (authUrl)        
+    }
 
-    fastify.get("/auth/google/callback", async (request, reply) => {
-        let q = request.query
-        if (q.error)
-            console.log('error: ' + q.error)
-        // else if (q.state !== request.session.state){
-        //     console.log('State mismatch. Possivle CSRF attack')
-        //     res.end('State mismatch. Possivle CSRF attack')
-        // }
-        else {
-            let { tokens } = await oauth2Client.getToken(q.code)
-            oauth2Client.setCredentials(tokens)
-            try {
-                const ticket = await oauth2Client.verifyIdToken({
-                    idToken:tokens.id_token,
-                    audience: process.env.CLIENT_ID
-                })
-                const payload = ticket.getPayload()
-                userCredential = {
-                    googleId:payload.sub,
-                    email:payload.email,
-                    first_name:payload.given_name,
-                    last_name:payload.family_name
-                }
-                console.log("LE TOKEN")
-                console.log(tokens)
-                console.log("CREDENTAILS DU USER QUI S'EST LOG")
-                console.log(userCredential)                
+    async function ExtractUserCredentials(query){     
+        let { tokens } = await oauth2Client.getToken(query.code)
+        oauth2Client.setCredentials(tokens)
+        try {
+            const ticket = await oauth2Client.verifyIdToken({
+                idToken:tokens.id_token,
+                audience: process.env.CLIENT_ID
+            })
+            const payload = ticket.getPayload()
+            const userCredential = {
+                googleId:payload.sub,
+                email:payload.email,
+                first_name:payload.given_name,
+                last_name:payload.family_name
             }
-            catch(e)
-            {
-                console.log('error', e)
-            }
+            return userCredential              
         }
-        // le user est deja in
+        catch(e)
+        {
+            console.log('error', e)
+        }        
+    }
+
+    async function GetGoogleUserCredentials(request, reply){
+        let q = request.query
+        if (q.error){
+            console.log('error: ' + q.error)
+            return reply.code(401).send({error:'google_auth_error'})
+        }
+        else if (q.state !== request.cookies.oauth_state){
+            console.log('State mismatch. Possivle CSRF attack')
+            return reply.code(401).send({error:'State mismatch. Possivle CSRF attack'})
+        }   
+        reply.clearCookie('oauth_state', { path: '/' }) 
+        const userCredential = await ExtractUserCredentials(q)
+        if (!userCredential)
+            return reply.code(401).send({error:'invalid_google credentials'})
         let user = await findUser(userCredential.email)
         if(!user)
         {
-            // create user account
+            user = await creatUserRawData({
+                first_name:userCredential.first_name,
+                last_name:userCredential.last_name,
+                email:userCredential.email,
+                google_id:userCredential.googleId
+            })
         }
         return issueSession(user, reply)
-                        
+    }   
 
-
-
-    })
-}
-
-export { authGoogleRoutes }
+export { generateGoogleUrl, GetGoogleUserCredentials }
 

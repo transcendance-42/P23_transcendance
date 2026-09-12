@@ -14,7 +14,6 @@ import { messagesRoutes } from './modules/messages/messages_routes.js';
 import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
-import { authGoogleRoutes } from './modules/auth/providers/google.provider.js';
 
 const fastify = Fastify({ logger: true });
 
@@ -53,8 +52,6 @@ function buildApp() {
 
   fastify.decorate('authorize', jwt_auth)
 
-
-
   fastify.register(corsPlugin)
   fastify.register(usersRoutes, { prefix: '/api' })
   fastify.register(dogsRoutes, { prefix: '/api' })
@@ -63,7 +60,6 @@ function buildApp() {
   fastify.register(matchesRoutes, { prefix: '/api' })
   fastify.register(messagesRoutes, { prefix: '/api' }) 
   fastify.register(authRoutes, { prefix: '/api' })
-  fastify.register(authGoogleRoutes, { prefix: '/api' }) 
   fastify.register(tokensRoutes, { prefix: '/api'})
 
   return fastify

@@ -23,6 +23,13 @@ function generateRefreshToken(){
         return {refresh_token, refresh_token_hash}
 }
 
+function isUserComplete(user)
+{
+        if(user.date_of_birth && user.city && user.first_name && user.last_name)
+                return true
+        return false
+}
+
 async function issueSession(user, reply)
 {
         const token = generateAccessToken(user)
@@ -32,7 +39,7 @@ async function issueSession(user, reply)
         return reply
                 .code(200)
                 .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-                .send({success:true, userId: user.id, message: 'Login successful', access_token: token})
+                .send({success:true, userId: user.id, message: 'Login successful', access_token: token, profileComplete:isUserComplete(user)})
 }
 
 async function login(request, reply) {
