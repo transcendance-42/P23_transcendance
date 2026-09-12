@@ -1,4 +1,3 @@
-import React from 'react'
 import { Room } from './../components/Roomlist/Room';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'

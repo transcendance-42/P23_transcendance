@@ -10,6 +10,7 @@ import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
 import Privacy from './pages/Privacy'
 import Terms from './pages/Terms'
+import RegisterDog from './pages/RegisterDog'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/swipes" element={<SwipePage/>} />
         <Route path="/matches" element={<MatchesPage/>} />
         <Route path="/register" element ={<Register/>}/>
+        <Route path="/registerDog" element ={<RegisterDog/>}/>
         <Route path="/roomlist" element = {<RoomList  />} />
         <Route path='/room/:roomId' element = {<MessagePanel />} />
         <Route path="/login" element = {<Login />} />

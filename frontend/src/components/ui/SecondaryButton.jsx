@@ -6,9 +6,9 @@ const SecondaryButton = ({ children, to, onClick }) => {
 
     const className = "px-5 py-2 text-sm font-medium transition whitespace-nowrap flex items-center justify-center"
     const style = {
-        backgroundColor: hovered ? '#7a6e68' : '#9d9189',
-        color: '#3e2b22',
-        borderRadius: '12px'
+        backgroundColor: hovered ? 'var(--color-text-tertiary)' : 'var(--color-text-caption)',
+        color: 'var(--color-text-primary)',
+        borderRadius: 'var(--radius-sm)'
     }
 
     if (to)
