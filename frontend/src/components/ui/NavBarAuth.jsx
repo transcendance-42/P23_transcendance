@@ -8,7 +8,7 @@ const NavBarAuth = () => (
         <div className="flex gap-6 text-sm">
             <SecondaryButton to="/swipes">Swipes</SecondaryButton>
             <SecondaryButton to="/matches">Matches</SecondaryButton>
-            <SecondaryButton to="/roomlist">Chat</SecondaryButton>
+            <SecondaryButton to="/chat">Chat</SecondaryButton>
             <SecondaryButton to="/profile">Profile</SecondaryButton>
         </div>
     </nav>
