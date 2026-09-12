@@ -30,21 +30,23 @@ export default function RegisterDog() {
         const { date_of_birth, ...rest } = formData
         const body = { ...rest, age: calculateAge(date_of_birth) }
         console.log('body envoyé:', body)
-        const response = await fetch('/api/dogs', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ owner_id: localStorage.getItem('userId'), ...body })
-        })
-        const data = await response.json()
-        console.log(data)
-        if (response.ok) 
-        {
-            setSuccess('Profile created!')
-            setTimeout(() => navigate('/swipes'), 1500)
-        } else
-            setError(data.error || 'Server error')
+        try {
+            const response = await fetch('/api/dogs', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ owner_id: localStorage.getItem('userId'), ...body })
+            })
+            const data = await response.json()
+            if (response.ok) {
+                setSuccess('Profile created!')
+                setTimeout(() => navigate('/swipes'), 1500)
+            } else {
+                setError(data.error || 'Server error')
+            }
+        } catch (e) {
+            setError('Server unreachable, please try again')
+        }
     }
-
     const allFilled = Object.values(formData).every(v => v !== '')
 
     return (

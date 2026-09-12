@@ -45,7 +45,7 @@ export default function Register() {
     // if (response.status === 409) return setError('Email already exists')
     // if (response.ok) {
     //     setSuccess('Account created!')
-    //      setTimeout(() => navigate('/register-dog'), 1500)
+    //     setTimeout(() => navigate('/registerDog'), 1500)
     // } else {
     //     setError('Server error, please try again')
     // }
