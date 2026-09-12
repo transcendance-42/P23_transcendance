@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import Profile from './pages/Profile'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/room/:roomId' element = {<MessagePanel />} />
         <Route path="/login" element = {<Login />} />
         <Route path="/login/email" element = {<LoginEmail />} />
+        <Route path="/profile" element = {<Profile/>}/>
     </Routes>
   )
 }
