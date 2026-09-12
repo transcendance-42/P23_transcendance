@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bevan&family=Nunito:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -7,6 +8,7 @@
     --color-accent: #E8935A;
 
     --color-surface-white: #FFFBF6;
+    --color-surface-mid: #3D3530;
     --color-surface-cream: #F7EFE9;
     --color-surface-alt: #F3ECE6;
     --color-surface-base: #802A2A;

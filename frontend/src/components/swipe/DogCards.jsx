@@ -31,7 +31,7 @@ const DogCards = ({ onMatch }) => {
         return <EmptyState title="No more dogs nearby" subtitle="Come back later!" />
 
     return (
-        <div className="relative w-100 h-150">
+        <div className="relative w-[90vw] h-[70vh] sm:w-100 sm:h-150">
             {dogs.slice(0, 5).map((dog, index) => (
                 <DogCard
                     key={dog.id}

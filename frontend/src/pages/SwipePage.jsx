@@ -8,7 +8,7 @@ const [showMatch, setShowMatch] = useState(false)
   return (
     <div>
         <NavBarAuth />
-        <div className="min-h-screen flex items-start justify-center pt-16" style={{ backgroundColor: '#4a4540' }}>
+        <div className="min-h-screen flex items-start justify-center pt-16 bg-surface-mid">
             <DogCards onMatch={() => setShowMatch(true)} />
             {showMatch && <MatchNotif onClose={() => setShowMatch(false)}/>}
         </div>
