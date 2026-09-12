@@ -4,6 +4,8 @@ import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import Mascot from '../components/ui/Mascot'
+
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -56,7 +58,9 @@ export default function Register() {
     const allFilled = Object.values(formData).every(v => v !== '')
 
     return (
-            <Modal bg="bg-orange-100">
+        <div className="min-h-screen bg-surface-cream">
+            <Modal>
+                <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                     <InputField placeholder="First name" value={formData.first_name} onChange={handleChange('first_name')} />
@@ -67,16 +71,17 @@ export default function Register() {
                     <InputField placeholder="City" value={formData.city} onChange={handleChange('city')} />
                     <InputField type="date" placeholder="Date of birth" value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
 
-                    {error && <p className="text-red-400 text-xs text-center">{error}</p>}
-                    {success && <p className="text-green-400 text-xs text-center">{success}</p>}
+                    {error && <p className="text-action-pass text-xs text-center">{error}</p>}
+                    {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
                     <PrimaryButton type="submit" disabled={!allFilled}>
                         Create account
                     </PrimaryButton>
                 </form>
-                <p onClick={() => navigate('/login')} className="text-red-400 text-sm underline cursor-pointer">
+                <p onClick={() => navigate('/login')} className="text-action-pass text-sm underline cursor-pointer">
                     Already have an account?
                 </p>
             </Modal>
+        </div>
     )
 }
