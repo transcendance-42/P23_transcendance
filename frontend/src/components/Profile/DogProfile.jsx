@@ -1,4 +1,4 @@
-export default function DogProfile({ dog }) {
+export default function DogProfile({ dog, onChange }) {
     return (
         <div className="rounded-md bg-surface-white p-6 shadow-soft">
             <h2 className="font-heading text-2xl font-bold text-text-primary">

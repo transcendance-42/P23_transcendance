@@ -59,10 +59,11 @@ export default function Profile() {
                         </Link>
                     </div>
                 ) : (
-                    dogs.map(dog => <DogProfile key={dog.id} dog={dog} />)
+                    dogs.map(dog => <DogProfile key={dog.id} dog={dog}/>)
                 )}
 
-                <UserProfile user={user} />
+                <UserProfile user={user} onSaved={setUser} />
+                {console.log(user)}
             </div>
         </div>
     )
