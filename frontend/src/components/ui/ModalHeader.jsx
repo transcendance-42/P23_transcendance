@@ -1,7 +1,7 @@
+
 const ModalHeader = ({ title }) => (
     <>
-        <span className="text-4xl">🐾</span>
-        <h2 style={{ fontFamily: 'Bevan, serif' }} className="text-3xl">{title}</h2>
+       <h2 className="text-3xl font-heading">{title}</h2>
     </>
 )
 export default ModalHeader
