@@ -44,6 +44,7 @@ async function login(request, reply) {
         {
                 return reply.code(500).send({message: 'Internal server error'})
         }
+}
 
 async function register(request, reply) {
         try {
@@ -79,4 +80,4 @@ async function register(request, reply) {
         }
 }
 
-export { login, register }
+export { login, register, generateAccessToken, generateRefreshToken, COOKIE_OPTIONS }
