@@ -34,22 +34,28 @@ export default function LoginEmail() {
     }
 
     return (
-        <Modal bg="bg-orange-100">
-            <Link to="/login" className="absolute top-4 right-4 text-gray-400 hover:text-white transition text-xl">✕</Link>
+        <div className="min-h-screen bg-surface-cream">
+        <Modal>
+            <Link to="/login" className="absolute top-4 right-4 text-text-caption hover:text-surface-white transition text-xl">✕</Link>
             <Mascot index={1} size="lg"/>
             <ModalHeader title="What's your email?" />
-            <p className="text-xs text-gray-400 text-center">
+            <p className="text-xs text-text-caption text-center">
                 Enter your email and password to log in.
             </p>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                 <InputField type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
                 <InputField type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" />
-                {error && <p className="text-red-400 text-xs text-center">{error}</p>}
+                {error && <p className="text-action-pass text-xs text-center">{error}</p>}
 
                 <PrimaryButton type="submit" disabled={!email || !password}>
                     Next
                 </PrimaryButton>
             </form>
+            <p className="text-text-caption text-sm">
+                Don't have an account?{' '}
+                <span onClick={() => navigate('/register')} className="text-primary underline cursor-pointer">Sign up</span>
+            </p>
         </Modal>
+    </div>
     )
 }
