@@ -35,14 +35,14 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
 
     return (
         <motion.div
-            className={`absolute w-100 h-150 bg-pink-200 rounded-2xl shadow-md hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-[2px]' : ''}`}
+            className={`absolute w-[90vw] h-[70vh] sm:w-100 sm:h-150 bg-surface-cream rounded-[var(--radius-md)] shadow-card hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-[2px]' : ''}`}
             style={{ top: index * 8, left: index * 4, zIndex: total - index, x, opacity, rotate }}
             drag="x" dragConstraints={{ left: 0, right: 0 }} onDragEnd={handleDragEnd}>
-            <motion.div style={{ opacity: likeOpacity }} className="absolute inset-0 bg-green-400 rounded-2xl z-10" />
-            <motion.div style={{ opacity: passOpacity }} className="absolute inset-0 bg-red-400 rounded-2xl z-10" />
+            <motion.div style={{ opacity: likeOpacity }} className="absolute inset-0 bg-action-match rounded-[var(--radius-md)] z-10" />
+            <motion.div style={{ opacity: passOpacity }} className="absolute inset-0 bg-action-pass rounded-[var(--radius-md)] z-10" />
             <Badge type="like" opacity={likeOpacityBadge} />
             <Badge type="pass" opacity={passOpacityBadge} />
-            <img src={dog.img || defaultDog} alt={dog.dog_name} className="w-full h-80 object-cover pointer-events-none rounded-2xl mt-2 px-2" />
+            <img src={dog.img || defaultDog} alt={dog.dog_name} className="w-full h-80 object-cover pointer-events-none rounded-[var(--radius-md)] mt-2 px-2" />
             <DogInfo dog={dog} />
         </motion.div>
     )
