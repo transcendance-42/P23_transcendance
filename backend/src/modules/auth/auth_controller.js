@@ -9,7 +9,7 @@ async function login(request, reply) {
                 return reply.code(401).send({ error: 'User not found' })
         return { success: true, userId: user.id }
     }
-
+ 
 async function register(request, reply) {
         try {
                 const existingUser = await findUser(request.body.email)
