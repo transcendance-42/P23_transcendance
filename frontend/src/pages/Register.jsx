@@ -33,22 +33,26 @@ export default function Register() {
         return setError('Password must be at least 8 characters')
 
     const { confirm_password, ...body } = formData
-    console.log('TODO: POST /api/auth/register', body)
-    // en attente: brancher quand la route backend POST /api/auth/register existe
-    // const response = await fetch('/api/auth/register', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(body)
-    // })
-    // const data = await response.json()
-    // if (response.status === 400) return setError('Invalid data')
-    // if (response.status === 409) return setError('Email already exists')
-    // if (response.ok) {
-    //     setSuccess('Account created!')
-    //     setTimeout(() => navigate('/registerDog'), 1500)
-    // } else {
-    //     setError('Server error, please try again')
-    // }
+        const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+    const data = await response.json()
+    if (response.status === 400) return setError('Invalid data')
+    if (response.status === 401) {
+        if (data.error === 'TOO_YOUNG')
+            return setError('You must be at least 18 year old')
+        if (data.error === 'TOO_OLD')
+            return setError('Minimum year you can put is 1900')
+    }
+    if (response.status === 409) return setError('Email already exists')
+    if (response.ok) {
+        setSuccess('Account created!')
+        setTimeout(() => navigate('/registerDog'), 1500)
+    } else {
+        setError('Server error, please try again')
+    }
 }
     const allFilled = Object.values(formData).every(v => v !== '')
 
