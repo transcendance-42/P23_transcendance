@@ -18,10 +18,10 @@ const updateUserSchema = {
   body: {
     type: 'object',
     properties: {
-      email: { type: 'string' },
-      first_name: { type: 'string' },
-      last_name: { type: 'string' },
-      city: { type: 'string' }
+      first_name: { type: 'string', minLength: 3,  maxLength: 20},
+      last_name: { type: 'string', minLength: 3,  maxLength: 20 },
+      city: { type: 'string', minLength: 3 },
+      date_of_birth: { type: 'string', minLength: 3}
     },
     additionalProperties: false
   }

@@ -14,7 +14,8 @@ const createMessageSchema = {
       sender_id: { type: 'integer' },
       content: { type: 'string' }
     },
-    required: ['match_id', 'sender_id', 'content']
+    required: ['match_id', 'sender_id', 'content'],
+    additionalProperties: false
   }
 }
 
