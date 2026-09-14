@@ -52,17 +52,28 @@ export default function Profile() {
                     <div className="rounded-md bg-surface-white p-6 text-center shadow-soft">
                         <p className="text-text-secondary">Tu n'as pas encore de chien.</p>
                         <Link
-                            to="/register-dog"
+                            to="/registerDog"
                             className="mt-4 inline-flex rounded-full bg-primary px-6 py-3 font-semibold text-surface-white transition hover:bg-primary-hover"
                         >
                             Créer son profil
                         </Link>
                     </div>
                 ) : (
-                    dogs.map(dog => <DogProfile key={dog.id} dog={dog} />)
-                )}
+                    dogs.map(dog => (
+                    <DogProfile
+                        key={dog.id}
+                        dog={dog}
+                        onSaved={(updatedDog) =>
+                            setUser({
+                                ...user,
+                                dogs: user.dogs.map(d => d.id === updatedDog.id ? updatedDog : d)
+                            })
+                        }
+                    />
+                )))}
 
-                <UserProfile user={user} />
+                <UserProfile user={user} onSaved={setUser} />
+                {console.log(user)}
             </div>
         </div>
     )
