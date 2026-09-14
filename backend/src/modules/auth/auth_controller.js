@@ -1,4 +1,4 @@
-import { findUser } from './auth_queries.js'
+import { creatUser, findUser } from './auth_queries.js'
 import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -56,8 +56,7 @@ async function login(request, reply) {
         {
                 return reply.code(500).send({message: 'Internal server error'})
         }
-
-    }
+}
 
 async function register(request, reply) {
         try {
@@ -86,7 +85,8 @@ async function register(request, reply) {
                 return reply.code(401).send({error : 'TOO_OLD'})
         try {
                 const hashPassword = await bcrypt.hash(request.body.password, 10)
-                await creatUser(request, hashPassword, birthDate)
+                const user = await creatUser(request, hashPassword, birthDate)
+                return reply.code(201).send({ success: true, userId: user.id })
         } catch (e) {
                 console.error(e)
                 return reply.code(500).send({error : e.message})
