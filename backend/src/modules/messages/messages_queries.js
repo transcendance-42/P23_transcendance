@@ -18,8 +18,12 @@ async function createMessage(match_id, sender_id, content) {
   })
 }
 
+async function findMessageById(id) {
+  return prisma.messages.findUnique({ where: { id: BigInt(id) } })  
+}
+
 async function deleteMessage(id) {
   return prisma.messages.delete({ where: { id: BigInt(id) } })
 }
 
-export { findMessagesByMatchId, createMessage, deleteMessage }
+export { findMessagesByMatchId, createMessage, deleteMessage, findMessageById }

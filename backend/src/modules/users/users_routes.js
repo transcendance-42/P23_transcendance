@@ -3,7 +3,7 @@ import { getUsers, getUser, putUser, patchDeactivateUser } from './users_control
 
 async function usersRoutes(fastify) {
     fastify.get('/users', getUsers)
-    fastify.get('/users/:id', {schema : getUserByIdSchema}, getUser)
+    fastify.get('/users/:id', {schema : getUserByIdSchema, }, getUser)
     fastify.put('/users/:id', {schema : updateUserSchema}, putUser)
     fastify.patch('/users/:id/deactivate', {schema : deactivateUserSchema}, patchDeactivateUser)
 }
