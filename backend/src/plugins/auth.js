@@ -10,10 +10,10 @@ async function jwt_auth(request, reply){
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         request.userId = decoded.id
+        request.role = decoded.role
     }
     catch(err){
         return reply.code(403).send({message: 'Invalid or expired token'})
     }
 }
 export {jwt_auth}
-
