@@ -69,6 +69,7 @@ import { issueSession } from '../auth_controller.js'
         }   
         reply.clearCookie('oauth_state', { path: '/' }) 
         const userCredential = await ExtractUserCredentials(q)
+        console.log(userCredential)
         if (!userCredential)
             return reply.code(401).send({error:'invalid_google credentials'})
         let user = await findUser(userCredential.email)
