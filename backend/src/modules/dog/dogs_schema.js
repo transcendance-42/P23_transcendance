@@ -31,6 +31,8 @@ const SchemaDogsPut = {
 	properties: {
 		dog_name: { type: 'string' },
 		bio: { type: 'string' },
+		breed: { type: 'string' },
+		age: { type: 'integer' },
 		gender: { type: 'string' },
 		size: { type: 'string' }
 	},
