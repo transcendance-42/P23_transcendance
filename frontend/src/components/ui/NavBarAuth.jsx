@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 import SecondaryButton from './SecondaryButton'
 
 const NavBarAuth = () => {
     const [open, setOpen] = useState(false)
+    const {logout} = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        await logout()
+        navigate('/')
+    }
 
     useEffect(() => {
         const handleScroll = () => setOpen(false)
@@ -20,6 +29,7 @@ const NavBarAuth = () => {
                     <SecondaryButton to="/matches">Matches</SecondaryButton>
                     <SecondaryButton to="/chat">Chat</SecondaryButton>
                     <SecondaryButton to="/profile">Profile</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>
             </div>
             {open && (
@@ -28,6 +38,7 @@ const NavBarAuth = () => {
                     <SecondaryButton to="/matches">Matches</SecondaryButton>
                     <SecondaryButton to="/chat">Chat</SecondaryButton>
                     <SecondaryButton to="/profile">Profile</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>
             )}
         </nav>
