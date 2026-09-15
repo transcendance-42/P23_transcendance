@@ -33,8 +33,18 @@ async function findMessagesByMatchId(match_id) {
   })
 }
 
+async function findMatch(id) {
+  return prisma.matches.findUnique({
+    where: { id: BigInt(id) },
+    include: {
+      matchesAsDog1: true,
+      matchesAsDog2: true
+    }
+  })
+}
+
 async function deleteMatch(id) {
   return prisma.matches.delete({ where: { id: BigInt(id) } })
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch }
+export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, findMatch }

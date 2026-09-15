@@ -1,10 +1,11 @@
 import { getDogPicsSchema, createDogPicSchema, deleteDogPicSchema } from './dog_pics_schema.js'
 import { getDogPics, postDogPic, removeDogPic } from './dog_pics_controller.js'
+import { checkAccesDogPicParams, checkAccesDogPic, checkAccesDogPicDelete } from '../../plugins/checkDogPicAcces.js'
 
 async function dogPicsRoutes(fastify) {
-  fastify.get('/dog-pics/:dogId', {schema : getDogPicsSchema}, getDogPics)
-  fastify.post('/dog-pics', {schema : createDogPicSchema}, postDogPic)
-  fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema}, removeDogPic)
+  fastify.get('/dog-pics/:dogId', {schema : getDogPicsSchema, preHandler: checkAccesDogPicParams}, getDogPics)
+  fastify.post('/dog-pics', {schema : createDogPicSchema, preHandler: checkAccesDogPic}, postDogPic)
+  fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema, preHandler: checkAccesDogPicDelete}, removeDogPic)
 }
 
 export { dogPicsRoutes }
