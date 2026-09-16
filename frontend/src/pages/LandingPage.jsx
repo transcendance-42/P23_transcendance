@@ -3,6 +3,7 @@ import Hero from '../components/landing/Hero'
 import HowItWorks from '../components/landing/HowItWorks'
 import Testimonials from '../components/landing/Testimonials'
 import FinalCTA from '../components/landing/FinalCTA'
+import Footer from '../components/ui/Footer'
 
 export default function LandingPage() {
     return (
@@ -12,6 +13,7 @@ export default function LandingPage() {
             <HowItWorks/>
             <Testimonials/>
             <FinalCTA/>
+            <Footer/>
         </div>
     )
 }
