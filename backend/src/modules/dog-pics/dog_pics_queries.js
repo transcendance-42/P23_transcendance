@@ -7,9 +7,11 @@ async function findPicsByDogId(dogId) {
   })
 }
 
-async function createDogPic(dog_id, file_path, position) {
+async function createDogPic(data) {
   return prisma.dog_pics.create({
-    data: { dog_id: BigInt(dog_id), file_path, position }
+    data: { dog_id: BigInt(data.dog_id), 
+            file_path: data.file_path,
+            position: data.position }
   })
 }
 

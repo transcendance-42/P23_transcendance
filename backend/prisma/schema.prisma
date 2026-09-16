@@ -108,7 +108,3 @@ model refresh_tokens{
   @@map("refresh_tokens")
 
 }
-
-
-
-

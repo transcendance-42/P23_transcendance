@@ -11,10 +11,9 @@ const createDogPicSchema = {
     type: 'object',
     properties: {
       dog_id: { type: 'integer' },
-      file_path: { type: 'string' },
       position: { type: 'integer' }
     },
-    required: ['dog_id', 'file_path', 'position']
+    required: ['dog_id', 'position']
   }
 }
 
