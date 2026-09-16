@@ -21,7 +21,7 @@ export default function Privacy() {
 
                 <section className="flex flex-col gap-3">
                     <h2 className="font-heading text-xl">3. Data Storage</h2>
-                    <p className="text-text-caption text-sm leading-relaxed">Your data is stored securely on our servers. Profile photos are stored in our media storage. We retain your data as long as your account is active. You may request deletion at any time by contacting us.</p>
+                    <p className="text-text-caption text-sm leading-relaxed">Your data is stored securely on our servers, and profile photos are kept in our media storage. We are working on automating full data deletion after profile inactivity. In the meantime, you can request manual deletion at any time by contacting us.</p>
                 </section>
 
                 <section className="flex flex-col gap-3">
