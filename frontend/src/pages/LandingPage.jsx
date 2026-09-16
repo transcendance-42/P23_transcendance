@@ -1,14 +1,17 @@
 import NavBar from '../components/ui/NavBar'
-import Footer from '../components/ui/Footer'
+import Hero from '../components/landing/Hero'
+import HowItWorks from '../components/landing/HowItWorks'
+import Testimonials from '../components/landing/Testimonials'
+import FinalCTA from '../components/landing/FinalCTA'
 
 export default function LandingPage() {
     return (
         <div> 
             <NavBar/>
-            <h1>Tindog</h1>
-            <h2>It starts with a swipe.</h2>
-            <button> Get started </button>
-            <Footer> </Footer>
+            <Hero/>
+            <HowItWorks/>
+            <Testimonials/>
+            <FinalCTA/>
         </div>
     )
 }
