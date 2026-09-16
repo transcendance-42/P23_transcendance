@@ -6,6 +6,8 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
 import Profile from './pages/Profile'
 import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
@@ -20,6 +22,8 @@ function App() {
         <Route path="/registerDog" element ={<RegisterDog/>}/>
         <Route path="/login" element = {<Login />} />
         <Route path="/login/email" element = {<LoginEmail />} />
+        <Route path="/privacy" element = {<Privacy />} />
+        <Route path="/terms" element = {<Terms/>} />
         <Route path="/profile" element = {<Profile/>}/>
         <Route path="/chat" element ={<ChatLayout/>}/>
         <Route path="/chat/:roomId" element={<ChatLayout/>} />
