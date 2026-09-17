@@ -7,8 +7,10 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
+import { useTranslation } from 'react-i18next'
 
 export default function RegisterDog() {
+    const { t } = useTranslation()
     const [formData, setFormData] = useState({
         dog_name: '',
         breed: '',
@@ -53,31 +55,31 @@ export default function RegisterDog() {
         <div className="min-h-screen bg-surface-cream">
             <Modal>
                 <Mascot index={5} size="lg"/>
-                <ModalHeader title="Create dog profile" />
-                <p className="text-primary text-xs text-center">Don't worry, you can update your dog's profile anytime</p>
+                <ModalHeader title={t('CreateDog')} />
+                <p className="text-primary text-xs text-center">{t('Register1')}</p>
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                    <InputField placeholder="Name" value={formData.dog_name} onChange={handleChange('dog_name')} />
-                    <InputField placeholder="Breed" value={formData.breed} onChange={handleChange('breed')} />
+                    <InputField placeholder={t('Name')} value={formData.dog_name} onChange={handleChange('dog_name')} />
+                    <InputField placeholder={t('Breed')} value={formData.breed} onChange={handleChange('breed')} />
                     <SelectField value={formData.gender} onChange={handleChange('gender')}>
-                        <option value="">Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="">{t('Gender')}</option>
+                        <option value="Male">{t('Male')}</option>
+                        <option value="Female">{t('Female')}</option>
+                        <option value="Other">{t('Other')}</option>
                     </SelectField>
-                    <InputField type="date" placeholder="Date of birth" value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
+                    <InputField type="date" placeholder={t('DateOfBirth')} value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
                     <SelectField value={formData.size} onChange={handleChange('size')}>
-                        <option value="">Size</option>
-                        <option value="Small">Small</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Large">Large</option>
+                        <option value="">{t('Size')}</option>
+                        <option value={t('Small')}>{t('Small')}</option>
+                        <option value={t('Medium')}>{t('Medium')}</option>
+                        <option value={t('Large')}>{t('Large')}</option>
                     </SelectField>
-                    <InputField placeholder="Bio" value={formData.bio} onChange={handleChange('bio')} />
+                    <InputField placeholder={t('Bio')} value={formData.bio} onChange={handleChange('bio')} />
 
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
                     <PrimaryButton type="submit" disabled={!allFilled}>
-                        Create profile
+                        {t('Profile2')}
                     </PrimaryButton>
                 </form>
             </Modal>
