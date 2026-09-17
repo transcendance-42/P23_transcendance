@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { apiLogin, apiRefresh } from '../api/auth'
+import { registerLogFunction, setFetchToken } from '../api/authFetch'
 
 const AuthContext = createContext(null)
 
@@ -24,8 +25,12 @@ export function AuthProvider({ children }) {
         boot()
     }, [])
 
+
+
     const login = async (email, password) => {
         const {token, userId} = await apiLogin(email, password)
+        console.log('LE TOKEN CEST CA')
+        console.log(token)
         setToken(token)
         setUserId(userId)
         localStorage.setItem('userId', userId)
@@ -37,6 +42,18 @@ export function AuthProvider({ children }) {
         setUserId(null)
         localStorage.removeItem('userId')
     }
+
+    useEffect(() => {
+        console.log('ON PASSE PAR LE USEEFFECT QUI SET LE TOKEN')
+        setFetchToken(token)
+    }, [token])
+
+    useEffect(() => {
+        registerLogFunction({
+            apiRefresh:apiRefresh,
+            apiLogout:logout
+        })
+    }, [logout])
 
     return (
         <AuthContext.Provider value={{ token, userId, loading, login, logout }}>

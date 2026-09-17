@@ -4,11 +4,17 @@ import { sendRequestSwipes } from '../../api/swipes'
 import DogCard from './DogCard'
 import SwipeButton from '../ui/SwipeButton'
 import EmptyState from '../ui/EmptyState'
+import { authFetch } from '../../api/authFetch'
+import { useAuth } from '../../auth/AuthContext'
+
 
 const DogCards = ({ onMatch }) => {
     const [dogs, setDogs] = useState([])
+    const { loading } = useAuth()
 
     useEffect(() => {
+        if(loading) return
+        console.log('ON VA FETCH LES DOGS')
         fetchDogs()
             .then(data => setDogs(data))
             .catch(e => console.error(e))
