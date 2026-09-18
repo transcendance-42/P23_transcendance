@@ -13,7 +13,10 @@ export function AuthProvider({ children }) {
         const boot = async () => {
             try {
                 const { token, userId } = await apiRefresh()
+                console.log('LE TOKEN APRES REFRESH CEST CA')
+                console.log(token)
                 setToken(token)
+                setFetchToken(token) // pour que la fonction authFetch ait aussi le token
                 setUserId(userId)
                 localStorage.setItem('userId', userId)
             } catch (e) {
@@ -25,12 +28,8 @@ export function AuthProvider({ children }) {
         boot()
     }, [])
 
-
-
     const login = async (email, password) => {
         const {token, userId} = await apiLogin(email, password)
-        console.log('LE TOKEN CEST CA')
-        console.log(token)
         setToken(token)
         setUserId(userId)
         localStorage.setItem('userId', userId)
@@ -42,11 +41,6 @@ export function AuthProvider({ children }) {
         setUserId(null)
         localStorage.removeItem('userId')
     }
-
-    useEffect(() => {
-        console.log('ON PASSE PAR LE USEEFFECT QUI SET LE TOKEN')
-        setFetchToken(token)
-    }, [token])
 
     useEffect(() => {
         registerLogFunction({

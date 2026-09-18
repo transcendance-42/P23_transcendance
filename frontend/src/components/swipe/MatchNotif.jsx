@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import Modal from '../ui/Modal'
 import ModalHeader from '../ui/ModalHeader'
 import PrimaryButton from '../ui/PrimaryButton'

@@ -2,7 +2,8 @@ import {creatSwipe, findReverseSwipe, findExistingMatch, createMatch} from './sw
 
 async function postSwipe(request, reply) {
         try {
-            const { swiper_id, target_id, direction } = request.body
+            const {target_id, direction } = request.body
+            const swiper_id = request.userId
 
             const swipe = await creatSwipe(swiper_id, target_id, direction);
             if (swiper_id === target_id)

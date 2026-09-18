@@ -3,18 +3,19 @@ import { Link } from 'react-router-dom'
 import NavBarAuth from '../components/ui/NavBarAuth'
 import DogProfile from '../components/Profile/DogProfile'
 import UserProfile from '../components/Profile/UserProfile'
+import { useAuth } from '../auth/AuthContext'
+import { authFetch } from '../api/authFetch'
 
 export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-
-    const userId = localStorage.getItem('userId')
+    const { userId } = useAuth()
 
     useEffect(() => {
         const load = async () => {
             try {
-                const response = await fetch(`/api/users/${userId}`)
+                const response = await authFetch(`/api/users/${userId}`)
                 if (!response.ok) {
                     setError('Profil introuvable')
                     return
@@ -22,6 +23,7 @@ export default function Profile() {
                 const data = await response.json()
                 setUser(data)
             } catch (e) {
+                console.log(e.message)
                 setError('Impossible de contacter le serveur')
             } finally {
                 setLoading(false)

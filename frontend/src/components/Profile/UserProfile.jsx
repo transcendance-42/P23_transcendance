@@ -1,6 +1,7 @@
 import { useState } from "react"
 import SecondaryButton from "../ui/SecondaryButton";
 import ProfileField from "./ProfileField";
+import { authFetch } from "../../api/authFetch";
 
 export default function UserProfile({ user, onSaved}) {
     const [editing, setEditing] = useState(false);
@@ -29,7 +30,7 @@ export default function UserProfile({ user, onSaved}) {
     const handleSave = async () => {
         setError('');
         try{
-            const response = await fetch(`/api/users/${user.id}`,{
+            const response = await authFetch(`/api/users/${user.id}`,{
             method:'PUT',
             headers: {'Content-type' : 'application/json' },
             body: JSON.stringify(formData)

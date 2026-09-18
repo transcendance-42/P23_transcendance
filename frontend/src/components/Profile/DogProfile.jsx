@@ -2,6 +2,7 @@ import { useState } from "react"
 import SecondaryButton from "../ui/SecondaryButton"
 import ProfileField from "./ProfileField"
 import ProfileSelect from "./ProfileSelect"
+import { authFetch } from "../../api/authFetch"
 
 const GENDERS = ['Male', 'Female', 'Other']
 const SIZES = ['Small', 'Medium', 'Large']
@@ -35,7 +36,7 @@ export default function DogProfile({ dog, onSaved }) {
     const handleSave = async () => {
         setError('')
         try {
-            const response = await fetch(`/api/dogs/${dog.id}`, {
+            const response = await authFetch(`/api/dogs/${dog.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
