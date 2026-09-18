@@ -8,8 +8,10 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
 
 const passwordHash = await bcrypt.hash('ekipekip', 10)
+const adminPasswordHash = await bcrypt.hash('admin123', 10)
 
 const users = [
+  { email: 'admin@tindog.com', password_hash: adminPasswordHash, first_name: 'admin', last_name: 'admin', city: 'Lausanne', date_of_birth: new Date('2000-01-01'), role: 'admin'},
   { email: 'parissa@tindog.com', password_hash: passwordHash, first_name: 'Parissa', last_name: 'Chatagny', city: 'Lausanne', date_of_birth: new Date('2000-09-03') },
   { email: 'davide@tindog.com', password_hash: passwordHash, first_name: 'Davide', last_name: 'Lepore', city: 'Renens', date_of_birth: new Date('2000-07-15') },
   { email: 'jonathan@tindog.com', password_hash: passwordHash, first_name: 'Jonathan', last_name: 'Rime', city: 'Lausanne', date_of_birth: new Date('1998-11-10') },
