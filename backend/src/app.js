@@ -16,7 +16,7 @@ import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({ logger: true })
 
 function buildApp() {
   fastify.get('/health', {security:[]},async () => {
@@ -52,15 +52,16 @@ function buildApp() {
   })
 
   fastify.register(multipart, {
-      limits: {
-          fieldNameSize: 100,
-          fieldSize: 100,
-          fields: 10,
-          fileSize: 1000000,
-          files: 1,
-          headerPairs: 2000,
-          parts: 1000
-      }
+    attachFieldsToBody: true,
+    limits: {
+        fieldNameSize: 100,
+        fieldSize: 100,
+        fields: 10,
+        fileSize: 1000000,
+        files: 1,
+        headerPairs: 2000,
+        parts: 1000
+    }
   })
 
   fastify.decorate('authorize', jwt_auth)

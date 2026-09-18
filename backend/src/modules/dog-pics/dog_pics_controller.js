@@ -1,5 +1,5 @@
 import { findPicsByDogId, createDogPic, deleteDogPic } from './dog_pics_queries.js'
-import { promises as fs, creatWriteStream } from 'node:fs'
+import { promises as fs, createWriteStream } from 'node:fs'
 import  path  from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { pipeline } from 'stream/promises';
@@ -10,6 +10,7 @@ async function creatDirUpload()
     const _dirname =  path.dirname(fileURLToPath(import.meta.url))
     const uploadDir = path.join(_dirname, 'uploads')
     await fs.mkdir(uploadDir, { recursive : true })
+    return uploadDir
   } catch (e) {
   }
 }
@@ -24,14 +25,15 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    const data = await request.file()
-    console.log(data.file)
-    console.log(data.filename)
-    console.log(data.mimetype)
-    await creatDirUpload()
+    // console.log(request.body.file)
+    // console.log(request.body.filename)
+    // console.log(request.body.mimetype)
+    const file = request.body.file
+    const uploadDir = await creatDirUpload()
+    const filePath = path.join(uploadDir, file.filename)
     // reply.send({ success: true })
-    await pipeline(data.file, creatWriteStream())
-    await createDogPic(data)
+    await pipeline(file.file, createWriteStream(filePath))
+    await createDogPic(request, filePath)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }

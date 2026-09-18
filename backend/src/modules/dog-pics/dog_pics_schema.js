@@ -7,13 +7,15 @@ const getDogPicsSchema = {
 }
 
 const createDogPicSchema = {
+  consumes: ['multipart/form-data'],
   body: {
     type: 'object',
     properties: {
-      dog_id: { type: 'integer' },
-      position: { type: 'integer' }
+      file: { type: 'object' },
+      dog_id: { type: 'object' },
+      position: { type: 'object' }
     },
-    required: ['dog_id', 'position']
+    required: ['file', 'dog_id', 'position']
   }
 }
 
