@@ -1,7 +1,8 @@
 import { findPicsByDogId, createDogPic, deleteDogPic } from './dog_pics_queries.js'
-import { promises as fs } from 'node:fs'
+import { promises as fs, creatWriteStream } from 'node:fs'
 import  path  from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { pipeline } from 'stream/promises';
 
 async function creatDirUpload()
 {
@@ -23,14 +24,14 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    // const data = await request.file()
-    // console.log(data.file)
-    // console.log(data.filename)
-    // console.log(data.mimetype)
-    // const buffer = await data.toBuffer()
+    const data = await request.file()
+    console.log(data.file)
+    console.log(data.filename)
+    console.log(data.mimetype)
     await creatDirUpload()
-    return reply.send({ success: true })
-    // return await createDogPic(data)
+    // reply.send({ success: true })
+    await pipeline(data.file, creatWriteStream())
+    await createDogPic(data)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
