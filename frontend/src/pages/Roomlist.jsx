@@ -1,11 +1,12 @@
 import { Room } from './../components/Roomlist/Room';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch';
 import { useAuth } from '../auth/AuthContext';
 
 export function RoomList () {
-
+    const { t } = useTranslation()
     const { userId } = useAuth()
     const [rooms, setRooms] = useState([]);
     console.log('MON USER:')
@@ -45,11 +46,11 @@ export function RoomList () {
     <div className="border-r w-full overflow-y-auto bg-gray-50 p-4">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                    les matchs de {userDogName} 🐶
+                    {t('RoomList1')} {userDogName}
                 </h1>
 
                 <p className="mt-2 text-sm text-gray-500">
-                    Retrouvez vos conversations
+                    {t('RoomList2')}
                 </p>
             </div>
 

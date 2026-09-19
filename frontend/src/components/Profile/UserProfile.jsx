@@ -1,9 +1,11 @@
 import { useState } from "react"
 import SecondaryButton from "../ui/SecondaryButton";
 import ProfileField from "./ProfileField";
+import { useTranslation } from 'react-i18next'
 import { authFetch } from "../../api/authFetch";
 
 export default function UserProfile({ user, onSaved}) {
+    const { t } = useTranslation()
     const [editing, setEditing] = useState(false);
     const [formData, setFormdata] = useState({});
     const [error, setError] = useState('');
@@ -51,8 +53,8 @@ export default function UserProfile({ user, onSaved}) {
     return (
         <div className="rounded-md bg-surface-white p-6 shadow-soft">
             <div className="flex items-center justify-between">
-                <h2 className="font-heading text-lg font-bold text-text-primary">Mon compte</h2>
-                {!editing && <SecondaryButton onClick={handleEditing} children="Modifier"/>}
+                <h2 className="font-heading text-lg font-bold text-text-primary">{t('MyAccount')}</h2>
+                {!editing && <SecondaryButton onClick={handleEditing}> {t('Edit')}</SecondaryButton>}
              </div>
             {editing? (
                 <div className="mt-4 flex flex-col gap-3">
@@ -66,19 +68,19 @@ export default function UserProfile({ user, onSaved}) {
             ) : (
                 <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                    <dt className="text-xs uppercase tracking-wide text-text-caption">Prénom</dt>
+                    <dt className="text-xs uppercase tracking-wide text-text-caption">{t('FirstName')}</dt>
                     <dd className="text-text-secondary">{user.first_name}</dd>
                 </div>
                 <div>
-                    <dt className="text-xs uppercase tracking-wide text-text-caption">Nom</dt>
+                    <dt className="text-xs uppercase tracking-wide text-text-caption">{t('LastName')}</dt>
                     <dd className="text-text-secondary">{user.last_name}</dd>
                 </div>
                 <div>
-                    <dt className="text-xs uppercase tracking-wide text-text-caption">Ville</dt>
+                    <dt className="text-xs uppercase tracking-wide text-text-caption">{t('City')}</dt>
                     <dd className="text-text-secondary">{user.city}</dd>
                 </div>
                 <div>
-                    <dt className="text-xs uppercase tracking-wide text-text-caption">Email</dt>
+                    <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Email')}</dt>
                     <dd className="text-text-secondary">{user.email}</dd>
                 </div>
             </dl>

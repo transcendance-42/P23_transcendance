@@ -6,6 +6,8 @@ import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
+import Privacy from './pages/Privacy'
+import Terms from './pages/Terms'
 import Profile from './pages/Profile'
 import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
@@ -18,10 +20,13 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/login/email" element={<LoginEmail/>} />
+        <Route path="/privacy" element = {<Privacy />} />
+        <Route path="/terms" element = {<Terms/>} />
 
         <Route path="/swipes"      element={<RequireAuth><SwipePage/></RequireAuth>} />
         <Route path="/matches"     element={<RequireAuth><MatchesPage/></RequireAuth>} />
         <Route path="/profile"     element={<RequireAuth><Profile/></RequireAuth>} />
+
         <Route path="/registerDog" element={<RequireAuth><RegisterDog/></RequireAuth>} />
         <Route path="/chat"        element={<RequireAuth><ChatLayout/></RequireAuth>} />
         <Route path="/chat/:roomId" element={<RequireAuth><ChatLayout/></RequireAuth>} />

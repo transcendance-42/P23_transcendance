@@ -10,6 +10,7 @@ async function jwt_auth(request, reply){
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         request.userId = decoded.id
+        request.role = decoded.role
     }
     catch(err){
         if (err.name === 'TokenExpiredError')
@@ -18,4 +19,3 @@ async function jwt_auth(request, reply){
     }
 }
 export {jwt_auth}
-

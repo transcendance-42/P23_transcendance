@@ -3,8 +3,10 @@ import Modal from '../ui/Modal'
 import ModalHeader from '../ui/ModalHeader'
 import PrimaryButton from '../ui/PrimaryButton'
 import defaultDog from '../../assets/defaultPic.png'
+import { useTranslation } from 'react-i18next'
 
 const MatchNotif = ({onClose}) => {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     
     return (
@@ -17,7 +19,7 @@ const MatchNotif = ({onClose}) => {
             </div>
 
             <PrimaryButton onClick={() => navigate('/roomlist')}>
-                Start chatting ...
+                {t('StartChat')}
             </PrimaryButton>
         </Modal>
     )
