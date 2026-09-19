@@ -18,10 +18,10 @@ const NavBar = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
     return (
-        <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4">
+        <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="flex items-center justify-between">
-            <span className="text-xl text-primary font-bold font-heading">Tindog</span>
-            <div className="flex gap-4">
+                <span className="text-xl text-primary font-bold font-heading">Tindog</span>
+                <div className="absolute left-1/2 -translate-x-1/2 flex gap-4">
                 {['fr', 'en', 'de'].map(l => (
                     <button key={l} onClick={() => changeLang(l)}
                         className={`text-2xl transition-all hover:scale-110 ${lang === l ? 'opacity-100 scale-110' : 'opacity-30'}`}>
