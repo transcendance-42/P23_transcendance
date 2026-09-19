@@ -1,9 +1,9 @@
-import React from 'react'
 import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 
 const socket = io('http://localhost:3000')
@@ -14,6 +14,7 @@ const initalFormData = {
 
 export default function MessagePanel()
 {
+    const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
     const [dogName, setDogName] = useState('');
@@ -105,7 +106,7 @@ export default function MessagePanel()
                 onClick={handleSendMessage}
                 className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
             >
-                Send
+                {t('Send')}
             </button>
 
         </div>

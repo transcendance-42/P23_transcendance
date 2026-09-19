@@ -2,11 +2,13 @@ import { useState } from "react"
 import SecondaryButton from "../ui/SecondaryButton"
 import ProfileField from "./ProfileField"
 import ProfileSelect from "./ProfileSelect"
+import { useTranslation } from 'react-i18next'
 
 const GENDERS = ['Male', 'Female', 'Other']
 const SIZES = ['Small', 'Medium', 'Large']
 
 export default function DogProfile({ dog, onSaved }) {
+    const { t } = useTranslation()
     const [editing, setEditing] = useState(false)
     const [formData, setFormData] = useState({})
     const [error, setError] = useState('')
@@ -59,7 +61,7 @@ export default function DogProfile({ dog, onSaved }) {
                 <h2 className="font-heading text-2xl font-bold text-text-primary">
                     {dog.dog_name}
                 </h2>
-                {!editing && <SecondaryButton onClick={handleEditing}>Modifier</SecondaryButton>}
+                {!editing && <SecondaryButton onClick={handleEditing}>{t('Edit')}</SecondaryButton>}
             </div>
 
             {editing ? (
@@ -74,27 +76,27 @@ export default function DogProfile({ dog, onSaved }) {
                     {error && <p className="text-action-pass text-xs">{error}</p>}
 
                     <div className="mt-2 flex justify-end gap-2">
-                        <SecondaryButton onClick={handleCancel}>Annuler</SecondaryButton>
-                        <SecondaryButton onClick={handleSave}>Enregistrer</SecondaryButton>
+                        <SecondaryButton onClick={handleCancel}>{t('Cancel')}</SecondaryButton>
+                        <SecondaryButton onClick={handleSave}>{t('Save')}</SecondaryButton>
                     </div>
                 </div>
             ) : (
                 <>
                     <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                         <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Race</dt>
+                            <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Race')}</dt>
                             <dd className="text-text-secondary">{dog.breed || '—'}</dd>
                         </div>
                         <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Âge</dt>
+                            <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Age')}</dt>
                             <dd className="text-text-secondary">{dog.age} ans</dd>
                         </div>
                         <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Taille</dt>
+                            <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Size')}</dt>
                             <dd className="text-text-secondary">{dog.size}</dd>
                         </div>
                         <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Genre</dt>
+                            <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Gender')}</dt>
                             <dd className="text-text-secondary">
                                 {dog.gender === 'Male' ? '♂' : dog.gender === 'Female' ? '♀' : ''} {dog.gender}
                             </dd>
@@ -102,7 +104,7 @@ export default function DogProfile({ dog, onSaved }) {
                     </dl>
 
                     <div className="mt-5">
-                        <p className="text-xs uppercase tracking-wide text-text-caption">Bio</p>
+                        <p className="text-xs uppercase tracking-wide text-text-caption">{t('Bio')}</p>
                         <p className="mt-1 text-text-secondary">{dog.bio}</p>
                     </div>
                 </>
