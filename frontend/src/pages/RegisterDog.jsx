@@ -8,6 +8,8 @@ import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
+import NavBar from '../components/ui/NavBar'
+import Footer from '../components/ui/Footer'
 
 export default function RegisterDog() {
     const { t } = useTranslation()

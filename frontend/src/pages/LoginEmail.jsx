@@ -6,9 +6,16 @@ import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
+import i18n from '../i18n'
 
 export default function LoginEmail() {
     const { t } = useTranslation()
+        const [lang, setLang] = useState('en')
+
+    const changeLang = (l) => {
+        setLang(l)
+        i18n.changeLanguage(l)
+    }
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -39,6 +46,14 @@ export default function LoginEmail() {
         <div className="min-h-screen bg-surface-cream">
         <Modal>
             <Link to="/login" className="absolute top-4 right-4 text-text-caption hover:text-surface-white transition text-xl">✕</Link>
+            <div className="flex gap-4 self-end">
+                {['fr', 'en', 'de'].map(l => (
+                    <button key={l} onClick={() => changeLang(l)}
+                        className={`text-xl transition-all hover:scale-110 ${lang === l ? 'opacity-100' : 'opacity-30'}`}>
+                        {l === 'fr' ? '🇫🇷' : l === 'en' ? '🇬🇧' : '🇩🇪'}
+                    </button>
+                ))}
+            </div>
             <Mascot index={1} size="lg"/>
             <ModalHeader title="What's your email?" />
             <p className="text-xs text-text-caption text-center">
