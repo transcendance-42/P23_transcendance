@@ -18,7 +18,6 @@ export function AuthProvider({ children }) {
                 setToken(token)
                 setFetchToken(token) // pour que la fonction authFetch ait aussi le token
                 setUserId(userId)
-                localStorage.setItem('userId', userId)
             } catch (e) {
                 console.error('boot refresh:', e)
             } finally {
@@ -32,14 +31,12 @@ export function AuthProvider({ children }) {
         const {token, userId} = await apiLogin(email, password)
         setToken(token)
         setUserId(userId)
-        localStorage.setItem('userId', userId)
     }
 
     const logout = async () => {
         // await apiLogout()
         setToken(null)
         setUserId(null)
-        localStorage.removeItem('userId')
     }
 
     useEffect(() => {

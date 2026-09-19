@@ -10,13 +10,12 @@ const SchemaDogPost = {
 	body: {
 	type: 'object',
 	properties: {
-		owner_id: { type: 'integer' },
 		dog_name: { type: 'string' },
 		bio: { type: 'string' },
 		gender: { type: 'string' },
 		size: { type: 'string' }
 	},
-	required: ['owner_id', 'dog_name', 'gender', 'size']
+	required: ['dog_name', 'gender', 'size']
 	}
 }
 

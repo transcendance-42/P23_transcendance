@@ -18,7 +18,6 @@ export function RoomList () {
     }
 
     useEffect(() => {
-        if (userId)
             loadRooms();
     }, [])
 

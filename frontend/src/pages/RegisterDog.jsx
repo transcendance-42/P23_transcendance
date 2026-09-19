@@ -7,6 +7,9 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
+import { authFetch } from '../api/authFetch'
+import { useAuth } from '../auth/AuthContext'
+
 
 export default function RegisterDog() {
     const [formData, setFormData] = useState({
@@ -31,10 +34,10 @@ export default function RegisterDog() {
         const body = { ...rest, age: calculateAge(date_of_birth) }
         console.log('body envoyé:', body)
         try {
-            const response = await fetch('/api/dogs', {
+            const response = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ owner_id: localStorage.getItem('userId'), ...body })
+                body: JSON.stringify(body)
             })
             const data = await response.json()
             if (response.ok) {
