@@ -1,5 +1,5 @@
 import { getMessagesSchema, createMessageSchema, deleteMessageSchema } from './messages_schema.js'
-import { getMessages, postMessage, removeMessage } from './messages_controller.js'
+import { getMessages, removeMessage } from './messages_controller.js'
 
 async function messagesRoutes(fastify) {
 fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    

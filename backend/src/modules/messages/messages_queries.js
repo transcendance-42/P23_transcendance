@@ -22,4 +22,4 @@ async function deleteMessage(id) {
   return prisma.messages.delete({ where: { id: BigInt(id) } })
 }
 
-export { findMessagesByMatchId, createMessage, deleteMessage }
+export { findMessagesByMatchId, deleteMessage }

@@ -13,8 +13,10 @@ export function AuthProvider({ children }) {
         const boot = async () => {
             try {
                 const { token, userId } = await apiRefresh()
-                console.log('LE TOKEN APRES REFRESH CEST CA')
+                console.log('LE TOKEN APRES REFRESH:')
                 console.log(token)
+                console.log('LE USERID APRES REFRESH:')
+                console.log(userId)
                 setToken(token)
                 setFetchToken(token) // pour que la fonction authFetch ait aussi le token
                 setUserId(userId)
@@ -30,12 +32,14 @@ export function AuthProvider({ children }) {
     const login = async (email, password) => {
         const {token, userId} = await apiLogin(email, password)
         setToken(token)
+        setFetchToken(token) 
         setUserId(userId)
     }
 
     const logout = async () => {
         // await apiLogout()
         setToken(null)
+        setFetchToken(null) 
         setUserId(null)
     }
 

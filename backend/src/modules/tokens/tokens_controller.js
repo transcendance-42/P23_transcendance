@@ -14,9 +14,14 @@ async function GetRefreshToken(request, reply){
             return reply.code(401).send({error: 'No refresh token'})        
         const stored = await findRefreshToken(hash_token)
         if (!stored || stored.expires_at < new Date())
+        {
+            console.log('TOKEN NON STOKE EN DB ou EXPIRE')
             return reply.code(401).send({error: 'Invalid token'})
+        }
+
         if (stored?.is_revoked )
         {
+            console.log('TOKEN REVOKE')
             await revokeAllUserToken(stored.user_id)
             return reply.code(401).send({error: 'Invalid token'})
         }
@@ -41,7 +46,7 @@ async function GetRefreshToken(request, reply){
     }
     catch(e)
     {
-        return reply.code(500).send({error: 'Internal server error'})        
+        return reply.code(500).send({error: e.message})        
     }
 
 }
