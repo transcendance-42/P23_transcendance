@@ -1,8 +1,8 @@
-import { findPicsByDogId, createDogPic, deleteDogPic } from './dog_pics_queries.js'
+import { findPicsByDogId, findPicDogById, createDogPic, deleteDogPic } from './dog_pics_queries.js'
 import { promises as fs } from 'node:fs'
 import  path  from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { pipeline } from 'stream/promises';
+import { createReadStream } from 'fs'
 
 async function creatDirUpload()
 {
@@ -15,9 +15,29 @@ async function creatDirUpload()
   }
 }
 
+async function getDogPic(request, reply) {
+  try {
+    const pic = await findPicDogById(request.params.id)
+    if (!pic)
+      return reply.code(404).send({ error: 'Dog pic not found' })
+    reply.type(pic.mime_type)
+    return reply.send(createReadStream(pic.file_path))
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
 async function getDogPics(request, reply) {
   try {
-    return await findPicsByDogId(request.params.dogId)
+    const picsByDogId = await findPicsByDogId(request.params.dogId)
+    if (!picsByDogId)
+      return reply.code(404).send({ error: 'Dog not found' })
+    const arraypicsByDog = picsByDogId.map(pic => ({
+      id: pic.id,
+      position: pic.position,
+      url: `/api/dog-pics/${pic.id}` 
+    }))
+    reply.send(arraypicsByDog)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -48,4 +68,4 @@ async function removeDogPic(request, reply) {
   }
 }
 
-export { getDogPics, postDogPic, removeDogPic }
+export { getDogPic, getDogPics, postDogPic, removeDogPic }

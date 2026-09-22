@@ -7,10 +7,15 @@ async function findPicsByDogId(dogId) {
   })
 }
 
+async function findPicDogById(id) {
+  return prisma.dog_pics.findUnique({vwhere: { id: BigInt(id) }})
+}
+
 async function createDogPic(request, file_path) {
   return prisma.dog_pics.create({
     data: { dog_id: BigInt(request.body.dog_id.value), 
             file_path: file_path,
+            mime_type: request.body.mime_type,
             position: Number(request.body.position.value) }
   })
 }
@@ -19,4 +24,4 @@ async function deleteDogPic(id) {
   return prisma.dog_pics.delete({ where: { id: BigInt(id) } })
 }
 
-export { findPicsByDogId, createDogPic, deleteDogPic }
+export { findPicsByDogId, findPicDogById, createDogPic, deleteDogPic }

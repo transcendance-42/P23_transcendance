@@ -55,21 +55,32 @@ export default function RegisterDog() {
         const { date_of_birth, ...rest } = formData
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
-            const formDataToSend = new FormData()
-            Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
-            photos.forEach(photo => formDataToSend.append('photos', photo))
-            const response = await fetch('/api/dogs', {
+            // const formDataToSend = new FormData()
+            // Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
+            // photos.forEach(photo => formDataToSend.append('photos', photo))
+           
+            // Étape 1 : créer le chien (JSON pur, pas de fichiers)
+            const dogRes = await fetch('/api/dogs', {
                 method: 'POST',
-                body: formDataToSend
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
             })
-            const data = await response.json()
-            if (response.ok)
-            {
-                setSuccess('Profile created!')
-                setTimeout(() => navigate('/swipes'), 1500)
-            } 
-            else
-                setError(data.error || 'Server error')
+            const dogData = await dogRes.json()
+            if (!dogRes.ok)
+                setError(dogData.error || 'Server error')
+            // Étape 2 : créer les photos pour le chien, multipart
+            for (const photo of photos) {
+                const fd = new FormData()
+                fd.append('dog_id', dogData.id)
+                fd.append('file', photo)
+                const picDogRes = await fetch('/api/dog-pics', { method: 'POST', body: fd })
+                if (!picDogRes.ok) {
+                    setError(`Échec de l'upload de ${photo.name}`)
+                    return
+                }
+            }
+            setSuccess('Profile created!')
+            setTimeout(() => navigate('/swipes'), 1500)
         } catch (e) {
             setError('Server unreachable, please try again')
         }

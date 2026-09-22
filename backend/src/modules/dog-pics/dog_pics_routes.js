@@ -3,6 +3,7 @@ import { getDogPics, postDogPic, removeDogPic } from './dog_pics_controller.js'
 
 async function dogPicsRoutes(fastify) {
   fastify.get('/dog-pics/:dogId', {schema : getDogPicsSchema}, getDogPics)
+  fastify.get('/dog-pics/:id', {scheam : getDogPicSchema}, )
   fastify.post('/dog-pics', {schema : createDogPicSchema}, postDogPic)
   fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema}, removeDogPic)
 }
