@@ -15,7 +15,6 @@ const DogCards = ({ onMatch }) => {
     const { loading } = useAuth()
 
     useEffect(() => {
-        if(loading) return
         console.log('ON VA FETCH LES DOGS')
         fetchDogs()
             .then(data => setDogs(data))
