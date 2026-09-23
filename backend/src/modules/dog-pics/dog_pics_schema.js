@@ -1,18 +1,16 @@
-const getDogPicsSchema = {
-  params: {
-    type: 'object',
-    properties: { dog_id: { type: 'integer' } },
-    required: ['dog_id']
-  }
-}
-
 const getDogPicSchema = {
   params: {
     type: 'object',
-    properties: {
-      dog_id: { type: 'integer' },
-      pic_id: { type: 'integer' }
-   }
+    properties: { id: { type: 'integer' } },
+    required: ['id']
+  }
+}
+
+const getDogPicsSchema = {
+  params: {
+    type: 'object',
+    properties: { dogId: { type: 'integer' } },
+    required: ['dogId']
   }
 }
 
@@ -37,4 +35,4 @@ const deleteDogPicSchema = {
   }
 }
 
-export { getDogPicsSchema, createDogPicSchema, deleteDogPicSchema, getDogPicSchema }
+export { getDogPicSchema, getDogPicsSchema, createDogPicSchema, deleteDogPicSchema }
