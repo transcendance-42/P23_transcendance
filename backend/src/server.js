@@ -4,7 +4,7 @@ import {attachwebsocket, authenticateSocket} from './websocket/index.js'
 const app = buildApp()
 const io  = attachwebsocket(app)
 
-// io.use(authenticateSocket)
+io.use(authenticateSocket)
 
 const start = async () => {
   try {

@@ -7,15 +7,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 
-
-const socket = io('http://localhost:3000')
-
 const initalFormData = {
   content: '',
 }
 
 export default function MessagePanel()
 {
+    const { token } = useAuth()
     const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
@@ -23,6 +21,10 @@ export default function MessagePanel()
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
     const { userId } = useAuth()
     const navigate = useNavigate()
+
+    const socket = io('http://localhost:3000', {auth:
+    {token:token}
+})
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
