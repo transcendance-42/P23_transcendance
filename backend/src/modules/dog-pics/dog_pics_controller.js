@@ -60,7 +60,7 @@ async function postDogPic(request, reply) {
     console.log('mimetype:', request.body.file.mimetype)
     console.log('bytes   :', request.body.file.file.bytesRead)
     const uploadDir = await creatDirUpload()
-    const filePath = path.join(uploadDir, request.body.file.filename)
+    const filePath = path.join(uploadDir, filename)
     // reply.send({ success: true })
     const buffer = await  request.body.file.toBuffer()
     await fs.writeFile(filePath, buffer)
@@ -72,6 +72,10 @@ async function postDogPic(request, reply) {
 
 async function removeDogPic(request, reply) {
   try {
+    const pic = await findPicDogById(request.params.id)
+    if (!pic)
+      return reply.code(404).send({ error: 'Dog pic not found' })
+    await fs.unlink(pic.file_path)
     return await deleteDogPic(request.params.id)
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog pic not found' })
