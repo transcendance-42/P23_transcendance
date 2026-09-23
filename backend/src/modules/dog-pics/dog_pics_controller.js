@@ -3,6 +3,13 @@ import { promises as fs } from 'node:fs'
 import  path  from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createReadStream } from 'fs'
+import { randomUUID } from 'node:crypto'
+
+const allowedMimeType = [
+  'image/jpeg',
+  'image/png',
+  'image/webp'
+]
 
 async function creatDirUpload()
 {
@@ -45,7 +52,11 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    console.log('filname :', request.body.file.filename)
+    if (!allowedMimeType.includes(request.body.file.mimetype))
+      return reply.code(400).send({ error: 'Invalid file type' })
+    const extension = path.extname(request.body.file.filename)
+    const filename = randomUUID() + extension
+    console.log('filname :', filename)
     console.log('mimetype:', request.body.file.mimetype)
     console.log('bytes   :', request.body.file.file.bytesRead)
     const uploadDir = await creatDirUpload()
