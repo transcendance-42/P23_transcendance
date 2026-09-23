@@ -1,6 +1,6 @@
 import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import io from 'socket.io-client'
 import { authFetch } from '../api/authFetch'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -21,10 +21,7 @@ export default function MessagePanel()
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
     const { userId } = useAuth()
     const navigate = useNavigate()
-
-    const socket = io('http://localhost:3000', {auth:
-    {token:token}
-})
+    const socketRef = useRef(null)
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
@@ -48,24 +45,20 @@ export default function MessagePanel()
         }
     }
     
-    useEffect(() => {loadDogName()}, [roomId, userId]);
+    useEffect(() => {
+        loadDogName()
+    }, [roomId, userId]);
     
-
-    // useEffect qui s'active des quand rentre/selectionne dans une room
-    useEffect(() => {     
-        if (roomId)
-        {
-            socket.emit('join_room', roomId);           
-            loadMessages(roomId);
-        }
-        return () => {
-            socket.emit('leave_room', roomId);
-        }
-    },[roomId])
-
     //use effect qui s'active des le debut pour que 
     //la socket soit prete a recevoir des messages 
     useEffect(()=> {
+        if (!token)
+            return
+        const socket = io('http://localhost:3000', {
+            auth: {token:token}
+        })
+        socketRef.current = socket
+
         const handeleReceiveMessage = (message) => {         
             setMessages((preMessages) => [...preMessages, message])
         }
@@ -73,11 +66,31 @@ export default function MessagePanel()
 
         return () => {
             socket.off("receive_message", handeleReceiveMessage)
+            socket.disconnect()
+            socketRef.current = null
         }
-    }, [])
+    }, [token])
+
+    // useEffect qui s'active des quand rentre/selectionne dans une room
+    useEffect(() => {   
+        const socket = socketRef.current 
+        if (!socket || !roomId )
+            return
+
+        socket.emit('join_room', roomId);           
+        loadMessages(roomId);
+
+        return () => {
+            socket.emit('leave_room', roomId);
+        }
+    },[roomId])
+
 
     const handleSendMessage = () => {
 
+        const socket = socketRef.current
+        if (!socket)
+            return
         const messageData = {
         match_id: roomId,
         sender_id: userId,        

@@ -9,8 +9,6 @@ export function RoomList () {
     const { t } = useTranslation()
     const { userId } = useAuth()
     const [rooms, setRooms] = useState([]);
-    console.log('MON USER:')
-    console.log(userId)
 
     const loadRooms = async () => {
         const response = await authFetch(`/api/matches/me`);
