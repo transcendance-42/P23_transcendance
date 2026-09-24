@@ -6,6 +6,7 @@ import { authFetch } from '../api/authFetch'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
+import { apiRefresh } from '../api/auth'
 
 const initalFormData = {
   content: '',
@@ -62,7 +63,18 @@ export default function MessagePanel()
         const handeleReceiveMessage = (message) => {         
             setMessages((preMessages) => [...preMessages, message])
         }
+
+        // implemenatation du connect error pas fini
+        socket.on('connect_error', () =>{
+        apiRefresh()
+        const socket = io('http://localhost:3000', {
+        auth: {token:token}
+        })
+        socketRef.current = socket
+        }
+        )    
         socket.on("receive_message", handeleReceiveMessage)
+
 
         return () => {
             socket.off("receive_message", handeleReceiveMessage)
