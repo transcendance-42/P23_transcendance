@@ -10,6 +10,7 @@ import calculateAge from '../utils/calculateAge'
 
 export default function RegisterDog() {
     const [formData, setFormData] = useState({
+        owner_id:2, // pour le moment a changer avec useAuth
         dog_name: '',
         breed: '',
         gender: '',
@@ -69,10 +70,11 @@ export default function RegisterDog() {
             if (!dogRes.ok)
                 setError(dogData.error || 'Server error')
             // Étape 2 : créer les photos pour le chien, multipart
-            for (const photo of photos) {
+            for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
                 fd.append('dog_id', dogData.id)
-                fd.append('file', photo)
+                fd.append('file', photos[index])
+                fd.append('position', index + 1)
                 const picDogRes = await fetch('/api/dog-pics', { method: 'POST', body: fd })
                 if (!picDogRes.ok) {
                     setError(`Échec de l'upload de ${photo.name}`)
