@@ -3,7 +3,6 @@ import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 import prisma from '../utils/prisma.js'
 
-// not test yet
 function authenticateSocket(socket, next){
   const token = socket.handshake.auth.token;
   console.log('ON RENTRE DANS AUTH DU SOCKET')

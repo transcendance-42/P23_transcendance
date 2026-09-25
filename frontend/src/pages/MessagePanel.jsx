@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { apiRefresh } from '../api/auth'
+import { Navigate } from 'react-router-dom'
 
 const initalFormData = {
   content: '',
@@ -56,7 +57,7 @@ export default function MessagePanel()
         if (!token)
             return
         const socket = io('http://localhost:3000', {
-            auth: {token:token}
+            auth: {token:'un token bien bidon'}
         })
         socketRef.current = socket
 
@@ -64,20 +65,26 @@ export default function MessagePanel()
             setMessages((preMessages) => [...preMessages, message])
         }
 
-        // implemenatation du connect error pas fini
-        socket.on('connect_error', () =>{
-        apiRefresh()
-        const socket = io('http://localhost:3000', {
-        auth: {token:token}
-        })
-        socketRef.current = socket
-        }
-        )    
+        socket.on('connect_error', async () =>{
+            try{
+                const { token:newToken } = await apiRefresh()
+                socket.auth.token = newToken
+                socket.connect()
+            }catch(e)
+            {
+                console.log(e.message)
+                // logout() en attente de la fonction
+                socket.disconnect()
+                socketRef.current = null
+                navigate('/login')
+            }
+        })    
         socket.on("receive_message", handeleReceiveMessage)
 
 
         return () => {
             socket.off("receive_message", handeleReceiveMessage)
+            socket.off('connect_error')
             socket.disconnect()
             socketRef.current = null
         }
