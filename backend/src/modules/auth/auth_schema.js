@@ -13,7 +13,8 @@ const loginSchema = {
           maxLength:40
          }
       },
-      required: ['email', 'password']
+      required: ['email', 'password'],
+      additionalProperties: false
     }
 }
 
@@ -43,7 +44,8 @@ const registerSchema = {
       city: {type: 'string'},
       date_of_birth: { type: 'string'},
     },
-    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth']
+    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth'],
+    additionalProperties: false
   }
 }
 
