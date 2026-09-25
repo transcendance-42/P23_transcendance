@@ -17,4 +17,18 @@ async function creatUser(request, hashPassword, date) {
 	})
 }
 
-export {findUser, creatUser}
+async function creatUserRawData(data) {
+	return prisma.users.create({
+		data: {
+			first_name: data.first_name,
+			last_name: data.last_name,
+			email: data.email,
+			google_id: data.google_id,
+			password_hash: data.password_hash ?? null,
+			city: data.city ?? null, 
+			date_of_birth: data.date ?? null
+		}
+	})
+}
+
+export {findUser, creatUser, creatUserRawData}

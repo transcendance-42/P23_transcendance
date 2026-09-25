@@ -13,7 +13,7 @@ const COOKIE_OPTIONS = {
 }
 
 function generateAccessToken (user){
-        const token = jwt.sign({id:user.id, email:user.email}, process.env.JWT_SECRET, {expiresIn:'15m'})
+        const token = jwt.sign({id:user.id, email:user.email, role:user.role}, process.env.JWT_SECRET, {expiresIn:'15m'})
         return token
 }
 
@@ -21,6 +21,25 @@ function generateRefreshToken(){
         const refresh_token = crypto.randomBytes(32).toString('hex')
         const refresh_token_hash = crypto.createHash('sha256').update(refresh_token).digest('hex')
         return {refresh_token, refresh_token_hash}
+}
+
+function isUserComplete(user)
+{
+        if(user.date_of_birth && user.city && user.first_name && user.last_name)
+                return true
+        return false
+}
+
+async function issueSession(user, reply)
+{
+        const token = generateAccessToken(user)
+        const {refresh_token, refresh_token_hash} = generateRefreshToken()
+        const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
+        await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
+        return reply
+                .code(200)
+                .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
+                .send({success:true, userId: user.id, message: 'Login successful', access_token: token, profileComplete:isUserComplete(user)})
 }
 
 async function login(request, reply) {
@@ -31,14 +50,7 @@ async function login(request, reply) {
                 const isMatch = await bcrypt.compare(password, hash)
                 if (!user || !isMatch)
                         return reply.code(401).send({error:'Invalid credentials'})
-                const token = generateAccessToken(user)
-                const {refresh_token, refresh_token_hash} = generateRefreshToken()
-                const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
-                await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
-                return reply
-                        .code(200)
-                        .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-                        .send({success:true, userId: user.id, message: 'Login successful', access_token: token})
+                return issueSession(user, reply)
         }
         catch(e)
         {
@@ -81,4 +93,4 @@ async function register(request, reply) {
         }
 }
 
-export { login, register, generateAccessToken, generateRefreshToken, COOKIE_OPTIONS }
+export { login, register , generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS }
