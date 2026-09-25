@@ -5,7 +5,6 @@ import prisma from '../utils/prisma.js'
 
 function authenticateSocket(socket, next){
   const token = socket.handshake.auth.token;
-  console.log('ON RENTRE DANS AUTH DU SOCKET')
   try{
     socket.user = jwt.verify(token, process.env.JWT_SECRET)
     console.log('userid socket authentifie:')
