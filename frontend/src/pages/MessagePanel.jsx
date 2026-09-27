@@ -1,14 +1,13 @@
 import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import io from 'socket.io-client'
 import { authFetch } from '../api/authFetch'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
-
-
-const socket = io('http://localhost:3000')
+import { apiRefresh } from '../api/auth'
+import { Navigate } from 'react-router-dom'
 
 const initalFormData = {
   content: '',
@@ -16,6 +15,7 @@ const initalFormData = {
 
 export default function MessagePanel()
 {
+    const { token } = useAuth()
     const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
@@ -23,6 +23,7 @@ export default function MessagePanel()
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
     const { userId } = useAuth()
     const navigate = useNavigate()
+    const socketRef = useRef(null)
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
@@ -46,36 +47,69 @@ export default function MessagePanel()
         }
     }
     
-    useEffect(() => {loadDogName()}, [roomId, userId]);
+    useEffect(() => {
+        loadDogName()
+    }, [roomId, userId]);
     
+    //use effect qui s'active des le debut pour que 
+    //la socket soit prete a recevoir des messages 
+    useEffect(()=> {
+        if (!token)
+            return
+        const socket = io('http://localhost:3000', {
+            auth: {token:'un token bien bidon'}
+        })
+        socketRef.current = socket
+
+        const handeleReceiveMessage = (message) => {         
+            setMessages((preMessages) => [...preMessages, message])
+        }
+
+        socket.on('connect_error', async () =>{
+            try{
+                const { token:newToken } = await apiRefresh()
+                socket.auth.token = newToken
+                socket.connect()
+            }catch(e)
+            {
+                console.log(e.message)
+                // logout() en attente de la fonction
+                socket.disconnect()
+                socketRef.current = null
+                navigate('/login')
+            }
+        })    
+        socket.on("receive_message", handeleReceiveMessage)
+
+
+        return () => {
+            socket.off("receive_message", handeleReceiveMessage)
+            socket.off('connect_error')
+            socket.disconnect()
+            socketRef.current = null
+        }
+    }, [token])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
-    useEffect(() => {     
-        if (roomId)
-        {
-            socket.emit('join_room', roomId);           
-            loadMessages(roomId);
-        }
+    useEffect(() => {   
+        const socket = socketRef.current 
+        if (!socket || !roomId )
+            return
+
+        socket.emit('join_room', roomId);           
+        loadMessages(roomId);
+
         return () => {
             socket.emit('leave_room', roomId);
         }
     },[roomId])
 
-    //use effect qui s'active des le debut pour que 
-    //la socket soit prete a recevoir des messages 
-    useEffect(()=> {
-        const handeleReceiveMessage = (message) => {         
-            setMessages((preMessages) => [...preMessages, message])
-        }
-        socket.on("receive_message", handeleReceiveMessage)
-
-        return () => {
-            socket.off("receive_message", handeleReceiveMessage)
-        }
-    }, [])
 
     const handleSendMessage = () => {
 
+        const socket = socketRef.current
+        if (!socket)
+            return
         const messageData = {
         match_id: roomId,
         sender_id: userId,        
