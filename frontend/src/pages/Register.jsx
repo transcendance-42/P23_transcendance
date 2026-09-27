@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import InputField from '../components/ui/InputField'
@@ -24,6 +25,7 @@ export default function Register() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
+    const {login} = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -53,6 +55,7 @@ export default function Register() {
     if (response.status === 409) return setError('Email already exists')
     if (response.ok) {
         setSuccess('Account created!')
+        await login(formData.email, formData.password)
         setTimeout(() => navigate('/registerDog'), 1500)
     } else {
         setError('Server error, please try again')

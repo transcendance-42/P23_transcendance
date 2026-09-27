@@ -10,7 +10,6 @@ const SchemaDogPost = {
 	body: {
 	type: 'object',
 	properties: {
-		owner_id: { type: 'integer' },
 		dog_name: { type: 'string', minLength: 2 },
 		bio: { type: 'string', maxLength: 400 },
 		breed: { type: 'string', maxLength: 30},
@@ -18,7 +17,7 @@ const SchemaDogPost = {
 		gender: { type: 'string', enum:['Male', 'Female', 'Other'] },
 		size: { type: 'string', enum:['Small', 'Medium', 'Large'] }
 	},
-	required: ['owner_id', 'dog_name', 'gender', 'size'],
+	required: ['dog_name', 'gender', 'size'],
 	additionalProperties: false
 	}
 }

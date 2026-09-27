@@ -2,8 +2,10 @@ import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
+import { authFetch } from '../api/authFetch'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../auth/AuthContext'
 
 
 const socket = io('http://localhost:3000')
@@ -19,7 +21,7 @@ export default function MessagePanel()
     const [formData, setFormData] = useState(initalFormData)
     const [dogName, setDogName] = useState('');
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
-    const userId = localStorage.getItem('userId')
+    const { userId } = useAuth()
     const navigate = useNavigate()
 
     //gerer l'entree qui est mise dans l'input
@@ -29,13 +31,13 @@ export default function MessagePanel()
     }
 
     const loadMessages =  async (roomId) => {
-        const response = await fetch(`/api/messages/${roomId}`)
+        const response = await authFetch(`/api/messages/${roomId}`)
         const data = await response.json();
         setMessages(data)
     }
 
     const loadDogName = async () => {
-        const response = await fetch(`/api/matches/${userId}`);
+        const response = await authFetch(`/api/matches/me`);
         const data = await response.json();
         const match = data.find((element) => element.id === roomId);
         if (match){

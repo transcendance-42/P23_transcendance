@@ -5,6 +5,10 @@ const publicFields = {
   last_name: true,
   city: true,
   date_of_birth: true,
+  id:true,
+  is_active:true,
+  role:true
+  
 }
 
 async function findActiveUsers() {
@@ -17,8 +21,9 @@ async function findActiveUsers() {
 async function findUserById(id) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
-    include: {dogs:true},
-    select: publicFields
+    select: {...publicFields,
+      dogs:true
+    } 
   })
 }
 

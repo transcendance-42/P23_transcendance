@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 import SecondaryButton from './SecondaryButton'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n'
@@ -7,6 +9,13 @@ const NavBarAuth = () => {
     const { t } = useTranslation()
     const [lang, setLang] = useState('en')
     const [open, setOpen] = useState(false)
+    const {logout} = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        await logout()
+        navigate('/')
+    }
     const changeLang = (l) => {
         setLang(l)
         i18n.changeLanguage(l)
@@ -33,15 +42,19 @@ const NavBarAuth = () => {
                 <button className="sm:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                 <div className="hidden sm:flex gap-6 text-sm">
                     <SecondaryButton to="/swipes">{t('Swipes')}</SecondaryButton>
+                    <SecondaryButton to="/matches">Matches</SecondaryButton>
                     <SecondaryButton to="/chat">{t('Chat')}</SecondaryButton>
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>
             </div>
             {open && (
                 <div className="sm:hidden flex flex-col gap-3 mt-4">
                     <SecondaryButton to="/swipes">{t('Swipes')}</SecondaryButton>
+                    <SecondaryButton to="/matches">Matches</SecondaryButton>
                     <SecondaryButton to="/chat">{t('Chat')}</SecondaryButton>
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>
             )}
         </nav>

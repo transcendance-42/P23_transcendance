@@ -8,6 +8,14 @@ async function getMatchesByUser(request, reply) {
   }
 }
 
+async function getMyMatches(request, reply) {
+  try {
+    return await findMatchesByUserId(request.userId)
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
 async function getAllMatches(request, reply) {
   try {
     return await findAllMatches()
@@ -33,4 +41,4 @@ async function removeMatch(request, reply) {
   }
 }
 
-export { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch }
+export { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch, getMyMatches }

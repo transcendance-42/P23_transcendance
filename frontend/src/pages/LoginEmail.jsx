@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
@@ -20,25 +21,17 @@ export default function LoginEmail() {
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
+    const {login} = useAuth()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError("")
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            })
-            const data = await response.json()
-            if (data.success) {
-                localStorage.setItem('userId', data.userId)
-                navigate('/swipes')
-            } else {
-                setError(data.error || 'Login failed')
-            }
+            await login(email, password)
+            navigate('/swipes')
         } catch (e) {
-            setError('Server error, please try again')
+            console.error(e)
+            setError(e.message)
         }
     }
 

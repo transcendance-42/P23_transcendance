@@ -2,32 +2,33 @@ import { Room } from './../components/Roomlist/Room';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { authFetch } from '../api/authFetch';
+import { useAuth } from '../auth/AuthContext';
 
 export function RoomList () {
     const { t } = useTranslation()
-    const id = localStorage.getItem('userId')
+    const { userId } = useAuth()
     const [rooms, setRooms] = useState([]);
 
     const loadRooms = async () => {
-        const response = await fetch(`/api/matches/${id}`);
+        const response = await authFetch(`/api/matches/me`);
         const data = await response.json();
         setRooms(data);
     }
 
     useEffect(() => {
-        if (id)
             loadRooms();
     }, [])
 
     const monChien = (match) => (
-            match.matchesAsDog1.owner_id === id ? match.matchesAsDog1.dog_name : match.matchesAsDog2.dog_name
+            match.matchesAsDog1.owner_id === userId ? match.matchesAsDog1.dog_name : match.matchesAsDog2.dog_name
     )
     const userDogName = rooms.length > 0 ? monChien(rooms[0]) : '';
 
     let list = `You don't have any matchs yet. Go swipe :)`;
     if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
-        const matchDogName = c.matchesAsDog1.owner_id === id ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
+        const matchDogName = c.matchesAsDog1.owner_id === userId ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
         return(        
         <Link    
             key={c.id}
