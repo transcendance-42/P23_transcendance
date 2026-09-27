@@ -25,14 +25,9 @@ export async function authFetch(url, options = {}) {
     ...(currentToken ? {'Authorization': 'Bearer ' + currentToken} : {})
     }
 
-    console.log('LE TOKEENN DANS LAUTH')
-    console.log(currentToken)  
-    console.log('LE HEADERS ENVOYÉ')
-    console.log(headers)
     let res = await fetch(url, {...options, headers})
     if (res.status == 401 && refreshFunction){
         try{
-                console.log('REPONSE 40111 ')
                 refreshPromise = refreshPromise || refreshFunction()
                 const { token } = await refreshPromise
                 currentToken = token
@@ -44,13 +39,10 @@ export async function authFetch(url, options = {}) {
         }
         catch (e)
         {
-            console.log('CA THROWWWW UNE ERRREURRR')
             refreshPromise = null;          
             await logoutFunction()
             throw e
         }
     }
-    console.log('LA REPONSE ENVOYÉEEE')
-    console.log(res)
     return res
 }

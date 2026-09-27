@@ -13,9 +13,7 @@ export function AuthProvider({ children }) {
         const boot = async () => {
             try {
                 const { token, userId } = await apiRefresh()
-                console.log('LE TOKEN APRES REFRESH:')
-                console.log(token)
-                console.log('LE USERID APRES REFRESH:')
+                console.log('LE USERID APRES REFRESH DU TOKEN:')
                 console.log(userId)
                 setToken(token)
                 setFetchToken(token) // pour que la fonction authFetch ait aussi le token

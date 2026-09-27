@@ -12,9 +12,7 @@ export async function apiLogin(email, password) {
 
 export async function apiRefresh() {
     const response = await fetch('/api/token/refresh', {method: 'POST'})
-    console.log('FETCH API/REFRESH DONE')
     const data = await response.json()
-    console.log(data)
     if (!response.ok || !data.success)
         throw new Error(data.message || data.error || 'Refresh failed')
     return { token: data.acces_token, userId: data.userId }
