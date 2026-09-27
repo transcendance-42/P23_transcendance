@@ -57,7 +57,7 @@ export default function MessagePanel()
         if (!token)
             return
         const socket = io('http://localhost:3000', {
-            auth: {token:'un token bien bidon'}
+            auth: {token:token}
         })
         socketRef.current = socket
 
