@@ -148,7 +148,7 @@ const sampleMessages = [
 async function main() {
   console.log('🌱 Seeding...')
 
-  // Clean all tables in order (respect FK constraints)
+  await prisma.refresh_tokens.deleteMany()
   await prisma.messages.deleteMany()
   await prisma.matches.deleteMany()
   await prisma.swipes.deleteMany()

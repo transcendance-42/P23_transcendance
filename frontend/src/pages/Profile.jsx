@@ -73,6 +73,12 @@ export default function Profile() {
                                 dogs: user.dogs.map(d => d.id === updatedDog.id ? updatedDog : d)
                             })
                         }
+                        onDeleted={(id) =>
+                            setUser({
+                                ...user,
+                                dogs: user.dogs.filter(d => d.id !== id)
+                            })
+                        }
                     />
                 )))}
 

@@ -106,5 +106,9 @@
     "Terms11": "6. Kontakt",
     "Terms12": "Bei Fragen zu diesen Bedingungen kontaktiere uns unter ...",
     "NoMoreDog": "Keine Hunde mehr in der Nähe", 
-    "ComeBack": "Komm später wieder!"
+    "ComeBack": "Komm später wieder!",
+    "DeleteDog": "Hund löschen",
+    "DeleteConfirmTitle": "Bist du sicher?",
+    "DeleteConfirmText": "Du bist dabei, {{name}} zu löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "Confirm": "Ja, löschen"
 }

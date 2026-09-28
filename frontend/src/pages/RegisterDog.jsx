@@ -86,7 +86,7 @@ export default function RegisterDog() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal>
+            <Modal onClose={() => navigate(-1)}>
                 <Mascot index={5} size="lg"/>
                 <ModalHeader title={t('CreateDog')} />
                 <p className="text-primary text-xs text-center">{t('Register1')}</p>
