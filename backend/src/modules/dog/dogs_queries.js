@@ -4,6 +4,12 @@ async function findAllDogs(){
 	return prisma.dogs.findMany()
 }
 
+async function findAllDogsExceptMe(userId) {
+    return prisma.dogs.findMany({
+        where: { owner_id: { not: BigInt(userId) } }
+    })
+}
+
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
 }
@@ -25,4 +31,4 @@ async function deleteDogs(request) {
 		})
 }
 
-export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs}
+export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe}

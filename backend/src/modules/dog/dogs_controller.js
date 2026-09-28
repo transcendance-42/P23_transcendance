@@ -1,12 +1,21 @@
-import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs} from './dogs_queries.js'
+import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe} from './dogs_queries.js'
 
 async function GetAllDogs() {
     try {
-      const dogs = findAllDogs()
+      const dogs = await findAllDogs()
       return dogs
     } 
     catch (e) {
       return reply.code(500).send({ error: e.message })
+    } 
+}
+
+async function GetAllDogsExceptMe(request, reply) {
+    try {
+        const dogs = await findAllDogsExceptMe(request.userId)
+        return dogs
+    } catch (e) {
+        return reply.code(500).send({ error: e.message })
     }
 }
 
@@ -52,4 +61,4 @@ async function DeleteDogs (request, reply) {
     }
   }
 
-export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs}
+export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe }
