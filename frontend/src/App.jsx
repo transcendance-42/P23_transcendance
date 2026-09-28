@@ -11,6 +11,7 @@ import Terms from './pages/Terms'
 import Profile from './pages/Profile'
 import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
+import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireAuth from './auth/RequireAuth'
 
@@ -23,10 +24,7 @@ function App() {
         <Route path="/login/email" element={<LoginEmail/>} />
         <Route path="/privacy" element = {<Privacy />} />
         <Route path="/terms" element = {<Terms/>} />
-        <Route path="/profile" element = {<Profile/>}/>
-        <Route path="/chat" element ={<ChatLayout/>}/>
-        <Route path="/chat/:roomId" element={<ChatLayout/>} />
-        <Route path="/oauth-callback" element={<OAuthCallback />} />
+        <Route path="/oauth-callback" element={<RequireAuth><OAuthCallback /></RequireAuth>} />
 
         <Route path="/swipes"      element={<RequireAuth><SwipePage/></RequireAuth>} />
         <Route path="/matches"     element={<RequireAuth><MatchesPage/></RequireAuth>} />
