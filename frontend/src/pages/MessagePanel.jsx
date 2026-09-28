@@ -106,7 +106,8 @@ export default function MessagePanel()
 
 
     const handleSendMessage = () => {
-
+        if (!formData.content.trim())
+            return
         const socket = socketRef.current
         if (!socket)
             return
@@ -123,29 +124,27 @@ export default function MessagePanel()
     }    
 
     return(
-    <div className="flex flex-1 flex-col min-h-0 bg-white">
+    <div className="flex flex-1 flex-col min-h-0 bg-surface-cream">
         <ChatHeader link={() => navigate('/chat')} dogName={dogName}/>
         <MessageList messages={messages} userId={userId} />
 
-        <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
-
-            <input
-                name="content"
-                placeholder="Message..."
-                value={formData.content}
-                onChange={handleChange}
-                type="text"
-                className="flex-1 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
-            />
-
-            <button
-                onClick={handleSendMessage}
-                className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
-            >
-                {t('Send')}
-            </button>
-
-        </div>
+        <div className="flex items-center gap-2 border-t border-surface-alt bg-surface-cream p-4">
+        <input
+            onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
+            name="content"
+            placeholder="Message..."
+            value={formData.content}
+            onChange={handleChange}
+            type="text"
+            className="flex-1 rounded-xl border border-text-tertiary bg-surface-alt px-4 py-3 text-sm text-text-primary outline-none transition placeholder:text-text-caption focus:border-primary"
+        />
+        <button
+            onClick={handleSendMessage}
+            className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
+        >
+            {t('Send')}
+        </button>
+    </div>
     </div>
 
     );

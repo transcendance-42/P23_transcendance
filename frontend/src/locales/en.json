@@ -110,5 +110,6 @@
     "DeleteDog": "Delete dog",
     "DeleteConfirmTitle": "Are you sure?",
     "DeleteConfirmText": "You are about to delete {{name}}. This action cannot be undone.",
-    "Confirm": "Yes, delete"
+    "Confirm": "Yes, delete",
+    "NoMatches": "No Macthes yet"
 }
