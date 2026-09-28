@@ -16,6 +16,19 @@ services:
     networks:
       - tindog
 
+  caddy:
+    container_name: caddy:2-alpine
+    image: caddy
+    restart: unless-stopped
+    ports:
+     - 3000:3000
+    volumes:
+     - ./data:/data
+     - ./config:/config
+     - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - tindog
+
   backend:
     build: ./backend
     image: backend
