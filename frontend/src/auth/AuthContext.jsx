@@ -34,12 +34,6 @@ export function AuthProvider({ children }) {
         setUserId(userId)
     }
 
-    const loginWithToken = (token, userId) => {
-        setToken(token)
-        setFetchToken(token)
-        setUserId(userId)
-    }
-
     const logout = async () => {
         // await apiLogout()
         setToken(null)
@@ -55,7 +49,7 @@ export function AuthProvider({ children }) {
     }, [logout])
 
     return (
-        <AuthContext.Provider value={{ token, userId, loading, login, loginWithToken, logout }}>
+        <AuthContext.Provider value={{ token, userId, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

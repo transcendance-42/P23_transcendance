@@ -39,7 +39,7 @@ async function issueSession(user, reply, redirect = false) {
     if (redirect) {
         return reply
             .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
-            .redirect(`http://localhost:5173/oauth-callback?access_token=${token}&userId=${user.id}`)
+            .redirect(`http://localhost:5173/oauth-callback?profileComplete=${isUserComplete(user)}`)
     }
 
     return reply
