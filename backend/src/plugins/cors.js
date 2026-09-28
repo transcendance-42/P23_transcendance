@@ -4,6 +4,7 @@ import cors from '@fastify/cors'
 async function corsPlugin(fastify){
     fastify.register(cors, {
     origin: [
+        'https://frontend.localhost',
         'http://localhost:5173',
         'http://127.0.0.1:5173'
     ]

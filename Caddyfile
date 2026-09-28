@@ -1,4 +1,21 @@
+
+frontend.localhost {
+    tls /certs/local.pem /certs/local-key.pem
+
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    handle /socket.io/* {
+        reverse_proxy backend:3000
+    }
+
+    handle {
+       reverse_proxy frontend:5173 
+    } 
+}
+
 backend.localhost {
-    tls internal
+    tls /certs/local.pem /certs/local-key.pem
     reverse_proxy backend:3000
 }

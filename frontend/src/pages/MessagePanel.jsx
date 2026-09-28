@@ -56,7 +56,7 @@ export default function MessagePanel()
     useEffect(()=> {
         if (!token)
             return
-        const socket = io('http://localhost:3000', {
+        const socket = io({
             auth: {token:token}
         })
         socketRef.current = socket
