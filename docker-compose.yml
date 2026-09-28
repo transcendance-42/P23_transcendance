@@ -27,6 +27,7 @@ services:
     volumes:
       - ./backend/src:/app/src
       - ./backend/prisma:/app/prisma
+      - ./uploads:/app/uploads
       - backend_node_modules:/app/node_modules
     depends_on:
       postgresql:

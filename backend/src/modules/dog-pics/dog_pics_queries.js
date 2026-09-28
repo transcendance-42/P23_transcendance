@@ -20,8 +20,19 @@ async function createDogPic(request, file_path) {
   })
 }
 
+async function updateDogPic(request, id, file_path) {
+  return prisma.dog_pics.update({
+    where: { id: BigInt(id) },
+    data: {
+      file_path: file_path,
+      mime_type: request.body.file.mimetype,
+      position: Number(request.body.position.value)
+    }
+  })
+}
+
 async function deleteDogPic(id) {
   return prisma.dog_pics.delete({ where: { id: BigInt(id) } })
 }
 
-export { findPicsByDogId, findPicDogById, createDogPic, deleteDogPic }
+export { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic }
