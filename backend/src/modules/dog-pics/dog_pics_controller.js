@@ -67,8 +67,8 @@ async function postDogPic(request, reply) {
     const filePath = path.join(uploadDir, filename)
     // reply.send({ success: true })
     const buffer = await  request.body.file.toBuffer()
-    await fs.writeFile(filePath, buffer)
     await createDogPic(request, filePath)
+    await fs.writeFile(filePath, buffer)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -81,6 +81,7 @@ async function removeDogPic(request, reply) {
       return reply.code(404).send({ error: 'Dog pic not found' })
     await fs.unlink(pic.file_path)
     return await deleteDogPic(request.params.id)
+    console.log('file deleted successfully')
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog pic not found' })
     return reply.code(500).send({ error: e.message })
