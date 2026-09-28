@@ -54,11 +54,15 @@ async function postDogPic(request, reply) {
   try {
     if (!allowedMimeType.includes(request.body.file.mimetype))
       return reply.code(400).send({ error: 'Invalid file type' })
+    const position = Number(request.body.position.value)
+    if (!Number.isInteger(position) || position < 1 || position > 5)
+      return reply.code(400).send({ error: 'Invalide position number' })
     const extension = path.extname(request.body.file.filename)
     const filename = randomUUID() + extension
     console.log('filname :', filename)
     console.log('mimetype:', request.body.file.mimetype)
     console.log('bytes   :', request.body.file.file.bytesRead)
+    console.log('has been uploaded')
     const uploadDir = await creatDirUpload()
     const filePath = path.join(uploadDir, filename)
     // reply.send({ success: true })
