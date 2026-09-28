@@ -11,8 +11,7 @@ const allowedMimeType = [
   'image/webp'
 ]
 
-async function creatDirUpload()
-{
+async function creatDirUpload() {
   try {
     const _dirname =  path.dirname(fileURLToPath(import.meta.url))
     const uploadDir = path.join(_dirname, 'uploads')
@@ -20,6 +19,26 @@ async function creatDirUpload()
     return uploadDir
   } catch (e) {
   }
+}
+
+async function valideDogPic(request) {
+    if (!allowedMimeType.includes(request.body.file.mimetype))
+      return reply.code(400).send({ error: 'Invalid file type' })
+    const position = Number(request.body.position.value)
+    if (!Number.isInteger(position) || position < 1 || position > 5)
+      return reply.code(400).send({ error: 'Invalide position number' })
+}
+
+async function saveDogPic(request) {
+    const extension = path.extname(request.body.file.filename)
+    const filename = randomUUID() + extension
+    console.log('filname :', filename)
+    console.log('mimetype:', request.body.file.mimetype)
+    console.log('bytes   :', request.body.file.file.bytesRead)
+    console.log('has been uploaded')
+    const uploadDir = await creatDirUpload()
+    const filePath = path.join(uploadDir, filename)
+    return filePath
 }
 
 async function getDogPic(request, reply) {
@@ -52,22 +71,21 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    if (!allowedMimeType.includes(request.body.file.mimetype))
-      return reply.code(400).send({ error: 'Invalid file type' })
-    const position = Number(request.body.position.value)
-    if (!Number.isInteger(position) || position < 1 || position > 5)
-      return reply.code(400).send({ error: 'Invalide position number' })
-    const extension = path.extname(request.body.file.filename)
-    const filename = randomUUID() + extension
-    console.log('filname :', filename)
-    console.log('mimetype:', request.body.file.mimetype)
-    console.log('bytes   :', request.body.file.file.bytesRead)
-    console.log('has been uploaded')
-    const uploadDir = await creatDirUpload()
-    const filePath = path.join(uploadDir, filename)
-    // reply.send({ success: true })
+    valideDogPic(request)
+    const filePath = saveDogPic(request)
     const buffer = await  request.body.file.toBuffer()
     await createDogPic(request, filePath)
+    await fs.writeFile(filePath, buffer)
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
+async function changeDogPic(request, reply) {
+  try {
+    valideDogPic(request)
+    const filePath = saveDogPic(request)
+    const buffer = await  request.body.file.toBuffer()
     await fs.writeFile(filePath, buffer)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
@@ -88,4 +106,4 @@ async function removeDogPic(request, reply) {
   }
 }
 
-export { getDogPic, getDogPics, postDogPic, removeDogPic }
+export { getDogPic, getDogPics, postDogPic, changeDogPic, removeDogPic }
