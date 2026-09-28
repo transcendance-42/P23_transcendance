@@ -13,7 +13,6 @@ import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
-import RequireAuth from './auth/RequireAuth'
 
 function App() {
   return (
