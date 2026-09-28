@@ -40,12 +40,11 @@ export default function Login() {
                 {t('Login4')}
             </Link>
 
-            <button disabled
-                style={{ borderRadius: 'var(--radius-full)', padding: '0.75rem 1rem', border: '1px solid var(--color-surface-field)', color: 'var(--color-surface-white)' }}
-                className="w-full flex items-center justify-center gap-3 opacity-40 cursor-not-allowed">
+            <a href="/api/auth/google"
+                className="w-full flex items-center justify-center gap-3 border border-text-tertiary rounded-full py-3 hover:bg-surface-raised transition text-surface-white">
                 <img src="https://www.google.com/favicon.ico" className="w-5 h-5" />
                 {t('Login5')}
-            </button>
+            </a>
 
             <PrimaryButton to="/register">{t('Login6')}</PrimaryButton>
 

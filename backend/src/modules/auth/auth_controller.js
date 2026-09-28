@@ -30,16 +30,22 @@ function isUserComplete(user)
         return false
 }
 
-async function issueSession(user, reply)
-{
-        const token = generateAccessToken(user)
-        const {refresh_token, refresh_token_hash} = generateRefreshToken()
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 *60 * 1000)           
-        await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
+async function issueSession(user, reply, redirect = false) {
+    const token = generateAccessToken(user)
+    const { refresh_token, refresh_token_hash } = generateRefreshToken()
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    await saveRefreshToken(user.id, refresh_token_hash, expiresAt)
+
+    if (redirect) {
         return reply
-                .code(200)
-                .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-                .send({success:true, userId: user.id, message: 'Login successful', access_token: token, profileComplete:isUserComplete(user)})
+            .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
+            .redirect(`http://localhost:5173/oauth-callback?access_token=${token}&userId=${user.id}`)
+    }
+
+    return reply
+        .code(200)
+        .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
+        .send({ success: true, userId: user.id, message: 'Login successful', access_token: token, profileComplete: isUserComplete(user) })
 }
 
 async function login(request, reply) {

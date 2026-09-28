@@ -11,6 +11,7 @@ import Terms from './pages/Terms'
 import Profile from './pages/Profile'
 import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
+import OAuthCallback from './pages/OAuthCallback'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/profile" element = {<Profile/>}/>
         <Route path="/chat" element ={<ChatLayout/>}/>
         <Route path="/chat/:roomId" element={<ChatLayout/>} />
+        <Route path="/oauth-callback" element={<OAuthCallback />} />
     </Routes>
   )
 }
