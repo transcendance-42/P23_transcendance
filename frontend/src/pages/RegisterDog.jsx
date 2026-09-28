@@ -10,6 +10,9 @@ import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
 import NavBar from '../components/ui/NavBar'
 import Footer from '../components/ui/Footer'
+import { authFetch } from '../api/authFetch'
+import { useAuth } from '../auth/AuthContext'
+
 
 export default function RegisterDog() {
     const { t } = useTranslation()
@@ -62,7 +65,7 @@ export default function RegisterDog() {
             const formDataToSend = new FormData()
             Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
             photos.forEach(photo => formDataToSend.append('photos', photo))
-            const response = await fetch('/api/dogs', {
+            const response = await authFetch('/api/dogs', {
                 method: 'POST',
                 body: formDataToSend
             })

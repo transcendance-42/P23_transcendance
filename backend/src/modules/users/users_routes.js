@@ -2,6 +2,7 @@ import { getUserByIdSchema, updateUserSchema, deactivateUserSchema } from './use
 import { getUsers, getUser, putUser, patchDeactivateUser } from './users_controller.js'
 
 async function usersRoutes(fastify) {
+    fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    
     fastify.get('/users', getUsers)
     fastify.get('/users/:id', {schema : getUserByIdSchema}, getUser)
     fastify.put('/users/:id', {schema : updateUserSchema}, putUser)
