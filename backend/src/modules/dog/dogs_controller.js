@@ -56,6 +56,7 @@ async function DeleteDogs (request, reply) {
       const dog = await deleteDogs(request)
       return dog
     } catch (e) {
+      console.error('DeleteDogs error:', e.message)  
       if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
       return reply.code(500).send({ error: e.message })
     }

@@ -26,9 +26,15 @@ async function updateDogs(request) {
 }
 
 async function deleteDogs(request) {
-	return prisma.dogs.delete({
-			where: { id: BigInt(request.params.id) }
-		})
+    const id = BigInt(request.params.id)
+    await prisma.dog_pics.deleteMany({ where: { dog_id: id } })
+    await prisma.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
+    const matches = await prisma.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+    for (const match of matches) {
+        await prisma.messages.deleteMany({ where: { match_id: match.id } })
+    }
+    await prisma.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+    return prisma.dogs.delete({ where: { id } })
 }
 
 export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe}
