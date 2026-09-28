@@ -5,8 +5,19 @@ async function findAllDogs(){
 }
 
 async function findAllDogsExceptMe(userId) {
+    const myDog = await prisma.dogs.findFirst({ where: { owner_id: BigInt(userId) } })
+    if (!myDog) return []
+
+    // deja swipe
+    const swipedIds = await prisma.swipes.findMany({
+        where: { swiper_id: myDog.id },
+        select: { target_id: true }
+    })
+    const excludedIds = swipedIds.map(s => s.target_id)
+    excludedIds.push(myDog.id)
+
     return prisma.dogs.findMany({
-        where: { owner_id: { not: BigInt(userId) } }
+        where: { id: { notIn: excludedIds } }
     })
 }
 
