@@ -58,6 +58,9 @@ async function login(request, reply) {
         }
 }
 
+async function logout() {
+}
+
 async function register(request, reply) {
         try {
                 const existingUser = await findUser(request.body.email)
