@@ -27,6 +27,19 @@ const createDogPicSchema = {
   }
 }
 
+const updateDogPicSchema = {
+  consume: ['multipart/form-data'],
+  body: {
+    type: 'object',
+    properties: {
+      file: { type: 'object' },
+      position: { type: 'object' }
+    },
+    required: ['file', 'position'],
+    additionalProperties: false
+  }
+}
+
 const deleteDogPicSchema = {
   params: {
     type: 'object',
@@ -35,4 +48,4 @@ const deleteDogPicSchema = {
   }
 }
 
-export { getDogPicSchema, getDogPicsSchema, createDogPicSchema, deleteDogPicSchema }
+export { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema }

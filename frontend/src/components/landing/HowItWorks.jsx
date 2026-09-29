@@ -1,19 +1,22 @@
+import { useTranslation } from 'react-i18next'
+
 export default function HowItWorks() {
+    const { t } = useTranslation()
     const steps = [
         {
             number: 1,
-            title: "Crée sa fiche",
-            text: "Sa plus belle bouille, son grain de folie, ses races préférées. Deux minutes, museau compris.",
+            title: t('Work4'),
+            text: t('Work5'),
         },
         {
             number: 2,
-            title: "Swipe & matche",
-            text: "Découvre les toutous compatibles du quartier et matche ses coups de cœur.",
+            title: t('Work6'),
+            text: t('Work7'),
         },
         {
             number: 3,
-            title: "File au parc",
-            text: "On papote, on fixe le point de rendez-vous, et c'est parti pour la balade.",
+            title: t('Work8'),
+            text: t('Work9'),
         },
     ]
 
@@ -21,14 +24,13 @@ export default function HowItWorks() {
         <section className="bg-surface-raised px-6 py-24">
             <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 text-center">
                 <p className="font-body text-sm font-semibold uppercase tracking-widest text-primary">
-                    Comment ça marche
+                    {t('Work1')}
                 </p>
                 <h2 className="font-heading text-3xl font-bold leading-tight text-primary md:text-5xl">
-                    Du profil à la balade.
+                    {t('Work2')}
                 </h2>
                 <p className="font-body max-w-xl text-white">
-                    Trois reniflages et c'est parti : on lui fait une fiche irrésistible,
-                    on matche les bons copains, on file gambader.
+                    {t('Work3')}
                 </p>
             </div>
 
@@ -36,7 +38,7 @@ export default function HowItWorks() {
                 {steps.map((step) => (
                     <div
                         key={step.number}
-                        className="flex flex-1 flex-col gap-3 rounded-md bg-surface-white p-6 shadow-soft"
+                        className="flex flex-1 flex-col gap-3 rounded-md bg-surface-cream p-6 shadow-soft"
                     >
                         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-heading font-bold text-surface-white">
                             {step.number}

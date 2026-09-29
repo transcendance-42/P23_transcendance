@@ -1,12 +1,13 @@
-import React from 'react'
 import MessageList from '../components/chat/MessageList'
 import ChatHeader from '../components/chat/ChatHeader'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import io from 'socket.io-client'
+import { authFetch } from '../api/authFetch'
 import { useParams, useNavigate } from 'react-router-dom'
-
-
-const socket = io('http://localhost:3000')
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '../auth/AuthContext'
+import { apiRefresh } from '../api/auth'
+import { Navigate } from 'react-router-dom'
 
 const initalFormData = {
   content: '',
@@ -14,12 +15,15 @@ const initalFormData = {
 
 export default function MessagePanel()
 {
+    const { token } = useAuth()
+    const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
     const [dogName, setDogName] = useState('');
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
-    const userId = localStorage.getItem('userId')
+    const { userId } = useAuth()
     const navigate = useNavigate()
+    const socketRef = useRef(null)
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
@@ -28,13 +32,13 @@ export default function MessagePanel()
     }
 
     const loadMessages =  async (roomId) => {
-        const response = await fetch(`/api/messages/${roomId}`)
+        const response = await authFetch(`/api/messages/${roomId}`)
         const data = await response.json();
         setMessages(data)
     }
 
     const loadDogName = async () => {
-        const response = await fetch(`/api/matches/${userId}`);
+        const response = await authFetch(`/api/matches/me`);
         const data = await response.json();
         const match = data.find((element) => element.id === roomId);
         if (match){
@@ -43,36 +47,70 @@ export default function MessagePanel()
         }
     }
     
-    useEffect(() => {loadDogName()}, [roomId, userId]);
+    useEffect(() => {
+        loadDogName()
+    }, [roomId, userId]);
     
+    //use effect qui s'active des le debut pour que 
+    //la socket soit prete a recevoir des messages 
+    useEffect(()=> {
+        if (!token)
+            return
+        const socket = io('http://localhost:3000', {
+            auth: {token:token}
+        })
+        socketRef.current = socket
+
+        const handeleReceiveMessage = (message) => {         
+            setMessages((preMessages) => [...preMessages, message])
+        }
+
+        socket.on('connect_error', async () =>{
+            try{
+                const { token:newToken } = await apiRefresh()
+                socket.auth.token = newToken
+                socket.connect()
+            }catch(e)
+            {
+                console.log(e.message)
+                // logout() en attente de la fonction
+                socket.disconnect()
+                socketRef.current = null
+                navigate('/login')
+            }
+        })    
+        socket.on("receive_message", handeleReceiveMessage)
+
+
+        return () => {
+            socket.off("receive_message", handeleReceiveMessage)
+            socket.off('connect_error')
+            socket.disconnect()
+            socketRef.current = null
+        }
+    }, [token])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
-    useEffect(() => {     
-        if (roomId)
-        {
-            socket.emit('join_room', roomId);           
-            loadMessages(roomId);
-        }
+    useEffect(() => {   
+        const socket = socketRef.current 
+        if (!socket || !roomId )
+            return
+
+        socket.emit('join_room', roomId);           
+        loadMessages(roomId);
+
         return () => {
             socket.emit('leave_room', roomId);
         }
     },[roomId])
 
-    //use effect qui s'active des le debut pour que 
-    //la socket soit prete a recevoir des messages 
-    useEffect(()=> {
-        const handeleReceiveMessage = (message) => {         
-            setMessages((preMessages) => [...preMessages, message])
-        }
-        socket.on("receive_message", handeleReceiveMessage)
-
-        return () => {
-            socket.off("receive_message", handeleReceiveMessage)
-        }
-    }, [])
 
     const handleSendMessage = () => {
-
+        if (!formData.content.trim())
+            return
+        const socket = socketRef.current
+        if (!socket)
+            return
         const messageData = {
         match_id: roomId,
         sender_id: userId,        
@@ -86,29 +124,27 @@ export default function MessagePanel()
     }    
 
     return(
-    <div className="flex flex-1 flex-col min-h-0 bg-white">
+    <div className="flex flex-1 flex-col min-h-0 bg-surface-cream">
         <ChatHeader link={() => navigate('/chat')} dogName={dogName}/>
         <MessageList messages={messages} userId={userId} />
 
-        <div className="flex items-center gap-2 border-t border-gray-200 bg-white p-4">
-
-            <input
-                name="content"
-                placeholder="Message..."
-                value={formData.content}
-                onChange={handleChange}
-                type="text"
-                className="flex-1 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-100"
-            />
-
-            <button
-                onClick={handleSendMessage}
-                className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
-            >
-                Send
-            </button>
-
-        </div>
+        <div className="flex items-center gap-2 border-t border-surface-alt bg-surface-cream p-4">
+        <input
+            onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
+            name="content"
+            placeholder="Message..."
+            value={formData.content}
+            onChange={handleChange}
+            type="text"
+            className="flex-1 rounded-xl border border-text-tertiary bg-surface-alt px-4 py-3 text-sm text-text-primary outline-none transition placeholder:text-text-caption focus:border-primary"
+        />
+        <button
+            onClick={handleSendMessage}
+            className="cursor-pointer rounded-xl bg-primary hover:bg-primary-hover px-5 py-3 text-sm font-semibold text-white transition"
+        >
+            {t('Send')}
+        </button>
+    </div>
     </div>
 
     );

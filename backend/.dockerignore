@@ -1,2 +1,5 @@
 ./src/generated
-./node_modules
+node_modules
+.env
+.env*
+.git

@@ -35,7 +35,7 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
 
     return (
         <motion.div
-            className={`absolute w-[90vw] h-[70vh] sm:w-100 sm:h-150 bg-surface-cream rounded-[var(--radius-md)] shadow-card hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-[2px]' : ''}`}
+            className={`absolute w-[90vw] h-[70vh] sm:w-100 sm:h-150 bg-surface-raised border border-surface-mid rounded-[var(--radius-md)] shadow-card hover:cursor-grab active:cursor-grabbing select-none ${!isFront ? 'blur-[2px]' : ''}`}
             style={{ top: index * 8, left: index * 4, zIndex: total - index, x, opacity, rotate }}
             drag="x" dragConstraints={{ left: 0, right: 0 }} onDragEnd={handleDragEnd}>
             <motion.div style={{ opacity: likeOpacity }} className="absolute inset-0 bg-action-match rounded-[var(--radius-md)] z-10" />

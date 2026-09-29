@@ -2,12 +2,19 @@ import { useState } from "react"
 import SecondaryButton from "../ui/SecondaryButton"
 import ProfileField from "./ProfileField"
 import ProfileSelect from "./ProfileSelect"
+import Modal from "../ui/Modal"
+import ModalHeader from "../ui/ModalHeader"
+import PrimaryButton from "../ui/PrimaryButton"
+import { useTranslation } from 'react-i18next'
+import { authFetch } from "../../api/authFetch"
 
 const GENDERS = ['Male', 'Female', 'Other']
 const SIZES = ['Small', 'Medium', 'Large']
 
-export default function DogProfile({ dog, onSaved }) {
+export default function DogProfile({ dog, onSaved, onDeleted }) {
+    const { t } = useTranslation()
     const [editing, setEditing] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [formData, setFormData] = useState({})
     const [error, setError] = useState('')
 
@@ -35,7 +42,7 @@ export default function DogProfile({ dog, onSaved }) {
     const handleSave = async () => {
         setError('')
         try {
-            const response = await fetch(`/api/dogs/${dog.id}`, {
+            const response = await authFetch(`/api/dogs/${dog.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -48,65 +55,100 @@ export default function DogProfile({ dog, onSaved }) {
             onSaved({ ...dog, ...data })
             setEditing(false)
         } catch (e) {
-            console.log(e);
+            console.log(e)
             setError('Impossible de contacter le serveur')
         }
     }
 
+    const handleDelete = async () => {
+        try {
+            const response = await authFetch(`/api/dogs/${dog.id}`, { method: 'DELETE' })
+            if (response.ok) onDeleted(dog.id)
+            else setError('Suppression impossible')
+        } catch (e) {
+            setError('Impossible de contacter le serveur')
+        }
+        setShowDeleteModal(false)
+    }
+
     return (
-        <div className="rounded-md bg-surface-white p-6 shadow-soft">
-            <div className="flex items-center justify-between">
-                <h2 className="font-heading text-2xl font-bold text-text-primary">
-                    {dog.dog_name}
-                </h2>
-                {!editing && <SecondaryButton onClick={handleEditing}>Modifier</SecondaryButton>}
-            </div>
-
-            {editing ? (
-                <div className="mt-4 flex flex-col gap-3">
-                    <ProfileField label="Nom" value={formData.dog_name} onChange={handleChange('dog_name')} />
-                    <ProfileField label="Race" value={formData.breed} onChange={handleChange('breed')} />
-                    <ProfileSelect label="Genre" value={formData.gender} onChange={handleChange('gender')} options={GENDERS} />
-                    <ProfileField label="Âge" type="number" value={formData.age} onChange={handleChange('age')} />
-                    <ProfileSelect label="Taille" value={formData.size} onChange={handleChange('size')} options={SIZES} />
-                    <ProfileField label="Bio" value={formData.bio} onChange={handleChange('bio')} />
-
-                    {error && <p className="text-action-pass text-xs">{error}</p>}
-
-                    <div className="mt-2 flex justify-end gap-2">
-                        <SecondaryButton onClick={handleCancel}>Annuler</SecondaryButton>
-                        <SecondaryButton onClick={handleSave}>Enregistrer</SecondaryButton>
+        <>
+            {showDeleteModal && (
+                <Modal onClose={() => setShowDeleteModal(false)} width="w-full mx-4 sm:w-96">
+                    <ModalHeader title={t('DeleteConfirmTitle')} />
+                    <p className="text-text-caption text-sm text-center">
+                        {t('DeleteConfirmText', { name: dog.dog_name })}
+                    </p>
+                    <div className="flex gap-3 w-full mt-2">
+                        <SecondaryButton onClick={() => setShowDeleteModal(false)}>
+                            {t('Cancel')}
+                        </SecondaryButton>
+                        <PrimaryButton onClick={handleDelete}>
+                            {t('Confirm')}
+                        </PrimaryButton>
                     </div>
-                </div>
-            ) : (
-                <>
-                    <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Race</dt>
-                            <dd className="text-text-secondary">{dog.breed || '—'}</dd>
-                        </div>
-                        <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Âge</dt>
-                            <dd className="text-text-secondary">{dog.age} ans</dd>
-                        </div>
-                        <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Taille</dt>
-                            <dd className="text-text-secondary">{dog.size}</dd>
-                        </div>
-                        <div>
-                            <dt className="text-xs uppercase tracking-wide text-text-caption">Genre</dt>
-                            <dd className="text-text-secondary">
-                                {dog.gender === 'Male' ? '♂' : dog.gender === 'Female' ? '♀' : ''} {dog.gender}
-                            </dd>
-                        </div>
-                    </dl>
-
-                    <div className="mt-5">
-                        <p className="text-xs uppercase tracking-wide text-text-caption">Bio</p>
-                        <p className="mt-1 text-text-secondary">{dog.bio}</p>
-                    </div>
-                </>
+                </Modal>
             )}
-        </div>
+
+            <div className="rounded-md bg-surface-white p-6 shadow-soft">
+                <div className="flex items-center justify-between">
+                    <h2 className="font-heading text-2xl font-bold text-text-primary">{dog.dog_name}</h2>
+                    {!editing && <SecondaryButton onClick={handleEditing}>{t('Edit')}</SecondaryButton>}
+                </div>
+
+                {editing ? (
+                    <div className="mt-4 flex flex-col gap-3">
+                        <ProfileField label="Nom" value={formData.dog_name} onChange={handleChange('dog_name')} />
+                        <ProfileField label="Race" value={formData.breed} onChange={handleChange('breed')} />
+                        <ProfileSelect label="Genre" value={formData.gender} onChange={handleChange('gender')} options={GENDERS} />
+                        <ProfileField label="Âge" type="number" value={formData.age} onChange={handleChange('age')} />
+                        <ProfileSelect label="Taille" value={formData.size} onChange={handleChange('size')} options={SIZES} />
+                        <ProfileField label="Bio" value={formData.bio} onChange={handleChange('bio')} />
+
+                        {error && <p className="text-action-pass text-xs">{error}</p>}
+
+                        <div className="mt-2 flex justify-between gap-2">
+                            <button
+                                onClick={() => setShowDeleteModal(true)}
+                                className="text-text-caption hover:text-action-pass transition text-lg">
+                                🗑
+                            </button>
+                            <div className="flex gap-2">
+                                <SecondaryButton onClick={handleCancel}>{t('Cancel')}</SecondaryButton>
+                                <SecondaryButton onClick={handleSave}>{t('Save')}</SecondaryButton>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <div>
+                                <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Race')}</dt>
+                                <dd className="text-text-secondary">{dog.breed || '—'}</dd>
+                            </div>
+                            <div>
+                                <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Age')}</dt>
+                                <dd className="text-text-secondary">{dog.age} ans</dd>
+                            </div>
+                            <div>
+                                <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Size')}</dt>
+                                <dd className="text-text-secondary">{dog.size}</dd>
+                            </div>
+                            <div>
+                                <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Gender')}</dt>
+                                <dd className="text-text-secondary">
+                                    {dog.gender === 'Male' ? '♂' : dog.gender === 'Female' ? '♀' : ''} {dog.gender}
+                                </dd>
+                            </div>
+                        </dl>
+
+                        <div className="mt-5">
+                            <p className="text-xs uppercase tracking-wide text-text-caption">{t('Bio')}</p>
+                            <p className="mt-1 text-text-secondary">{dog.bio}</p>
+                        </div>
+                    </>
+                )}
+            </div>
+        </>
     )
 }
