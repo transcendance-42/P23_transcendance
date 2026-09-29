@@ -1,6 +1,6 @@
 import { getMessagesSchema, createMessageSchema, deleteMessageSchema } from './messages_schema.js'
-import { getMessages, postMessage, removeMessage } from './messages_controller.js'
-import { checkChatAccesParams, checkChatAccesBody, checkMessageDeleteAcces } from '../../plugins/checkChatAcces.js'
+import { getMessages, removeMessage } from './messages_controller.js'
+import { checkChatAccesParams, checkMessageDeleteAcces } from '../../plugins/checkChatAcces.js'
 
 async function messagesRoutes(fastify) {
 fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    

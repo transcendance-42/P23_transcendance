@@ -1,5 +1,5 @@
-import { getMatchesByUserSchema, deleteMatchSchema, getMatchMessagesSchema } from './matches_schema.js'
-import { getMatchesByUser, getAllMatches, removeMatch, getMatchMessages } from './matches_controller.js'
+import { getMatchesByUserSchema, deleteMatchSchema, getMatchMessagesSchema, getMyMatchesSchema } from './matches_schema.js'
+import { getMatchesByUser, getAllMatches, removeMatch, getMatchMessages, getMyMatches } from './matches_controller.js'
 import { checkChatAccesParams } from '../../plugins/checkChatAcces.js'
 import { checkMatchOfUserAccessParams, checkMatchAccessParamsDelete, checkMatchChatAccesParams } from '../../plugins/checkMatchAcces.js'
 import { checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'

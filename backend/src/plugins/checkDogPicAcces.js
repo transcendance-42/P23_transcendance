@@ -2,8 +2,7 @@ import { findDogsId } from "../modules/dog/dogs_queries.js";
 import { findPicsByDogId } from "../modules/dog-pics/dog_pics_queries.js";
 
 async function checkAccesDogPicParams(request, reply) {
- // const userId = request.userId // pour l'instant undefined besoin de l'auth de token        
-    const userId = 1;
+    const userId = request.userId
     const dogId = request.params.dogId
     if (request.role === 'admin')
         return;
@@ -16,8 +15,7 @@ async function checkAccesDogPicParams(request, reply) {
 }
 
 async function checkAccesDogPic(request, reply) {
- // const userId = request.userId // pour l'instant undefined besoin de l'auth de token        
-    const userId = 1;
+    const userId = request.userId
     const dogId = request.body.dog_id
     if (request.role === 'admin')
         return;
@@ -29,8 +27,7 @@ async function checkAccesDogPic(request, reply) {
 }
 
 async function checkAccesDogPicDelete(request, reply) {
- // const userId = request.userId // pour l'instant undefined besoin de l'auth de token        
-    const userId = 1;
+    const userId = request.userId
     const dogPicId = request.params.id
     if (request.role === 'admin')
         return;

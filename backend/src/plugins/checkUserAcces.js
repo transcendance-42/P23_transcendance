@@ -1,8 +1,7 @@
 import { findUserById } from "../modules/users/users_queries.js";
 
 async function checkUserAcces(request, reply) {
-     // const userId = request.userId // pour l'instant undefined besoin de l'auth de token
-    const userId = 1;
+    const userId = request.userId
     const paramsUserId = request.params.id
     if (request.role === 'admin')
         return;

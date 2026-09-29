@@ -2,8 +2,7 @@ import { findMatch } from "../modules/matches/matches_queries.js";
 import { findMessagesByMatchId } from "../modules/matches/matches_queries.js";
 
 async function  checkMatchOfUserAccessParams(request, reply) {
- // const userId = request.userId // pour l'instant undefined besoin de l'auth de token        
-    const userId = 1;
+    const userId = request.userId
     const paramsUserId = request.params.userId
     if (request.role === 'admin')
         return;
@@ -12,8 +11,7 @@ async function  checkMatchOfUserAccessParams(request, reply) {
 }
 
 async function checkMatchAccessParamsDelete(request, reply) {
-    // const userId = request.userId // pour l'instant undefined besoin de l'auth de token
-    const userId = 1
+    const userId = request.userId
     const matchId = request.params.id
     
     if (request.role === 'admin')
@@ -28,8 +26,7 @@ async function checkMatchAccessParamsDelete(request, reply) {
 }
 
 async function checkMatchChatAccesParams(request, reply) {
-    // const userId = request.userId // pour l'instant undefined besoin de l'auth de token
-    const userId = 1
+    const userId = request.userId
     const chatId = request.params.match_id
     
     if (request.role === 'admin')

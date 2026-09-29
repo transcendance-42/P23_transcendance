@@ -1,7 +1,6 @@
 
 async function checkSwipeAcces(request, reply) {
-     // const userId = request.userId // pour l'instant undefined besoin de l'auth de token
-    const userId = 1;
+    const userId = request.userId
     const swiperId = request.body.swiper_id
     if (request.role === 'admin')
         return;

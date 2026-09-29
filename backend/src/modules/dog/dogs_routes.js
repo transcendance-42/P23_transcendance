@@ -7,7 +7,7 @@ import { checkDogAcces, checkDogAccesPost } from '../../plugins/checkDogAccess.j
 async function dogsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
   fastify.get('/dogs', GetAllDogs) 
-  fastify.get('/dogs/:id', {schema : SchemaDogGetId, preHandler:checkDogAcces}, GetDogsByID)
+  fastify.get('/dogs/:id', {schema : SchemaDogGetId}, GetDogsByID) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
   fastify.post('/dogs', {schema : SchemaDogPost, preHandler:checkDogAccesPost}, PostDogs)
   fastify.put('/dogs/:id', {schema : SchemaDogsPut, preHandler:checkDogAcces}, PutDogs)
   fastify.delete('/dogs/:id', {schema : SchemaDogsDelete, preHandler:checkDogAcces}, DeleteDogs)
