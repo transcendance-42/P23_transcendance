@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function MessageBubble({ senderName, send_at, text, isMine }) {
     const cleanDate = new Date(send_at).toLocaleTimeString('fr-CH', { hour: '2-digit', minute: '2-digit' })
     return (

@@ -6,6 +6,12 @@ const getMatchesByUserSchema = {
   }
 }
 
+const getMyMatchesSchema = {
+  params: {
+    type: 'object'
+  }
+}
+
 const getMatchMessagesSchema = {
   params: {
     type: 'object',
@@ -22,4 +28,4 @@ const deleteMatchSchema = {
   }
 }
 
-export { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema }
+export { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema, getMyMatchesSchema }

@@ -23,7 +23,8 @@ async function GetDogsByID (request, reply) {
 
 async function PostDogs(request, reply) {
     try {
-      const { owner_id, ...rest } = request.body
+      const rest  = request.body
+      const owner_id = request.userId
       const dog = await creatDogs(owner_id, rest)
       return dog
     } catch (e) {

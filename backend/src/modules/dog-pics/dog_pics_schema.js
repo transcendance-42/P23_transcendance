@@ -36,6 +36,7 @@ const updateDogPicSchema = {
       position: { type: 'object' }
     },
     required: ['file', 'position']
+    additionalProperties: false
   }
 }
 

@@ -1,13 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
+import { useTranslation } from 'react-i18next'
+import NavBar from '../components/ui/NavBar'
+import Footer from '../components/ui/Footer'
 
 
 export default function Register() {
+    const { t } = useTranslation()
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -20,6 +25,7 @@ export default function Register() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
+    const {login} = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -49,6 +55,7 @@ export default function Register() {
     if (response.status === 409) return setError('Email already exists')
     if (response.ok) {
         setSuccess('Account created!')
+        await login(formData.email, formData.password)
         setTimeout(() => navigate('/registerDog'), 1500)
     } else {
         setError('Server error, please try again')
@@ -62,23 +69,23 @@ export default function Register() {
                 <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                    <InputField placeholder="First name" value={formData.first_name} onChange={handleChange('first_name')} />
-                    <InputField placeholder="Last name" value={formData.last_name} onChange={handleChange('last_name')} />
-                    <InputField type="email" placeholder="Email" value={formData.email} onChange={handleChange('email')} />
-                    <InputField type="password" placeholder="Password" value={formData.password} onChange={handleChange('password')} />
-                    <InputField type="password" placeholder="Confirm password" value={formData.confirm_password} onChange={handleChange('confirm_password')} />
-                    <InputField placeholder="City" value={formData.city} onChange={handleChange('city')} />
-                    <InputField type="date" placeholder="Date of birth" value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
+                    <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
+                    <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
+                    <InputField type="email" placeholder={t('Email')} value={formData.email} onChange={handleChange('email')} />
+                    <InputField type="password" placeholder={t('Password')}  value={formData.password} onChange={handleChange('password')} />
+                    <InputField type="password" placeholder={t('ConfirmPassword')}  value={formData.confirm_password} onChange={handleChange('confirm_password')} />
+                    <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} />
+                    <InputField type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
 
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
                     <PrimaryButton type="submit" disabled={!allFilled}>
-                        Create account
+                        {t('CreateAccount')}
                     </PrimaryButton>
                 </form>
-                <p onClick={() => navigate('/login')} className="text-action-pass text-sm underline cursor-pointer">
-                    Already have an account?
+                <p onClick={() => navigate('/login')} className="text-primary text-sm underline cursor-pointer">
+                    {t('AlreadyAccount')}
                 </p>
             </Modal>
         </div>
