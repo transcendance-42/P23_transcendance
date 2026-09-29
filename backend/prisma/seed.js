@@ -175,15 +175,15 @@ async function main() {
   }
 
   // Add 2 pics for the first 5 dogs
-  for (let i = 0; i < 5; i++) {
-    await prisma.dog_pics.create({
-      data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-1.jpg`, position: 1 }
-    })
-    await prisma.dog_pics.create({
-      data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-2.jpg`, position: 2 }
-    })
-    console.log(`Created 2 pics for ${dogs[i].dog_name}`)
-  }
+  // for (let i = 0; i < 5; i++) {
+  //   await prisma.dog_pics.create({
+  //     data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-1.jpg`, position: 1 }
+  //   })
+  //   await prisma.dog_pics.create({
+  //     data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-2.jpg`, position: 2 }
+  //   })
+  //   console.log(`Created 2 pics for ${dogs[i].dog_name}`)
+  // }
 
   // Create matching swipes (right/right) + matches
   const createdMatches = []

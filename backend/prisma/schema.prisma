@@ -24,11 +24,13 @@ enum UserRoles {
 }
 
 model dog_pics {
-  id        BigInt @id @default(autoincrement())
+  id        BigInt  @id @default(autoincrement())
   dog_id    BigInt
-  file_path String @db.VarChar(500)
+  file_path String  @db.VarChar(500)
+  mime_type String  @db.VarChar(100)
   position  Int?
-  dogs      dogs   @relation(fields: [dog_id], references: [id], onUpdate: NoAction)
+  dogs      dogs    @relation(fields: [dog_id], references: [id], onUpdate: NoAction)
+  @@unique([dog_id, position])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -114,7 +116,3 @@ model refresh_tokens{
   @@map("refresh_tokens")
 
 }
-
-
-
-

@@ -3,6 +3,7 @@ import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import i18n from '../../i18n'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
     const { t } = useTranslation()
