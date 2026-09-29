@@ -3,6 +3,7 @@ import { getUsers, getUser, putUser, patchDeactivateUser } from './users_control
 import { checkUserAcces, checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'
 
 async function usersRoutes(fastify) {
+    fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    
     fastify.get('/users',{preHandler: checkUserAccesAdmin} , getUsers)
     fastify.get('/users/:id', {schema : getUserByIdSchema, preHandler:checkUserAcces }, getUser)
     fastify.put('/users/:id', {schema : updateUserSchema, preHandler:checkUserAcces}, putUser)

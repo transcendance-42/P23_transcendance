@@ -1,10 +1,11 @@
-import React from "react";
 import { RoomList } from "./Roomlist";
 import MessagePanel from "./MessagePanel";
 import NavBarAuth from "../components/ui/NavBarAuth";
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function ChatLayout(){
+    const { t } = useTranslation()
     const { roomId } = useParams()
     return (
         <div className="flex flex-col h-screen">
@@ -16,7 +17,7 @@ export default function ChatLayout(){
                 <div className={`${roomId ? 'flex' : 'hidden'} md:flex flex-1 min-h-0`}>
                     {roomId ? <MessagePanel/> : 
                     <div className="flex flex-1 justify-center items-center">
-                       <p>sélectionne une conversation</p> 
+                       <p>{t('SelectChat')}</p> 
                     </div>}
                 </div>
             </div>

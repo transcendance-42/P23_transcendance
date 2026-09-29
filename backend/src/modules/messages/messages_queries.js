@@ -7,16 +7,16 @@ async function findMessagesByMatchId(matchId) {
     include: { users: true }
   })
 }
-
-async function createMessage(match_id, sender_id, content) {
-  return prisma.messages.create({
-    data: {
-      match_id: BigInt(match_id),
-      sender_id: BigInt(sender_id),
-      content
-    }
-  })
-}
+// pas utilisée le post est gérée dans le index.js du websocket
+// async function createMessage(match_id, sender_id, content) {
+//   return prisma.messages.create({
+//     data: {
+//       match_id: BigInt(match_id),
+//       sender_id: BigInt(sender_id),
+//       content
+//     }
+//   })
+// }
 
 async function findMessageById(id) {
   return prisma.messages.findUnique({ where: { id: BigInt(id) } })  
@@ -26,4 +26,4 @@ async function deleteMessage(id) {
   return prisma.messages.delete({ where: { id: BigInt(id) } })
 }
 
-export { findMessagesByMatchId, createMessage, deleteMessage, findMessageById }
+export { findMessagesByMatchId, deleteMessage, findMessageById }

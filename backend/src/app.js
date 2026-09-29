@@ -52,8 +52,6 @@ function buildApp() {
 
   fastify.decorate('authorize', jwt_auth)
 
-
-
   fastify.register(corsPlugin)
   fastify.register(usersRoutes, { prefix: '/api' })
   fastify.register(dogsRoutes, { prefix: '/api' })
@@ -61,7 +59,7 @@ function buildApp() {
   fastify.register(dogPicsRoutes, { prefix: '/api' })
   fastify.register(matchesRoutes, { prefix: '/api' })
   fastify.register(messagesRoutes, { prefix: '/api' }) 
-  fastify.register(authRoutes, { prefix: '/api' }) 
+  fastify.register(authRoutes, { prefix: '/api' })
   fastify.register(tokensRoutes, { prefix: '/api'})
 
   return fastify
