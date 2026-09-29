@@ -5,6 +5,7 @@ const publicFields = {
   last_name: true,
   city: true,
   date_of_birth: true,
+  email: true, 
   id:true,
   is_active:true,
   role:true

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch';
 import { useAuth } from '../auth/AuthContext';
+import Mascot from '../components/ui/Mascot'
 
 export function RoomList () {
     const { t } = useTranslation()
@@ -25,7 +26,12 @@ export function RoomList () {
     )
     const userDogName = rooms.length > 0 ? monChien(rooms[0]) : '';
 
-    let list = `You don't have any matchs yet. Go swipe :)`;
+    let list = (
+        <div className="flex flex-col items-center gap-3 p-8 text-text-caption">
+            <Mascot index={1} size="md" />
+            <p className="text-sm">{t('NoMatches')}</p>
+        </div>
+    )
     if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
         const matchDogName = c.matchesAsDog1.owner_id === userId ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
@@ -41,19 +47,19 @@ export function RoomList () {
         });
     }
     return (
-    <div className="border-r w-full overflow-y-auto bg-gray-50 p-4">
+    <div className="border-r w-full overflow-y-auto bg-surface-cream p-4">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                <h1 className="text-3xl font-bold tracking-tight text-text-primary font-heading">
                     {t('RoomList1')} {userDogName}
                 </h1>
 
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-text-caption">
                     {t('RoomList2')}
                 </p>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-                <div className="divide-y divide-gray-100">
+            <div className="overflow-hidden rounded-2xl border border-surface-alt bg-surface-white shadow-soft">
+                <div className="divide-y divide-surface-alt">
                     {list}
                 </div>
             </div>
