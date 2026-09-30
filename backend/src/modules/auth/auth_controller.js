@@ -2,7 +2,7 @@ import { creatUser, findUser } from './auth_queries.js'
 import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { saveRefreshToken } from '../tokens/tokens_queries.js'
+import { saveRefreshToken, findRefreshToken } from '../tokens/tokens_queries.js'
 
 const COOKIE_OPTIONS = {
         path:'/',
@@ -58,7 +58,30 @@ async function login(request, reply) {
         }
 }
 
-async function logout() {
+async function logout(request, reply) {
+    try {
+        const token = request.cookie.refresh_token
+        if (!token)
+            return reply.code(400).send({error : 'No refresh token found'})
+        const hash_token = crypto.createHash('sha256').update(token).digest('hex')
+        const stored = await findRefreshToken(hash_token)
+        if (!stored || stored.expires_at < new Date())
+        {
+            console.log('TOKEN NON STOKE EN DB ou EXPIRE')
+            return reply.code(401).send({error: 'Invalid token'})
+        }
+        if (stored && !stored.is_revoked) {
+            console.log('TOKEN REVOKE')
+            // en faisant ca on kill toutes les session du user, est ce que c'est vrmt
+            // ca qu on veut faire?
+            await revokeAllUserToken(stored.user_id)
+            return reply.code(200)
+                        .clearCookie('refresh_token', COOKIE_OPTIONS)
+                        .send({ success: `Logout ${stored.user_id} successful` })
+        }
+    } catch (e) {
+        return reply.code(500).send({message: 'Internal server error'})
+    }
 }
 
 async function register(request, reply) {
@@ -96,4 +119,4 @@ async function register(request, reply) {
         }
 }
 
-export { login, register , generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS }
+export { login, register, logout, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS }

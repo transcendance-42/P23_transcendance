@@ -13,6 +13,9 @@ const NavBarAuth = () => {
     const navigate = useNavigate()
 
     const handleLogout = async () => {
+        fetch('/api/auth/logout', { 
+            metho: 'POST',
+            credentials: 'include' })
         await logout()
         navigate('/')
     }

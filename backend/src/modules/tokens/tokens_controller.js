@@ -9,7 +9,10 @@ async function GetRefreshToken(request, reply){
         const token = request.cookies.refresh_token
         if (!token)
             return reply.code(401).send({error: 'No refresh token'})
+        // on a pas de secret pour hassh le refresh token?
         const hash_token = crypto.createHash('sha256').update(token).digest('hex')
+        // apparemment cette ligne est pas necessaire dans le sens ou un hash va
+        // forcément fonctionner
         if (!hash_token)
             return reply.code(401).send({error: 'No refresh token'})        
         const stored = await findRefreshToken(hash_token)
