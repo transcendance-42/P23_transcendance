@@ -6,7 +6,7 @@ import { issueSession } from '../auth_controller.js'
     const OAUTH_STATE_COOKIE_OPTIONS = {
         path: '/',
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'lax',
         maxAge: 10 * 60 * 1000
     }
@@ -82,7 +82,7 @@ import { issueSession } from '../auth_controller.js'
                 google_id:userCredential.googleId
             })
         }
-        return issueSession(user, reply)
+        return issueSession(user, reply, true)
     }   
 
 export { generateGoogleUrl, GetGoogleUserCredentials }
