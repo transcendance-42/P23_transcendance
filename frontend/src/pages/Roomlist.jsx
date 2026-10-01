@@ -10,30 +10,20 @@ import ModalHeader from '../components/ui/ModalHeader'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import SecondaryButton from '../components/ui/SecondaryButton'
 
-export function RoomList () {
+export function RoomList ({rooms, setRooms}) {
     const { t } = useTranslation()
     const { userId } = useAuth()
-    const [rooms, setRooms] = useState([])
     const [matchToDelete, setMatchToDelete] = useState(null)
 
     const handleUnmatch = async () => {
         try {
-            await authFetch(`/api/matches/${matchToDelete.id}`, { method: 'DELETE' })
+            await authFetch(`/api/matches/${matchToDelete.id}`, { method: 'PATCH' })
             setRooms(rooms.filter(r => r.id !== matchToDelete.id))
         } catch (e) {
             console.error(e)
         }
         setMatchToDelete(null)
     }
-    const loadRooms = async () => {
-        const response = await authFetch(`/api/matches/me`);
-        const data = await response.json();
-        setRooms(data);
-    }
-
-    useEffect(() => {
-            loadRooms();
-    }, [])
 
     const monChien = (match) => (
             match.matchesAsDog1.owner_id === userId ? match.matchesAsDog1.dog_name : match.matchesAsDog2.dog_name
