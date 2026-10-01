@@ -2,7 +2,7 @@ import { creatUser, findUser } from './auth_queries.js'
 import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { saveRefreshToken, findRefreshToken } from '../tokens/tokens_queries.js'
+import { saveRefreshToken, findRefreshToken, revokeAllUserToken } from '../tokens/tokens_queries.js'
 
 const COOKIE_OPTIONS = {
         path:'/',
@@ -60,7 +60,7 @@ async function login(request, reply) {
 
 async function logout(request, reply) {
     try {
-        const token = request.cookie.refresh_token
+        const token = request.cookies.refresh_token
         if (!token)
             return reply.code(400).send({error : 'No refresh token found'})
         const hash_token = crypto.createHash('sha256').update(token).digest('hex')
@@ -71,7 +71,7 @@ async function logout(request, reply) {
             return reply.code(401).send({error: 'Invalid token'})
         }
         if (stored && !stored.is_revoked) {
-            console.log('TOKEN REVOKE')
+            console.log(`User ID: ${stored.user_id} logged out successfully`)
             // en faisant ca on kill toutes les session du user, est ce que c'est vrmt
             // ca qu on veut faire?
             await revokeAllUserToken(stored.user_id)
@@ -80,6 +80,9 @@ async function logout(request, reply) {
                         .send({ success: `Logout ${stored.user_id} successful` })
         }
     } catch (e) {
+        // dans nos catch je pense que c'est bien de mettre a chaque fois ca
+        // ca donne les logs exact de l'error 500 ca aide de fou a debug
+        console.error('LOGOUT ERROR:', e)
         return reply.code(500).send({message: 'Internal server error'})
     }
 }
