@@ -86,8 +86,6 @@ async function logout(request, reply) {
                         .send({ success: `Logout ${stored.user_id} successful` })
         }
     } catch (e) {
-        // dans nos catch je pense que c'est bien de mettre a chaque fois ca
-        // ca donne les logs exact de l'error 500 ca aide de fou a debug
         console.error('LOGOUT ERROR:', e)
         return reply.code(500).send({message: 'Internal server error'})
     }
