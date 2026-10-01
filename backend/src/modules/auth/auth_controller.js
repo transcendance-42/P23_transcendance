@@ -2,7 +2,7 @@ import { creatUser, findUser } from './auth_queries.js'
 import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { saveRefreshToken, findRefreshToken, revokeAllUserToken } from '../tokens/tokens_queries.js'
+import { saveRefreshToken, findRefreshToken, revokeToken } from '../tokens/tokens_queries.js'
 
 const COOKIE_OPTIONS = {
         path:'/',
@@ -80,7 +80,7 @@ async function logout(request, reply) {
             console.log(`User ID: ${stored.user_id} logged out successfully`)
             // en faisant ca on kill toutes les session du user, est ce que c'est vrmt
             // ca qu on veut faire?
-            await revokeAllUserToken(stored.user_id)
+            await revokeToken(stored)
             return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
                         .send({ success: `Logout ${stored.user_id} successful` })
