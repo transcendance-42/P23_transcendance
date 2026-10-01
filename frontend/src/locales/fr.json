@@ -111,5 +111,7 @@
     "DeleteConfirmTitle": "Tu es sûr ?",
     "DeleteConfirmText": "Tu es sur le point de supprimer {{name}}. Cette action est irréversible.",
     "Confirm": "Oui, supprimer", 
-    "NoMatches": "Pas de matches pour le moment"
+    "NoMatches": "Pas de matches pour le moment", 
+    "UnmatchConfirmTitle": "Supprimer le match ?",
+    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?"
 }
