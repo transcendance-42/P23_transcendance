@@ -68,7 +68,7 @@ export default function RegisterDog() {
             // photos.forEach(photo => formDataToSend.append('photos', photo))
            
             // Étape 1 : créer le chien (JSON pur, pas de fichiers)
-            const dogRes = await fetch('/api/dogs', {
+            const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -82,7 +82,7 @@ export default function RegisterDog() {
                 fd.append('dog_id', dogData.id)
                 fd.append('file', photos[index])
                 fd.append('position', index + 1)
-                const picDogRes = await fetch('/api/dog-pics', { method: 'POST', body: fd })
+                const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
                 if (!picDogRes.ok) {
                     setError(`Échec de l'upload de ${photo.name}`)
                     return

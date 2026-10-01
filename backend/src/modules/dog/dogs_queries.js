@@ -17,7 +17,8 @@ async function findAllDogsExceptMe(userId) {
     excludedIds.push(myDog.id)
 
     return prisma.dogs.findMany({
-        where: { id: { notIn: excludedIds } }
+        where: { id: { notIn: excludedIds } },
+        include: {dog_pics: true}
     })
 }
 
