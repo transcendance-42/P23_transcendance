@@ -17,7 +17,6 @@ import { useAuth } from '../auth/AuthContext'
 export default function RegisterDog() {
     const { t } = useTranslation()
     const [formData, setFormData] = useState({
-        owner_id:2, // pour le moment a changer avec useAuth
         dog_name: '',
         breed: '',
         gender: '',
