@@ -8,10 +8,7 @@ import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
-import NavBar from '../components/ui/NavBar'
-import Footer from '../components/ui/Footer'
 import { authFetch } from '../api/authFetch'
-import { useAuth } from '../auth/AuthContext'
 
 
 export default function RegisterDog() {
@@ -67,7 +64,7 @@ export default function RegisterDog() {
             // photos.forEach(photo => formDataToSend.append('photos', photo))
            
             // Étape 1 : créer le chien (JSON pur, pas de fichiers)
-            const dogRes = await fetch('/api/dogs', {
+            const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -76,11 +73,12 @@ export default function RegisterDog() {
             if (!dogRes.ok)
                 setError(dogData.error || 'Server error')
             // Étape 2 : créer les photos pour le chien, multipart
-            for (const photo of photos) {
+            for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
                 fd.append('dog_id', dogData.id)
-                fd.append('file', photo)
-                const picDogRes = await fetch('/api/dog-pics', { method: 'POST', body: fd })
+                fd.append('file', photos[index])
+                fd.append('position', index + 1)
+                const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
                 if (!picDogRes.ok) {
                     setError(`Échec de l'upload de ${photo.name}`)
                     return
