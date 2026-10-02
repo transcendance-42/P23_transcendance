@@ -21,7 +21,7 @@ export default function MessagePanel()
     const [formData, setFormData] = useState(initalFormData)
     const [dogName, setDogName] = useState('');
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
-    const { userId } = useAuth()
+    const { userId, logout } = useAuth()
     const navigate = useNavigate()
     const socketRef = useRef(null)
 
@@ -73,14 +73,13 @@ export default function MessagePanel()
             }catch(e)
             {
                 console.log(e.message)
-                // logout() en attente de la fonction
+                logout()
                 socket.disconnect()
                 socketRef.current = null
                 navigate('/login')
             }
         })    
         socket.on("receive_message", handeleReceiveMessage)
-
 
         return () => {
             socket.off("receive_message", handeleReceiveMessage)
