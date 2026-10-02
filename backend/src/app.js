@@ -16,9 +16,19 @@ import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 
-const fastify = Fastify({ logger: true })
+const fastify = Fastify({ logger: true, trustProxy:true })
 
-function buildApp() {
+async function buildApp() {
+
+  await fastify.register(import('@fastify/rate-limit'), {
+    max:100,
+    timeWindow: '1 minute',
+    global:true,
+    keyGenerator: (req) => {
+      return req.headers['x-forwarded-for'] || req.ip || '127.0.0.1';
+    }
+  })
+
   fastify.get('/health', {security:[]},async () => {
     return { status: 'ok' }
   })
