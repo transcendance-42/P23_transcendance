@@ -24,9 +24,6 @@ async function buildApp() {
     max:100,
     timeWindow: '1 minute',
     global:true,
-    keyGenerator: (req) => {
-      return req.headers['x-forwarded-for'] || req.ip || '127.0.0.1';
-    }
   })
 
   fastify.get('/health', {security:[]},async () => {
