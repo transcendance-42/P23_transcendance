@@ -9,39 +9,11 @@ import { authFetch } from '../api/authFetch'
 
 export default function Profile() {
     const { t } = useTranslation()
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const { userId } = useAuth()
-
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const response = await authFetch(`/api/users/${userId}`)
-                if (!response.ok) {
-                    setError('Profil introuvable')
-                    return
-                }
-                const data = await response.json()
-                setUser(data)
-            } catch (e) {
-                console.log(e.message)
-                setError('Impossible de contacter le serveur')
-            } finally {
-                setLoading(false)
-            }
-        }
-        if (userId) load()
-        else {
-            setError('Pas connecté')
-            setLoading(false)
-        }
-    }, [userId])
+    const { user, setUser, loading } = useAuth()
 
     if (loading) return <p className="p-8">{t('Loading')}</p>
-    if (error) return <p className="p-8 text-action-pass">{error}</p>
 
-        const dogs = user.dogs || []
+    const dog = user.dogs
 
     return (
         <div className="min-h-screen bg-surface-cream">
@@ -52,7 +24,7 @@ export default function Profile() {
                    {t('MyProfile')}
                 </h1>
 
-                {dogs.length === 0 ? (
+                {!dog ? (
                     <div className="rounded-md bg-surface-white p-6 text-center shadow-soft">
                         <p className="text-text-secondary">{t('Profile1')}</p>
                         <Link
@@ -63,25 +35,16 @@ export default function Profile() {
                         </Link>
                     </div>
                 ) : (
-                    dogs.map(dog => (
                     <DogProfile
-                        key={dog.id}
                         dog={dog}
                         onSaved={(updatedDog) =>
-                            setUser({
-                                ...user,
-                                dogs: user.dogs.map(d => d.id === updatedDog.id ? updatedDog : d)
-                            })
+                            setUser({...user, dogs: updatedDog})
                         }
-                        onDeleted={(id) =>
-                            setUser({
-                                ...user,
-                                dogs: user.dogs.filter(d => d.id !== id)
-                            })
+                        onDeleted={() =>
+                            setUser({ ...user, dogs: null})
                         }
                     />
-                )))}
-
+                )}
                 <UserProfile user={user} onSaved={setUser} />
                 {console.log(user)}
             </div>
