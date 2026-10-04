@@ -13,17 +13,18 @@ const initalFormData = {
   content: '',
 }
 
-export default function MessagePanel()
+export default function MessagePanel({rooms})
 {
     const { token } = useAuth()
     const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
-    const [dogName, setDogName] = useState('');
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
     const { userId } = useAuth()
     const navigate = useNavigate()
     const socketRef = useRef(null)
+
+    const match = rooms.find((element) => element.id === roomId);
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
@@ -37,19 +38,8 @@ export default function MessagePanel()
         setMessages(data)
     }
 
-    const loadDogName = async () => {
-        const response = await authFetch(`/api/matches/me`);
-        const data = await response.json();
-        const match = data.find((element) => element.id === roomId);
-        if (match){
-            const name = match.matchesAsDog1.owner_id === userId ? match.matchesAsDog2.dog_name : match.matchesAsDog1.dog_name; 
-            setDogName(name);
-        }
-    }
+
     
-    useEffect(() => {
-        loadDogName()
-    }, [roomId, userId]);
     
     //use effect qui s'active des le debut pour que 
     //la socket soit prete a recevoir des messages 
@@ -121,7 +111,11 @@ export default function MessagePanel()
         socket.emit('send_message', messageData)
         // Clear content input
         setFormData((prev) => ({ ...prev, content: '' }))
-    }    
+    }
+
+    if (!match)
+        return null
+    const dogName = match.matchesAsDog1.owner_id === userId ? match.matchesAsDog2.dog_name : match.matchesAsDog1.dog_name;   
 
     return(
     <div className="flex flex-1 flex-col min-h-0 bg-surface-cream">
