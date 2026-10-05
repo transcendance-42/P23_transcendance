@@ -7,7 +7,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { apiRefresh } from '../api/auth'
-import { Navigate } from 'react-router-dom'
 
 const initalFormData = {
   content: '',
@@ -37,9 +36,6 @@ export default function MessagePanel({rooms})
         const data = await response.json();
         setMessages(data)
     }
-
-
-    
     
     //use effect qui s'active des le debut pour que 
     //la socket soit prete a recevoir des messages 
@@ -51,8 +47,9 @@ export default function MessagePanel({rooms})
         })
         socketRef.current = socket
 
-        const handeleReceiveMessage = (message) => {         
-            setMessages((preMessages) => [...preMessages, message])
+        const handeleReceiveMessage = (message) => {
+            if (message.match_id === roomId)        
+                setMessages((preMessages) => [...preMessages, message])
         }
 
         socket.on('connect_error', async () =>{
@@ -92,7 +89,7 @@ export default function MessagePanel({rooms})
         return () => {
             socket.emit('leave_room', roomId);
         }
-    },[roomId])
+    },[roomId, token])
 
 
     const handleSendMessage = () => {
@@ -102,10 +99,8 @@ export default function MessagePanel({rooms})
         if (!socket)
             return
         const messageData = {
-        match_id: roomId,
-        sender_id: userId,        
-        content: formData.content,
-        // type: 'text',
+        match_id: roomId,      
+        content: formData.content
         }
 
         socket.emit('send_message', messageData)
