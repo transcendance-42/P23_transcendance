@@ -10,8 +10,26 @@ async function findMatchesByUserId(userId) {
       is_active: true
     },
     include: {
-      matchesAsDog1: true,
-      matchesAsDog2: true,
+      matchesAsDog1:{
+        include: {
+          users:{
+          select:{
+            first_name:true,
+            last_name:true,
+            lastSeenAt:true
+          }
+        }}
+      },
+      matchesAsDog2:{
+        include: {
+          users:{
+          select:{
+            first_name:true,
+            last_name:true,
+            lastSeenAt:true
+          }
+        }}
+      },
     },
     orderBy: { created_at: 'asc' }
   })

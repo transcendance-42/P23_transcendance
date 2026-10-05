@@ -113,5 +113,7 @@
     "Confirm": "Oui, supprimer", 
     "NoMatches": "Pas de matches pour le moment", 
     "UnmatchConfirmTitle": "Supprimer le match ?",
-    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?"
+    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?",
+    "Online": "En ligne",
+    "Offline": "Hors Ligne"
 }
