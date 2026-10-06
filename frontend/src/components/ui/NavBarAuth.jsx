@@ -38,7 +38,8 @@ const NavBarAuth = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
     console.log('render, isProfileComplete =', isProfileComplete, typeof isProfileComplete)
-        console.log('user in navbar:', user, 'complete:', isProfileComplete)
+    console.log('user in navbar:', user, 'complete:', isProfileComplete)
+    console.log('dogs:', user?.dogs, 'length:', user?.dogs?.length)
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
