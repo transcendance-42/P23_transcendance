@@ -45,7 +45,7 @@ export default function Profile() {
     const dog = user.dogs?.[0] ?? null
  
     const missingUserFields = REQUIRED_USER_FIELDS.filter(({ field }) => !user[field])
-    const isProfileComplete = missingUserFields.length === 0 && dogs.length > 0
+    const isProfileComplete = missingUserFields.length === 0 && !!dog
     console.log('Profile render, isProfileComplete =', isProfileComplete)
     return (
         <div className="min-h-screen bg-surface-cream">
