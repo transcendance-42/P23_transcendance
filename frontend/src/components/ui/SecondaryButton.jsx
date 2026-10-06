@@ -14,11 +14,11 @@ const SecondaryButton = ({ children, to, onClick, disabled = false }) => {
         pointerEvents: disabled ? 'none' : 'auto',
     }
 
-    if (to)
+    if (to && !disabled)
         return <Link to={to} className={className} style={style}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}>{children}</Link>
-    return <button onClick={onClick} className={className} style={style}
+    return <button onClick={!disabled ? onClick : undefined} className={className} style={style}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}>{children}</button>
 }
