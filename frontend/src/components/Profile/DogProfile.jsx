@@ -19,12 +19,14 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [formData, setFormData] = useState({})
     const [error, setError] = useState('')
-    const [loadedPics, setLoadedPics] = useState([])
     const [uploadProgress, setUploadProgress] = useState(null)
+    const [pics, setPics] = useState([])
     const fileInputRef = useRef(null)
-    const [viewPics, setViewPics] = useState([])
+    const { refreshUser } = useAuth()
 
     useEffect(() => {
+        console.log('useEffect triggered, dog:', dog)
+        console.log('dog.dog_pics:', dog?.dog_pics)
         let cancel = false
         const createdUrls = []
         const loadPics = async () => {
@@ -38,12 +40,18 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                         return { id: pic.id, position: pic.position, url }
                     })
                 )
-                if (!cancel) setViewPics(loaded.sort((a, b) => a.position - b.position))
-            } catch (e) { console.error(e) }
+                if (!cancel) setPics(loaded.sort((a, b) => a.position - b.position))
+            } catch (e) {
+                console.error('Failed to load dog pics', e)
+            }
         }
+ 
         loadPics()
-        return () => { cancel = true; createdUrls.forEach(u => URL.revokeObjectURL(u)) }
-    }, [dog.dog_pics])
+ 
+        return () => {
+            cancel = true
+        }
+    }, [dog.id])
 
     const handleEditing = () => {
         setError('')
@@ -64,12 +72,18 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const handleCancel = () => {
         setError('')
         setEditing(false)
-        loadedPics.forEach(p => URL.revokeObjectURL(p.url))
-        setLoadedPics([])
     }
  
     const handleSave = async () => {
         setError('')
+        if (!formData.dog_name || !formData.breed || !formData.gender || !formData.age || !formData.size) {
+            setError('Remplis tous les champs obligatoires')
+            return
+        }
+        if (pics.length === 0) {
+            setError('Ajoute au moins une photo')
+            return
+        }
         try {
             const response = await authFetch(`/api/dogs/${dog.id}`, {
                 method: 'PUT',
@@ -83,8 +97,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
             const data = await response.json()
             onSaved({ ...dog, ...data })
             setEditing(false)
-            loadedPics.forEach(p => URL.revokeObjectURL(p.url))
-            setLoadedPics([])
+            await refreshUser()
         } catch (e) {
             console.log(e)
             setError('Impossible de contacter le serveur')
@@ -104,7 +117,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const handleDeletePic = async (picId) => {
         try {
             await authFetch(`/api/dog-pics/${picId}`, { method: 'DELETE' })
-            setLoadedPics(prev => {
+            setPics(prev => {
                 const pic = prev.find(p => p.id === picId)
                 if (pic) URL.revokeObjectURL(pic.url)
                 return prev.filter(p => p.id !== picId)
@@ -119,8 +132,8 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         if (!file) return
         e.target.value = ''
  
-        const formData = new FormData()
-        formData.append('file', file)
+        const fd = new FormData()
+        fd.append('file', file)
  
         setUploadProgress(0)
  
@@ -138,7 +151,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const newPic = JSON.parse(xhr.responseText)
                 const url = URL.createObjectURL(file)
-                setLoadedPics(prev => [...prev, { id: newPic.id, position: newPic.position, url }])
+                setPics(prev => [...prev, { id: newPic.id, position: newPic.position, url }])
             } else {
                 setError("Impossible d'ajouter la photo")
             }
@@ -149,7 +162,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
             setError('Impossible de contacter le serveur')
         })
  
-        xhr.send(formData)
+        xhr.send(fd)
     }
 
     return (
@@ -186,11 +199,10 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                         <ProfileSelect label="Taille" value={formData.size} onChange={handleChange('size')} options={SIZES} />
                         <ProfileField label="Bio" value={formData.bio} onChange={handleChange('bio')} />
  
-                        {/* Photo section */}
                         <div>
                             <p className="text-xs uppercase tracking-wide text-text-caption mb-2">{t('Photos')}</p>
                             <div className="grid grid-cols-3 gap-2">
-                                {loadedPics.map((pic) => (
+                                {pics.map((pic) => (
                                     <div key={pic.id} className="relative aspect-square">
                                         <img
                                             src={pic.url}
@@ -206,7 +218,6 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                     </div>
                                 ))}
  
-                                {/* Add photo button */}
                                 <button
                                     onClick={() => fileInputRef.current?.click()}
                                     disabled={uploadProgress !== null}
@@ -215,7 +226,6 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                     {uploadProgress !== null ? (
                                         <>
                                             <span className="text-xs font-bold text-primary z-10">{uploadProgress}%</span>
-                                            {/* progress fill */}
                                             <div
                                                 className="absolute bottom-0 left-0 h-1 bg-primary transition-all duration-200"
                                                 style={{ width: `${uploadProgress}%` }}
@@ -279,13 +289,14 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                             <p className="text-xs uppercase tracking-wide text-text-caption">{t('Bio')}</p>
                             <p className="mt-1 text-text-secondary">{dog.bio}</p>
                         </div>
-                        {viewPics.length > 0 && (
+ 
+                        {pics.length > 0 && (
                             <div className="mt-5">
                                 <p className="text-xs uppercase tracking-wide text-text-caption mb-2">{t('Photos')}</p>
                                 <div className="grid grid-cols-3 gap-2">
-                                    {viewPics.map(pic => (
+                                    {pics.map(pic => (
                                         <div key={pic.id} className="aspect-square">
-                                        <img src={pic.url} alt="dog" className="w-full h-full object-cover rounded-md" />
+                                            <img src={pic.url} alt="dog" className="w-full h-full object-cover rounded-md" />
                                         </div>
                                     ))}
                                 </div>

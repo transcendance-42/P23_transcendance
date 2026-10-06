@@ -3,12 +3,15 @@ import SecondaryButton from "../ui/SecondaryButton";
 import ProfileField from "./ProfileField";
 import { useTranslation } from 'react-i18next'
 import { authFetch } from "../../api/authFetch";
+import { useAuth } from "../../auth/AuthContext"
+
 export default function UserProfile({ user, onSaved, missingFields = [] }) {
     const { t } = useTranslation()
     const [editing, setEditing] = useState(false)
     const [formData, setFormdata] = useState({})
     const [error, setError] = useState('')
     const isMissing = (field) => missingFields.includes(field)
+    const { refreshUser } = useAuth()
     // clique sur bouton Modifier
     // editing false to true
     // handleChange sur chaque inputField
@@ -45,6 +48,7 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
         const data = await response.json();
         onSaved({...user, ...data});
         setEditing(false);
+        await refreshUser()
         } catch(e){
             setError('Impossible de contacter le serveur');
         }
