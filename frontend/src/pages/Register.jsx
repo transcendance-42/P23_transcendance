@@ -18,7 +18,8 @@ export default function Register() {
         password: '',
         confirm_password: '',
         city: '',
-        date_of_birth: ''
+        date_of_birth: '', 
+        pdp: ''
     })
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
@@ -35,6 +36,7 @@ export default function Register() {
         return setError('Passwords do not match')
     if (formData.password.length < 8)
         return setError('Password must be at least 8 characters')
+
 
     const { confirm_password, ...body } = formData
         const response = await fetch('/api/auth/register', {
