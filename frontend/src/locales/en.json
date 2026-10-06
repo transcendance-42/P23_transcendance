@@ -114,7 +114,7 @@
     "NoMatches": "No Macthes yet", 
     "ProfileIncompleteWarning": "Complete your profile before you can start swiping",
     "ProfileMissingDog": "Add a dog profile", 
-    "Missing" : "Missing"
+    "Missing" : "Missing",
     "UnmatchConfirmTitle": "Unmatch?",
-"UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?"
+    "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?"
 }
