@@ -27,10 +27,12 @@ export default function Register() {
     const navigate = useNavigate()
     const {login} = useAuth()
 
-    const handleLocationChange = (city) => {
+    const handleLocationChange = (city, latitude, longitude) => {
         setFormData(prev => ({
             ...prev,
-            city: city
+            city: city,
+            latitude: latitude,
+            longitude: longitude
         }))
     }
 
@@ -45,8 +47,8 @@ export default function Register() {
     if (formData.password.length < 8)
         return setError('Password must be at least 8 characters')
     const { confirm_password, ...body } = formData
-    console.log('BODY ENVOYÉ :', body)
-        const response = await fetch('/api/auth/register', {
+    console.log(formData)
+    const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

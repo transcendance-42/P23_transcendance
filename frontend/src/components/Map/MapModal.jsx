@@ -48,7 +48,7 @@ export default function MapModal({ onLocationChange }) {
             console.log('Latitude :', latitude)
             console.log('Longitude :', longitude)
             setPosition([latitude, longitude])
-			onLocationChange(search)
+			onLocationChange(search, latitude, longitude)
         } catch (error) {
             console.error(error)
             setError('Impossible de chercher cette ville')
@@ -88,7 +88,7 @@ export default function MapModal({ onLocationChange }) {
                 scrollWheelZoom={false}
                 dragging={false}
                 doubleClickZoom={false}
-                zoomControl={false}
+                // zoomControl={false}
                 touchZoom={false}
                 keyboard={false}
             >
