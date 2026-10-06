@@ -9,7 +9,7 @@ export default function RequireProfileComplete({ children }) {
     if (user.first_name &&
         user.last_name &&
         user.city &&
-        // user.date_of_birth &&  // a mettre des qu'on user google peut mettre ca date naissance
+        user.date_of_birth &&
         user.dogs?.dog_name &&
         user.dogs?.gender &&
         user.dogs?.breed &&

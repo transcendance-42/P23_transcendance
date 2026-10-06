@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
-const SecondaryButton = ({ children, to, onClick }) => {
+const SecondaryButton = ({ children, to, onClick, disabled = false }) => {
+    console.log('SecondaryButton disabled:', disabled, children)
     const [hovered, setHovered] = useState(false)
 
     const className = "min-w-[80px] px-5 py-2 text-sm font-medium transition whitespace-nowrap flex items-center justify-center"
     const style = {
-        backgroundColor: hovered ? 'var(--color-text-tertiary)' : 'var(--color-text-caption)',
+        backgroundColor: (!disabled && hovered) ? 'var(--color-text-tertiary)' : 'var(--color-text-caption)',
         color: 'var(--color-text-primary)',
-        borderRadius: 'var(--radius-sm)'
+        borderRadius: 'var(--radius-sm)',
+        opacity: disabled ? 0.3 : 1,
+        pointerEvents: disabled ? 'none' : 'auto',
     }
 
     if (to)
