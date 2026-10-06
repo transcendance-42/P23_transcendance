@@ -22,12 +22,11 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const [loadedPics, setLoadedPics] = useState([])
     const [uploadProgress, setUploadProgress] = useState(null)
     const fileInputRef = useRef(null)
+    const [viewPics, setViewPics] = useState([])
 
     useEffect(() => {
-        if (!editing) return
         let cancel = false
         const createdUrls = []
- 
         const loadPics = async () => {
             try {
                 const loaded = await Promise.all(
@@ -39,18 +38,12 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                         return { id: pic.id, position: pic.position, url }
                     })
                 )
-                if (!cancel) setLoadedPics(loaded.sort((a, b) => a.position - b.position))
-            } catch (e) {
-                console.error('Failed to load dog pics', e)
-            }
+                if (!cancel) setViewPics(loaded.sort((a, b) => a.position - b.position))
+            } catch (e) { console.error(e) }
         }
         loadPics()
- 
-        return () => {
-            cancel = true
-            createdUrls.forEach(u => URL.revokeObjectURL(u))
-        }
-    }, [editing])
+        return () => { cancel = true; createdUrls.forEach(u => URL.revokeObjectURL(u)) }
+    }, [dog.dog_pics])
 
     const handleEditing = () => {
         setError('')
@@ -286,6 +279,18 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                             <p className="text-xs uppercase tracking-wide text-text-caption">{t('Bio')}</p>
                             <p className="mt-1 text-text-secondary">{dog.bio}</p>
                         </div>
+                        {viewPics.length > 0 && (
+                            <div className="mt-5">
+                                <p className="text-xs uppercase tracking-wide text-text-caption mb-2">{t('Photos')}</p>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {viewPics.map(pic => (
+                                        <div key={pic.id} className="aspect-square">
+                                        <img src={pic.url} alt="dog" className="w-full h-full object-cover rounded-md" />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </>
                 )}
             </div>

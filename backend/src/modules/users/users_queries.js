@@ -23,7 +23,7 @@ async function findUserById(id) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
     select: {...publicFields,
-      dogs:true
+      dogs: { include: { dog_pics: true } }
     } 
   })
 }
