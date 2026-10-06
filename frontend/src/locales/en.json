@@ -111,7 +111,7 @@
     "DeleteConfirmTitle": "Are you sure?",
     "DeleteConfirmText": "You are about to delete {{name}}. This action cannot be undone.",
     "Confirm": "Yes, delete",
-    "NoMatches": "No Macthes yet", 
+    "NoMatches": "No Matches yet", 
     "UnmatchConfirmTitle": "Unmatch?",
     "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?",
     "Online": "Online",
