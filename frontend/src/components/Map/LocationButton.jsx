@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import MapModal from './MapModal'
 
-export default function LocationButton() {
+// on prend ici le prop de register, juste pour le donner au MapModal
+export default function LocationButton({ onLocationChange }) {
     const [showMap, setShowMap] = useState(false)
-
+	const [location, setLocation] = useState('')
+	const handleLocationChange = city => {
+		setLocation(city)
+		onLocationChange(city)
+		setShowMap(false)
+	}
     return (
         <>
             <button
@@ -14,19 +20,15 @@ export default function LocationButton() {
                 <span className="w-7 h-7 rounded-full border border-white flex items-center justify-center">
                     🌍
                 </span>
-
                 <span>
-                    Localisation
+                    {location || 'Localisation'}
                 </span>
             </button>
-
+			{/* show  map pour ouvrir et fernmer la map avec une condition type bool */}
             {showMap && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-
                     <div className="relative">
-
-                        <MapModal />
-
+                        <MapModal onLocationChange={handleLocationChange}/>
                         <button
                             type="button"
                             onClick={() => setShowMap(false)}

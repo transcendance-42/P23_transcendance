@@ -21,7 +21,8 @@ function MapController({ position }) {
     return null
 }
 
-export default function MapModal() {
+// component de la map qui permet l'affichage en donnant le props de register
+export default function MapModal({ onLocationChange }) {
     const [search, setSearch] = useState('')
     const [position, setPosition] = useState([46.5197, 6.6323])
     const [error, setError] = useState('')
@@ -47,6 +48,7 @@ export default function MapModal() {
             console.log('Latitude :', latitude)
             console.log('Longitude :', longitude)
             setPosition([latitude, longitude])
+			onLocationChange(search)
         } catch (error) {
             console.error(error)
             setError('Impossible de chercher cette ville')
