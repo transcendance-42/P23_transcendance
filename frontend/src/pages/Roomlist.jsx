@@ -45,7 +45,7 @@ export function RoomList ({rooms, setRooms}) {
                     <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} />
                 </Link>
                 <button
-                    onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDogName }) }}
+                    onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}
                     className="absolute top-2 right-2 w-6 h-6 rounded-full bg-primary hover:bg-primary-hover text-surface-white text-xs flex items-center justify-center transition z-10"
                 >
                     ✕
