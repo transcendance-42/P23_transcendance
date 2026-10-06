@@ -26,7 +26,7 @@ export default function ChatLayout(){
         const id = setInterval(() => { // rechargement des rooms pour savoir si user online
             if (document.visibilityState === 'visible')
                 loadRooms()
-        }, 60_000)
+        }, 30_000)
         return () => clearInterval(id)
      }, [])
 
