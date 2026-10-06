@@ -42,6 +42,8 @@ const registerSchema = {
         maxLength: 20
       },
       city: {type: 'string'},
+      latitude: {type: 'number'},
+      longitude: {type: 'number'},
       date_of_birth: { type: 'string'},
     },
     required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth'],

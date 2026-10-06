@@ -20,6 +20,8 @@ export default function Register() {
         password: '',
         confirm_password: '',
         city: '',
+        latitude: null,
+        longitude: null,
         date_of_birth: ''
     })
     const [error, setError] = useState('')
