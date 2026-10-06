@@ -1,4 +1,4 @@
-import { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId } from './matches_queries.js'
+import { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId, desactivateMatchWithReq } from './matches_queries.js'
 
 async function getMatchesByUser(request, reply) {
   try {
@@ -41,4 +41,13 @@ async function removeMatch(request, reply) {
   }
 }
 
-export { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch, getMyMatches }
+async function desactivateMatch(request, reply) {
+  try {
+    return await desactivateMatchWithReq(request)
+  } catch (e) {
+    if (e.code === 'P2025') return reply.code(404).send({ error: 'Match not found' })
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
+export { getMatchesByUser, getAllMatches, getMatchMessages, removeMatch, getMyMatches, desactivateMatch }

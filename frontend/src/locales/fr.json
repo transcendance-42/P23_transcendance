@@ -115,4 +115,6 @@
     "ProfileIncompleteWarning": "Complète ton profil avant de pouvoir commencer à swiper",
     "ProfileMissingDog": "Ajoute un profil de chien", 
     "Missing" : "Non renseigné"
+    "UnmatchConfirmTitle": "Supprimer le match ?",
+    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?"
 }

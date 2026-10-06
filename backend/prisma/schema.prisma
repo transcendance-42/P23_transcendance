@@ -57,6 +57,8 @@ model matches {
   id_dog1                    BigInt
   id_dog2                    BigInt
   created_at                 DateTime?  @default(now()) @db.Timestamp(6)
+  is_active                  Boolean    @default(true)
+  unmatched_by               BigInt? 
   matchesAsDog1              dogs       @relation("matchDog1", fields: [id_dog1], references: [id], onUpdate: NoAction)
   matchesAsDog2              dogs       @relation("matchDog2", fields: [id_dog2], references: [id], onUpdate: NoAction)
   messages                   messages[]
