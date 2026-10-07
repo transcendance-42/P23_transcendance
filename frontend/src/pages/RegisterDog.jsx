@@ -8,10 +8,7 @@ import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
-import NavBar from '../components/ui/NavBar'
-import Footer from '../components/ui/Footer'
 import { authFetch } from '../api/authFetch'
-import { useAuth } from '../auth/AuthContext'
 
 
 export default function RegisterDog() {
@@ -62,21 +59,33 @@ export default function RegisterDog() {
         const { date_of_birth, ...rest } = formData
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
-            const formDataToSend = new FormData()
-            Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
-            photos.forEach(photo => formDataToSend.append('photos', photo))
-            const response = await authFetch('/api/dogs', {
+            // const formDataToSend = new FormData()
+            // Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
+            // photos.forEach(photo => formDataToSend.append('photos', photo))
+           
+            // Étape 1 : créer le chien (JSON pur, pas de fichiers)
+            const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
-                body: formDataToSend
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
             })
-            const data = await response.json()
-            if (response.ok)
-            {
-                setSuccess('Profile created!')
-                setTimeout(() => navigate('/swipes'), 1500)
-            } 
-            else
-                setError(data.error || 'Server error')
+            const dogData = await dogRes.json()
+            if (!dogRes.ok)
+                setError(dogData.error || 'Server error')
+            // Étape 2 : créer les photos pour le chien, multipart
+            for (let index = 0; index < photos.length; index++) {
+                const fd = new FormData()
+                fd.append('dog_id', dogData.id)
+                fd.append('file', photos[index])
+                fd.append('position', index + 1)
+                const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
+                if (!picDogRes.ok) {
+                    setError(`Échec de l'upload de ${photo.name}`)
+                    return
+                }
+            }
+            setSuccess('Profile created!')
+            setTimeout(() => navigate('/swipes'), 1500)
         } catch (e) {
             setError('Server unreachable, please try again')
         }
@@ -86,7 +95,7 @@ export default function RegisterDog() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal>
+            <Modal onClose={() => navigate(-1)}>
                 <Mascot index={5} size="lg"/>
                 <ModalHeader title={t('CreateDog')} />
                 <p className="text-primary text-xs text-center">{t('Register1')}</p>

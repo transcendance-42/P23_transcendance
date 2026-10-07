@@ -4,6 +4,24 @@ async function findAllDogs(){
 	return prisma.dogs.findMany()
 }
 
+async function findAllDogsExceptMe(userId) {
+    const myDog = await prisma.dogs.findFirst({ where: { owner_id: BigInt(userId) } })
+    if (!myDog) return []
+
+    // deja swipe
+    const swipedIds = await prisma.swipes.findMany({
+        where: { swiper_id: myDog.id },
+        select: { target_id: true }
+    })
+    const excludedIds = swipedIds.map(s => s.target_id)
+    excludedIds.push(myDog.id)
+
+    return prisma.dogs.findMany({
+        where: { id: { notIn: excludedIds } },
+        include: {dog_pics: true}
+    })
+}
+
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
 }
@@ -20,9 +38,15 @@ async function updateDogs(request) {
 }
 
 async function deleteDogs(request) {
-	return prisma.dogs.delete({
-			where: { id: BigInt(request.params.id) }
-		})
+    const id = BigInt(request.params.id)
+    await prisma.dog_pics.deleteMany({ where: { dog_id: id } })
+    await prisma.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
+    const matches = await prisma.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+    for (const match of matches) {
+        await prisma.messages.deleteMany({ where: { match_id: match.id } })
+    }
+    await prisma.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+    return prisma.dogs.delete({ where: { id } })
 }
 
-export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs}
+export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe}

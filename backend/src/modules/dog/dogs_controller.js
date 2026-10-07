@@ -1,12 +1,21 @@
-import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs} from './dogs_queries.js'
+import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe} from './dogs_queries.js'
 
 async function GetAllDogs() {
     try {
-      const dogs = findAllDogs()
+      const dogs = await findAllDogs()
       return dogs
     } 
     catch (e) {
       return reply.code(500).send({ error: e.message })
+    } 
+}
+
+async function GetAllDogsExceptMe(request, reply) {
+    try {
+        const dogs = await findAllDogsExceptMe(request.userId)
+        return dogs
+    } catch (e) {
+        return reply.code(500).send({ error: e.message })
     }
 }
 
@@ -47,9 +56,10 @@ async function DeleteDogs (request, reply) {
       const dog = await deleteDogs(request)
       return dog
     } catch (e) {
+      console.error('DeleteDogs error:', e.message)  
       if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
       return reply.code(500).send({ error: e.message })
     }
   }
 
-export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs}
+export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe }

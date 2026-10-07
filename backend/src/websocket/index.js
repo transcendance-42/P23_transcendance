@@ -57,7 +57,8 @@ function attachwebsocket(app){
       })
       socket.on('send_message', async (message) =>{
         try{
-            const r_message = await createMessage(message);
+            const messageData = {...message, sender_id:socket.user.id}
+            const r_message = await createMessage(messageData);
             io.to(r_message.match_id.toString()).emit('receive_message', r_message)
         }
         catch (error)
