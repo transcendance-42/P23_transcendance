@@ -22,6 +22,36 @@ async function findAllDogsExceptMe(userId) {
     })
 }
 
+async function findDogsAroundMe (userId) {
+    const myDog = await prisma.dogs.findFirst({ where: { owner_id: BigInt(userId) } })
+    if (!myDog) return []
+
+    // deja swipe
+    const swipedIds = await prisma.swipes.findMany({
+        where: { swiper_id: myDog.id },
+        select: { target_id: true }
+    })
+    const excludedIds = swipedIds.map(s => s.target_id)
+    excludedIds.push(Number(myDog.id))
+
+    const nearDog = await prisma.$queryRaw`
+        SELECT * 
+        FROM users u
+        CROSS JOIN (
+            SELECT position FROM users WHERE id = ${userId}) me
+        WHERE ST_DWithin(u.position, me.position,${me.radius * 10000}::float8)
+            AND u.id <> ALL(${excludedIds}::bigint[])
+            AND u.position IS NOT NULL
+        `
+
+    const Dogs =  prisma.dogs.findMany({
+        where: { owner_id: { in: nearDog.map(n => n.id)  }},
+        include: {dog_pics: true}
+    }) 
+
+    return Dogs
+}
+
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
 }
@@ -49,4 +79,4 @@ async function deleteDogs(request) {
     return prisma.dogs.delete({ where: { id } })
 }
 
-export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe}
+export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe, findDogsAroundMe}
