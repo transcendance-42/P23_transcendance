@@ -42,7 +42,7 @@ export default function MessagePanel({rooms})
     useEffect(()=> {
         if (!token)
             return
-        const socket = io('http://localhost:3000', {
+        const socket = io({
             auth: {token:token}
         })
         socketRef.current = socket
