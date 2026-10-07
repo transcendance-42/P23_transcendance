@@ -22,6 +22,7 @@ export default function Register() {
         city: '',
         latitude: null,
         longitude: null,
+        radius: '',
         date_of_birth: ''
     })
     const [error, setError] = useState('')
@@ -29,12 +30,13 @@ export default function Register() {
     const navigate = useNavigate()
     const {login} = useAuth()
 
-    const handleLocationChange = (city, latitude, longitude) => {
+    const handleLocationChange = (city, latitude, longitude, radius) => {
         setFormData(prev => ({
             ...prev,
             city: city,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            radius: radius
         }))
     }
 

@@ -23,11 +23,12 @@ function MapController({ position }) {
 }
 
 // component de la map qui permet l'affichage en donnant le props de register
-export default function MapModal({ onLocationChange }) {
+export default function MapModal({ onLocationChange, onClose }) {
     const [search, setSearch] = useState('')
     const [position, setPosition] = useState([46.5197, 6.6323])
     const [error, setError] = useState('')
     const [radius, setRadius] = useState('')
+    const [city, setCity] = useState('')
 
     const handleSearch = async () => {
         if (!search.trim())
@@ -45,22 +46,30 @@ export default function MapModal({ onLocationChange }) {
                 return
             }
             const address = results[0].address
-            const city = address.city || address.town || address.village || address.municipality
-            const latitude = parseFloat(results[0].lat)
-            const longitude = parseFloat(results[0].lon)
-            console.log('Ville :', city)
-            console.log('Latitude :', latitude)
-            console.log('Longitude :', longitude)
-            setPosition([latitude, longitude])
-			onLocationChange(city, latitude, longitude)
+            const newCity = address.city || address.town || address.village || address.municipality
+            const newPosition = [parseFloat(results[0].lat), parseFloat(results[0].lon)]
+            setCity(newCity)
+            setPosition(newPosition)
+            console.log('Ville :', newCity)
+            console.log('position :', newPosition)
         } catch (error) {
             console.error(error)
             setError('Impossible de chercher cette ville')
         }
     }
+
+    const handleValidate = () => {
+        if (radius < 1) {
+            setError('le rayon doit être de au moins 1km')
+            return
+        }
+        console.log('radius :', radius)
+		onLocationChange(city, position[0], position[1], radius)
+        onClose()
+    }
+
     return (
         <div className="bg-white rounded-lg p-4">
-
             <div className="flex gap-2 mb-4">
                 <input
                     type="text"
@@ -73,7 +82,6 @@ export default function MapModal({ onLocationChange }) {
                     placeholder="Rechercher une ville"
                     className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-black"
                 />
-
                 <button
                     type="button"
                     onClick={handleSearch}
@@ -82,46 +90,41 @@ export default function MapModal({ onLocationChange }) {
                     Rechercher
                 </button>
             </div>
-
             {error && (
                 <p className="text-red-500 mb-3">
                     {error}
                 </p>
             )}
-
             <MapContainer
                 center={position}
                 zoom={10}
                 style={{ width: '400px', height: '400px' }}
-                scrollWheelZoom={false}
+                scrollWheelZoom={true}
                 dragging={false}
-                doubleClickZoom={false}
-                touchZoom={false}
+                doubleClickZoom={true}
+                touchZoom={true}
                 keyboard={false}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-
                 <MapController position={position}/>
-
                 <Marker
                     position={position}
                     icon={defaultIcon}
                 />
-
                 <Circle
                     center={position}
                     radius={radius * 1000}
                     pathOptions={{
                         color: 'red',
                         fillColor: 'red',
-                        fillOpacity: 0.15
+                        fillOpacity: 0.10
                     }}
                 />
             </MapContainer>
-            <div className="mt-4">
+            <div className="mt-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <input
                         type="number"
@@ -132,6 +135,13 @@ export default function MapModal({ onLocationChange }) {
                     />
                     <span className="text-black"> km </span>
                 </div>
+                <button
+                    type="button"
+                    onClick={handleValidate}
+                    className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                >
+                    valider
+                </button>
             </div>
         </div>
     )

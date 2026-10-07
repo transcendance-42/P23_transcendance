@@ -5,9 +5,9 @@ import MapModal from './MapModal'
 export default function LocationButton({ onLocationChange }) {
     const [showMap, setShowMap] = useState(false)
 	const [location, setLocation] = useState('')
-	const handleLocationChange = (city, latitude, longitude) => {
+	const handleLocationChange = (city, latitude, longitude, radius) => {
 		setLocation(city)
-		onLocationChange(city, latitude, longitude)
+		onLocationChange(city, latitude, longitude, radius)
 	}
     return (
         <>
@@ -27,7 +27,7 @@ export default function LocationButton({ onLocationChange }) {
             {showMap && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="relative">
-                        <MapModal onLocationChange={handleLocationChange}/>
+                        <MapModal onLocationChange={handleLocationChange} onClose={() => setShowMap(false)} />
                         <button
                             type="button"
                             onClick={() => setShowMap(false)}
