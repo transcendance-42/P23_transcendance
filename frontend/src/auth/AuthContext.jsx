@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { apiLogin, apiRefresh } from '../api/auth'
+import { apiLogin, apiRefresh, apiLogout } from '../api/auth'
 import { registerLogFunction, setFetchToken } from '../api/authFetch'
 
 const AuthContext = createContext(null)
@@ -35,10 +35,18 @@ export function AuthProvider({ children }) {
     }
 
     const logout = async () => {
-        // await apiLogout()
-        setToken(null)
-        setFetchToken(null) 
-        setUserId(null)
+        try {
+            await apiLogout()
+        }
+        catch(e)
+        {
+            console.error(e.message)
+        }
+        finally{
+            setToken(null)
+            setFetchToken(null) 
+            setUserId(null)
+        }
     }
 
     useEffect(() => {
