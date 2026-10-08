@@ -37,7 +37,7 @@ export default function LoginEmail() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-        <Modal>
+        <Modal showBack >
             <Link to="/login" className="absolute top-4 right-4 text-text-caption hover:text-surface-white transition text-xl">✕</Link>
             <div className="flex gap-4 self-end">
                 {['fr', 'en', 'de'].map(l => (
