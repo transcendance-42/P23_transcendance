@@ -36,18 +36,27 @@ async function findDogsAroundMe (userId) {
     const excludedIds = swipedIds.map(s => s.target_id)
     excludedIds.push(Number(myDog.id))
 
-    const nearDog = await prisma.$queryRaw`
+    const nearUsers = await prisma.$queryRaw`
         SELECT * 
         FROM users u
         CROSS JOIN (
-            SELECT position, radius FROM users WHERE id = ${userId}) me
-        WHERE ST_DWithin(u.position, me.position, me.radius * 1000::float8)
-            AND u.id <> ALL(${excludedIds}::bigint[])
-            AND u.position IS NOT NULL
+            SELECT position, radius 
+            FROM users
+            WHERE id = ${userId}
+        ) me
+        WHERE ST_DWithin(
+            u.position,
+            me.position,
+            me.radius * 1000::float8
+        )
+        AND u.position IS NOT NULL
         `
 
     const Dogs =  await prisma.dogs.findMany({
-        where: { owner_id: { in: nearDog.map(n => n.id)  }},
+        where: { 
+            owner_id: { in: nearUsers.map(n => n.id)  },
+            id: { notIn: excludedIds },
+        },
         include: {dog_pics: true}
     }) 
 
