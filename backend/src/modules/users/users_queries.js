@@ -23,17 +23,20 @@ async function findUserById(id) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
     select: {...publicFields,
-      dogs:true
+      dogs: { include: { dog_pics: true } }
     } 
   })
 }
 
 async function updateUser(id, data) {
-  return prisma.users.update({
-    where: { id: BigInt(id) },
-    data,
-    select: publicFields
-  })
+  const parsed = { ...data }
+    if (parsed.date_of_birth)
+        parsed.date_of_birth = new Date(parsed.date_of_birth)
+    return prisma.users.update({
+        where: { id: BigInt(id) },
+        data: parsed,
+        select: publicFields
+    })
 }
 
 async function deactivateUser(id) {

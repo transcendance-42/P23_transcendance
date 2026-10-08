@@ -13,7 +13,7 @@ import RegisterDog from './pages/RegisterDog'
 import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
-import PresenceProvider from './auth/presenceProvider'
+import RequireProfileComplete from './auth/profileComplete'
 
 function App() {
   return (
@@ -24,17 +24,19 @@ function App() {
         <Route path="/login/email" element={<LoginEmail/>} />
         <Route path="/privacy" element = {<Privacy />} />
         <Route path="/terms" element = {<Terms/>} />
-        <Route element={<RequireAuth><Outlet /> </RequireAuth>}>
-            <Route path="/oauth-callback" element={<OAuthCallback />} />
-            <Route path="/profile"     element={<Profile/>} />
-            <Route path="/registerDog" element={<RegisterDog/>} />
-            <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>
-              <Route path="/swipes"      element={<SwipePage/>} />
-              <Route path="/matches"     element={<MatchesPage/>} />
-              <Route path="/chat"        element={<ChatLayout/>} />
-              <Route path="/chat/:roomId" element={<ChatLayout/>} />
-            </Route>
-        </Route>    
+
+        <Route element={<RequireAuth><Outlet /></RequireAuth>}>
+			<Route path="/oauth-callback" element={<OAuthCallback />} />
+			<Route path="/profile"     element={<Profile/>} />
+			<Route path="/registerDog" element={<RegisterDog/>} />
+
+			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
+				<Route path="/swipes"      element={<SwipePage/>} />
+				<Route path="/matches"     element={<MatchesPage/>} />
+				<Route path="/chat"        element={<ChatLayout/>} />
+				<Route path="/chat/:roomId" element={<ChatLayout/>} />
+			</Route>
+		</Route>
     </Routes>
   )
 }

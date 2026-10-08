@@ -1,7 +1,9 @@
 import prisma from '../../utils/prisma.js'
 
-async function findAllDogs(){
-	return prisma.dogs.findMany()
+async function findAllDogs() {
+	return prisma.dogs.findMany({
+		include: { dog_pics: true }
+	})
 }
 
 async function findAllDogsExceptMe(userId) {
@@ -23,7 +25,10 @@ async function findAllDogsExceptMe(userId) {
 }
 
 async function findDogsId(request) {
-	return prisma.dogs.findUnique({where: { id: BigInt(request.params.id) }})
+	return prisma.dogs.findUnique({
+		where: { id: BigInt(request.params.id) },
+		include: { dog_pics: true }
+	})
 }
 
 async function creatDogs(owner_id, rest) {
