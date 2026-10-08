@@ -2,7 +2,6 @@ import { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogP
 import { promises as fs } from 'node:fs'
 import  path  from 'node:path'
 import { fileTypeFromBuffer } from 'file-type'
-// import { fileURLToPath } from 'node:url'
 import { createReadStream } from 'fs'
 import { randomUUID } from 'node:crypto'
 
@@ -66,8 +65,9 @@ async function postDogPic(request, reply) {
     console.log('has been uploaded')
     const uploadDir = await creatDirUpload()
     const filePath = path.join(uploadDir, filename)
-    await createDogPic(request, filePath)
+    const newPic = await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
+    return reply.send(newPic)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
