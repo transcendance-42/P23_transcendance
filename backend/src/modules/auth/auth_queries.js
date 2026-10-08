@@ -5,15 +5,30 @@ async function findUser(email) {
 }
 
 async function creatUser(request, hashPassword, date) {
-	return prisma.users.create({
-		data: {
-			first_name: request.body.first_name,
-			last_name: request.body.last_name,
-			email: request.body.email,
-			password_hash: hashPassword,
-			city: request.body.city,
-			date_of_birth: date
-		}
+
+	const lng = Number(request.body.longitude)
+	const lat = Number(request.body.latitude)
+
+	return prisma.$transaction(async (tx) => {
+
+		const newUser = await tx.users.create({
+			data: {
+				first_name: request.body.first_name,
+				last_name: request.body.last_name,
+				email: request.body.email,
+				password_hash: hashPassword,
+				city: request.body.city,
+				date_of_birth: date, 
+				radius: Number(request.body.radius)
+			}
+		})
+
+		await tx.$executeRaw`
+			UPDATE "users"
+			SET "position" = ST_setSRID(ST_Makepoint(${lng}::float8,${lat}::float8), 4326)::geography
+			WHERE "id" = ${newUser.id}`
+
+		return newUser
 	})
 }
 
@@ -31,4 +46,13 @@ async function creatUserRawData(data) {
 	})
 }
 
-export {findUser, creatUser, creatUserRawData}
+async function updateLastSeenAt(id) {
+	return prisma.users.update({
+		where: { id:id },
+		data: {
+			lastSeenAt: new Date()
+		}
+	})
+}
+
+export {findUser, creatUser, creatUserRawData, updateLastSeenAt}

@@ -9,6 +9,7 @@ import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch'
+import { useAuth } from '../auth/AuthContext'
 
 
 export default function RegisterDog() {
@@ -25,6 +26,7 @@ export default function RegisterDog() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
+    const { refreshUser } = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -59,9 +61,6 @@ export default function RegisterDog() {
         const { date_of_birth, ...rest } = formData
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
-            // const formDataToSend = new FormData()
-            // Object.entries({ owner_id: localStorage.getItem('userId'), ...body }).forEach(([k, v]) => formDataToSend.append(k, v))
-            // photos.forEach(photo => formDataToSend.append('photos', photo))
            
             // Étape 1 : créer le chien (JSON pur, pas de fichiers)
             const dogRes = await authFetch('/api/dogs', {
@@ -84,6 +83,7 @@ export default function RegisterDog() {
                     return
                 }
             }
+            await refreshUser()
             setSuccess('Profile created!')
             setTimeout(() => navigate('/swipes'), 1500)
         } catch (e) {

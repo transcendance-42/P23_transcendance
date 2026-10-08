@@ -48,8 +48,11 @@ const registerSchema = {
         type: 'integer',
         minimum: 1},
       date_of_birth: { type: 'string'},
+      longitude: {type: 'number'},
+      latitude: {type: 'number'},
+      radius: {type: 'number'}
     },
-    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth'],
+    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'longitude', 'latitude'],
     additionalProperties: false
   }
 }

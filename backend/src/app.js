@@ -16,10 +16,17 @@ import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 
-const fastify = Fastify({ logger: true })
+const fastify = Fastify({ logger: true, trustProxy:true })
 
-function buildApp() {
-  fastify.get('/health', {security:[]},async () => {
+async function buildApp() {
+
+  await fastify.register(import('@fastify/rate-limit'), {
+    max:100,
+    timeWindow: '1 minute',
+    global:true,
+  })
+
+  fastify.get('/api/health', {security:[]},async () => {
     return { status: 'ok' }
   })
 
@@ -43,7 +50,7 @@ function buildApp() {
   })
 
   fastify.register(swaggerUI, {
-    routePrefix: '/documentation'
+    routePrefix: '/api/documentation',
   })
 
   fastify.register(fastifyCookie, {

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-import { apiLogin, apiRefresh } from '../api/auth'
-import { registerLogFunction, setFetchToken } from '../api/authFetch'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { apiLogin, apiRefresh, apiLogout } from '../api/auth'
+import { registerLogFunction, setFetchToken, authFetch } from '../api/authFetch'
 
 const AuthContext = createContext(null)
 
@@ -8,6 +8,7 @@ export function AuthProvider({ children }) {
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         const boot = async () => {
@@ -20,12 +21,30 @@ export function AuthProvider({ children }) {
                 setUserId(userId)
             } catch (e) {
                 console.error('boot refresh:', e)
-            } finally {
                 setLoading(false)
             }
         }
         boot()
-    }, [])
+    }, [])    
+
+    const refreshUser = useCallback( async () => {
+        if (!userId)
+            return
+        try {
+            const response = await authFetch(`/api/users/${userId}`)
+            if (!response.ok) {
+                return
+            }
+            const data = await response.json()
+            setUser(data)
+        }
+        catch (e) {
+            console.error('load user:', e)
+        }
+        finally {
+            setLoading(false)
+        }
+    }, [userId])
 
     const login = async (email, password) => {
         const {token, userId} = await apiLogin(email, password)
@@ -35,10 +54,18 @@ export function AuthProvider({ children }) {
     }
 
     const logout = async () => {
-        // await apiLogout()
-        setToken(null)
-        setFetchToken(null) 
-        setUserId(null)
+        try {
+            await apiLogout()
+        }
+        catch(e)
+        {
+            console.error(e.message)
+        }
+        finally{
+            setToken(null)
+            setFetchToken(null) 
+            setUserId(null)
+        }
     }
 
     useEffect(() => {
@@ -48,8 +75,14 @@ export function AuthProvider({ children }) {
         })
     }, [logout])
 
+    useEffect( () => {
+        if (!userId)
+            return
+        refreshUser()
+    }, [refreshUser])
+
     return (
-        <AuthContext.Provider value={{ token, userId, loading, login, logout }}>
+        <AuthContext.Provider value={{ token, userId, loading, login, logout, user, setUser, refreshUser }}>
             {children}
         </AuthContext.Provider>
     )

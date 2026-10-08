@@ -1,6 +1,6 @@
 all: up
 
-up:
+up: certs
 	docker-compose build --no-cache
 	docker-compose up -d -V
 
@@ -21,5 +21,13 @@ logs:
 
 ps:
 	docker-compose ps
+
+certs:
+	@command -v mkcert >/dev/null || { echo "Installe mkcert d'abord : https://github.com/FiloSottile/mkcert"; exit 1; }
+	@mkcert -install
+	@mkdir -p certs
+	@mkcert -cert-file certs/local.pem -key-file certs/local-key.pem \
+		localhost
+
 
 .PHONY: all up down re clean fclean logs ps

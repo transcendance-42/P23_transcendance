@@ -3,7 +3,15 @@ import { postSwipe } from './swipes_controller.js'
 
 async function swipesRoutes(fastify) {
     fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    
-    fastify.post('/swipes', {schema : createSwipeSchema}, postSwipe)
+    fastify.post('/swipes', {
+        schema : createSwipeSchema,
+        config: {
+            rateLimit: {
+            max: 50,
+            timeWindow: '1 minute'
+        }
+    }
+    }, postSwipe)
 }
 
 export { swipesRoutes }
