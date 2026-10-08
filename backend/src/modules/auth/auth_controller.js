@@ -1,4 +1,4 @@
-import { creatUser, findUser } from './auth_queries.js'
+import { creatUser, findUser, updateLastSeenAt } from './auth_queries.js'
 import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -126,4 +126,17 @@ async function register(request, reply) {
         }
 }
 
-export { login, register, logout, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS }
+async function postHearthBeat(request, reply) {
+        try{
+                await updateLastSeenAt(request.userId)
+                return reply.code(200).send({success: true})
+        }
+        catch(e)
+        {
+                console.error(e)
+                return reply.code(500).send({error : e.message})
+        }
+}
+
+
+export { login, register, logout, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS, postHearthBeat }

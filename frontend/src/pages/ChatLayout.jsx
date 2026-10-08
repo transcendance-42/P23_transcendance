@@ -23,7 +23,12 @@ export default function ChatLayout(){
         }
         loadRooms();
         setRoomsLoaded(true)
-    }, [])
+        const id = setInterval(() => { // rechargement des rooms pour savoir si user online
+            if (document.visibilityState === 'visible')
+                loadRooms()
+        }, 30_000)
+        return () => clearInterval(id)
+     }, [])
 
     const roomExist = rooms.some(r => String(r.id) === roomId)
 

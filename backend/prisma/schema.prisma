@@ -36,7 +36,7 @@ model dog_pics {
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model dogs {
   id                                BigInt     @id @default(autoincrement())
-  owner_id                          BigInt
+  owner_id                          BigInt     @unique
   dog_name                          String     @db.VarChar(50)
   gender                            Gender?    
   breed                             String?    @db.VarChar(50)
@@ -88,6 +88,7 @@ model swipes {
 
 model users {
   id            BigInt     @id @default(autoincrement())
+  lastSeenAt    DateTime?
   google_id     String?    @unique 
   email         String     @unique @db.VarChar(100)
   password_hash String?    @db.VarChar(255)
@@ -99,7 +100,7 @@ model users {
   created_at    DateTime?  @default(now()) @db.Timestamp(6)
   is_active     Boolean    @default(true)
   role          UserRoles  @default(user)
-  dogs          dogs[]
+  dogs          dogs?
   messages      messages[]
   refresh_tokens refresh_tokens[]
 }

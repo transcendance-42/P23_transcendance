@@ -37,6 +37,7 @@ async function PostDogs(request, reply) {
       const dog = await creatDogs(owner_id, rest)
       return dog
     } catch (e) {
+      if (e.code === 'P2002') return reply.code(409).send({ error: 'Dog already exist' })
       return reply.code(500).send({ error: e.message })
     }
   }

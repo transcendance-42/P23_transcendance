@@ -11,11 +11,23 @@ export async function apiLogin(email, password) {
 }
 
 export async function apiRefresh() {
-    const response = await fetch('/api/token/refresh', {method: 'POST'})
+    const response = await fetch('/api/token/refresh', {
+        method: 'POST',
+        credentials: 'include'
+    })
     const data = await response.json()
     if (!response.ok || !data.success)
         throw new Error(data.message || data.error || 'Refresh failed')
     return { token: data.acces_token, userId: data.userId }
 }
 
-// export async function apiLogout() {}
+export async function apiLogout() {
+    const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+    })
+    const data = await response.json()
+    if (!response.ok || !data.success)
+        throw new Error(data.message || data.error || 'Logout failed')
+    return { success:true }    
+}
