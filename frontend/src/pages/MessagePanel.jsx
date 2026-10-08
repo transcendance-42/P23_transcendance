@@ -7,7 +7,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { apiRefresh } from '../api/auth'
-import { Navigate } from 'react-router-dom'
 
 const initalFormData = {
   content: '',
@@ -20,7 +19,7 @@ export default function MessagePanel({rooms})
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
     const { roomId } = useParams() // reprendre le parametre utilise dans l'url
-    const { userId } = useAuth()
+    const { userId, logout } = useAuth()
     const navigate = useNavigate()
     const socketRef = useRef(null)
 
@@ -37,22 +36,20 @@ export default function MessagePanel({rooms})
         const data = await response.json();
         setMessages(data)
     }
-
-
-    
     
     //use effect qui s'active des le debut pour que 
     //la socket soit prete a recevoir des messages 
     useEffect(()=> {
         if (!token)
             return
-        const socket = io('http://localhost:3000', {
+        const socket = io({
             auth: {token:token}
         })
         socketRef.current = socket
 
-        const handeleReceiveMessage = (message) => {         
-            setMessages((preMessages) => [...preMessages, message])
+        const handeleReceiveMessage = (message) => {
+            if (message.match_id === roomId)        
+                setMessages((preMessages) => [...preMessages, message])
         }
 
         socket.on('connect_error', async () =>{
@@ -63,14 +60,13 @@ export default function MessagePanel({rooms})
             }catch(e)
             {
                 console.log(e.message)
-                // logout() en attente de la fonction
+                logout()
                 socket.disconnect()
                 socketRef.current = null
                 navigate('/login')
             }
         })    
         socket.on("receive_message", handeleReceiveMessage)
-
 
         return () => {
             socket.off("receive_message", handeleReceiveMessage)
@@ -92,7 +88,7 @@ export default function MessagePanel({rooms})
         return () => {
             socket.emit('leave_room', roomId);
         }
-    },[roomId])
+    },[roomId, token])
 
 
     const handleSendMessage = () => {
@@ -102,10 +98,8 @@ export default function MessagePanel({rooms})
         if (!socket)
             return
         const messageData = {
-        match_id: roomId,
-        sender_id: userId,        
-        content: formData.content,
-        // type: 'text',
+        match_id: roomId,      
+        content: formData.content
         }
 
         socket.emit('send_message', messageData)
