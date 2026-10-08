@@ -1,6 +1,6 @@
 import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe, findDogsAroundMe} from './dogs_queries.js'
 
-async function GetAllDogs() {
+async function GetAllDogs(reply) {
     try {
       const dogs = await findAllDogs()
       return dogs

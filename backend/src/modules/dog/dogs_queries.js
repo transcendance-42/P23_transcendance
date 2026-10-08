@@ -38,13 +38,13 @@ async function findDogsAroundMe (userId) {
         SELECT * 
         FROM users u
         CROSS JOIN (
-            SELECT position FROM users WHERE id = ${userId}) me
-        WHERE ST_DWithin(u.position, me.position,${me.radius * 10000}::float8)
+            SELECT position, radius FROM users WHERE id = ${userId}) me
+        WHERE ST_DWithin(u.position, me.position, me.radius * 1000::float8)
             AND u.id <> ALL(${excludedIds}::bigint[])
             AND u.position IS NOT NULL
         `
 
-    const Dogs =  prisma.dogs.findMany({
+    const Dogs =  await prisma.dogs.findMany({
         where: { owner_id: { in: nearDog.map(n => n.id)  }},
         include: {dog_pics: true}
     }) 
