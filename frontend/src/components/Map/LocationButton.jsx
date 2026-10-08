@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import MapModal from './MapModal'
+import { useTranslation } from 'react-i18next'
 
 // on prend ici le prop de register, juste pour le donner au MapModal
 export default function LocationButton({ onLocationChange }) {
+    const { t } = useTranslation()
     const [showMap, setShowMap] = useState(false)
 	const [location, setLocation] = useState('')
 	const handleLocationChange = (city, latitude, longitude, radius) => {
@@ -20,21 +22,24 @@ export default function LocationButton({ onLocationChange }) {
                     🌍
                 </span>
                 <span>
-                    {location || 'Localisation'}
+                    {location || t('LocalisationButton')}
                 </span>
             </button>
 			{/* show  map pour ouvrir et fernmer la map avec une condition type bool */}
             {showMap && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-                    <div className="relative">
-                        <MapModal onLocationChange={handleLocationChange} onClose={() => setShowMap(false)} />
+                    <div className="relative bg-white rounded-xl overflow-hidden pt-12">
                         <button
                             type="button"
                             onClick={() => setShowMap(false)}
-                            className="absolute top-2 right-2 z-50 bg-black/50 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl"
+                            className="absolute top-2 right-2 z-50 bg-red-300 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl shadow-md hover:bg-red-400"
                         >
                             X
                         </button>
+                        <MapModal
+                            onLocationChange={handleLocationChange}
+                            onClose={() => setShowMap(false)}
+                        />
                     </div>
                 </div>
             )}

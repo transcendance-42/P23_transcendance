@@ -5,6 +5,7 @@ import L from 'leaflet'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { useTranslation } from 'react-i18next'
 
 const defaultIcon = L.icon({
     iconUrl: markerIcon,
@@ -24,6 +25,7 @@ function MapController({ position }) {
 
 // component de la map qui permet l'affichage en donnant le props de register
 export default function MapModal({ onLocationChange, onClose }) {
+    const { t } = useTranslation()
     const [search, setSearch] = useState('')
     const [position, setPosition] = useState([46.5197, 6.6323])
     const [error, setError] = useState('')
@@ -79,7 +81,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                         if (e.key === 'Enter')
                             handleSearch()
                     }}
-                    placeholder="Rechercher une ville"
+                    placeholder={t('SearchACity')}
                     className="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-black"
                 />
                 <button
@@ -87,7 +89,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                     onClick={handleSearch}
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg"
                 >
-                    Rechercher
+                    {t('SearchMap')}
                 </button>
             </div>
             {error && (
@@ -129,7 +131,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                     <input
                         type="number"
                         min="1"
-                        placeholder="distance de recherche"
+                        placeholder={t('DistanceToSearch')}
                         onChange={(e) => setRadius(Number(e.target.value))}
                         className="w-auto border border-gray-300 rounded-lg px-4 py-2 text-black"
                     />
@@ -140,7 +142,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                     onClick={handleValidate}
                     className="bg-green-500 text-white px-4 py-2 rounded-lg"
                 >
-                    valider
+                    {t('ValideMapData')}
                 </button>
             </div>
         </div>
