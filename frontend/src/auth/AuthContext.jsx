@@ -53,10 +53,18 @@ export function AuthProvider({ children }) {
     }
 
     const logout = async () => {
-        // await apiLogout()
-        setToken(null)
-        setFetchToken(null) 
-        setUserId(null)
+        try {
+            await apiLogout()
+        }
+        catch(e)
+        {
+            console.error(e.message)
+        }
+        finally{
+            setToken(null)
+            setFetchToken(null) 
+            setUserId(null)
+        }
     }
 
     useEffect(() => {

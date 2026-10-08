@@ -6,7 +6,15 @@ async function dogsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
   fastify.get('/dogs', GetAllDogsExceptMe)
   fastify.get('/dogs/:id', {schema : SchemaDogGetId}, GetDogsByID)
-  fastify.post('/dogs', {schema : SchemaDogPost}, PostDogs)
+  fastify.post('/dogs', {
+    schema : SchemaDogPost,
+    config : {
+      rateLimit: {
+      max: 10,
+      timeWindow: '1 minute'
+      }
+    }
+  }  , PostDogs)
   fastify.put('/dogs/:id', {schema : SchemaDogsPut}, PutDogs)
   fastify.delete('/dogs/:id', {schema : SchemaDogsDelete}, DeleteDogs)
 }

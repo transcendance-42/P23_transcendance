@@ -116,5 +116,7 @@
     "ProfileMissingDog": "Ajoute un profil de chien", 
     "Missing" : "Non renseigné",
     "UnmatchConfirmTitle": "Supprimer le match ?",
-    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?"
+    "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?",
+    "Online": "En ligne",
+    "Offline": "Hors Ligne"
 }

@@ -21,11 +21,11 @@ const NavBarAuth = () => {
     )
 
     const handleLogout = async () => {
-        fetch('/api/auth/logout', { 
-            method: 'POST',
-            credentials: 'include' })
-        await logout()
-        navigate('/')
+        try {
+            await logout()
+        } finally { // pour etre sur que le navigate si la promesse n'est pas retournée
+            navigate('/')            
+        }
     }
     const changeLang = (l) => {
         setLang(l)
