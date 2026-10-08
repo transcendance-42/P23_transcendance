@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import { apiLogin, apiRefresh } from '../api/auth'
+import { apiLogin, apiRefresh, apiLogout } from '../api/auth'
 import { registerLogFunction, setFetchToken, authFetch } from '../api/authFetch'
 
 const AuthContext = createContext(null)
@@ -9,6 +9,23 @@ export function AuthProvider({ children }) {
     const [userId, setUserId] = useState(null)
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        const boot = async () => {
+            try {
+                const { token, userId } = await apiRefresh()
+                console.log('LE USERID APRES REFRESH DU TOKEN:')
+                console.log(userId)
+                setToken(token)
+                setFetchToken(token) // pour que la fonction authFetch ait aussi le token
+                setUserId(userId)
+            } catch (e) {
+                console.error('boot refresh:', e)
+                setLoading(false)
+            }
+        }
+        boot()
+    }, [])    
 
     const refreshUser = useCallback( async () => {
         if (!userId)
@@ -28,22 +45,6 @@ export function AuthProvider({ children }) {
             setLoading(false)
         }
     }, [userId])
-
-    useEffect(() => {
-        const boot = async () => {
-            try {
-                const { token, userId } = await apiRefresh()
-                console.log('LE USERID APRES REFRESH DU TOKEN:')
-                console.log(userId)
-                setToken(token)
-                setFetchToken(token) // pour que la fonction authFetch ait aussi le token
-                setUserId(userId)
-            } catch (e) {
-                console.error('boot refresh:', e)
-            } 
-        }
-        boot()
-    }, [])
 
     const login = async (email, password) => {
         const {token, userId} = await apiLogin(email, password)
