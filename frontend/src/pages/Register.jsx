@@ -73,10 +73,11 @@ export default function Register() {
     return (
         <div className="min-h-screen bg-surface-cream">
             <Modal>
-                <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
-                <Avatar style={{ width: sizesPx[size], height: sizesPx[size] }} url={avatarUrl} onUpload={handleAvatarUpload} />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+                    <div className="flex justify-center w-full">
+                        <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload} />
+                    </div>
                     <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
                     <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
                     <InputField type="email" placeholder={t('Email')} value={formData.email} onChange={handleChange('email')} />
@@ -92,6 +93,7 @@ export default function Register() {
                         {t('CreateAccount')}
                     </PrimaryButton>
                 </form>
+                <Mascot index={4} size="lg"/>
                 <p onClick={() => navigate('/login')} className="text-primary text-sm underline cursor-pointer">
                     {t('AlreadyAccount')}
                 </p>

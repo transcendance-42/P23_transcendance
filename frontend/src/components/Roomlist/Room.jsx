@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import Avatar from "../ui/Avatar"
-=======
-import Mascot from "../ui/Mascot"
 import { useTranslation } from "react-i18next";
 
 export function Room({match_dog_name, lastSeenAt}) {
@@ -11,7 +8,6 @@ export function Room({match_dog_name, lastSeenAt}) {
     else
         isOnline = false
     const { t } = useTranslation() 
->>>>>>> main
 
         return (
         <div className="flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 transition hover:border-indigo-300 hover:bg-indigo-50 hover:shadow-sm">
