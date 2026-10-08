@@ -156,3 +156,6 @@ https://www.postgresql.org/docs/
 
 PostgreSQL for beginners (youtube)
 https://www.youtube.com/watch?v=qw--VYLpxG4&t=593s
+
+Postgis implemenatation with prisma
+https://github.com/prisma/orm/discussions/29537
