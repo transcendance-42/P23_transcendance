@@ -11,7 +11,9 @@ const Footer = () => {
             <Mascot index={2} size="md" />
         </div>
         <div className="flex flex-col items-center gap-6">
-            <span className="text-xl text-primary font-heading font-bold">Tindog</span>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-xl text-primary font-bold font-heading text-left">
+                Tindog
+            </button>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                 <Link to="/privacy" className="hover:text-surface-white transition">{t('Privacy')}</Link>
                 <Link to="/terms" className="hover:text-surface-white transition">{t('Terms')}</Link>
