@@ -1,12 +1,22 @@
 import defaultAvatar from '../../assets/pdpDefault.png'
+import { useRef } from 'react'
 
-const Avatar = ({ url, size = 'md', onClick }) => {
-    const sizes = { sm: 'h-8 w-8', md: 'h-10 w-10', lg: 'h-32 w-32' }
+const Avatar = ({ url, size = 'md', onUpload }) => {
+    const sizesPx = { sm: 32, md: 40, lg: 128 }
+    const fileInputRef = useRef(null)
+
+    const handleChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        e.target.value = ''
+        onUpload?.(file)
+    }
 
     return (
-        <div className={`${sizes[size]} rounded-full overflow-hidden ${onClick ? 'cursor-pointer hover:opacity-80 transition' : ''}`}
-            onClick={onClick} >
+        <div className={`${sizes[size]} rounded-full overflow-hidden ${onUpload ? 'cursor-pointer hover:opacity-80 transition' : ''}`}
+            onClick={() => onUpload && fileInputRef.current?.click()} >
             <img src= {url || defaultAvatar} alt="avatar" className="w-full h-full object-cover" />
+            {onUpload && <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleChange} />}
         </div>
     )
 }

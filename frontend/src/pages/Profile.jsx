@@ -14,6 +14,20 @@ export default function Profile() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { userId } = useAuth()
+    const [avatarUrl, setAvatarUrl] = useState(null)
+
+    const handleAvatarUpload = async (file) => {
+        const fd = new FormData()
+        fd.append('file', file)
+        const res = await authFetch(`/api/users/${userId}/pic`, {
+            method: 'POST',
+            body: fd
+        })
+        if (res.ok) {
+            const url = URL.createObjectURL(file)
+            setAvatarUrl(url)
+        }
+    }
 
     useEffect(() => {
         const load = async () => {
@@ -50,7 +64,7 @@ export default function Profile() {
 
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <div className="flex items-center gap-4">
-                    <Avatar size='lg'/>
+                    <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload}/>
                     <h1 className="font-heading text-3xl font-bold text-text-primary">
                         {t('MyProfile')}
                     </h1>

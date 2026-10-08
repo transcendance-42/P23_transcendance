@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,  useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import Modal from '../components/ui/Modal'
@@ -7,6 +7,7 @@ import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
+import Avatar from '../components/ui/Avatar'
 
 
 export default function Register() {
@@ -19,12 +20,18 @@ export default function Register() {
         confirm_password: '',
         city: '',
         date_of_birth: '', 
-        pdp: ''
     })
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
     const {login} = useAuth()
+    const [avatarFile, setAvatarFile] = useState(null)
+    const [avatarUrl, setAvatarUrl] = useState(null)
+
+    const handleAvatarUpload = (file) => {
+        setAvatarFile(file)
+        setAvatarUrl(URL.createObjectURL(file))
+    }
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -61,13 +68,14 @@ export default function Register() {
         setError('Server error, please try again')
     }
 }
-    const allFilled = Object.values(formData).every(v => v !== '')
+    const allFilled = Object.values(formData).every(v => v !== '') && !!avatarFile
 
     return (
         <div className="min-h-screen bg-surface-cream">
             <Modal>
                 <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
+                <Avatar style={{ width: sizesPx[size], height: sizesPx[size] }} url={avatarUrl} onUpload={handleAvatarUpload} />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                     <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
                     <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
