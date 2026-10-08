@@ -27,7 +27,7 @@ certs:
 	@mkcert -install
 	@mkdir -p certs
 	@mkcert -cert-file certs/local.pem -key-file certs/local-key.pem \
-		frontend.localhost backend.localhost
+		localhost
 
 
 .PHONY: all up down re clean fclean logs ps
