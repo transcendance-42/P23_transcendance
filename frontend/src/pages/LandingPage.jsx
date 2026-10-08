@@ -15,5 +15,5 @@ export default function LandingPage() {
             <FinalCTA/>
             <Footer/>
         </div>
-    ) 
+    )
 }
