@@ -106,5 +106,17 @@
     "Terms11": "6. Contact", 
     "Terms12": "For any questions about these terms, contact us at ...",
     "NoMoreDog": "No more dogs nearby", 
-    "ComeBack": "Come back later!"
+    "ComeBack": "Come back later!",
+    "DeleteDog": "Delete dog",
+    "DeleteConfirmTitle": "Are you sure?",
+    "DeleteConfirmText": "You are about to delete {{name}}. This action cannot be undone.",
+    "Confirm": "Yes, delete",
+    "NoMatches": "No Macthes yet", 
+    "ProfileIncompleteWarning": "Complete your profile before you can start swiping",
+    "ProfileMissingDog": "Add a dog profile", 
+    "Missing" : "Missing",
+    "UnmatchConfirmTitle": "Unmatch?",
+    "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?",
+    "Online": "Online",
+    "Offline": "Offline"
 }

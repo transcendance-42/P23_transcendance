@@ -10,13 +10,13 @@ export default function MessageList({messages, userId}) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })}, [messages])
     if (messages.length === 0){
         return (
-            <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 p-5 text-text-caption">
+            <div className="flex flex-1 flex-col items-center justify-center bg-surface-cream p-5 text-text-caption">
                 {t('StartConv')}
             </div>
         )
     }
     return (
-        <div className="flex flex-1 flex-col gap-3 overflow-y-auto bg-gray-50 p-5">
+        <div className="flex flex-1 flex-col gap-3 overflow-y-auto bg-surface-cream p-5">
             
                     {messages.map (m =>
                         <MessageBubble

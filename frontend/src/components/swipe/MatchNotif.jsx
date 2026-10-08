@@ -18,7 +18,7 @@ const MatchNotif = ({onClose}) => {
                 <img src={defaultDog} alt="other dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
             </div>
 
-            <PrimaryButton onClick={() => navigate('/roomlist')}>
+            <PrimaryButton onClick={() => navigate('/chat')}>
                 {t('StartChat')}
             </PrimaryButton>
         </Modal>

@@ -31,4 +31,13 @@ async function creatUserRawData(data) {
 	})
 }
 
-export {findUser, creatUser, creatUserRawData}
+async function updateLastSeenAt(id) {
+	return prisma.users.update({
+		where: { id:id },
+		data: {
+			lastSeenAt: new Date()
+		}
+	})
+}
+
+export {findUser, creatUser, creatUserRawData, updateLastSeenAt}

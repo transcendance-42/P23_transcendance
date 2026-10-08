@@ -7,8 +7,6 @@ import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
-import NavBar from '../components/ui/NavBar'
-import Footer from '../components/ui/Footer'
 
 
 export default function Register() {
