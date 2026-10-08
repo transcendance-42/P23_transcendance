@@ -5,15 +5,13 @@ import DogCard from './DogCard'
 import SwipeButton from '../ui/SwipeButton'
 import EmptyState from '../ui/EmptyState'
 import { useTranslation } from 'react-i18next'
-import { authFetch } from '../../api/authFetch'
 import { useAuth } from '../../auth/AuthContext'
 
 
 const DogCards = ({ onMatch }) => {
     const { t } = useTranslation()
     const [dogs, setDogs] = useState([])
-    const { loading } = useAuth()
-
+    
     useEffect(() => {
         fetchDogs()
             .then(data => setDogs(data))
@@ -38,7 +36,7 @@ const DogCards = ({ onMatch }) => {
 
     return (
         <div className="relative w-[90vw] h-[70vh] sm:w-100 sm:h-150">
-            {dogs.slice(0, 5).map((dog, index) => (
+            {dogs.slice(0, 1).map((dog, index) => (
                 <DogCard
                     key={dog.id}
                     dog={dog}
