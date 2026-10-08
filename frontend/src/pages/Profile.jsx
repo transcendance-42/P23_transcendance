@@ -42,7 +42,7 @@ export default function Profile() {
     if (loading) return <p className="p-8">{t('Loading')}</p>
     if (error)   return <p className="p-8 text-action-pass">{error}</p>
  
-    const dog = user.dogs?.[0] ?? null
+    const dog = user.dogs ?? null
  
     const missingUserFields = REQUIRED_USER_FIELDS.filter(({ field }) => !user[field])
     const isProfileComplete = missingUserFields.length === 0 && !!dog

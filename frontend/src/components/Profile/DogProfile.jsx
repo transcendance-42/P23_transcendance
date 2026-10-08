@@ -164,7 +164,6 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
  
         xhr.send(fd)
     }
-
     return (
         <>
             {showDeleteModal && (

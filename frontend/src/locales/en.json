@@ -116,9 +116,6 @@
     "ProfileMissingDog": "Add a dog profile", 
     "Missing" : "Missing",
     "UnmatchConfirmTitle": "Unmatch?",
-    "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?"
-    "NoMatches": "No Matches yet", 
-    "UnmatchConfirmTitle": "Unmatch?",
     "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?",
     "Online": "Online",
     "Offline": "Offline"
