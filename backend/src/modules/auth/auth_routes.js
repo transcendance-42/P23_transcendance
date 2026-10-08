@@ -1,6 +1,7 @@
 import { loginSchema, registerSchema } from './auth_schema.js'
 import { login, register, logout } from './auth_controller.js'
 import { generateGoogleUrl, GetGoogleUserCredentials } from './providers/google.provider.js'
+import { postHearthBeat } from './auth_controller.js'
 
 async function authRoutes(fastify) {
   fastify.post("/auth/login", {
@@ -37,7 +38,8 @@ async function authRoutes(fastify) {
       timeWindow: '1 minute'
     }
     }
-  } , GetGoogleUserCredentials)     
+  } , GetGoogleUserCredentials)
+  fastify.post("/hearthbeat", {onRequest: fastify.authorize}, postHearthBeat) 
 }
 
 export { authRoutes }

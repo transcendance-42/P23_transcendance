@@ -38,14 +38,14 @@ export function RoomList ({rooms, setRooms}) {
     )
     if (rooms && rooms.length > 0) {
         list = rooms.map(c => {
-        const matchDogName = c.matchesAsDog1.owner_id === userId ? c.matchesAsDog2.dog_name : c.matchesAsDog1.dog_name;
+        const matchDog = c.matchesAsDog1.owner_id === userId ? c.matchesAsDog2 : c.matchesAsDog1;
         return (
             <div key={c.id} className="relative">
                 <Link to={`/chat/${c.id}`}>
-                    <Room match_dog_name={matchDogName} />
+                    <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} />
                 </Link>
                 <button
-                    onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDogName }) }}
+                    onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}
                     className="absolute top-2 right-2 w-6 h-6 rounded-full bg-primary hover:bg-primary-hover text-surface-white text-xs flex items-center justify-center transition z-10"
                 >
                     ✕
