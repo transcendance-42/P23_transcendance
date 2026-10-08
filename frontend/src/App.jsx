@@ -14,6 +14,7 @@ import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
+import DogProfilePage from './pages/DogProfilePage'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
 				<Route path="/matches"     element={<MatchesPage/>} />
 				<Route path="/chat"        element={<ChatLayout/>} />
 				<Route path="/chat/:roomId" element={<ChatLayout/>} />
+        <Route path="/Dog/:id" element={<DogProfilePage/>} />
 			</Route>
 		</Route>
     </Routes>
