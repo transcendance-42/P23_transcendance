@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState ,  useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import Modal from '../components/ui/Modal'
@@ -7,6 +7,7 @@ import InputField from '../components/ui/InputField'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
+import Avatar from '../components/ui/Avatar'
 import NavBar from '../components/ui/NavBar'
 import Footer from '../components/ui/Footer'
 import LocationButton from '../components/Map/LocationButton'
@@ -29,6 +30,13 @@ export default function Register() {
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
     const {login} = useAuth()
+    const [avatarFile, setAvatarFile] = useState(null)
+    const [avatarUrl, setAvatarUrl] = useState(null)
+
+    const handleAvatarUpload = (file) => {
+        setAvatarFile(file)
+        setAvatarUrl(URL.createObjectURL(file))
+    }
 
     const handleLocationChange = (city, latitude, longitude, radius) => {
         setFormData(prev => ({
@@ -73,15 +81,17 @@ export default function Register() {
     } else {
         setError('Server error, please try again')
     }
-    }
-    const allFilled = Object.values(formData).every(v => v !== '')
+}
+    const allFilled = Object.values(formData).every(v => v !== '') && !!avatarFile
 
     return (
         <div className="min-h-screen bg-surface-cream">
             <Modal>
-                <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+                    <div className="flex justify-center w-full">
+                        <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload} />
+                    </div>
                     <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
                     <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
                     <InputField type="email" placeholder={t('Email')} value={formData.email} onChange={handleChange('email')} />
@@ -96,6 +106,7 @@ export default function Register() {
                         {t('CreateAccount')}
                     </PrimaryButton>
                 </form>
+                <Mascot index={4} size="lg"/>
                 <p onClick={() => navigate('/login')} className="text-primary text-sm underline cursor-pointer">
                     {t('AlreadyAccount')}
                 </p>
