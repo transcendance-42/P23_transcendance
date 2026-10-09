@@ -69,8 +69,10 @@ export default function RegisterDog() {
                 body: JSON.stringify(body)
             })
             const dogData = await dogRes.json()
-            if (!dogRes.ok)
+            if (!dogRes.ok) {
                 setError(dogData.error || 'Server error')
+                return
+            }
             // Étape 2 : créer les photos pour le chien, multipart
             for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
@@ -79,7 +81,9 @@ export default function RegisterDog() {
                 fd.append('position', index + 1)
                 const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
                 if (!picDogRes.ok) {
-                    setError(`Échec de l'upload de ${photo.name}`)
+                    setError(`Échec de l'upload de ${photos[index].name}`)
+                    await refreshUser()
+                    setTimeout(() => navigate('/profile'), 1500)
                     return
                 }
             }

@@ -7,7 +7,8 @@ async function findPicDogById(id) {
 async function findPicsByDogId(dogId) {
   return prisma.dog_pics.findMany({
     where: { dog_id: BigInt(dogId) },
-    orderBy: { position: 'asc' }
+    orderBy: { position: 'asc' },
+    include: {dogs: true}
   })
 }
 
