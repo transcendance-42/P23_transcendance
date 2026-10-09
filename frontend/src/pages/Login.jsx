@@ -18,7 +18,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-        <Modal>
+        <Modal showBack={true}>
             <div className="flex gap-4 self-end">
                 {['fr', 'en', 'de'].map(l => (
                     <button key={l} onClick={() => changeLang(l)}
@@ -28,7 +28,7 @@ export default function Login() {
                 ))}
             </div>
             <Mascot index={0} size="lg"/>
-            <ModalHeader title="Get Started" />
+            <ModalHeader title={t('GetStarted')} />
             <p className="text-xs text-text-caption text-center">
                 {t('Login1')}{' '}
                 <span className="text-primary underline cursor-pointer">{t('Login2')}</span>.

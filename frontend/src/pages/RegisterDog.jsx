@@ -62,7 +62,6 @@ export default function RegisterDog() {
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
            
-            // Étape 1 : créer le chien (JSON pur, pas de fichiers)
             const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -99,7 +98,7 @@ export default function RegisterDog() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal onClose={() => navigate(-1)}>
+            <Modal onClose={() => navigate(-1)} showBack={true} >
                 <Mascot index={5} size="lg"/>
                 <ModalHeader title={t('CreateDog')} />
                 <p className="text-primary text-xs text-center">{t('Register1')}</p>
