@@ -53,7 +53,7 @@ const NavBarAuth = () => {
                     <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                     <div className="hidden lg:flex gap-6 text-sm">
                     <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
-<SecondaryButton to="/chat" disabled={!isProfileComplete}>{t('Chat')}</SecondaryButton>
+                    <SecondaryButton to="/matches" disabled={!isProfileComplete}>{t('Matches')}</SecondaryButton>
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
                     <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>

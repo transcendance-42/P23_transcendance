@@ -41,8 +41,13 @@ export function RoomList ({rooms, setRooms}) {
         const matchDog = c.matchesAsDog1.owner_id === userId ? c.matchesAsDog2 : c.matchesAsDog1;
         return (
             <div key={c.id} className="relative">
-                <Link to={`/chat/${c.id}`}>
-                    <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} />
+                <Link to={`/matches/${c.id}`}>
+                <Room
+                    match_dog_name={matchDog.dog_name}
+                    lastSeenAt={matchDog.users.lastSeenAt}
+                    roomId={c.id}
+                    onProfileClick={() => console.log('ouvrir profil', matchDog)}
+                />
                 </Link>
                 <button
                     onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}

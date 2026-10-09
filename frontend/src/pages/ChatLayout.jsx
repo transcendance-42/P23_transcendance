@@ -1,7 +1,7 @@
 import { RoomList } from "./Roomlist";
 import MessagePanel from "./MessagePanel";
 import NavBarAuth from "../components/ui/NavBarAuth";
-import { replace, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Mascot from '../components/ui/Mascot'
 import { useState, useEffect } from "react";

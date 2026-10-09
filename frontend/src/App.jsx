@@ -15,6 +15,7 @@ import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
 import PresenceProvider from './auth/presenceProvider'
+import { RoomList } from './pages/Roomlist'
 
 function App() {
   return (
@@ -34,9 +35,8 @@ function App() {
 			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
           <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>
             <Route path="/swipes"      element={<SwipePage/>} />
-            <Route path="/matches"     element={<MatchesPage/>} />
-            <Route path="/chat"        element={<ChatLayout/>} />
-            <Route path="/chat/:roomId" element={<ChatLayout/>} />
+            <Route path="/matches" element={<ChatLayout/>} />
+            <Route path="/matches/:roomId" element={<ChatLayout/>} />
           </Route>  
 			</Route>
 		</Route>
