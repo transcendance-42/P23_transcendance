@@ -1,9 +1,26 @@
 import { Link } from 'react-router-dom'
 import Mascot from "./Mascot"
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../auth/AuthContext'
 
 const Footer = () => {
     const { t } = useTranslation()
+    const navigate = useNavigate()
+    const { user } = useAuth()
+
+    const isProfileComplete = !!(
+        user?.first_name && user?.last_name && user?.city &&
+        user?.date_of_birth && user?.dogs?.length > 0
+    )
+
+    const handleTindog = () => {
+        if (!user) navigate('/')
+        else if (!isProfileComplete) navigate('/profile')
+        else navigate('/swipes')
+        window.scrollTo(0, 0)
+    }
+
     return (
         <footer className="w-full bg-surface-raised text-text-caption text-xs">
         <div className="max-w-4xl mx-auto px-8 py-10 relative flex items-center justify-center">
@@ -11,7 +28,7 @@ const Footer = () => {
             <Mascot index={2} size="md" />
         </div>
         <div className="flex flex-col items-center gap-6">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-xl text-primary font-bold font-heading text-left">
+            <button onClick={() => { navigate('/'); window.scrollTo(0, 0) }} className="text-xl text-primary font-bold font-heading text-left">
                 Tindog
             </button>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">

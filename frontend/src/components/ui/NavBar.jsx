@@ -3,8 +3,10 @@ import PrimaryButton from "./PrimaryButton"
 import SecondaryButton from "./SecondaryButton"
 import i18n from '../../i18n'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 const NavBar = () => {
+    const navigate = useNavigate()
     const { t } = useTranslation()
     const [lang, setLang] = useState('en')
     const changeLang = (l) => {
@@ -20,7 +22,7 @@ const NavBar = () => {
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
-                <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-xl text-primary font-bold font-heading text-left">
+                <button onClick={() => { navigate('/'); window.scrollTo(0, 0) }} className="text-xl text-primary font-bold font-heading text-left">
                     Tindog
                 </button>
                 <div className="flex justify-center gap-4">
