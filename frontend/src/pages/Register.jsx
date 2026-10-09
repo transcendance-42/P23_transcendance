@@ -63,7 +63,7 @@ export default function Register() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal showBack >
+            <Modal showBack={true} >
                 <Mascot index={4} size="lg"/>
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">

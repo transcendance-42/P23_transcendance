@@ -18,7 +18,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-        <Modal showBack >
+        <Modal showBack={true}>
             <div className="flex gap-4 self-end">
                 {['fr', 'en', 'de'].map(l => (
                     <button key={l} onClick={() => changeLang(l)}
