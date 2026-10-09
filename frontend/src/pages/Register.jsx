@@ -8,7 +8,9 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
-
+import NavBar from '../components/ui/NavBar'
+import Footer from '../components/ui/Footer'
+import LocationButton from '../components/Map/LocationButton'
 
 export default function Register() {
     const { t } = useTranslation()
@@ -19,7 +21,10 @@ export default function Register() {
         password: '',
         confirm_password: '',
         city: '',
-        date_of_birth: '', 
+        latitude: null,
+        longitude: null,
+        radius: '',
+        date_of_birth: ''
     })
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
@@ -33,6 +38,16 @@ export default function Register() {
         setAvatarUrl(URL.createObjectURL(file))
     }
 
+    const handleLocationChange = (city, latitude, longitude, radius) => {
+        setFormData(prev => ({
+            ...prev,
+            city: city,
+            latitude: latitude,
+            longitude: longitude,
+            radius: radius
+        }))
+    }
+
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
 
@@ -43,10 +58,9 @@ export default function Register() {
         return setError('Passwords do not match')
     if (formData.password.length < 8)
         return setError('Password must be at least 8 characters')
-
-
     const { confirm_password, ...body } = formData
-        const response = await fetch('/api/auth/register', {
+    console.log(formData)
+    const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -83,12 +97,11 @@ export default function Register() {
                     <InputField type="email" placeholder={t('Email')} value={formData.email} onChange={handleChange('email')} />
                     <InputField type="password" placeholder={t('Password')}  value={formData.password} onChange={handleChange('password')} />
                     <InputField type="password" placeholder={t('ConfirmPassword')}  value={formData.confirm_password} onChange={handleChange('confirm_password')} />
-                    <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} />
+                    {/* <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} /> */}
                     <InputField type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
-
+                    <LocationButton onLocationChange={handleLocationChange} />
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
-
                     <PrimaryButton type="submit" disabled={!allFilled}>
                         {t('CreateAccount')}
                     </PrimaryButton>

@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react'
 import { authFetch } from '../api/authFetch'
 
 export default function RequireProfileComplete({ children }) {
-    const { user }  = useAuth()
+    const { user, refreshUser }  = useAuth()
+    if (!user)
+        refreshUser()
     console.log('user.dogs:', user.dogs, 'dog_name:', user.dogs?.dog_name)
     if (user.first_name &&
         user.last_name &&
