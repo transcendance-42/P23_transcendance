@@ -2,24 +2,10 @@ import { Link } from 'react-router-dom'
 import Mascot from "./Mascot"
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthContext'
 
 const Footer = () => {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const { user } = useAuth()
-
-    const isProfileComplete = !!(
-        user?.first_name && user?.last_name && user?.city &&
-        user?.date_of_birth && user?.dogs?.length > 0
-    )
-
-    const handleTindog = () => {
-        if (!user) navigate('/')
-        else if (!isProfileComplete) navigate('/profile')
-        else navigate('/swipes')
-        window.scrollTo(0, 0)
-    }
 
     return (
         <footer className="w-full bg-surface-raised text-text-caption text-xs">
