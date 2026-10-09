@@ -4,6 +4,7 @@ import { useAuth } from '../../auth/AuthContext'
 import SecondaryButton from './SecondaryButton'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n'
+import LangSwitcher from './LangSwitcher'
 
 const NavBarAuth = () => {
     const { logout, user } = useAuth()
@@ -41,14 +42,7 @@ const NavBarAuth = () => {
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
                 <span className="text-xl text-primary font-bold font-heading">Tindog</span>
-                <div className="flex justify-center gap-4">
-                    {['fr', 'en', 'de'].map(l => (
-                        <button key={l} onClick={() => changeLang(l)}
-                            className={`text-2xl transition-all hover:scale-110 ${lang === l ? 'opacity-100 scale-110' : 'opacity-30'}`}>
-                            {l === 'fr' ? '🇫🇷' : l === 'en' ? '🇬🇧' : '🇩🇪'}
-                        </button>
-                    ))}
-                </div>
+                <LangSwitcher />
                 <div className="flex justify-end">
                     <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                     <div className="hidden lg:flex gap-6 text-sm">

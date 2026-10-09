@@ -123,5 +123,6 @@
     "ValideMapData": "validate",
     "SearchACity": "Search a city",
     "DistanceToSearch": "Distance",
-    "LocalisationButton": "Localisation"
+    "LocalisationButton": "Localisation", 
+    "WhatEmail": "What's your email?"
   }

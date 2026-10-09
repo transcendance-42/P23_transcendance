@@ -123,5 +123,6 @@
     "ValideMapData": "bestätigen",
     "SearchACity": "Stadt suchen",
     "DistanceToSearch": "Suchradius",
-    "LocalisationButton": "Standort"
+    "LocalisationButton": "Standort", 
+    "WhatEmail": "Was ist deine E-Mail?"
   }
