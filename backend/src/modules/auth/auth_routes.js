@@ -5,7 +5,7 @@ import { postHearthBeat } from './auth_controller.js'
 
 async function authRoutes(fastify) {
   fastify.post("/auth/login", {
-    schema :{loginSchema, security:[]},
+    schema :{...loginSchema, security:[]},
     config : {
         rateLimit: {
         max: 5,

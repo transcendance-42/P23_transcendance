@@ -52,6 +52,16 @@ async function findMessagesByMatchId(match_id) {
   })
 }
 
+async function findMatch(id) {
+  return prisma.matches.findUnique({
+    where: { id: BigInt(id) },
+    include: {
+      matchesAsDog1: true,
+      matchesAsDog2: true
+    }
+  })
+}
+
 async function deleteMatch(id) {
   return prisma.matches.delete({ where: { id: BigInt(id) } })
 }
@@ -66,4 +76,4 @@ async function desactivateMatchWithReq(request) {
   })  
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq }
+export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
