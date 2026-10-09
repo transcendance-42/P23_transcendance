@@ -10,6 +10,23 @@ const prisma = new PrismaClient({ adapter })
 const passwordHash = await bcrypt.hash('ekipekip', 10)
 const adminPasswordHash = await bcrypt.hash('admin123', 10)
 
+const cityCoords = {
+  'Zürich':    [47.3769, 8.5417],
+  'Berne':     [46.9480, 7.4474],
+  'Lugano':    [46.0037, 8.9511],
+  'Bâle':      [47.5596, 7.5886],
+  'Fribourg':  [46.8065, 7.1620],
+  'Neuchâtel': [46.9920, 6.9319],
+  'Sion':      [46.2293, 7.3590],
+  'Lausanne':  [46.5197, 6.6323],
+  'Genève':    [46.2044, 6.1432],
+  'Renens':    [46.5397, 6.5882],
+}
+
+// Décalage aléatoire d'environ ±2 km, pour que les utilisateurs d'une même
+// ville ne soient pas tous au même point (utile pour tester le tri par distance)
+const jitter = () => (Math.random() - 0.5) * 0.04
+
 const users = [
   { email: 'admin@tindog.com', password_hash: adminPasswordHash, first_name: 'admin', last_name: 'admin', city: 'Lausanne', date_of_birth: new Date('2000-01-01'), role: 'admin'},
   { email: 'parissa@tindog.com', password_hash: passwordHash, first_name: 'Parissa', last_name: 'Chatagny', city: 'Lausanne', date_of_birth: new Date('2000-09-03') },
@@ -159,10 +176,26 @@ async function main() {
   // Create 50 users
   const createdUsers = []
   for (const user of users) {
-    const created = await prisma.users.create({ data: user })
+  const created = await prisma.users.create({ data: user })
+
+    const coords = cityCoords[user.city]
+    if (coords) {
+      const lat = coords[0] + jitter()
+      const lng = coords[1] + jitter()
+
+      await prisma.$executeRaw`
+        UPDATE users
+        SET position = ST_SetSRID(ST_MakePoint(${lng}::float8, ${lat}::float8), 4326)::geography
+        WHERE id = ${created.id}
+      `
+    } else {
+      console.warn(`Ville inconnue pour ${user.first_name}: ${user.city}`)
+    }
+
     createdUsers.push(created)
-    console.log(`Created user: ${created.first_name} ${created.last_name}`)
+    console.log(`Created user: ${created.first_name} ${created.last_name} (${user.city})`)
   }
+  
 
   // Create 50 dogs (one per user)
   const createdDogs = []
