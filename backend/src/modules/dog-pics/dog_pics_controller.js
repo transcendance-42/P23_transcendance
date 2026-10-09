@@ -1,25 +1,11 @@
 import { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic } from './dog_pics_queries.js'
+import { allowedMimeType, creatDirUpload, controleTypeBuff } from '../../utils/pics_handle.js'
+
 import { promises as fs } from 'node:fs'
 import  path  from 'node:path'
 import { fileTypeFromBuffer } from 'file-type'
-// import { fileURLToPath } from 'node:url'
 import { createReadStream } from 'fs'
 import { randomUUID } from 'node:crypto'
-
-const allowedMimeType = [
-  'image/jpeg',
-  'image/png',
-  'image/webp'
-]
-
-async function creatDirUpload() {
-  try {
-    const uploadDir = '/app/uploads'
-    await fs.mkdir(uploadDir, { recursive : true })
-    return uploadDir
-  } catch (e) {
-  }
-}
 
 async function getDogPic(request, reply) {
   try {
@@ -51,10 +37,7 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    const buffer = await request.body.file.toBuffer()
-    const type = await fileTypeFromBuffer(buffer)
-    if (!type || !allowedMimeType.includes(type.mime))
-      return reply.code(400).send({ error: 'Invalid file type' })
+    await controleTypeBuff()
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
@@ -64,7 +47,7 @@ async function postDogPic(request, reply) {
     console.log('mimetype:', request.body.file.mimetype)
     console.log('bytes   :', request.body.file.file.bytesRead)
     console.log('has been uploaded')
-    const uploadDir = await creatDirUpload()
+    const uploadDir = await creatDirUpload('uploads')
     const filePath = path.join(uploadDir, filename)
     await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
@@ -75,10 +58,7 @@ async function postDogPic(request, reply) {
 
 async function putDogPic(request, reply) {
   try {
-    const buffer = await request.body.file.toBuffer()
-    const type = await fileTypeFromBuffer(buffer)
-    if (!type || !allowedMimeType.includes(type.mime))
-      return reply.code(400).send({ error: 'Invalid file type' })
+    await controleTypeBuff()
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })

@@ -26,7 +26,16 @@ export default function Profile() {
     const handleAvatarUpload = async (file) => {
         const fd = new FormData()
         fd.append('file', file)
-        const res = await authFetch(`/api/users/${userId}/pic`, {
+
+        const uploadedFile = fd.get('file')
+        // affihcage file
+        console.log('--- AVATAR UPLOAD ---')
+        console.log('FormData entries:', [...fd.entries()])
+        console.log('Filename:', uploadedFile?.name)
+        console.log('Mimetype:', uploadedFile?.type)
+        console.log('Size:', uploadedFile?.size, 'bytes')
+
+        const res = await authFetch(`/api/user/${userId}/pic`, {
             method: 'POST',
             body: fd
         })
@@ -34,7 +43,7 @@ export default function Profile() {
             const url = URL.createObjectURL(file)
             setAvatarUrl(url)
         }
-    }
+    }   
 
     useEffect(() => {
         const load = async () => {
