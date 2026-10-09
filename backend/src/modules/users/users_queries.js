@@ -28,6 +28,26 @@ async function findUserById(id) {
   })
 }
 
+async function updateUserPosition(id , data){
+  const lng = Number(data.longitude)
+	const lat = Number(data.latitude)
+  if(data.radius)
+  {
+    await prisma.users.update({
+      where: { id: id },
+      data: { radius: Number(data.radius)}
+    })
+  }
+
+  await prisma.$executeRaw`
+      UPDATE "users"
+      SET "position" = ST_setSRID(ST_Makepoint(${lng}::float8,${lat}::float8), 4326)::geography,
+          "city" = ${data.city}
+      WHERE "id" = ${Number(id)}`
+
+  return {succes:true}
+}
+
 async function updateUser(id, data) {
   const parsed = { ...data }
     if (parsed.date_of_birth)
@@ -47,4 +67,4 @@ async function deactivateUser(id) {
   })
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser }
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition }

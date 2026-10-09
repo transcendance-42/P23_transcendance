@@ -111,7 +111,7 @@
     "DeleteConfirmTitle": "Are you sure?",
     "DeleteConfirmText": "You are about to delete {{name}}. This action cannot be undone.",
     "Confirm": "Yes, delete",
-    "NoMatches": "No Macthes yet", 
+    "NoMatches": "No Macthes yet",
     "ProfileIncompleteWarning": "Complete your profile before you can start swiping",
     "ProfileMissingDog": "Add a dog profile", 
     "Missing" : "Missing",
@@ -120,5 +120,11 @@
     "Online": "Online",
     "Offline": "Offline", 
     "Back": "Back", 
-    "GetStarted" : "Get Started"
-}
+    "GetStarted" : "Get Started",
+    "Offline": "Offline",
+    "SearchMap": "Search",
+    "ValideMapData": "validate",
+    "SearchACity": "Search a city",
+    "DistanceToSearch": "Distance",
+    "LocalisationButton": "Localisation"
+  }

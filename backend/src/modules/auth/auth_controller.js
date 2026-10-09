@@ -39,7 +39,7 @@ async function issueSession(user, reply, redirect = false) {
     if (redirect) {
         return reply
             .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
-            .redirect(`http://localhost:5173/oauth-callback?profileComplete=${isUserComplete(user)}`)
+            .redirect(`https://localhost/oauth-callback?profileComplete=${isUserComplete(user)}`)
     }
 
     return reply
@@ -116,6 +116,16 @@ async function register(request, reply) {
                 return reply.code(401).send({error : 'TOO_YOUNG'})
         if (birthDate < maxBirthDate)
                 return reply.code(401).send({error : 'TOO_OLD'})
+        
+	const lng = Number(request.body.longitude)
+	const lat = Number(request.body.latitude)        
+        if ( !Number.isFinite(lng) || !Number.isFinite(lat) || // verification longitude et latitude
+                lng < -180 || lng > 180 ||
+                lat < -90 || lat > 90 )
+        {
+                return reply.code(400).send({error : 'Invalid position'}) 
+        }
+
         try {
                 const hashPassword = await bcrypt.hash(request.body.password, 10)
                 const user = await creatUser(request, hashPassword, birthDate)

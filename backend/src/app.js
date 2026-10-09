@@ -26,7 +26,7 @@ async function buildApp() {
     global:true,
   })
 
-  fastify.get('/health', {security:[]},async () => {
+  fastify.get('/api/health', {security:[]},async () => {
     return { status: 'ok' }
   })
 
@@ -50,7 +50,7 @@ async function buildApp() {
   })
 
   fastify.register(swaggerUI, {
-    routePrefix: '/documentation'
+    routePrefix: '/api/documentation',
   })
 
   fastify.register(fastifyCookie, {
