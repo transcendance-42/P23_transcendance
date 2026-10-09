@@ -12,13 +12,13 @@ async function checkDogAcces(request, reply) {
         return reply.code(403).send({error: 'Forbidden'})     
 }
 
-async function checkDogAccesPost(request, reply) {
-    const userId = request.userId
-    const ownerId = request.body.owner_id
-    if (request.role === 'admin')
-        return;
-    if (userId.toString() !== ownerId.toString())
-        return reply.code(403).send({error: 'Forbidden'})     
-}
+// async function checkDogAccesPost(request, reply) {
+//     const userId = request.userId
+//     const ownerId = request.body.owner_id
+//     if (request.role === 'admin')
+//         return;
+//     if (userId.toString() !== ownerId.toString())
+//         return reply.code(403).send({error: 'Forbidden'})     
+// }
 
-export { checkDogAcces, checkDogAccesPost }
+export { checkDogAcces }

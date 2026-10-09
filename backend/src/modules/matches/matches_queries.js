@@ -76,4 +76,4 @@ async function desactivateMatchWithReq(request) {
   })  
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq }
+export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
