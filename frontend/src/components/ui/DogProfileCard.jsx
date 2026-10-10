@@ -13,10 +13,9 @@ export default function DogProfileCard( {dog} ){
                 <img className='w-full aspect-[4/5] object-cover' src={defaultDog} alt={dog.dog_name}/>
                 <div className='absolute bottom-0 inset-x-0 bg-linear-to-t from-black/70 to-transparent p-6 
                     flex items-baseline gap-2'>
-                <span className='font-heading text-4xl font-bold text-white'>{dog.dog_name}</span>
-                <span className='text-xl text-white'>{dog.age} {t('Years')}</span>
-                    
-                    </div>
+                    <span className='font-heading text-4xl font-bold text-white'>{dog.dog_name}</span>
+                    <span className='text-xl text-white'>{dog.age} {t('Years')}</span>
+                </div>
             </div>
                 
             <div className='flex flex-col md:w-1/2 gap-6'>
@@ -29,8 +28,12 @@ export default function DogProfileCard( {dog} ){
                     <h2 className='font-heading text-2xl font-bold text-text-primary'>{t('AboutMe')} </h2>
                     <p className='text-text-secondary leading-relaxed'>{dog.bio} </p>
                 </div>
+                <div className='bg-surface-raised rounded-[var(--radius-md)] p-5 flex items-center gap-4'>
+                    <div className='w-16 h-16 rounded-full overflow-hidden bg-surface-cream flex items-center justify-center'>
+                        <Mascot size='sm'/>
+                    </div>
+                </div>
             </div>
         </div>
-
     )
 }
