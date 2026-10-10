@@ -118,5 +118,6 @@
     "UnmatchConfirmTitle": "Supprimer le match ?",
     "UnmatchConfirmText": "Es-tu sûr de vouloir supprimer ton match avec {{name}} ?",
     "Online": "En ligne",
-    "Offline": "Hors Ligne"
+    "Offline": "Hors Ligne",
+    "Years": "ans"
 }

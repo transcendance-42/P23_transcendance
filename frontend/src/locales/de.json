@@ -118,5 +118,6 @@
     "UnmatchConfirmTitle": "Entmatchen?",
     "UnmatchConfirmText": "Bist du sicher, dass du das Match mit {{name}} löschen möchtest?",
     "Online": "Online",
-    "Offline": "Offline"
+    "Offline": "Offline",
+    "Years": "Jahre"
 }

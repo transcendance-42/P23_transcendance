@@ -118,5 +118,6 @@
     "UnmatchConfirmTitle": "Unmatch?",
     "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?",
     "Online": "Online",
-    "Offline": "Offline"
+    "Offline": "Offline",
+    "Years": "years"
 }

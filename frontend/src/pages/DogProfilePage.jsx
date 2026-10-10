@@ -20,9 +20,9 @@ export default function DogProfilePage(){
     const { t } = useTranslation()
 
         return (
-        <div className='min-h-screen bg-surface-cream'>
+        <div className='min-h-screen bg-surface-cream flex flex-col'>
             <NavBarAuth />
-            <div className='mx-auto max-w-5xl px-6 py-10'>
+            <div className='mx-auto max-w-5xl px-6 py-10 flex-1 flex flex-col justify-center w-full'>
                  <DogProfileCard dog={Fakedog}/>
                 </div>
         </div>
