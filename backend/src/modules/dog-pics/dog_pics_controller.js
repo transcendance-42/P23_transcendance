@@ -1,11 +1,7 @@
 import { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic } from './dog_pics_queries.js'
-import { allowedMimeType, creatDirUpload, controleTypeBuff } from '../../utils/pics_handle.js'
-
+import { creatFileBuffer, creaFilePath } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
-import  path  from 'node:path'
-import { fileTypeFromBuffer } from 'file-type'
 import { createReadStream } from 'fs'
-import { randomUUID } from 'node:crypto'
 
 async function getDogPic(request, reply) {
   try {
@@ -37,18 +33,11 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    await controleTypeBuff()
+    const buffer = await creatFileBuffer(request)
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
-    const extension = path.extname(request.body.file.filename)
-    const filename = randomUUID() + extension
-    console.log('filname :', filename)
-    console.log('mimetype:', request.body.file.mimetype)
-    console.log('bytes   :', request.body.file.file.bytesRead)
-    console.log('has been uploaded')
-    const uploadDir = await creatDirUpload('uploads')
-    const filePath = path.join(uploadDir, filename)
+    const filePath = await creaFilePath('uploads')
     await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
   } catch (e) {
@@ -58,7 +47,7 @@ async function postDogPic(request, reply) {
 
 async function putDogPic(request, reply) {
   try {
-    await controleTypeBuff()
+    const buffer = await creatFileBuffer()
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })

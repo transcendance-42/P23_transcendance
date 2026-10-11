@@ -30,7 +30,6 @@ export default function Profile() {
         const uploadedFile = fd.get('file')
         // affihcage file
         console.log('--- AVATAR UPLOAD ---')
-        console.log('FormData entries:', [...fd.entries()])
         console.log('Filename:', uploadedFile?.name)
         console.log('Mimetype:', uploadedFile?.type)
         console.log('Size:', uploadedFile?.size, 'bytes')
