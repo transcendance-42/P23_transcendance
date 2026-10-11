@@ -11,9 +11,10 @@ import DogProfileCard from '../components/ui/DogProfileCard';
         age: 3,
         gender: 'Male', 
         size: 'Small', 
-        bio: 'Gentil toutou qui aime les balades',
+        bio: 'Staffie au grand cœur. Je fais la fête à tout le monde, je rapporte la balle (parfois) et je ronfle pendant la sieste. \
+        Je cherche un copain ou une copine pour des balades au parc le week-end.',
         dog_pics: [],
-        users: {first_name: 'Jul', city: 'Annecy'}
+        users: {first_name: 'Julien', city: 'Annecy'}
     }
 
 export default function DogProfilePage(){

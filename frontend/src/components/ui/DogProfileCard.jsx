@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Mascot from './Mascot';
 import defaultDog from '../../assets/defaultPic.png';
-import DogInfo from './DogInfo';
 
 export default function DogProfileCard( {dog} ){
     const { t } = useTranslation()
@@ -32,6 +31,12 @@ export default function DogProfileCard( {dog} ){
                     <div className='w-16 h-16 rounded-full overflow-hidden bg-surface-cream flex items-center justify-center'>
                         <Mascot size='sm'/>
                     </div>
+                    <div className='flex flex-col'>
+                        <span className='text-xs uppercase tracking-widest text-text-caption'>son humain</span>
+                        <span className='font-heading text-xl text-surface-white'>{dog.users.first_name}</span> 
+                        <span className='text-sm text-surface-cream'>{dog.users.city}</span>
+                    </div> 
+                    
                 </div>
             </div>
         </div>
