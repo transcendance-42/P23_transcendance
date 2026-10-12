@@ -112,6 +112,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         } catch (e) {
             setError('Impossible de contacter le serveur')
         }
+        await refreshUser()
         setShowDeleteModal(false)
     }
     const handleDeletePic = async (picId) => {

@@ -2,7 +2,6 @@ import DogCards from '../components/swipe/DogCards'
 import MatchNotif from '../components/swipe/MatchNotif'
 import {useState} from 'react';
 import NavBarAuth from '../components/ui/NavBarAuth'
-import Footer from '../components/ui/Footer'
 
 function SwipePage() {
 const [showMatch, setShowMatch] = useState(false)
@@ -15,7 +14,6 @@ const [showMatch, setShowMatch] = useState(false)
             <DogCards onMatch={() => setShowMatch(true)} />
             {showMatch && <MatchNotif onClose={() => setShowMatch(false)}/>}
         </div>
-        <Footer/>
     </div>
 )
 }

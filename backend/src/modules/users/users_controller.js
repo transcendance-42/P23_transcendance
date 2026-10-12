@@ -1,4 +1,4 @@
-import { findActiveUsers, findUserById, updateUser, deactivateUser } from './users_queries.js'
+import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition } from './users_queries.js'
 
 async function getUsers(request, reply) {
   try {
@@ -26,8 +26,18 @@ async function putUser(request, reply) {
     return await updateUser(request.params.id, request.body)
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
+      return reply.code(500).send({ error: e.message })
+  }
+}
+
+async function putUserPosition(request, reply){
+  try {
+    return await updateUserPosition(request.params.id, request.body)
+  } catch (e) {
+    if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
     return reply.code(500).send({ error: e.message })
   }
+
 }
 
 async function patchDeactivateUser(request, reply) {
@@ -39,4 +49,4 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-export { getUsers, getUser, putUser, patchDeactivateUser }
+export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition }

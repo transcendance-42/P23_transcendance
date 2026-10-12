@@ -4,8 +4,14 @@ import { useState, useEffect } from 'react'
 import { authFetch } from '../api/authFetch'
 
 export default function RequireProfileComplete({ children }) {
-    const { user }  = useAuth()
-    console.log('user.dogs:', user.dogs, 'dog_name:', user.dogs?.dog_name)
+    const { user, loading ,refreshUser }  = useAuth()
+    if (loading || !user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                Chargement…
+            </div>
+        )
+    }
     if (user.first_name &&
         user.last_name &&
         user.city &&

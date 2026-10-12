@@ -110,13 +110,18 @@
     "DeleteDog": "Hund löschen",
     "DeleteConfirmTitle": "Bist du sicher?",
     "DeleteConfirmText": "Du bist dabei, {{name}} zu löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
-    "Confirm": "Ja, löschen", 
-    "NoMatches": "Noch keine Matches. Geh wischen!", 
+    "Confirm": "Ja, löschen",
+    "NoMatches": "Noch keine Matches. Geh wischen!",
     "ProfileIncompleteWarning": "Vervollständige dein Profil, bevor du mit dem Swipen beginnen kannst",
     "ProfileMissingDog": "Füge ein Hundeprofil hinzu", 
     "Missing": "Nicht angegeben" ,
     "UnmatchConfirmTitle": "Entmatchen?",
     "UnmatchConfirmText": "Bist du sicher, dass du das Match mit {{name}} löschen möchtest?",
     "Online": "Online",
-    "Offline": "Offline"
-}
+    "Offline": "Offline",
+    "SearchMap": "Suchen",
+    "ValideMapData": "bestätigen",
+    "SearchACity": "Stadt suchen",
+    "DistanceToSearch": "Suchradius",
+    "LocalisationButton": "Standort"
+  }

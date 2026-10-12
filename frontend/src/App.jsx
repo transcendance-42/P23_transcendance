@@ -14,6 +14,7 @@ import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
+import PresenceProvider from './auth/presenceProvider'
 
 function App() {
   return (
@@ -25,16 +26,18 @@ function App() {
         <Route path="/privacy" element = {<Privacy />} />
         <Route path="/terms" element = {<Terms/>} />
 
-        <Route element={<RequireAuth><Outlet /></RequireAuth>}>
+    <Route element={<RequireAuth><Outlet /></RequireAuth>}>
 			<Route path="/oauth-callback" element={<OAuthCallback />} />
 			<Route path="/profile"     element={<Profile/>} />
 			<Route path="/registerDog" element={<RegisterDog/>} />
 
 			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
-				<Route path="/swipes"      element={<SwipePage/>} />
-				<Route path="/matches"     element={<MatchesPage/>} />
-				<Route path="/chat"        element={<ChatLayout/>} />
-				<Route path="/chat/:roomId" element={<ChatLayout/>} />
+          <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>
+            <Route path="/swipes"      element={<SwipePage/>} />
+            <Route path="/matches"     element={<MatchesPage/>} />
+            <Route path="/chat"        element={<ChatLayout/>} />
+            <Route path="/chat/:roomId" element={<ChatLayout/>} />
+          </Route>  
 			</Route>
 		</Route>
     </Routes>

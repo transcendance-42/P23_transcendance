@@ -9,9 +9,9 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     watch: { usePolling: true },
-    allowedHosts: ['frontend.localhost'],
+    allowedHosts: ['localhost'],
     hmr: {
-      host: 'frontend.localhost',
+      host: 'localhost',
       protocol: 'wss',
       clientPort: 443,
     },
