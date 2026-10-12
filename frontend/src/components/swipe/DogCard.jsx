@@ -24,7 +24,11 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
             const direction = x.get() > 0 ? 'right' : 'left'
             try {
                 const data = await sendRequestSwipes(direction, dog.id)
-                if (data.matched) onMatch()
+                console.log(data)
+                if (data.matched) onMatch({
+                    roomId: data.match?.id,
+                    otherPicId: dog.dog_pics?.[0]?.id
+                })
             } catch (e) {
                 console.error('Swipe error:', e.message)
             }

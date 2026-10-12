@@ -5,8 +5,6 @@ import DogCard from './DogCard'
 import SwipeButton from '../ui/SwipeButton'
 import EmptyState from '../ui/EmptyState'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../auth/AuthContext'
-
 
 const DogCards = ({ onMatch }) => {
     const { t } = useTranslation()
@@ -24,7 +22,13 @@ const DogCards = ({ onMatch }) => {
         const frontDog = dogs[0]
         try {
             const data = await sendRequestSwipes(direction, frontDog.id)
-            if (data.matched) onMatch()
+            console.log('swipe response:', data)
+            if (data.matched)
+                onMatch({
+                roomId: data.match?.id,
+                myPicId: data.myDog?.dog_pics?.[0]?.id,
+                otherPicId: frontDog.dog_pics?.[0]?.id
+            })
         } catch (e) {
             console.error('Swipe error:', e.message)
         }
