@@ -4,15 +4,11 @@ import SecondaryButton from "./SecondaryButton"
 import i18n from '../../i18n'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import LangSwitcher from './LangSwitcher'
 
 const NavBar = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
-    const [lang, setLang] = useState('en')
-    const changeLang = (l) => {
-        setLang(l)
-        i18n.changeLanguage(l)
-    }
     const [open, setOpen] = useState(false)
     useEffect(() => {
         const handleScroll = () => setOpen(false)
@@ -25,14 +21,7 @@ const NavBar = () => {
                 <button onClick={() => { navigate('/'); window.scrollTo(0, 0) }} className="text-xl text-primary font-bold font-heading text-left">
                     Tindog
                 </button>
-                <div className="flex justify-center gap-4">
-                    {['fr', 'en', 'de'].map(l => (
-                        <button key={l} onClick={() => changeLang(l)}
-                            className={`text-2xl transition-all hover:scale-110 ${lang === l ? 'opacity-100 scale-110' : 'opacity-30'}`}>
-                            {l === 'fr' ? '🇫🇷' : l === 'en' ? '🇬🇧' : '🇩🇪'}
-                        </button>
-                    ))}
-                </div>
+                <LangSwitcher />
             <div className="flex justify-end">
             <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
             <div className="hidden lg:flex gap-6 text-sm">
