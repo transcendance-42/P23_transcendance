@@ -118,11 +118,15 @@
     "UnmatchConfirmTitle": "Entmatchen?",
     "UnmatchConfirmText": "Bist du sicher, dass du das Match mit {{name}} löschen möchtest?",
     "Online": "Online",
+    "Offline": "Offline", 
+    "Back": "Zurück", 
+    "GetStarted": "Loslegen",
     "Offline": "Offline",
     "SearchMap": "Suchen",
     "ValideMapData": "bestätigen",
     "SearchACity": "Stadt suchen",
     "DistanceToSearch": "Suchradius",
     "LocalisationButton": "Standort", 
-    "WhatEmail": "Was ist deine E-Mail?"
+    "WhatEmail": "Was ist deine E-Mail?",
+    "LocalisationButton": "Standort"
   }

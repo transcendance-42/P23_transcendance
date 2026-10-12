@@ -16,7 +16,7 @@ export default function Login() {
                 <LangSwitcher />
             </div>
             <Mascot index={0} size="lg"/>
-            <ModalHeader title="Get Started" />
+            <ModalHeader title={t('GetStarted')} />
             <p className="text-xs text-text-caption text-center">
                 {t('Login1')}{' '}
                 <span className="text-primary underline cursor-pointer">{t('Login2')}</span>.
