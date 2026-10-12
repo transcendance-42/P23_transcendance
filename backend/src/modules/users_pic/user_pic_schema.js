@@ -1,4 +1,21 @@
-const postUserPicSchema = {
+const configRateLimit = {
+	config :{
+		rateLimit: {
+		max: 10,
+		timeWindow: '1 minute'
+		}
+	}
+}
+
+const getUserPicSchema = {
+    params: {
+        type: 'object',
+        properties: { id: { type: 'string' } },
+        required: ['id']
+    }
+}
+
+const putUserPicSchema = {
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
@@ -7,4 +24,12 @@ const postUserPicSchema = {
 	}
 }
 
-export { postUserPicSchema }
+const deleteUserPicSchema = {
+	params: {
+		type: 'object',
+		properties: { id: { type: 'string' } },
+		required: ['id']
+	}
+}
+
+export { getUserPicSchema, putUserPicSchema, deleteUserPicSchema, configRateLimit }

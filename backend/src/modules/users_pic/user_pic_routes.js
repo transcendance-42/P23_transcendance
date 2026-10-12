@@ -1,12 +1,11 @@
-import { postUserPicSchema } from './user_pic_schema.js'
-import { postUserPic } from './user_pic_controller.js'
+import { getUserPicSchema, putUserPicSchema, deleteUserPicSchema, configRateLimit } from './user_pic_schema.js'
+import { getUserPic, putUserPic, removeUserPic } from './user_pic_controller.js'
 
 async function userPicRoutes(fastify) {
 	fastify.addHook('onRequest', fastify.authorize)
-	// fastify.get()
-	fastify.post('/user/:id/pic', { schema: postUserPicSchema }, postUserPic)
-	// fastify.put()
-	// fastify.delete()
+	fastify.get('/user/:id/pic', { schema: getUserPicSchema }, getUserPic)
+	fastify.put('/user/:id/pic', { schema: putUserPicSchema, config: configRateLimit }, putUserPic)
+	fastify.delete('/user/:id/pic', { schema: deleteUserPicSchema}, removeUserPic)
 }
 
 export { userPicRoutes }

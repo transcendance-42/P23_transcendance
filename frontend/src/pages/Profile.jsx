@@ -35,7 +35,7 @@ export default function Profile() {
         console.log('Size:', uploadedFile?.size, 'bytes')
 
         const res = await authFetch(`/api/user/${userId}/pic`, {
-            method: 'POST',
+            method: 'PUT',
             body: fd
         })
         if (res.ok) {
