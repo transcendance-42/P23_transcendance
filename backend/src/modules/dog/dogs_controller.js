@@ -28,9 +28,6 @@ async function GetDogsAroundMe(request, reply) {
     }
 }
 
-
-
-
 async function GetDogsByID (request, reply) {
     try {
       const dog = await findDogsId(request)
