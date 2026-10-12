@@ -1,4 +1,4 @@
-import { findUserById } from "../modules/users/users_queries.js";
+
 
 async function checkUserAcces(request, reply) {
     const userId = request.userId

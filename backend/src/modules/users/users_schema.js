@@ -39,9 +39,9 @@ const updateUserPositionSchema = {
     type: 'object',
     properties: {
       city: { type: 'string', minLength: 3 },
-      longitude: { type: 'number', minLength: 1,  maxLength: 3},
-      latitude: { type: 'number', minLength: 1,  maxLength: 3 },
-      radius: { type: 'number', minLength: 1,  maxLength: 3 }
+      longitude: { type: 'number', minimum: -180,  maximum: 180},
+      latitude: { type: 'number', minimum: -90,  maximum: 90 },
+      radius: { type: 'number', minimum: 1}
     },
     additionalProperties: false
   }

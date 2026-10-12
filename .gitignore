@@ -2,3 +2,4 @@
 node_modules
 certs
 /uploads/*
+!/uploads/seed/
