@@ -10,6 +10,7 @@ import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
+import { uploadDogPics } from '../api/dogs'
 
 
 export default function RegisterDog() {
@@ -26,7 +27,10 @@ export default function RegisterDog() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
-    const { refreshUser } = useAuth()
+    const [isSubmitting, setSubmitting] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(null)
+    const [uploadIndex, setUploadIndex] = useState(0)
+    const { refreshUser, token } = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -56,43 +60,50 @@ export default function RegisterDog() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        const { date_of_birth, ...rest } = formData
-        const body = { ...rest, age: calculateAge(date_of_birth) }
-        try {
-           
-            const dogRes = await authFetch('/api/dogs', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            })
-            const dogData = await dogRes.json()
-            if (!dogRes.ok) {
-                setError(dogData.error || 'Server error')
-                return
-            }
-            // Étape 2 : créer les photos pour le chien, multipart
-            for (let index = 0; index < photos.length; index++) {
-                const fd = new FormData()
-                fd.append('dog_id', dogData.id)
-                fd.append('file', photos[index])
-                fd.append('position', index + 1)
-                const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
-                if (!picDogRes.ok) {
-                    setError(`Échec de l'upload de ${photos[index].name}`)
-                    await refreshUser()
-                    setTimeout(() => navigate('/profile'), 1500)
-                    return
-                }
-            }
-            await refreshUser()
-            setSuccess('Profile created!')
-            setTimeout(() => navigate('/swipes'), 1500)
-        } catch (e) {
-            setError('Server unreachable, please try again')
+    e.preventDefault()
+    setError('')
+    setIsSubmitting(true)
+    const { date_of_birth, ...rest } = formData
+    const body = { ...rest, age: calculateAge(date_of_birth) }
+    try {
+        const dogRes = await authFetch('/api/dogs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+        const dogData = await dogRes.json()
+        if (!dogRes.ok) {
+            setError(dogData.error || 'Server error')
+            setIsSubmitting(false)
+            return
         }
+        // Étape 2 : créer les photos pour le chien, multipart
+        for (let index = 0; index < photos.length; index++) {
+            const fd = new FormData()
+            fd.append('dog_id', dogData.id)
+            fd.append('file', photos[index])
+            fd.append('position', index + 1)
+            setUploadIndex(index + 1)
+            setUploadProgress(0)
+            try {
+                await uploadDogPic(fd, token, setUploadProgress)
+            } catch (uploadErr) {
+                setError(t('UploadFailed', { name: photos[index].name }))
+                await refreshUser()
+                setTimeout(() => navigate('/profile'), 1500)
+                return
+            } finally {
+                setUploadProgress(null)
+            }
+        }
+        await refreshUser()
+        setSuccess('Profile created!')
+        setTimeout(() => navigate('/swipes'), 1500)
+    } catch (e) {
+        setError('Server unreachable, please try again')
+        setIsSubmitting(false)
     }
+}
 
     const allFilled = Object.values(formData).every(v => v !== '') && photos.length > 0
 
@@ -141,7 +152,7 @@ export default function RegisterDog() {
                     {photos.length === 0 && (
                         <p className="text-text-caption text-xs text-center">At least 1 photo required</p>
                     )}
-
+                    
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
