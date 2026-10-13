@@ -165,11 +165,11 @@ export default function RegisterDog() {
                             </div>
                         </div>
                     )}
-                    
+
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
-                    <PrimaryButton type="submit" disabled={!allFilled}>
+                    <PrimaryButton type="submit" disabled={!allFilled || isSubmitting}>
                         {t('Profile2')}
                     </PrimaryButton>
                 </form>

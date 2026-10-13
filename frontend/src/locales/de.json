@@ -128,5 +128,7 @@
     "DistanceToSearch": "Suchradius",
     "LocalisationButton": "Standort", 
     "WhatEmail": "Was ist deine E-Mail?",
-    "LocalisationButton": "Standort"
+    "LocalisationButton": "Standort",
+    "UploadingPhoto": "Foto {{current}}/{{total}} wird hochgeladen",
+    "UploadFailed": "Hochladen von {{name}} fehlgeschlagen"
   }
