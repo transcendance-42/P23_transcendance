@@ -14,17 +14,20 @@ import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
+import ScrollToTop from './components/ui/ScrollToTop'
 import PresenceProvider from './auth/presenceProvider'
 
 function App() {
   return (
-    <Routes>
-        <Route path="/" element={<LandingPage/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/login/email" element={<LoginEmail/>} />
-        <Route path="/privacy" element = {<Privacy />} />
-        <Route path="/terms" element = {<Terms/>} />
+    <>
+      <ScrollToTop/>
+      <Routes>
+          <Route path="/" element={<LandingPage/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/login/email" element={<LoginEmail/>} />
+          <Route path="/privacy" element = {<Privacy />} />
+          <Route path="/terms" element = {<Terms/>} />
 
     <Route element={<RequireAuth><Outlet /></RequireAuth>}>
 			<Route path="/oauth-callback" element={<OAuthCallback />} />
@@ -41,6 +44,7 @@ function App() {
 			</Route>
 		</Route>
     </Routes>
+</>
   )
 }
 

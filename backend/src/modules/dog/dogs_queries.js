@@ -70,6 +70,13 @@ async function findDogsId(request) {
 	})
 }
 
+async function findDogsIdParams(dogId) {
+    console.log('LA DOG ID')
+    console.log(dogId)
+	return prisma.dogs.findUnique({where: { id: BigInt(dogId) }})
+}
+
+
 async function creatDogs(owner_id, rest) {
 	return prisma.dogs.create({data: { owner_id: BigInt(owner_id), ...rest }})
 }
@@ -93,4 +100,4 @@ async function deleteDogs(request) {
     return prisma.dogs.delete({ where: { id } })
 }
 
-export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe, findDogsAroundMe}
+export {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}

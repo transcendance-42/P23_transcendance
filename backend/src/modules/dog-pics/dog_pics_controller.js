@@ -1,6 +1,8 @@
 import { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic } from './dog_pics_queries.js'
 import { creatFileBuffer, creaFilePath } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
+import  path  from 'node:path'
+import { fileTypeFromBuffer } from 'file-type'
 import { createReadStream } from 'fs'
 
 async function getDogPic(request, reply) {
@@ -40,6 +42,7 @@ async function postDogPic(request, reply) {
     const filePath = await creaFilePath('uploads', request.body.file.filename)
     await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
+    return reply.send(newPic)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
