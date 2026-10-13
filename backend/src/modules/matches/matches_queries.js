@@ -31,7 +31,7 @@ async function findMatchesByUserId(userId) {
         }}
       },
     },
-    orderBy: { created_at: 'asc' }
+    orderBy: { created_at: 'desc' }
   })
 }
 
