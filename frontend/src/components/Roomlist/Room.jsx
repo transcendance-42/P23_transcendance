@@ -35,10 +35,6 @@ export function Room({match_dog_name, lastSeenAt, matchUserId, hasUnread}) {
                     <span className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
                     {isOnline ? t('Online') : t('Offline')}
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-gray-500">
-                    <span className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
-                    {isOnline ? t('Online') : t('Offline')}
-                </span>
             </div>
         </div>
     )
