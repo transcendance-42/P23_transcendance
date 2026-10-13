@@ -1,4 +1,4 @@
-import { findMessagesByMatchId, deleteMessage } from './messages_queries.js'
+import { findMessagesByMatchId, deleteMessage, findMessageById, countUnreadMessages, markRoomAsRead, getUnreadPerRoom} from './messages_queries.js'
 
 async function getMessages(request, reply) {
   try {
@@ -26,4 +26,28 @@ async function removeMessage(request, reply) {
   }
 }
 
-export { getMessages, removeMessage }
+
+async function getUnreadCount(request, reply) {
+  try {
+    const count = await countUnreadMessages(request.userId)
+    return { unreadMessages: count }
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
+async function readRoom(request, reply) {
+  try {
+    await markRoomAsRead(request.params.matchId, request.userId)
+    return { success: true }
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
+async function unreadPerRoom(request, reply) {
+    const data = await getUnreadPerRoom(request.userId)
+    return data
+}
+
+export { getMessages, removeMessage, getUnreadCount, readRoom, unreadPerRoom }

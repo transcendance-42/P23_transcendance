@@ -5,6 +5,7 @@ import SecondaryButton from './SecondaryButton'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n'
 import LangSwitcher from './LangSwitcher'
+import { authFetch } from '../../api/authFetch'
 
 const NavBarAuth = () => {
     const { logout, user } = useAuth()
@@ -12,6 +13,7 @@ const NavBarAuth = () => {
     const [lang, setLang] = useState('en')
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
+    const [unreadCount, setUnreadCount] = useState(0)
 
     const isProfileComplete = !!(
         user?.first_name &&
@@ -34,9 +36,17 @@ const NavBarAuth = () => {
     }
 
     useEffect(() => {
+        const fetchUnread = () => {
+            authFetch('/api/messages/unread-count')
+                .then(r => r.json())
+                .then(data => setUnreadCount(data.unreadMessages || 0))
+                .catch(() => {})
+        }
+        fetchUnread()
+        const interval = setInterval(fetchUnread, 30000)
         const handleScroll = () => setOpen(false)
         window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => { clearInterval(interval); window.removeEventListener('scroll', handleScroll) }
     }, [])
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
@@ -47,7 +57,14 @@ const NavBarAuth = () => {
                     <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                     <div className="hidden lg:flex gap-6 text-sm">
                     <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
-<SecondaryButton to="/chat" disabled={!isProfileComplete}>{t('Chat')}</SecondaryButton>
+                    <SecondaryButton to="/chat" disabled={!isProfileComplete}>
+                        <span className="flex items-center gap-2.5">
+                            {t('Chat')}
+                            {unreadCount > 0 && (
+                                <span className="w-3 h-3 bg-red-700 rounded-full inline-block" />
+                            )}
+                        </span>
+                    </SecondaryButton>
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
                     <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
                 </div>
