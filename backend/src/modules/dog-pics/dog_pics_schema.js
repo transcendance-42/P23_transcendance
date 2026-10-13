@@ -1,7 +1,7 @@
 const getDogPicSchema = {
   params: {
     type: 'object',
-    properties: { id: { type: 'integer' } },
+    properties: { id: { type: 'string' } },
     required: ['id']
   }
 }
@@ -9,7 +9,7 @@ const getDogPicSchema = {
 const getDogPicsSchema = {
   params: {
     type: 'object',
-    properties: { dogId: { type: 'integer' } },
+    properties: { dogId: { type: 'string' } },
     required: ['dogId']
   }
 }
@@ -28,7 +28,7 @@ const createDogPicSchema = {
 }
 
 const updateDogPicSchema = {
-  consume: ['multipart/form-data'],
+  consumes: ['multipart/form-data'],
   body: {
     type: 'object',
     properties: {
@@ -43,7 +43,7 @@ const updateDogPicSchema = {
 const deleteDogPicSchema = {
   params: {
     type: 'object',
-    properties: { id: { type: 'integer' } },
+    properties: { id: { type: 'string' } },
     required: ['id']
   }
 }
