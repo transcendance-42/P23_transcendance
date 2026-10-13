@@ -1,19 +1,7 @@
 import prisma from '../../utils/prisma.js'
 
 async function findUser(email) {
-	return prisma.users.findUnique({
-		where: { email },
-		select: {
-            id: true,
-            email: true,
-            role: true,
-            password_hash: true,
-            date_of_birth: true,
-            city: true,
-            first_name: true,
-            last_name: true
-        }
-	})
+	return prisma.users.findUnique({ where: { email } })
 }
 
 async function creatUser(request, hashPassword, date) {
@@ -32,10 +20,7 @@ async function creatUser(request, hashPassword, date) {
 				city: request.body.city,
 				date_of_birth: date, 
 				radius: Number(request.body.radius)
-			},
-			select: {
-			id: true
-		}
+			}
 		})
 
 		await tx.$executeRaw`
@@ -57,28 +42,14 @@ async function creatUserRawData(data) {
 			password_hash: data.password_hash ?? null,
 			city: data.city ?? null, 
 			date_of_birth: data.date ?? null
-		},
-		select: {
-            id: true,
-            email: true,
-            role: true,
-            date_of_birth: true,
-            city: true,
-            first_name: true,
-            last_name: true
-        }
+		}
 	})
 }
 
 async function updateLastSeenAt(id) {
 	return prisma.users.update({
 		where: { id:id },
-		data: {
-			lastSeenAt: new Date()
-		},
-		select: {
-            id: true
-        }
+		data: { lastSeenAt: new Date() }
 	})
 }
 
