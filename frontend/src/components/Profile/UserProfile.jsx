@@ -4,6 +4,7 @@ import ProfileField from "./ProfileField";
 import { useTranslation } from 'react-i18next'
 import { authFetch } from "../../api/authFetch";
 import { useAuth } from "../../auth/AuthContext"
+import LocationButton from '../Map/LocationButton'
 
 export default function UserProfile({ user, onSaved, missingFields = [] }) {
     const { t } = useTranslation()
@@ -21,7 +22,10 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
             first_name:user.first_name,
             last_name:user.last_name,
             city:user.city,
-            date_of_birth: user.date_of_birth ? user.date_of_birth.slice(0, 10) : ''
+            date_of_birth: user.date_of_birth ? user.date_of_birth.slice(0, 10) : '',
+            latitude: user.latitude ?? null,
+            longitude: user.longitude ?? null,
+            radius: user.radius ?? '',
         })
         setEditing(true);
     }
@@ -30,27 +34,42 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
         setEditing(false);
     }
 
+    const handleLocationChange = (city, latitude, longitude, radius) => {
+        setFormdata(prev => ({ ...prev, city, latitude, longitude, radius }))
+    }
+
     const handleChange = (field) => (e) =>
         setFormdata({ ...formData, [field]: e.target.value })
 
     const handleSave = async () => {
-        setError('');
-        try{
-            const response = await authFetch(`/api/users/${user.id}`,{
-            method:'PUT',
-            headers: {'Content-type' : 'application/json' },
-            body: JSON.stringify(formData)
-        })
-        if (!response.ok) {
-            setError(response.status === 409 ? 'Cet email est déjà utilisé' : 'Erreur serveur')
-            return
-        }
-        const data = await response.json();
-        onSaved({...user, ...data});
-        setEditing(false);
-        await refreshUser()
-        } catch(e){
-            setError('Impossible de contacter le serveur');
+        setError('')
+        try {
+            const { latitude, longitude, radius, city, ...rest } = formData
+            
+            const response = await authFetch(`/api/users/${user.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(rest)
+            })
+            if (!response.ok) {
+                setError(response.status === 409 ? 'Cet email est déjà utilisé' : 'Erreur serveur')
+                return
+            }
+            
+            if (latitude && longitude) {
+                await authFetch(`/api/users/${user.id}/position`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ latitude, longitude, radius, city })
+                })
+            }
+            
+            const data = await response.json()
+            onSaved({ ...user, ...data, city: city || data.city, radius: radius || user.radius })
+            setEditing(false)
+            await refreshUser()
+        } catch(e) {
+            setError('Impossible de contacter le serveur')
         }
     }
         
@@ -66,8 +85,8 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
                     {error && <p className="text-action-pass text-xs">{error}</p>}
                     <ProfileField label={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} error={isMissing('first_name')} />
                     <ProfileField label={t('LastName')}  value={formData.last_name}  onChange={handleChange('last_name')}  error={isMissing('last_name')} />
-                    <ProfileField label={t('City')}      value={formData.city}       onChange={handleChange('city')}       error={isMissing('city')} />
                     <ProfileField label={t('DateOfBirth')} type="date" value={formData.date_of_birth} onChange={handleChange('date_of_birth')} error={isMissing('date_of_birth')} />
+                    <LocationButton onLocationChange={handleLocationChange} initialCity={user.city ?? ''} initialRadius={user.radius ?? ''} />
                     <div className="flex gap-2 mt-2">
                         <SecondaryButton onClick={handleCancel}>{t('Cancel')}</SecondaryButton>
                         <SecondaryButton onClick={handleSave}>{t('Save')}</SecondaryButton>
@@ -85,7 +104,7 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
                 </div>
                 <div>
                     <dt className={`text-xs uppercase tracking-wide ${isMissing('city') ? 'text-primary font-semibold' : 'text-text-caption'}`}>{t('City')}</dt>
-                    <dd className="text-text-secondary">{user.city || <span className="text-primary italic text-xs">{t('Missing')}</span>}</dd>
+                    <dd className="text-text-secondary"> {user.city ? `${user.city}${user.radius ? ` (${user.radius} km)` : ''}` : <span className="text-primary italic text-xs">{t('Missing')}</span> } </dd>
                 </div>
                 <div>
                     <dt className={`text-xs uppercase tracking-wide ${isMissing('date_of_birth') ? 'text-primary font-semibold' : 'text-text-caption'}`}>{t('DateOfBirth')}</dt>

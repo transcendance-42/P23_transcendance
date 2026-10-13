@@ -52,8 +52,6 @@ export default function MapModal({ onLocationChange, onClose }) {
             const newPosition = [parseFloat(results[0].lat), parseFloat(results[0].lon)]
             setCity(newCity)
             setPosition(newPosition)
-            console.log('Ville :', newCity)
-            console.log('position :', newPosition)
         } catch (error) {
             console.error(error)
             setError('Impossible de chercher cette ville')
@@ -65,7 +63,6 @@ export default function MapModal({ onLocationChange, onClose }) {
             setError('le rayon doit être de au moins 1km')
             return
         }
-        console.log('radius :', radius)
 		onLocationChange(city, position[0], position[1], radius)
         onClose()
     }

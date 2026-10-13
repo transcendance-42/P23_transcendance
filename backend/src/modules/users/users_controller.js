@@ -37,7 +37,6 @@ async function putUserPosition(request, reply){
     if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
     return reply.code(500).send({ error: e.message })
   }
-
 }
 
 async function patchDeactivateUser(request, reply) {

@@ -1,31 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import MapModal from './MapModal'
 import { useTranslation } from 'react-i18next'
 
-// on prend ici le prop de register, juste pour le donner au MapModal
-export default function LocationButton({ onLocationChange }) {
+export default function LocationButton({ onLocationChange, initialCity = '', initialRadius = '', dark = false }) {
     const { t } = useTranslation()
     const [showMap, setShowMap] = useState(false)
-	const [location, setLocation] = useState('')
-	const handleLocationChange = (city, latitude, longitude, radius) => {
-		setLocation(city)
-		onLocationChange(city, latitude, longitude, radius)
-	}
+    const [location, setLocation] = useState(initialCity)
+    const [radius, setRadius] = useState(initialRadius)
+
+    useEffect(() => {
+        setLocation(initialCity)
+        setRadius(initialRadius)
+    }, [initialCity, initialRadius])
+
+    const handleLocationChange = (city, latitude, longitude, rad) => {
+        setLocation(city)
+        setRadius(rad)
+        onLocationChange(city, latitude, longitude, rad)
+    }
+
     return (
         <>
             <button
                 type="button"
                 onClick={() => setShowMap(true)}
-                className="w-full bg-transparent border border-text-tertiary rounded-lg px-4 py-3 text-white flex items-center gap-3"
+                className={`w-full bg-transparent border rounded-lg px-4 py-3 flex items-center gap-3 ${dark ? 'border-text-tertiary text-white' : 'border-text-caption/40 text-text-primary'}`}
             >
-                <span className="w-7 h-7 rounded-full border border-white flex items-center justify-center">
+                <span className={`w-7 h-7 rounded-full border flex items-center justify-center ${dark ? 'border-white' : 'border-text-caption'}`}>
                     🌍
                 </span>
-                <span>
-                    {location || t('LocalisationButton')}
+                <span className="flex-1 text-left">
+                    {location ? `${location} (${radius} km)` : t('LocalisationButton')}
                 </span>
             </button>
-			{/* show  map pour ouvrir et fernmer la map avec une condition type bool */}
             {showMap && (
                 <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="relative bg-white rounded-xl overflow-hidden pt-12">
