@@ -119,5 +119,8 @@
     "UnmatchConfirmText": "Are you sure you want to unmatch with {{name}}?",
     "Online": "Online",
     "Offline": "Offline",
-    "Years": "years"
+    "Years": "years",
+    "HisHuman": "Their human",
+    "SendMessage": "Send a message",
+    "Back": "Back"
 }

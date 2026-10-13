@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import Mascot from './Mascot';
 import defaultDog from '../../assets/defaultPic.png';
+import mascot3 from '../../assets/mascot3.png'
+import PrimaryButton from './PrimaryButton';
+
+
 
 export default function DogProfileCard( {dog} ){
     const { t } = useTranslation()
@@ -9,7 +13,7 @@ export default function DogProfileCard( {dog} ){
         <div className='flex flex-col md:flex-row gap-12 md:items-center'>
             <div className='md:w-1/2 relative rounded-[var(--radius-lg)] overflow-hidden shadow-floating'>
             {/* Need un UseState pour changer les photos quand je les receverais du back */}
-                <img className='w-full aspect-[4/5] object-cover' src={defaultDog} alt={dog.dog_name}/>
+                <img className='w-full aspect-[4/5] object-cover' src={mascot3} alt={dog.dog_name}/>
                 <div className='absolute bottom-0 inset-x-0 bg-linear-to-t from-black/70 to-transparent p-6 
                     flex items-baseline gap-2'>
                     <span className='font-heading text-4xl font-bold text-white'>{dog.dog_name}</span>
@@ -32,12 +36,14 @@ export default function DogProfileCard( {dog} ){
                         <Mascot size='sm'/>
                     </div>
                     <div className='flex flex-col'>
-                        <span className='text-xs uppercase tracking-widest text-text-caption'>son humain</span>
+                        <span className='text-xs uppercase tracking-widest text-text-caption'>{t('HisHuman')}</span>
                         <span className='font-heading text-xl text-surface-white'>{dog.users.first_name}</span> 
                         <span className='text-sm text-surface-cream'>{dog.users.city}</span>
-                    </div> 
-                    
+                    </div>
                 </div>
+                <PrimaryButton>
+                    <span className='font-heading'>{t('SendMessage')}</span>
+                </PrimaryButton>
             </div>
         </div>
     )

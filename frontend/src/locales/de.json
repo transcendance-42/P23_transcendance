@@ -119,5 +119,8 @@
     "UnmatchConfirmText": "Bist du sicher, dass du das Match mit {{name}} löschen möchtest?",
     "Online": "Online",
     "Offline": "Offline",
-    "Years": "Jahre"
+    "Years": "Jahre",
+    "HisHuman": "Sein Mensch",
+    "SendMessage": "Nachricht senden",
+    "Back": "Zurück"
 }
