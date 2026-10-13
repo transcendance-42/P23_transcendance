@@ -153,7 +153,19 @@ export default function RegisterDog() {
                         <p className="text-text-caption text-xs text-center">At least 1 photo required</p>
                     )}
                     
-
+                    {uploadProgress !== null && (
+                        <div className="w-full flex flex-col gap-1">
+                            <p className="text-xs text-center text-text-caption">
+                                {t('UploadingPhoto', { current: uploadIndex, total: photos.length })} — {uploadProgress}%
+                            </p>
+                            <div role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={uploadProgress}
+                                 className="h-1 w-full bg-surface-mid rounded-full overflow-hidden">
+                                <div className="h-full bg-primary transition-all duration-200"
+                                     style={{ width: `${uploadProgress}%` }} />
+                            </div>
+                        </div>
+                    )}
+                    
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
