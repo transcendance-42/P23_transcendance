@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react"
 import { authFetch } from "../../api/authFetch"
 
-export function Room({match_dog_name, lastSeenAt, matchUserId}) {
+export function Room({match_dog_name, lastSeenAt, matchUserId, hasUnread}) {
     const [avatarUrl, setAvatarUrl] = useState(null)
     const { t } = useTranslation() 
     let isOnline;
