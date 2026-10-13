@@ -10,7 +10,7 @@ const fetchDogs = async () => {
 const uploadDogPics = (formData, token, onProgress) => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', 'api/dog-pics')
+        xhr.open('POST', '/api/dog-pics')
         if(token)
             xhr.setRequestHeader('Authorization', `Bearer ${token}`)
         

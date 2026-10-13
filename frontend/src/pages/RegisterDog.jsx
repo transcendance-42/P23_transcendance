@@ -27,7 +27,7 @@ export default function RegisterDog() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
-    const [isSubmitting, setSubmitting] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(null)
     const [uploadIndex, setUploadIndex] = useState(0)
     const { refreshUser, token } = useAuth()
@@ -86,7 +86,7 @@ export default function RegisterDog() {
             setUploadIndex(index + 1)
             setUploadProgress(0)
             try {
-                await uploadDogPic(fd, token, setUploadProgress)
+                await uploadDogPics(fd, token, setUploadProgress)
             } catch (uploadErr) {
                 setError(t('UploadFailed', { name: photos[index].name }))
                 await refreshUser()
@@ -153,6 +153,7 @@ export default function RegisterDog() {
                         <p className="text-text-caption text-xs text-center">At least 1 photo required</p>
                     )}
                     
+
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
