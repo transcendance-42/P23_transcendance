@@ -14,6 +14,7 @@ async function findMatchesByUserId(userId) {
         include: {
           users:{
           select:{
+            id: true,
             first_name:true,
             last_name:true,
             lastSeenAt:true
@@ -24,6 +25,7 @@ async function findMatchesByUserId(userId) {
         include: {
           users:{
           select:{
+            id: true,
             first_name:true,
             last_name:true,
             lastSeenAt:true

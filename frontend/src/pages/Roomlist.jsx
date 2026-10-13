@@ -1,6 +1,5 @@
 import { Room } from './../components/Roomlist/Room'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
@@ -9,6 +8,7 @@ import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import SecondaryButton from '../components/ui/SecondaryButton'
+import { Link } from 'react-router-dom'
 
 export function RoomList ({rooms, setRooms}) {
     const { t } = useTranslation()
@@ -42,7 +42,7 @@ export function RoomList ({rooms, setRooms}) {
         return (
             <div key={c.id} className="relative">
                 <Link to={`/chat/${c.id}`}>
-                    <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} />
+                    <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} matchUserId={matchDog.users.id}/>
                 </Link>
                 <button
                     onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}
