@@ -23,7 +23,7 @@ export default function MessagePanel({rooms})
     const navigate = useNavigate()
     const socketRef = useRef(null)
 
-    const match = rooms.find((element) => element.id === roomId);
+    const match = rooms.find((element) => String(element.id) === String(roomId))
 
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
@@ -31,10 +31,10 @@ export default function MessagePanel({rooms})
         setFormData({ ...formData, [name]: value })
     }
 
-    const loadMessages =  async (roomId) => {
+    const loadMessages = async (roomId) => {
         const response = await authFetch(`/api/messages/${roomId}`)
-        const data = await response.json();
-        setMessages(data)
+        const data = await response.json()
+        setMessages(Array.isArray(data) ? data : data.messages || [])
     }
     
     //use effect qui s'active des le debut pour que 
@@ -79,16 +79,17 @@ export default function MessagePanel({rooms})
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   
         const socket = socketRef.current 
-        if (!socket || !roomId )
+        if (!socket || !roomId)
             return
 
-        socket.emit('join_room', roomId);           
-        loadMessages(roomId);
+        socket.emit('join_room', roomId)
+        loadMessages(roomId)
+        authFetch(`/api/messages/${roomId}/read`, { method: 'PATCH' })  // ← ajoute cette ligne
 
         return () => {
-            socket.emit('leave_room', roomId);
+            socket.emit('leave_room', roomId)
         }
-    },[roomId, token])
+    }, [roomId, token])
 
 
     const handleSendMessage = () => {

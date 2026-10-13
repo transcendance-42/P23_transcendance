@@ -26,15 +26,23 @@ export default function Profile() {
     const handleAvatarUpload = async (file) => {
         const fd = new FormData()
         fd.append('file', file)
-        const res = await authFetch(`/api/users/${userId}/pic`, {
-            method: 'POST',
+
+        const uploadedFile = fd.get('file')
+        // affihcage file
+        console.log('--- AVATAR UPLOAD ---')
+        console.log('Filename:', uploadedFile?.name)
+        console.log('Mimetype:', uploadedFile?.type)
+        console.log('Size:', uploadedFile?.size, 'bytes')
+
+        const res = await authFetch(`/api/user/${userId}/pic`, {
+            method: 'PUT',
             body: fd
         })
         if (res.ok) {
             const url = URL.createObjectURL(file)
             setAvatarUrl(url)
         }
-    }
+    }   
 
     useEffect(() => {
         const load = async () => {
