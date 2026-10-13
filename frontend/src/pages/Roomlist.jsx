@@ -14,6 +14,7 @@ export function RoomList ({rooms, setRooms}) {
     const { t } = useTranslation()
     const { userId } = useAuth()
     const [matchToDelete, setMatchToDelete] = useState(null)
+    const [unreadPerRoom, setUnreadPerRoom] = useState({})
 
     const handleUnmatch = async () => {
         try {
@@ -30,6 +31,13 @@ export function RoomList ({rooms, setRooms}) {
     )
     const userDogName = rooms.length > 0 ? monChien(rooms[0]) : '';
 
+    useEffect(() => {
+        authFetch('/api/messages/unread-per-room')
+            .then(r => r.json())
+            .then(data => setUnreadPerRoom(data))
+            .catch(() => {})
+    }, [rooms])
+
     let list = (
         <div className="flex flex-col items-center gap-3 p-8 text-text-caption">
             <Mascot index={1} size="md" />
@@ -42,7 +50,7 @@ export function RoomList ({rooms, setRooms}) {
         return (
             <div key={c.id} className="relative">
                 <Link to={`/chat/${c.id}`}>
-                    <Room match_dog_name={matchDog.dog_name} lastSeenAt={matchDog.users.lastSeenAt} matchUserId={matchDog.users.id}/>
+                    <Room  match_dog_name={matchDog.dog_name}  lastSeenAt={matchDog.users.lastSeenAt}  matchUserId={matchDog.users.id} hasUnread={!!unreadPerRoom[String(c.id)]} />
                 </Link>
                 <button
                     onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}
@@ -54,6 +62,7 @@ export function RoomList ({rooms, setRooms}) {
         )
         });
     }
+
     return (
         <>
         {matchToDelete && (

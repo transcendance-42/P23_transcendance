@@ -254,12 +254,12 @@ async function main() {
     const { match, userIndex1, userIndex2 } = createdMatches[m]
     const [msg1, msg2] = sampleMessages[m]
     await prisma.messages.create({
-      data: { match_id: match.id, sender_id: createdUsers[userIndex1].id, content: msg1 }
+      data: { match_id: match.id, sender_id: createdUsers[userIndex1 + 1].id, content: msg1 }
     })
     await prisma.messages.create({
-      data: { match_id: match.id, sender_id: createdUsers[userIndex2].id, content: msg2 }
+      data: { match_id: match.id, sender_id: createdUsers[userIndex2 + 1].id, content: msg2 }
     })
-    console.log(`Messages added to match ${dogs[userIndex1].dog_name} & ${dogs[userIndex2].dog_name}`)
+    console.log(`Messages added to match ${dogs[userIndex1 + 1].dog_name} & ${dogs[userIndex2 + 1].dog_name}`)
   }
 
   console.log('\n✅ Done!')
