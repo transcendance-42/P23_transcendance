@@ -40,7 +40,7 @@ async function postDogPic(request, reply) {
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
     const filePath = await creaFilePath('uploads', request.body.file.filename)
-    await createDogPic(request, filePath)
+    const newPic = await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
     return reply.send(newPic)
   } catch (e) {
