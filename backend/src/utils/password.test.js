@@ -1,17 +1,20 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const { hashPassword, comparePassword } = require('./password');
+import { describe, expect, it } from 'vitest';
+import { comparePassword, hashPassword } from './password.js';
 
-test('verifier reconnaît la bonne valeur', async () => {
-  const valeurDepart = 'abc123';
-  const valeurTransformee = await hashPassword(valeurDepart);
-  const estValide = await comparePassword(valeurDepart, valeurTransformee);
-  assert.strictEqual(estValide, true);
-});
+describe('password utilities', () => {
+  it('verifier reconnaît la bonne valeur', async () => {
+    const valeurDepart = 'abc123';
+    const valeurTransformee = await hashPassword(valeurDepart);
+    const estValide = await comparePassword(valeurDepart, valeurTransformee);
 
-test('verifier rejette une mauvaise valeur', async () => {
-  const valeurDepart = 'abc123';
-  const valeurTransformee = await hashPassword(valeurDepart);
-  const estValide = await comparePassword('autreChose', valeurTransformee);
-  assert.strictEqual(estValide, false);
+    expect(estValide).toBe(true);
+  });
+
+  it('verifier rejette une mauvaise valeur', async () => {
+    const valeurDepart = 'abc123';
+    const valeurTransformee = await hashPassword(valeurDepart);
+    const estValide = await comparePassword('autreChose', valeurTransformee);
+
+    expect(estValide).toBe(false);
+  });
 });

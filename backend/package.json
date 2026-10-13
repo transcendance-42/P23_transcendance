@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "postinstall": "prisma generate --schema=./prisma/schema.prisma"
+    "postinstall": "prisma generate --schema=./prisma/schema.prisma",
+    "test": "vitest"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -34,7 +35,9 @@
   "devDependencies": {
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.1",
+    "@vitest/ui": "^4.1.11",
     "jsonwebtoken": "^9.0.3",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "vitest": "^4.1.11"
   }
 }
