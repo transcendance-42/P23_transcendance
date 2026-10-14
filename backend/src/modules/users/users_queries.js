@@ -1,5 +1,6 @@
 import prisma from '../../utils/prisma.js'
 
+// est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
 const publicFields = {
   first_name: true,
   last_name: true,

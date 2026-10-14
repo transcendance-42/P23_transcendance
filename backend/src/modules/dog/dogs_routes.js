@@ -1,4 +1,3 @@
-import prisma from '../../utils/prisma.js'
 import {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} from './dogs_schema.js'
 import {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogsExceptMe, GetDogsAroundMe} from './dogs_controller.js'
 

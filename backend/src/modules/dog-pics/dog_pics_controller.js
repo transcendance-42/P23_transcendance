@@ -38,8 +38,9 @@ async function postDogPic(request, reply) {
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
     const filePath = await creaFilePath('uploads', request.body.file.filename)
-    await createDogPic(request, filePath)
+    const pic = await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
+    return reply.code(201).send({ id: pic.id, position: pic.position })
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -71,7 +72,8 @@ async function removeDogPic(request, reply) {
     if (!pic)
       return reply.code(404).send({ error: 'Dog pic not found' })
     await fs.unlink(pic.file_path)
-    return await deleteDogPic(request.params.id)
+    await deleteDogPic(request.params.id)
+    return { success: true }
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
