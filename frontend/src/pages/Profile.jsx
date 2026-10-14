@@ -28,12 +28,6 @@ export default function Profile() {
         fd.append('file', file)
 
         const uploadedFile = fd.get('file')
-        // affihcage file
-        console.log('--- AVATAR UPLOAD ---')
-        console.log('Filename:', uploadedFile?.name)
-        console.log('Mimetype:', uploadedFile?.type)
-        console.log('Size:', uploadedFile?.size, 'bytes')
-
         const res = await authFetch(`/api/user/${userId}/pic`, {
             method: 'PUT',
             body: fd
@@ -60,6 +54,14 @@ export default function Profile() {
         }
         if (userId) load()
         else { setError('Pas connecté'); setLoading(false) }
+    }, [userId])
+
+    useEffect(() => {
+        if (!userId) return
+        authFetch(`/api/user/${userId}/pic`)
+            .then(res => res.ok ? res.blob() : null)
+            .then(blob => { if (blob) setAvatarUrl(URL.createObjectURL(blob)) })
+            .catch(() => {})
     }, [userId])
  
     if (loading) return <p className="p-8">{t('Loading')}</p>

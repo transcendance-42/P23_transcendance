@@ -7,8 +7,8 @@ async function checkChatAccesParams(request, reply) {
     if (request.role === 'admin')
         return;
     const room = await findMessagesByMatchId(chatId)
-    if (!room)
-        return reply.code(404).send({error: 'Unknown room'})
+    if (!room || room.length < 2)
+        return 
     if (room[0].users.id.toString() === userId.toString() || room[1].users.id.toString() === userId.toString())
         request.chat = room[0].match_id;
     else
