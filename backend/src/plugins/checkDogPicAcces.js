@@ -1,5 +1,5 @@
 import { findDogsIdParams } from "../modules/dog/dogs_queries.js";
-import { findPicsByDogId } from "../modules/dog-pics/dog_pics_queries.js";
+import { findPicsByDogId } from "../modules/dog_upload/dog_pics/dog_pics_queries.js";
 
 async function checkAccesDogPicParams(request, reply) {
     const userId = request.userId

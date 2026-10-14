@@ -1,4 +1,4 @@
-import prisma from '../../utils/prisma.js'
+import prisma from '../../../utils/prisma.js'
 
 async function findDogDocuByDogId(dogId) {
 	return prisma.dogs.findUnique({

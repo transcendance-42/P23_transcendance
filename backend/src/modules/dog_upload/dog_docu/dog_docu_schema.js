@@ -14,9 +14,8 @@ const putDocuDogSchema = {
 		type: 'object',
 		properties: {
 			file: { type: 'object' },
-			dog_id: { type: 'object' }
 		},
-		required: ['file', 'dog_id']
+		required: ['file']
 	}
 }
 

@@ -1,5 +1,5 @@
 import { findDogDocuByDogId, updateDogDocu, deleteDogDocu } from './dog_docu_queries.js'
-import { creatFileBuffer, creaFilePath, allowedPdfMimeType } from '../../utils/pics_handle.js'
+import { creatFileBuffer, creaFilePath, allowedPdfMimeType } from '../../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
 import { createReadStream } from 'node:fs'
 
