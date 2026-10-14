@@ -6,6 +6,7 @@ import UserProfile from '../components/Profile/UserProfile'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { authFetch } from '../api/authFetch'
+import Avatar from '../components/ui/Avatar'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
@@ -20,7 +21,23 @@ export default function Profile() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { userId } = useAuth()
- 
+    const [avatarUrl, setAvatarUrl] = useState(null)
+
+    const handleAvatarUpload = async (file) => {
+        const fd = new FormData()
+        fd.append('file', file)
+
+        const uploadedFile = fd.get('file')
+        const res = await authFetch(`/api/user/${userId}/pic`, {
+            method: 'PUT',
+            body: fd
+        })
+        if (res.ok) {
+            const url = URL.createObjectURL(file)
+            setAvatarUrl(url)
+        }
+    }   
+
     useEffect(() => {
         const load = async () => {
             try {
@@ -38,6 +55,14 @@ export default function Profile() {
         if (userId) load()
         else { setError('Pas connecté'); setLoading(false) }
     }, [userId])
+
+    useEffect(() => {
+        if (!userId) return
+        authFetch(`/api/user/${userId}/pic`)
+            .then(res => res.ok ? res.blob() : null)
+            .then(blob => { if (blob) setAvatarUrl(URL.createObjectURL(blob)) })
+            .catch(() => {})
+    }, [userId])
  
     if (loading) return <p className="p-8">{t('Loading')}</p>
     if (error)   return <p className="p-8 text-action-pass">{error}</p>
@@ -52,9 +77,12 @@ export default function Profile() {
             <NavBarAuth isProfileComplete={isProfileComplete} />
 
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
-                <h1 className="font-heading text-3xl font-bold text-text-primary">
-                   {t('MyProfile')}
-                </h1>
+                <div className="flex items-center gap-4">
+                    <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload}/>
+                    <h1 className="font-heading text-3xl font-bold text-text-primary">
+                        {t('MyProfile')}
+                    </h1>
+                </div>
 
                 {!isProfileComplete && (
                     <div className="rounded-md border border-primary bg-primary/10 px-4 py-3 flex flex-col gap-1">

@@ -62,15 +62,16 @@ export default function RegisterDog() {
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
            
-            // Étape 1 : créer le chien (JSON pur, pas de fichiers)
             const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
             })
             const dogData = await dogRes.json()
-            if (!dogRes.ok)
+            if (!dogRes.ok) {
                 setError(dogData.error || 'Server error')
+                return
+            }
             // Étape 2 : créer les photos pour le chien, multipart
             for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
@@ -79,7 +80,9 @@ export default function RegisterDog() {
                 fd.append('position', index + 1)
                 const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
                 if (!picDogRes.ok) {
-                    setError(`Échec de l'upload de ${photo.name}`)
+                    setError(`Échec de l'upload de ${photos[index].name}`)
+                    await refreshUser()
+                    setTimeout(() => navigate('/profile'), 1500)
                     return
                 }
             }
@@ -95,7 +98,7 @@ export default function RegisterDog() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal onClose={() => navigate(-1)}>
+            <Modal onClose={() => navigate(-1)} showBack={true} >
                 <Mascot index={5} size="lg"/>
                 <ModalHeader title={t('CreateDog')} />
                 <p className="text-primary text-xs text-center">{t('Register1')}</p>

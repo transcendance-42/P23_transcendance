@@ -1,6 +1,7 @@
 import NavBar from '../components/ui/NavBar'
 import Footer from '../components/ui/Footer'
 import { useTranslation } from 'react-i18next'
+import BackButton from '../components/ui/BackButton'
 
 export default function Terms() {
     const { t } = useTranslation()
@@ -8,6 +9,7 @@ export default function Terms() {
         <div className="min-h-screen bg-surface-raised text-surface-white">
             <NavBar />
             <div className="max-w-3xl mx-auto px-6 py-16 flex flex-col gap-8">
+                <div><BackButton /></div>
                 <h1 className="font-heading text-4xl text-primary">{t('Terms')}</h1>
                 <p className="text-text-caption text-sm">{t('Update')}</p>
 

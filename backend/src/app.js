@@ -7,6 +7,7 @@ import corsPlugin from './plugins/cors.js';
 import fastifyCookie from '@fastify/cookie';
 import multipart from '@fastify/multipart'
 import { usersRoutes } from './modules/users/users_routes.js';
+import { userPicRoutes } from './modules/users_pic/user_pic_routes.js'
 import { dogsRoutes } from './modules/dog/dogs_routes.js';
 import { swipesRoutes }from './modules/swipes/swipes_routes.js';
 import { dogPicsRoutes} from './modules/dog-pics/dog_pics_routes.js';
@@ -26,7 +27,7 @@ async function buildApp() {
     global:true,
   })
 
-  fastify.get('/health', {security:[]},async () => {
+  fastify.get('/api/health', {security:[]},async () => {
     return { status: 'ok' }
   })
 
@@ -50,7 +51,7 @@ async function buildApp() {
   })
 
   fastify.register(swaggerUI, {
-    routePrefix: '/documentation'
+    routePrefix: '/api/documentation',
   })
 
   fastify.register(fastifyCookie, {
@@ -75,6 +76,7 @@ async function buildApp() {
 
   fastify.register(corsPlugin)
   fastify.register(usersRoutes, { prefix: '/api' })
+  fastify.register(userPicRoutes, { prefix: '/api' })
   fastify.register(dogsRoutes, { prefix: '/api' })
   fastify.register(swipesRoutes, { prefix: '/api' })
   fastify.register(dogPicsRoutes, { prefix: '/api' })

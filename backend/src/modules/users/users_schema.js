@@ -27,6 +27,26 @@ const updateUserSchema = {
   }
 }
 
+const updateUserPositionSchema = {
+    params: {
+    type: 'object',
+    properties: {
+      id: { type: 'integer' }
+    },
+    required: ['id']
+  },
+    body: {
+    type: 'object',
+    properties: {
+      city: { type: 'string', minLength: 3 },
+      longitude: { type: 'number', minimum: -180,  maximum: 180},
+      latitude: { type: 'number', minimum: -90,  maximum: 90 },
+      radius: { type: 'number', minimum: 1}
+    },
+    additionalProperties: false
+  }
+}
+
 const deactivateUserSchema = {
   params: {
     type: 'object',
@@ -35,4 +55,4 @@ const deactivateUserSchema = {
   }
 }
 
-export { getUserByIdSchema, updateUserSchema, deactivateUserSchema }
+export { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema }
