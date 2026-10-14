@@ -1,6 +1,6 @@
 import prisma from '../../utils/prisma.js'
 
-async function findDogFormByDogId(dogId) {
+async function findDogDocuByDogId(dogId) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(dogId) },
 			select: {
@@ -11,7 +11,7 @@ async function findDogFormByDogId(dogId) {
 		})
 }
 
-async function updateDogFormular(dogId, filePath, mimeType) {
+async function updateDogDocu(dogId, filePath, mimeType) {
 	return prisma.dogs.update({
 		where: { id: BigInt(dogId) },
 			data: {
@@ -21,7 +21,7 @@ async function updateDogFormular(dogId, filePath, mimeType) {
 		})
 }
 
-async function deleteDogFormular(dogId) {
+async function deleteDogDocu(dogId) {
 	return prisma.dogs.update({
 		where: { id: BigInt(dogId) },
 			data: {
@@ -31,4 +31,4 @@ async function deleteDogFormular(dogId) {
 	})
 }
 
-export { findDogFormByDogId, updateDogFormular, deleteDogFormular }
+export { findDogDocuByDogId, updateDogDocu, deleteDogDocu }

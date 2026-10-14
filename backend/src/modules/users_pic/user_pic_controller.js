@@ -26,7 +26,6 @@ async function putUserPic(request, reply) {
             await fs.unlink(oldPic.file_path)
         return reply.code(200).send({ message: 'User pic updated' })
     } catch (e) {
-        request.log.error(e)
         return reply.code(500).send({ error: 'Internal server error' })
     }
 }

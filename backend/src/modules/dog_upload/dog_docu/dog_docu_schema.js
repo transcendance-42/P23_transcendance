@@ -1,4 +1,4 @@
-const getFormularDogSchema = {
+const getDocuDogSchema = {
 	params: {
     	type: 'object',
     	properties: {
@@ -8,7 +8,7 @@ const getFormularDogSchema = {
   }
 }
 
-const putFormularDogSchema = {
+const putDocuDogSchema = {
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
@@ -20,7 +20,7 @@ const putFormularDogSchema = {
 	}
 }
 
-const deleteFormularDogSchema = {
+const deleteDocuDogSchema = {
   	params: {
 		type: 'object',
 		properties: {
@@ -30,4 +30,4 @@ const deleteFormularDogSchema = {
 	}
 }
 
-export { getFormularDogSchema, putFormularDogSchema, deleteFormularDogSchema }
+export { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema }
