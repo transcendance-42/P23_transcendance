@@ -36,7 +36,7 @@ function App() {
 				<Route path="/matches"     element={<MatchesPage/>} />
 				<Route path="/chat"        element={<ChatLayout/>} />
 				<Route path="/chat/:roomId" element={<ChatLayout/>} />
-        <Route path="/Dog/:id" element={<DogProfilePage/>} />
+        <Route path="/dogs/:id" element={<DogProfilePage/>} />
 			</Route>
 		</Route>
     </Routes>
