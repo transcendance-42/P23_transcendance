@@ -1,8 +1,6 @@
 import { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic } from './dog_pics_queries.js'
-import { creatFileBuffer, creaFilePath } from '../../utils/pics_handle.js'
+import { creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeType } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
-import  path  from 'node:path'
-import { fileTypeFromBuffer } from 'file-type'
 import { createReadStream } from 'fs'
 
 async function getDogPic(request, reply) {
@@ -35,7 +33,7 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
   try {
-    const buffer = await creatFileBuffer(request)
+    const buffer = await creatFileBuffer(request, allowedImagesMimeType)
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
@@ -50,7 +48,7 @@ async function postDogPic(request, reply) {
 
 async function putDogPic(request, reply) {
   try {
-    const buffer = await creatFileBuffer(request)
+    const buffer = await creatFileBuffer(request, allowedImagesMimeType)
     const position = Number(request.body.position.value)
     if (!Number.isInteger(position) || position < 1 || position > 5)
       return reply.code(400).send({ error: 'Invalide position number' })
@@ -75,6 +73,18 @@ async function removeDogPic(request, reply) {
       return reply.code(404).send({ error: 'Dog pic not found' })
     await fs.unlink(pic.file_path)
     return await deleteDogPic(request.params.id)
+  } catch (e) {
+    return reply.code(500).send({ error: e.message })
+  }
+}
+
+async function getDogForm(request, reply) {
+  try {
+    const pic = await findPicDogById(request.params.id)
+    if (!pic)
+      return reply.code(404).send({ error: 'Dog pic not found' })
+    reply.type(pic.mime_type)
+    return reply.send(createReadStream(pic.file_path))
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }

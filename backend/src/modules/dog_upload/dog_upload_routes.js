@@ -1,4 +1,5 @@
 import { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema } from './dog_pics_schema.js'
+import { getFormularDogSchema, putFormularDogSchema, deleteFormularDogSchema } from './dog_form_schema.js'
 import { getDogPic, getDogPics, putDogPic, postDogPic, removeDogPic } from './dog_pics_controller.js'
 import { checkAccesDogPicParams, checkAccesDogPic, checkAccesDogPicDelete } from '../../plugins/checkDogPicAcces.js'
 
@@ -25,6 +26,8 @@ async function dogPicsRoutes(fastify) {
 	}
   }, putDogPic)
   fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema, preHandler: checkAccesDogPicDelete}, removeDogPic)
+
+  fastify.get('/dog-form/:dogId', {schema : getFormularDogSchema}, )
   // add une route qui pourrait supprimer toutes les photos d'un dog?
 }
 

@@ -1,5 +1,5 @@
 import { updateUserPic, findPicPathByUserId, deleteUserPic } from './user_pic_query.js'
-import { creatFileBuffer, creaFilePath } from '../../utils/pics_handle.js'
+import { creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeType } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
 import { createReadStream } from 'fs'
 
@@ -17,7 +17,7 @@ async function getUserPic(request, reply) {
 
 async function putUserPic(request, reply) {
     try {
-        const buffer = await creatFileBuffer(request)
+        const buffer = await creatFileBuffer(request, allowedImagesMimeType)
         const oldPic = await findPicPathByUserId(request.userId)
         const filePath = await creaFilePath('uploads', request.body.file.filename)
         await fs.writeFile(filePath, buffer)
