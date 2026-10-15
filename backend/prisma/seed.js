@@ -32,11 +32,11 @@ const users = [
   { email: 'parissa@tindog.com', password_hash: passwordHash, first_name: 'Parissa', last_name: 'Chatagny', city: 'Lausanne', date_of_birth: new Date('2000-09-03') },
   { email: 'davide@tindog.com', password_hash: passwordHash, first_name: 'Davide', last_name: 'Lepore', city: 'Renens', date_of_birth: new Date('2000-07-15') },
   { email: 'jonathan@tindog.com', password_hash: passwordHash, first_name: 'Jonathan', last_name: 'Rime', city: 'Lausanne', date_of_birth: new Date('1998-11-10') },
-  { email: 'laetitia@tindog.com', password_hash: passwordHash, first_name: 'Laetitia', last_name: 'Rey', city: 'Mont-sur-Lausanne', date_of_birth: new Date('2000-10-09') },
-  { email: 'chaely@tindog.com', password_hash: passwordHash, first_name: 'Chaely', last_name: 'Baudhuin', city: 'Gland', date_of_birth: new Date('2001-01-10') },
-  { email: 'alice@tindog.com', password_hash: passwordHash, first_name: 'Alice', last_name: 'Dupont', city: 'Genève', date_of_birth: new Date('1999-03-22') },
-  { email: 'marc@tindog.com', password_hash: passwordHash, first_name: 'Marc', last_name: 'Bernard', city: 'Zürich', date_of_birth: new Date('1997-06-14') },
-  { email: 'sophie@tindog.com', password_hash: passwordHash, first_name: 'Sophie', last_name: 'Martin', city: 'Berne', date_of_birth: new Date('2002-12-01') },
+  { email: 'laetitia@tindog.com', password_hash: passwordHash, first_name: 'Laetitia', last_name: 'Rey', city: 'Lausanne', date_of_birth: new Date('2000-10-09') },
+  { email: 'chaely@tindog.com', password_hash: passwordHash, first_name: 'Chaely', last_name: 'Baudhuin', city: 'Lausanne', date_of_birth: new Date('2001-01-10') },
+  { email: 'alice@tindog.com', password_hash: passwordHash, first_name: 'Alice', last_name: 'Dupont', city: 'Lausanne', date_of_birth: new Date('1999-03-22') },
+  { email: 'marc@tindog.com', password_hash: passwordHash, first_name: 'Marc', last_name: 'Bernard', city: 'Lausanne', date_of_birth: new Date('1997-06-14') },
+  { email: 'sophie@tindog.com', password_hash: passwordHash, first_name: 'Sophie', last_name: 'Martin', city: 'Lausanne', date_of_birth: new Date('2002-12-01') },
   { email: 'luca@tindog.com', password_hash: passwordHash, first_name: 'Luca', last_name: 'Rossi', city: 'Lugano', date_of_birth: new Date('1996-08-30') },
   { email: 'emma@tindog.com', password_hash: passwordHash, first_name: 'Emma', last_name: 'Müller', city: 'Bâle', date_of_birth: new Date('2001-05-17') },
   { email: 'thomas@tindog.com', password_hash: passwordHash, first_name: 'Thomas', last_name: 'Blanc', city: 'Fribourg', date_of_birth: new Date('1998-02-28') },
@@ -201,22 +201,25 @@ async function main() {
   const createdDogs = []
   for (let i = 0; i < dogs.length; i++) {
     const dog = await prisma.dogs.create({
-      data: { ...dogs[i], owner_id: createdUsers[i].id }
+      data: { ...dogs[i], owner_id: createdUsers[i + 1].id }
     })
     createdDogs.push(dog)
     console.log(`Created dog: ${dog.dog_name} (owner: ${createdUsers[i].first_name})`)
   }
 
-  // Add 2 pics for the first 5 dogs
-  // for (let i = 0; i < 5; i++) {
-  //   await prisma.dog_pics.create({
-  //     data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-1.jpg`, position: 1 }
-  //   })
-  //   await prisma.dog_pics.create({
-  //     data: { dog_id: createdDogs[i].id, file_path: `/uploads/${dogs[i].dog_name.toLowerCase()}-2.jpg`, position: 2 }
-  //   })
-  //   console.log(`Created 2 pics for ${dogs[i].dog_name}`)
-  // }
+  // Add 2 pics for the first 10 dogs
+  for (let i = 0; i < 10; i++) {
+    await prisma.dog_pics.create({
+      data: { dog_id: createdDogs[i].id, file_path: `/app/uploads/seed/${dogs[i].dog_name.toLowerCase()}-1.jpg`, mime_type: 'image/jpeg', position: 1 }
+    })
+    await prisma.dog_pics.create({
+      data: { dog_id: createdDogs[i].id, file_path: `/app/uploads/seed/${dogs[i].dog_name.toLowerCase()}-2.jpg`, mime_type: 'image/jpeg', position: 2 }
+    })
+    await prisma.dog_pics.create({
+      data: { dog_id: createdDogs[i].id, file_path: `/app/uploads/seed/${dogs[i].dog_name.toLowerCase()}-3.jpg`, mime_type: 'image/jpeg', position: 3 }
+    })
+    console.log(`Created 3 pics for ${dogs[i].dog_name}`)
+  }
 
   // Create matching swipes (right/right) + matches
   const createdMatches = []
@@ -251,12 +254,12 @@ async function main() {
     const { match, userIndex1, userIndex2 } = createdMatches[m]
     const [msg1, msg2] = sampleMessages[m]
     await prisma.messages.create({
-      data: { match_id: match.id, sender_id: createdUsers[userIndex1].id, content: msg1 }
+      data: { match_id: match.id, sender_id: createdUsers[userIndex1 + 1].id, content: msg1 }
     })
     await prisma.messages.create({
-      data: { match_id: match.id, sender_id: createdUsers[userIndex2].id, content: msg2 }
+      data: { match_id: match.id, sender_id: createdUsers[userIndex2 + 1].id, content: msg2 }
     })
-    console.log(`Messages added to match ${dogs[userIndex1].dog_name} & ${dogs[userIndex2].dog_name}`)
+    console.log(`Messages added to match ${dogs[userIndex1 + 1].dog_name} & ${dogs[userIndex2 + 1].dog_name}`)
   }
 
   console.log('\n✅ Done!')

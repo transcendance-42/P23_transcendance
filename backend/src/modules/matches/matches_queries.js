@@ -15,6 +15,7 @@ async function findMatchesByUserId(userId) {
         include: {
           users:{
           select:{
+            id: true,
             first_name:true,
             last_name:true,
             lastSeenAt:true
@@ -25,6 +26,7 @@ async function findMatchesByUserId(userId) {
         include: {
           users:{
           select:{
+            id: true,
             first_name:true,
             last_name:true,
             lastSeenAt:true
@@ -32,7 +34,7 @@ async function findMatchesByUserId(userId) {
         }}
       },
     },
-    orderBy: { created_at: 'asc' }
+    orderBy: { created_at: 'desc' }
   })
 }
 
@@ -55,6 +57,16 @@ async function findMessagesByMatchId(match_id) {
   })
 }
 
+async function findMatch(id) {
+  return prisma.matches.findUnique({
+    where: { id: BigInt(id) },
+    include: {
+      matchesAsDog1: true,
+      matchesAsDog2: true
+    }
+  })
+}
+
 async function deleteMatch(id) {
   return prisma.matches.delete({ where: { id: BigInt(id) } })
 }
@@ -69,4 +81,4 @@ async function desactivateMatchWithReq(request) {
   })  
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq }
+export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }

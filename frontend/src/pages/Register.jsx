@@ -1,4 +1,5 @@
-import { useState ,  useRef} from 'react'
+import { useState, useEffect } from 'react'
+import { authFetch } from '../api/authFetch'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import Modal from '../components/ui/Modal'
@@ -8,8 +9,6 @@ import PrimaryButton from '../components/ui/PrimaryButton'
 import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
-import NavBar from '../components/ui/NavBar'
-import Footer from '../components/ui/Footer'
 import LocationButton from '../components/Map/LocationButton'
 
 export default function Register() {
@@ -29,14 +28,19 @@ export default function Register() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
-    const {login} = useAuth()
+    const { login, userId } = useAuth()
     const [avatarFile, setAvatarFile] = useState(null)
-    const [avatarUrl, setAvatarUrl] = useState(null)
+    const [avatarUrl, setAvatarUrl] = useState(null)    
+    const [pendingAvatarFile, setPendingAvatarFile] = useState(null)
 
-    const handleAvatarUpload = (file) => {
-        setAvatarFile(file)
-        setAvatarUrl(URL.createObjectURL(file))
-    }
+    useEffect(() => {
+        if (!userId || !pendingAvatarFile) return
+        const fd = new FormData()
+        fd.append('file', pendingAvatarFile)
+        authFetch(`/api/user/${userId}/pic`, { method: 'PUT', body: fd })
+            .then(() => setPendingAvatarFile(null))
+            .catch(() => {})
+    }, [userId, pendingAvatarFile])
 
     const handleLocationChange = (city, latitude, longitude, radius) => {
         setFormData(prev => ({
@@ -59,7 +63,6 @@ export default function Register() {
     if (formData.password.length < 8)
         return setError('Password must be at least 8 characters')
     const { confirm_password, ...body } = formData
-    console.log(formData)
     const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,6 +79,7 @@ export default function Register() {
     if (response.status === 409) return setError('Email already exists')
     if (response.ok) {
         setSuccess('Account created!')
+        if (avatarFile) setPendingAvatarFile(avatarFile)
         await login(formData.email, formData.password)
         setTimeout(() => navigate('/registerDog'), 1500)
     } else {
@@ -86,11 +90,14 @@ export default function Register() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-            <Modal>
+            <Modal showBack={true} >
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                     <div className="flex justify-center w-full">
-                        <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload} />
+                        <Avatar size='lg' url={avatarUrl} onUpload={(file) => {
+                            setAvatarFile(file)
+                            setAvatarUrl(URL.createObjectURL(file))
+                        }} />
                     </div>
                     <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
                     <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />

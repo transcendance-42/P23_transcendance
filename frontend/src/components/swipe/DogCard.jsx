@@ -11,7 +11,8 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
     const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0])
     const rotateRaw = useTransform(x, [-150, 150], [-10, 10])
     const isFront = index === 0
-    const [dogPic, setDogPic] = useState(null)
+    const [dogPics, setDogPics] = useState([])
+    const [currentIndex, setCurrentIndex] = useState(0)
     
     const rotate = useTransform(() => {
         const offset = isFront ? 0 : index % 2 ? 6 : -6;
@@ -23,7 +24,11 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
             const direction = x.get() > 0 ? 'right' : 'left'
             try {
                 const data = await sendRequestSwipes(direction, dog.id)
-                if (data.matched) onMatch()
+                console.log(data)
+                if (data.matched) onMatch({
+                    roomId: data.match?.id,
+                    otherPicId: dog.dog_pics?.[0]?.id
+                })
             } catch (e) {
                 console.error('Swipe error:', e.message)
             }
@@ -31,29 +36,29 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
         }
     }
     useEffect(() => {
-        let pic = null
-        for (let i = 0; i < dog.dog_pics.length; i++)
-        {
-            if (Number(dog.dog_pics[i].position) === 1)
-                pic = dog.dog_pics[i]
+        if (!dog.dog_pics?.length) return
+        const cancelRef = { current: false }
+        const createdUrls = []
+
+        const loadPics = async () => {
+            const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
+            const urls = await Promise.all(
+                sorted.map(async (pic) => {
+                    const res = await authFetch(`/api/dog-pics/${pic.id}`)
+                    const blob = await res.blob()
+                    const url = URL.createObjectURL(blob)
+                    createdUrls.push(url)
+                    return url
+                })
+            )
+            if (!cancelRef.current) setDogPics(urls)
         }
-        if (!pic)
-            return
-        let cancel = false
-        let objectUrl = null
-        const loadPic = async () =>{
-            const data = await authFetch(`/api/dog-pics/${pic.id}`)
-            const blob = await data.blob()
-            if (cancel)
-                return
-            objectUrl = URL.createObjectURL(blob)
-            setDogPic(objectUrl)
-        }
-        loadPic()
+
+        loadPics()
+
         return () => {
-            cancel = true
-            if (objectUrl)
-                URL.revokeObjectURL(objectUrl)
+            cancelRef.current = true
+            createdUrls.forEach(u => URL.revokeObjectURL(u))
         }
     }, [dog.dog_pics])
 
@@ -71,7 +76,21 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
             <motion.div style={{ opacity: passOpacity }} className="absolute inset-0 bg-action-pass rounded-[var(--radius-md)] z-10" />
             <Badge type="like" opacity={likeOpacityBadge} />
             <Badge type="pass" opacity={passOpacityBadge} />
-            <img src={dogPic || defaultDog} alt={dog.dog_name} className="w-full h-80 object-cover pointer-events-none rounded-[var(--radius-md)] mt-2 px-2" />
+            <div className="relative w-full h-80">
+            <img src={dogPics[currentIndex] || defaultDog} alt={dog.dog_name} className="w-full h-full object-cover pointer-events-none rounded-[var(--radius-md)] mt-2 px-2" />
+                {dogPics.length > 1 && (
+                    <>
+                        <button 
+                            onPointerDown={e => { e.stopPropagation(); setCurrentIndex(i => Math.max(0, i - 1)) }}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/30 text-white rounded-full w-7 h-7 flex items-center justify-center"
+                        >‹</button>
+                        <button 
+                            onPointerDown={e => { e.stopPropagation(); setCurrentIndex(i => Math.min(dogPics.length - 1, i + 1)) }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/30 text-white rounded-full w-7 h-7 flex items-center justify-center"
+                        >›</button>
+                    </>
+                )}
+            </div>
             <DogInfo dog={dog} />
         </motion.div>
     )
