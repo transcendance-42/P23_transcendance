@@ -1,19 +1,45 @@
 import { useTranslation } from 'react-i18next';
 import Mascot from './Mascot';
 import defaultDog from '../../assets/defaultPic.png';
-import mascot3 from '../../assets/mascot3.png'
 import PrimaryButton from './PrimaryButton';
-
-
+import {useState, useEffect } from 'react';
+import { authFetch } from '../../api/authFetch';
 
 export default function DogProfileCard( {dog} ){
     const { t } = useTranslation()
+    const [pics, setPics] = useState([])
+
+    useEffect(() => {
+        if (!dog.dog_pics?.length) return
+        const cancelRef = { current: false }
+        const createdUrls = []
+
+        const loadPics = async () => {
+            const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
+            const urls = await Promise.all(
+                sorted.map(async (pic) => {
+                    const res = await authFetch(`/api/dog-pics/${pic.id}`)
+                    const blob = await res.blob()
+                    const url = URL.createObjectURL(blob)
+                    createdUrls.push(url)
+                    return url
+                })
+            )
+            if (!cancelRef.current) setPics(urls)
+        }
+
+        loadPics()
+
+        return () => {
+            cancelRef.current = true
+            createdUrls.forEach(u => URL.revokeObjectURL(u))
+        }
+    }, [dog.dog_pics])
     
     return(
         <div className='flex flex-col md:flex-row gap-12 md:items-center'>
             <div className='md:w-1/2 relative rounded-[var(--radius-lg)] overflow-hidden shadow-floating'>
-            {/* Need un UseState pour changer les photos quand je les receverais du back */}
-                <img className='w-full aspect-[4/5] object-cover' src={mascot3} alt={dog.dog_name}/>
+                <img className='w-full aspect-[4/5] object-cover' src={pics[0] || defaultDog} alt={dog.dog_name}/>
                 <div className='absolute bottom-0 inset-x-0 bg-linear-to-t from-black/70 to-transparent p-6 
                     flex items-baseline gap-2'>
                     <span className='font-heading text-4xl font-bold text-white'>{dog.dog_name}</span>
