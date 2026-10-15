@@ -3,10 +3,14 @@ import { randomUUID } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 
-const allowedMimeType = [
+const allowedImagesMimeType = [
   'image/jpeg',
   'image/png',
   'image/webp'
+]
+
+const allowedPdfMimeType = [
+  'application/pdf'
 ]
 
 async function creatDirUpload(DirName) {
@@ -15,10 +19,10 @@ async function creatDirUpload(DirName) {
   return uploadDir
 }
 
-async function creatFileBuffer(request) {
+async function creatFileBuffer(request, allowType) {
   const buffer = await request.body.file.toBuffer()
   const type = await fileTypeFromBuffer(buffer)
-  if (!type || !allowedMimeType.includes(type.mime)) {
+  if (!type || !allowType.includes(type.mime)) {
     const error = new Error( 'Invalid file type')
     error.statusCode = 400
     throw error
@@ -34,4 +38,4 @@ async function creaFilePath(DirName, FileName) {
     return filePath
 }
 
-export { allowedMimeType, creatDirUpload, creatFileBuffer, creaFilePath }
+export { creatDirUpload, creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeType }

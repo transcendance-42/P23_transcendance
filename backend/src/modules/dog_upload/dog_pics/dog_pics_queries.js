@@ -1,4 +1,4 @@
-import prisma from '../../utils/prisma.js'
+import prisma from '../../../utils/prisma.js'
 
 async function findPicDogById(id) {
   return prisma.dog_pics.findUnique({where: { id: BigInt(id) }})
