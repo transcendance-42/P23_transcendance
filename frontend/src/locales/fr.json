@@ -129,5 +129,6 @@
     "WhatEmail": "Quelle est ton email ?",
     "Years": "ans",
     "HisHuman": "Son humain",
-    "SendMessage": "Envoyer un message"
+    "SendMessage": "Envoyer un message",
+    "DogNotFound": "Ce chien est introuvable"
 }

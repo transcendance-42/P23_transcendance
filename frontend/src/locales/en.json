@@ -129,5 +129,6 @@
     "WhatEmail": "What's your email?",
     "Years": "years",
     "HisHuman": "Their human",
-    "SendMessage": "Send a message"
+    "SendMessage": "Send a message",
+    "DogNotFound": "This dog can't be found"
   }
