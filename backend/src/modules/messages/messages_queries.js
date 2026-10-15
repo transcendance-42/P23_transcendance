@@ -1,10 +1,14 @@
 import prisma from '../../utils/prisma.js'
+import { UserPublicFields } from '../users/users_queries.js'
+
 
 async function findMessagesByMatchId(matchId) {
   return prisma.messages.findMany({
     where: { match_id: BigInt(matchId) },
     orderBy: { send_at: 'asc' },
-    include: { users: true }
+    include: { users:{
+               select:UserPublicFields
+    }}
   })
 }
 // pas utilisée le post est gérée dans le index.js du websocket

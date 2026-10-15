@@ -1,7 +1,18 @@
+import { Client } from 'pg'
 import prisma from '../../utils/prisma.js'
 
 // est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
-const publicFields = {
+const UserPublicFields = {
+  first_name: true,
+  last_name: true,
+  city: true,
+  id:true,
+  is_active:true,
+  lastSeenAt:true,
+  role:true
+}
+
+const UserPrivateFields = {
   first_name: true,
   last_name: true,
   city: true,
@@ -9,21 +20,24 @@ const publicFields = {
   email: true, 
   id:true,
   is_active:true,
+  lastSeenAt:true,
   role:true
-  
 }
 
 async function findActiveUsers() {
   return prisma.users.findMany({
     where: { is_active: true },
-    select: publicFields
+    select: UserPublicFields
   })
 }
 
-async function findUserById(id) {
+async function findUserById(id, clientId) {
+  const isSelf = BigInt(id) === BigInt(clientId)
+  const fields = isSelf ? UserPrivateFields : UserPublicFields
+
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
-    select: {...publicFields,
+    select: {...fields,
       dogs: { include: { dog_pics: true } }
     } 
   })
@@ -56,7 +70,7 @@ async function updateUser(id, data) {
     return prisma.users.update({
         where: { id: BigInt(id) },
         data: parsed,
-        select: publicFields
+        select: UserPrivateFields
     })
 }
 
@@ -64,8 +78,8 @@ async function deactivateUser(id) {
   return prisma.users.update({
     where: { id: BigInt(id) },
     data: { is_active: false },
-    select: publicFields
+    select: UserPrivateFields
   })
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition }
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields }
