@@ -1,18 +1,18 @@
 import { updateUserPic, findPicPathByUserId, deleteUserPic } from './user_pic_query.js'
 import { creatFileBuffer, creaFilePath } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
-import { createReadStream } from 'fs'
+import { createReadStream, existsSync } from 'fs'
 
 async function getUserPic(request, reply) {
-	try {
-		const picPath = await findPicPathByUserId(request.params.id)
-		if (!picPath)
-			return reply.code(404).send({ error: 'User pic not found' })
-		reply.type(picPath.mime_type)
-		return reply.send(createReadStream(picPath.file_path))
-	} catch (e) {
-		return reply.code(500).send({ error: e.message })
-	}
+    try {
+        const picPath = await findPicPathByUserId(request.params.id)
+        if (!picPath || !existsSync(picPath.file_path))
+            return reply.code(404).send({ error: 'User pic not found' })
+        reply.type(picPath.mime_type)
+        return reply.send(createReadStream(picPath.file_path))
+    } catch (e) {
+        return reply.code(500).send({ error: e.message })
+    }
 }
 
 async function putUserPic(request, reply) {

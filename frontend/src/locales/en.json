@@ -128,5 +128,10 @@
     "DistanceToSearch": "Distance",
     "LocalisationButton": "Localisation", 
     "WhatEmail": "What's your email?",
-    "LocalisationButton": "Localisation"
+    "LocalisationButton": "Localisation", 
+    "Users": "Users", 
+    "AdminAccount": "Administrator account — swipe access disabled", 
+    "Logout": "Logout", 
+    "DeleteUser" : "Delete user", 
+    "DeleteUserConfirm": "Delete {{name}}?"
   }

@@ -79,7 +79,7 @@ const NavBarAuth = () => {
                     </div>
                 )}
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
-                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>{t('Logout')}</SecondaryButton>
                 </div>
             </div>
             </div>

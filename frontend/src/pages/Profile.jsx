@@ -88,7 +88,7 @@ export default function Profile() {
                 {user.role === 'admin' ? (
                     <div className="rounded-md border border-primary bg-primary/10 px-4 py-3">
                         <p className="font-semibold text-primary text-sm">
-                            Compte administrateur — accès swipe désactivé
+                            {t('AdminAccount')}
                         </p>
                     </div>
                 ) : !isProfileComplete && (
