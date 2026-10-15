@@ -15,7 +15,7 @@ const NavBarAuth = () => {
     const navigate = useNavigate()
     const [unreadCount, setUnreadCount] = useState(0)
 
-    const isProfileComplete = !!(
+    const isProfileComplete = user?.role === 'admin' ? false : !!(
         user?.first_name &&
         user?.last_name &&
         user?.city &&

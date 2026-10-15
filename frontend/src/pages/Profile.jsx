@@ -22,6 +22,7 @@ export default function Profile() {
     const [error, setError] = useState(null)
     const { userId } = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
+    const isAdmin = user?.role === 'admin'
 
     const handleAvatarUpload = async (file) => {
         const fd = new FormData()
@@ -78,21 +79,25 @@ export default function Profile() {
 
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <div className="flex items-center gap-4">
-                    <Avatar size='lg' url={avatarUrl} onUpload={handleAvatarUpload}/>
+                    <Avatar size='lg' url={avatarUrl} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
                     <h1 className="font-heading text-3xl font-bold text-text-primary">
                         {t('MyProfile')}
                     </h1>
                 </div>
 
-                {!isProfileComplete && (
+                {user.role === 'admin' ? (
+                    <div className="rounded-md border border-primary bg-primary/10 px-4 py-3">
+                        <p className="font-semibold text-primary text-sm">
+                            Compte administrateur — accès swipe désactivé
+                        </p>
+                    </div>
+                ) : !isProfileComplete && (
                     <div className="rounded-md border border-primary bg-primary/10 px-4 py-3 flex flex-col gap-1">
                         <p className="font-semibold text-primary text-sm">
                             {t('ProfileIncompleteWarning')}
                         </p>
                         <ul className="list-disc list-inside text-primary text-xs space-y-0.5">
-                            {!dog && (
-                                <li>{t('ProfileMissingDog')}</li>
-                            )}
+                            {!dog && <li>{t('ProfileMissingDog')}</li>}
                             {missingUserFields.map(({ field, label }) => (
                                 <li key={field}>{t(label)}</li>
                             ))}
@@ -100,33 +105,31 @@ export default function Profile() {
                     </div>
                 )}
 
-                {!dog ? (
-                    <div className="rounded-md bg-surface-white p-6 text-center shadow-soft">
-                        <p className="text-text-secondary">{t('Profile1')}</p>
-                        <Link
-                            to="/registerDog"
-                            className="mt-4 inline-flex rounded-full bg-primary px-6 py-3 font-semibold text-surface-white transition hover:bg-primary-hover"
-                        >
-                            {t('Profile2')}
-                        </Link>
-                    </div>
-                ) : (
-                    <DogProfile
-                        dog={dog}
-                        onSaved={(updatedDog) =>
-                            setUser({...user, dogs: updatedDog})
-                        }
-                        onDeleted={() =>
-                            setUser({ ...user, dogs: null})
-                        }
-                    />
+                {!isAdmin && (
+                    !dog ? (
+                        <div className="rounded-md bg-surface-white p-6 text-center shadow-soft">
+                            <p className="text-text-secondary">{t('Profile1')}</p>
+                            <Link
+                                to="/registerDog"
+                                className="mt-4 inline-flex rounded-full bg-primary px-6 py-3 font-semibold text-surface-white transition hover:bg-primary-hover"
+                            >
+                                {t('Profile2')}
+                            </Link>
+                        </div>
+                    ) : (
+                        <DogProfile
+                            dog={dog}
+                            onSaved={(updatedDog) => setUser({...user, dogs: updatedDog})}
+                            onDeleted={() => setUser({ ...user, dogs: null})}
+                        />
+                    )
                 )}
+
                 <UserProfile
                     user={user}
                     onSaved={setUser}
-                    missingFields={missingUserFields.map(f => f.field)}
+                    missingFields={isAdmin ? [] : missingUserFields.map(f => f.field)}
                 />
-                {console.log(user)}
             </div>
         </div>
     )
