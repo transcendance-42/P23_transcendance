@@ -8,6 +8,8 @@ async function getDogDocu(request, reply) {
 		const dog = await findDogDocuByDogId(request.params.dogId)
 		if (!dog)
 			return reply.code(404).send({ error: 'Dog not found' })
+		if (!dog.dog_formular_path)
+			return reply.code(404).send({ error: 'Dog Form not found' })
 		reply.type(dog.dog_formular_type)
 		return reply.send(createReadStream(dog.dog_formular_path))
 	} catch (e) {
@@ -23,7 +25,7 @@ async function putDogDocu(request, reply) {
 		const buffer = await creatFileBuffer(request, allowedPdfMimeType)
 		const filePath = await creaFilePath('uploads', request.body.file.filename)
 		await fs.writeFile(filePath, buffer)
-		await updateDogDocu(request.params.dogId, filePath)
+		await updateDogDocu(request.params.dogId, filePath, request.body.file.mimetype)
 		if (dog.dog_formular_path)
 			await fs.unlink(dog.dog_formular_path)
 		return reply.code(204).send({ success: true })
