@@ -37,8 +37,8 @@ export default function DogProfileCard( {dog} ){
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-xs uppercase tracking-widest text-text-caption'>{t('HisHuman')}</span>
-                        <span className='font-heading text-xl text-surface-white'>{dog.users.first_name}</span> 
-                        <span className='text-sm text-surface-cream'>{dog.users.city}</span>
+                        <span className='font-heading text-xl text-surface-white'>{dog.users?.first_name}</span> 
+                        <span className='text-sm text-surface-cream'>{dog.users?.city}</span>
                     </div>
                 </div>
                 <PrimaryButton>
