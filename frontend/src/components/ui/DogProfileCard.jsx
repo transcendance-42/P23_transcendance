@@ -4,16 +4,19 @@ import defaultDog from '../../assets/defaultPic.png';
 import PrimaryButton from './PrimaryButton';
 import {useState, useEffect } from 'react';
 import { authFetch } from '../../api/authFetch';
+import Avatar from './Avatar';
 
 export default function DogProfileCard( {dog} ){
     const { t } = useTranslation()
     const [pics, setPics] = useState([])
+    const [owner, setOwner] = useState(null)
+    const [avatarUrl, setAvatarUrl] = useState(null)
 
     useEffect(() => {
         if (!dog.dog_pics?.length) return
         const cancelRef = { current: false }
         const createdUrls = []
-
+    
         const loadPics = async () => {
             const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
             const urls = await Promise.all(
@@ -35,7 +38,20 @@ export default function DogProfileCard( {dog} ){
             createdUrls.forEach(u => URL.revokeObjectURL(u))
         }
     }, [dog.dog_pics])
-    
+
+    useEffect(() => {
+        authFetch(`/api/users/${dog.owner_id}`)
+        .then(res => res.json())
+        .then(data => setOwner(data))
+    }, [dog.owner_id])
+
+    useEffect(() => {
+    authFetch(`/api/user/${dog.owner_id}/pic`)
+    .then(res => res.ok ? res.blob() : null)
+    .then(blob => { if (blob) setAvatarUrl(URL.createObjectURL(blob)) })
+    .catch(() => {})
+    }, [dog.owner_id])
+
     return(
         <div className='flex flex-col md:flex-row gap-12 md:items-center'>
             <div className='md:w-1/2 relative rounded-[var(--radius-lg)] overflow-hidden shadow-floating'>
@@ -59,12 +75,12 @@ export default function DogProfileCard( {dog} ){
                 </div>
                 <div className='bg-surface-raised rounded-[var(--radius-md)] p-5 flex items-center gap-4'>
                     <div className='w-16 h-16 rounded-full overflow-hidden bg-surface-cream flex items-center justify-center'>
-                        <Mascot size='sm'/>
+                        <Avatar url={avatarUrl} size='xl' />
                     </div>
                     <div className='flex flex-col'>
                         <span className='text-xs uppercase tracking-widest text-text-caption'>{t('HisHuman')}</span>
-                        <span className='font-heading text-xl text-surface-white'>{dog.users?.first_name}</span> 
-                        <span className='text-sm text-surface-cream'>{dog.users?.city}</span>
+                        <span className='font-heading text-xl text-surface-white'>{owner?.first_name}</span> 
+                        <span className='text-sm text-surface-cream'>{owner?.city}</span>
                     </div>
                 </div>
                 <PrimaryButton>
