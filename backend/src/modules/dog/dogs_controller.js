@@ -63,8 +63,8 @@ async function PutDogs (request, reply) {
 
 async function DeleteDogs (request, reply) {
     try {
-      const dog = await deleteDogs(request)
-      return dog
+      await deleteDogs(request)
+      return reply.code(204).send({ success: true })
     } catch (e) {
       console.error('DeleteDogs error:', e.message)  
       if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })

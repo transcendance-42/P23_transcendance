@@ -1,8 +1,8 @@
 import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition } from './users_queries.js'
 
-async function getUsers(request, reply) {
+async function getAllUsers(request, reply) {
   try {
-    return await findActiveUsers()
+    return await findActiveUsers(request)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -49,4 +49,4 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition }
+export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition }

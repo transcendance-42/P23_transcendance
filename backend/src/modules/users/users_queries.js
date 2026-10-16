@@ -24,10 +24,12 @@ const UserPrivateFields = {
   role:true
 }
 
-async function findActiveUsers() {
+async function findActiveUsers(request) { // route pour l'admin donc je laisse private fields
+  const adminId = request.userId
   return prisma.users.findMany({
-    where: { is_active: true },
-    select: UserPublicFields
+    where: { id:{not: adminId}
+     },
+    select: UserPrivateFields 
   })
 }
 
