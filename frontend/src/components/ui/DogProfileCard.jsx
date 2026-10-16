@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import Mascot from './Mascot';
 import defaultDog from '../../assets/defaultPic.png';
 import PrimaryButton from './PrimaryButton';
-import {useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import { authFetch } from '../../api/authFetch';
 import Avatar from './Avatar';
 
@@ -11,6 +11,8 @@ export default function DogProfileCard( {dog} ){
     const [pics, setPics] = useState([])
     const [owner, setOwner] = useState(null)
     const [avatarUrl, setAvatarUrl] = useState(null)
+    const navigate = useNavigate()
+    const [roomId, setRoomId] = useState(null)
 
     useEffect(() => {
         if (!dog.dog_pics?.length) return
@@ -46,11 +48,25 @@ export default function DogProfileCard( {dog} ){
     }, [dog.owner_id])
 
     useEffect(() => {
-    authFetch(`/api/user/${dog.owner_id}/pic`)
-    .then(res => res.ok ? res.blob() : null)
-    .then(blob => { if (blob) setAvatarUrl(URL.createObjectURL(blob)) })
-    .catch(() => {})
+        authFetch(`/api/user/${dog.owner_id}/pic`)
+        .then(res => res.ok ? res.blob() : null)
+        .then(blob => { if (blob) setAvatarUrl(URL.createObjectURL(blob)) })
+        .catch(() => {})
     }, [dog.owner_id])
+
+    useEffect(() => {
+        authFetch(`/api/matches/me`)
+        .then(res => res.json())
+        .then(data => {
+        if(!Array.isArray(data)) return
+        const room = data.find(m => 
+            String(m.matchesAsDog1.id) === String(dog.id)
+            ||
+            String(m.matchesAsDog2.id) === String(dog.id))
+            if (room) setRoomId(room.id)
+        })
+       
+    }, [dog.id])
 
     return(
         <div className='flex flex-col md:flex-row gap-12 md:items-center'>
@@ -83,9 +99,11 @@ export default function DogProfileCard( {dog} ){
                         <span className='text-sm text-surface-cream'>{owner?.city}</span>
                     </div>
                 </div>
-                <PrimaryButton>
-                    <span className='font-heading'>{t('SendMessage')}</span>
-                </PrimaryButton>
+                {roomId && (
+                    <PrimaryButton onClick={() => navigate(`/chat/${roomId}`)}>
+                        <span className='font-heading'>{t('SendMessage')}</span>
+                    </PrimaryButton>
+                )}    
             </div>
         </div>
     )
