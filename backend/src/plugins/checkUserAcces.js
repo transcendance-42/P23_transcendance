@@ -1,7 +1,27 @@
 import { findDogByUserId } from '../modules/dog/dogs_queries.js'
 import { findActiveMatch } from '../modules/matches/matches_queries.js'
+import { findUserById } from '../modules/users/users_queries.js'
 
 async function checkUserGetAcces(request, reply) {
+    if (request.roles === 'amdin')
+        return
+    const userByid = await findUserById(request.params.id)
+    if (!userByid)
+		return reply.code(405).send({ error: 'User not found' })
+    if (userByid.id.toString() === request.params.id.toString())
+        return
+    const dogUser = await findDogByUserId(request.userId)
+    if (!dogUser)
+		return reply.code(405).send({ error: 'Dog not found' })
+    const dogUserTarget = await findDogByUserId(request.params.id)
+    if (!dogUserTarget)
+		return reply.code(405).send({ error: 'Dog not found' })
+    const is_matched = await findActiveMatch(dogUser.id, dogUserTarget.id)
+    if (!is_matched)
+        return reply.code(403).send({ error: 'forbidden access' })
+}
+
+async function checkUserGetPicAcces(request, reply) {
     if (request.roles === 'amdin')
         return
     const dogUser = await findDogByUserId(request.userId)
