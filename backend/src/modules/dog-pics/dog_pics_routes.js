@@ -1,10 +1,11 @@
 import { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema } from './dog_pics_schema.js'
 import { getDogPic, getDogPics, putDogPic, postDogPic, removeDogPic } from './dog_pics_controller.js'
-import { checkAccesDogPicParams, checkAccesDogPic, checkAccesDogPicDelete } from '../../plugins/checkDogPicAcces.js'
+import { checkAccesGetDogPic, checkAccesDogPic, checkAccesDogPicDelete } from '../../plugins/checkDogPicAcces.js'
+import { checkMyOtherAccess } from '../../plugins/checkDogAccess.js'
 
 async function dogPicsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
-  fastify.get('/dogs/:dogId/pics', {schema : getDogPicsSchema}, getDogPics) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
+  fastify.get('/dogs/:dogId/pics', {schema : getDogPicsSchema, preHandler:checkMyOtherAccess}, getDogPics) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
   fastify.get('/dog-pics/:id', {schema : getDogPicSchema}, getDogPic)
   fastify.post('/dog-pics', {
 	schema : createDogPicSchema, preHandler: checkAccesDogPic,

@@ -4,6 +4,13 @@ async function findPicDogById(id) {
   return prisma.dog_pics.findUnique({where: { id: BigInt(id) }})
 }
 
+async function findDogByPicId(id) {
+  return prisma.dog_pics.findUnique({
+    where: { id: BigInt(id) },
+    include: { dogs: true }
+  })
+}
+
 async function findPicsByDogId(dogId) {
   return prisma.dog_pics.findMany({
     where: { dog_id: BigInt(dogId) },
@@ -36,4 +43,4 @@ async function deleteDogPic(id) {
   return prisma.dog_pics.delete({ where: { id: BigInt(id) } })
 }
 
-export { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic }
+export { findPicsByDogId, findPicDogById, findDogByPicId, createDogPic, updateDogPic, deleteDogPic }

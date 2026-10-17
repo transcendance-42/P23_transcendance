@@ -2,8 +2,7 @@ import prisma from '../../utils/prisma.js'
 import {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} from './dogs_schema.js'
 import {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogsExceptMe, GetDogsAroundMe} from './dogs_controller.js'
 import { checkUserAcces } from '../../plugins/checkUserAcces.js'
-import { checkDogAcces} from '../../plugins/checkDogAccess.js'
-import { checkMyOtherAccess } from '../../plugins/checkMyOtherDogAccess.js'
+import { checkDogAcces, checkMyOtherAccess} from '../../plugins/checkDogAccess.js'
 
 async function dogsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
