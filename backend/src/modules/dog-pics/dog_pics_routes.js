@@ -6,7 +6,7 @@ import { checkMyOtherAccess } from '../../plugins/checkDogAccess.js'
 async function dogPicsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
   fastify.get('/dogs/:dogId/pics', {schema : getDogPicsSchema, preHandler:checkMyOtherAccess}, getDogPics) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
-  fastify.get('/dog-pics/:id', {schema : getDogPicSchema}, getDogPic)
+  fastify.get('/dog-pics/:id', {schema : getDogPicSchema, preHandler:checkAccesGetDogPic}, getDogPic)
   fastify.post('/dog-pics', {
 	schema : createDogPicSchema, preHandler: checkAccesDogPic,
 	config :{

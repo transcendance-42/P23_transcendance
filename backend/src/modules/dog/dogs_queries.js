@@ -77,7 +77,7 @@ async function findDogsIdParams(dogId) {
 }
 
 async function findDogByUserId(userId) {
-    return prisma.dogs.findUnique({where: { owner_id: userId}})
+    return prisma.dogs.findUnique({where: { owner_id: BigInt(userId)}})
 }
 
 async function creatDogs(owner_id, rest) {

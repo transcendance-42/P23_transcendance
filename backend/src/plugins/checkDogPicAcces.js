@@ -1,20 +1,27 @@
-import { findDogsIdParams } from "../modules/dog/dogs_queries.js";
+import { findDogsIdParams, findDogByUserId } from "../modules/dog/dogs_queries.js";
 import { findPicsByDogId, findDogByPicId } from "../modules/dog-pics/dog_pics_queries.js";
+import { findActiveMatch } from "../modules/matches/matches_queries.js";
 
 async function checkAccesGetDogPic(request, reply) {
-	if (request.role === 'admin')
-		return
-    const ownerDogPicId = await findDogByPicId(request.params.id)
-    if (!ownerDogPicId)
-        return reply.code(405).send({error: 'dog pic not found'})
-    if (ownerDogPicId.dogs.owner_id.toString() === request.userId.toString())
-        return
-    const userdog = await findDogByUserId(request.userId)
-	if (!userdog)
-		return reply.code(405).send({ error: 'Yout dog not found' })
-    const is_matched = await findActiveMatch(ownerDogPicId.dogs.id, userdog.id)
-	if (!is_matched)
-		return reply.code(403).send({ error: 'forbidden access' })
+    try {
+        if (request.role === 'admin')
+            return
+        const ownerDogPicId = await findDogByPicId(request.params.id)
+        if (!ownerDogPicId)
+            return reply.code(405).send({error: 'dog pic not found'})
+        if (ownerDogPicId.dogs.owner_id.toString() === request.userId.toString())
+            return
+        const userdog = await findDogByUserId(request.userId)
+        if (!userdog)
+            return reply.code(405).send({ error: 'Yout dog not found' })
+        const is_matched = await findActiveMatch(ownerDogPicId.dogs.id, userdog.id)
+        if (!is_matched)
+            return reply.code(403).send({ error: 'forbidden access' })
+    } catch (err) {
+        request.log.error(err)
+        console.error(err)
+        return reply.code(500).send({ error: 'internal error' })
+    }
 }
 
 async function checkAccesDogPic(request, reply) {
@@ -40,6 +47,5 @@ async function checkAccesDogPicDelete(request, reply) {
     if (userId.toString() !== dogPic.dogs.owner_id.toString())
         return reply.code(403).send({error: 'Forbidden'})  
 }
-
 
 export { checkAccesGetDogPic, checkAccesDogPic, checkAccesDogPicDelete }
