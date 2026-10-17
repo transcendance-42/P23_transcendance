@@ -1,4 +1,4 @@
-import {findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe, findDogsAroundMe} from './dogs_queries.js'
+import { findDogsId, creatDogs, updateDogs, deleteDogs, findAllDogs, findAllDogsExceptMe, findDogsAroundMe } from './dogs_queries.js'
 
 async function GetAllDogs(reply) {
     try {
@@ -28,9 +28,6 @@ async function GetDogsAroundMe(request, reply) {
     }
 }
 
-
-
-
 async function GetDogsByID (request, reply) {
     try {
       const dog = await findDogsId(request)
@@ -39,7 +36,7 @@ async function GetDogsByID (request, reply) {
     } catch (e) {
       return reply.code(500).send({ error: e.message })
     }
-  }
+}
 
 async function PostDogs(request, reply) {
     try {
@@ -51,7 +48,7 @@ async function PostDogs(request, reply) {
       if (e.code === 'P2002') return reply.code(409).send({ error: 'Dog already exist' })
       return reply.code(500).send({ error: e.message })
     }
-  }
+}
 
 async function PutDogs (request, reply) {
     try {
@@ -61,7 +58,7 @@ async function PutDogs (request, reply) {
         if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
         return reply.code(500).send({ error: e.message })
       }
-  }
+}
 
 async function DeleteDogs (request, reply) {
     try {
@@ -72,6 +69,6 @@ async function DeleteDogs (request, reply) {
       if (e.code === 'P2025') return reply.code(404).send({ error: 'Dog not found' })
       return reply.code(500).send({ error: e.message })
     }
-  }
+}
 
 export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe, GetDogsAroundMe }
