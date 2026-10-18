@@ -2,7 +2,6 @@ import { findRefreshToken, saveRefreshToken, revokeToken, revokeAllUserToken } f
 import { generateRefreshToken, generateAccessToken, COOKIE_OPTIONS } from "../auth/auth_controller.js"
 import { findUserById } from "../users/users_queries.js"
 import crypto  from 'crypto'
-import { error } from "console"
 
 async function GetRefreshToken(request, reply){
     try{
@@ -49,7 +48,7 @@ async function GetRefreshToken(request, reply){
     }
     catch(e)
     {
-        return reply.code(500).send({error: e.message})        
+        return reply.code(500) 
     }
 
 }

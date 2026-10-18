@@ -13,8 +13,10 @@ async function getUser(request, reply) {
     const user = await findUserById(request.params.id)
     console.log('user dans le controller')
     console.log(user)
-    if (!user) return reply.code(404).send({ error: 'User not found' })
-    if (!user.is_active) return reply.code(404).send({ error: 'User not found' })
+    if (!user)
+      return reply.code(404).send({ error: 'User not found' })
+    if (!user.is_active)
+      return reply.code(404).send({ error: 'User not found' })
     return user
   } catch (e) {
     return reply.code(500).send({ error: e.message })

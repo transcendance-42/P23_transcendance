@@ -6,11 +6,12 @@ import { createReadStream } from 'fs'
 async function getUserPic(request, reply) {
 	try {
 		const picPath = await findPicPathByUserId(request.params.id)
-		if (!picPath)
+		if (!picPath || !picPath.file_path)
 			return reply.code(404).send({ error: 'User pic not found' })
 		reply.type(picPath.mime_type)
 		return reply.send(createReadStream(picPath.file_path))
 	} catch (e) {
+		request.log.error(e)
 		return reply.code(500).send({ error: e.message })
 	}
 }
