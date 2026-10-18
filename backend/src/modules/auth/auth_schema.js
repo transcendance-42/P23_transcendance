@@ -1,3 +1,23 @@
+const configRateLimit5 = {
+	rateLimit: {
+		max: 5,
+		timeWindow: '1 minute'
+	}
+}
+const configRateLimit3 = {
+	rateLimit: {
+		max: 3,
+		timeWindow: '1 minute'
+	}
+}
+
+const configRateLimit10 = {
+	rateLimit: {
+		max: 10,
+		timeWindow: '1 minute'
+	}
+}
+
 const loginSchema = {
     body: {
       type: 'object',
@@ -57,4 +77,4 @@ const registerSchema = {
   }
 }
 
-export {loginSchema, registerSchema}
+export {loginSchema, registerSchema, configRateLimit10, configRateLimit5, configRateLimit3}

@@ -1,5 +1,5 @@
 import { findDogsIdParams, findDogByUserId } from "../modules/dog/dogs_queries.js";
-import { findPicsByDogId, findDogByPicId } from "../modules/dog-pics/dog_pics_queries.js";
+import { findPicsByDogId, findDogByPicId, findPicDogById } from "../modules/dog-pics/dog_pics_queries.js";
 import { findActiveMatch } from "../modules/matches/matches_queries.js";
 
 async function checkAccesGetDogPic(request, reply) {
@@ -41,11 +41,22 @@ async function checkAccesDogPicDelete(request, reply) {
     const dogPicId = request.params.id
     if (request.role === 'admin')
         return;
-    const dogPic = await findPicsByDogId(dogPicId)
+    const dogPic = await findPicDogById(dogPicId)
     if (!dogPic)
         return reply.code(404).send({error: 'Unknown Dog Pic'})        
     if (userId.toString() !== dogPic.dogs.owner_id.toString())
         return reply.code(403).send({error: 'Forbidden'})  
 }
 
-export { checkAccesGetDogPic, checkAccesDogPic, checkAccesDogPicDelete }
+async function checkAccesDogPicPut(request, reply) {
+    const userId = request.userId
+    const dogPicId = request.params.id
+    if (request.role === 'admin')
+        return;
+    const dogPic = await findPicDogById(dogPicId)
+    console.log(dogPic)
+    if (userId.toString() !== dogPic.dogs.owner_id?.toString())
+        return reply.code(403).send({error: 'Forbidden'})  
+}
+
+export { checkAccesGetDogPic, checkAccesDogPic, checkAccesDogPicDelete, checkAccesDogPicPut }

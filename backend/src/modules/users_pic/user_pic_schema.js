@@ -1,9 +1,7 @@
 const configRateLimit = {
-	config :{
-		rateLimit: {
+	rateLimit: {
 		max: 10,
 		timeWindow: '1 minute'
-		}
 	}
 }
 

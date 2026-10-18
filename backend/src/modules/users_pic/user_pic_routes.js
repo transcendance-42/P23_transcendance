@@ -4,7 +4,7 @@ import { checkUserAcces, checkUserGetPicAcces } from '../../plugins/checkUserAcc
 
 async function userPicRoutes(fastify) {
 	fastify.addHook('onRequest', fastify.authorize)
-	fastify.get('/user/:id/pic', { schema: getUserPicSchema, preHandler:checkUserGetPicAcces  }, getUserPic)
+	fastify.get('/user/:id/pic', { schema: getUserPicSchema, }, getUserPic) // preHandler:checkUserGetPicAcces desactivé
 	fastify.put('/user/:id/pic', { schema: putUserPicSchema, preHandler:checkUserAcces, config: configRateLimit }, putUserPic)
 	fastify.delete('/user/:id/pic', { schema: deleteUserPicSchema, preHandler:checkUserAcces}, removeUserPic)
 }

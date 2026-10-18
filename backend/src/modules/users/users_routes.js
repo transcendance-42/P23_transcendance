@@ -3,10 +3,9 @@ import { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition } from
 import { checkUserAcces, checkUserGetAcces, checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'
 
 async function usersRoutes(fastify) {
-    fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route    
+    fastify.addHook('onRequest', fastify.authorize)  
     fastify.get('/users', getUsers)
-    fastify.get('/users/:id', {schema : getUserByIdSchema, preHandler:checkUserGetAcces}, getUser)
-    // fastify.get('/users/:id', {schema : getUserByIdSchema}, getUser)
+    fastify.get('/users/:id', {schema : getUserByIdSchema}, getUser) // preHandler:checkUserGetAcces desactivé
     fastify.put('/users/:id', {schema : updateUserSchema, preHandler:checkUserAcces}, putUser)
     fastify.put('/users/:id/position', {schema : updateUserPositionSchema, preHandler:checkUserAcces}, putUserPosition)
     fastify.patch('/users/:id/deactivate', {schema : deactivateUserSchema, preHandler:checkUserAcces}, patchDeactivateUser)
