@@ -1,16 +1,16 @@
 import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition } from './users_queries.js'
 import { AppError } from '../../error.js'
 
-async function getUsers(request, reply) {
-    return await findActiveUsers()
+async function getAllUsers(request, reply) {
+    return await findActiveUsers(request)
 }
 
 async function getUser(request, reply) {
-    const user = await findUserById(request.params.id)
+    const user = await findUserById(request.params.id, request.userId)
     console.log('user dans le controller')
     console.log(user)
     if (!user) throw new AppError(404, 'NOT_FOUND', 'User not found')
-    if (!user.is_active) throw new AppError(404, 'NOT_FOUND', 'User not found')
+    if (!user.is_active) throw new AppError(401, 'NOT_FOUND', 'User not found')
     return user
 }
 
@@ -42,4 +42,4 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition }
+export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition }

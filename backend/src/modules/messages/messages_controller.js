@@ -8,7 +8,8 @@ async function getMessages(request, reply) {
 
 async function removeMessage(request, reply) {
   try {
-    return await deleteMessage(request.params.id)
+    await deleteMessage(request.params.id)
+    return reply.code(204).send()
   } catch (e) {
     if (e.code === 'P2025')
       throw new AppError(404, 'NOT_FOUND', 'Message not found')

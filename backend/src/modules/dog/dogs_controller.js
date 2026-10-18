@@ -28,7 +28,7 @@ async function PostDogs(request, reply) {
       const rest  = request.body
       const owner_id = request.userId
       const dog = await creatDogs(owner_id, rest)
-      return dog
+      return { id: dog.id }
     } catch (e) {
     	if (e.code === 'P2002')
 			throw new AppError(409, 'DOG_ALREADY_EXISTS', 'A dog already exists')
@@ -39,7 +39,8 @@ async function PostDogs(request, reply) {
 async function PutDogs (request, reply) {
     try {
       const dog = await updateDogs(request)
-      return dog
+      return dog  // la par exemple on envoie tous les champs complet et ils sont pas tous necessaire
+                  // mais c est du boulot a tout changer
     } catch (e) {
         if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'Dog not found')
         throw e
@@ -48,8 +49,8 @@ async function PutDogs (request, reply) {
 
 async function DeleteDogs (request, reply) {
     try {
-      const dog = await deleteDogs(request)
-      return dog
+      await deleteDogs(request)
+      return reply.code(204).send({ success: true })
     } catch (e) {
       if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'Dog not found')
       throw e

@@ -56,7 +56,8 @@ async function removeDogPic(request, reply) {
     if (!pic)
       throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
     await fs.unlink(pic.file_path)
-    return await deleteDogPic(request.params.id)
+    await deleteDogPic(request.params.id)
+    return { success: true }
 }
 
 async function getDogForm(request, reply) {

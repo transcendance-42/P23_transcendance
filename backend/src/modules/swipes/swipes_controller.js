@@ -22,10 +22,10 @@ async function postSwipe(request, reply) {
                 const match = await createMatch(swiper_id, target_id)
                 return { swipe, match, matched: true }
             }
-            return { swipe, match: existingMatch, matched: true }
+            return { matched: true }
         }
     }
-    return { swipe, matched: false }
+    return { matched: false }
 }
 
 export { postSwipe }

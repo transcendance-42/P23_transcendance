@@ -54,7 +54,7 @@ async function login(request, reply) {
         const user = await findUser(email)
         const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
         const isMatch = await bcrypt.compare(password, hash)
-        if (!user || !isMatch)
+        if (!user || !isMatch || !user.is_active)
                 throw new AppError(401, 'INVALID_CREDENTIALS', 'Invalid credentials')
         return issueSession(user, reply)
 }
@@ -68,12 +68,14 @@ async function logout(request, reply) {
         if (!stored || stored.expires_at < new Date())
                 throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
         if (stored && !stored.is_revoked) {
-                console.log(`User ID: ${stored.user_id} logged out successfully`)
-                await revokeToken(stored)
-                return reply.code(200)
+            console.log(`User ID: ${stored.user_id} logged out successfully`)
+            await revokeToken(stored)
+            return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
-                        .send({ success: `Logout ${stored.user_id} successful` })
+                        .send({ success: 'Logout'  })
         }
+        else
+                throw new AppError(401, 'REFRESH_TOKEN_CONFLICT', 'Token already revoked')
 }
 
 async function register(request, reply) {
