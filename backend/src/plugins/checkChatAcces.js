@@ -1,4 +1,5 @@
 import { findMessagesByMatchId, findMessageById } from "../modules/messages/messages_queries.js"
+import { AppError } from "../error.js";
 
 async function checkMessageDeleteAcces(request, reply) {
     const userId = request.userId
@@ -8,9 +9,9 @@ async function checkMessageDeleteAcces(request, reply) {
         return;
     const message = await findMessageById(messageId)
     if (!message)
-        return reply.code(404).send({error: 'Unknown message'})
+        throw new AppError(404, 'NOT_FOUND', 'Message not found')
     if (message.sender_id.toString() !== userId.toString())
-        return reply.code(403).send({error: 'Forbidden'})
+        throw new AppError(4043, 'FORBIDDEN', 'Forbidden')
 }
 
 export { checkMessageDeleteAcces}

@@ -16,11 +16,14 @@ import { messagesRoutes } from './modules/messages/messages_routes.js';
 import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
+import { errorHandler } from './error.js';
 
 const fastify = Fastify({ logger: true, trustProxy:true })
 
 async function buildApp() {
 
+  fastify.setErrorHandler(errorHandler)
+  
   await fastify.register(import('@fastify/rate-limit'), {
     max:100,
     timeWindow: '1 minute',
