@@ -54,7 +54,7 @@ async function login(request, reply) {
                 const user = await findUser(email)
                 const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
                 const isMatch = await bcrypt.compare(password, hash)
-                if (!user || !isMatch)
+                if (!user || !isMatch || !user.is_active)
                         return reply.code(401).send({error:'Invalid credentials'})
                 return issueSession(user, reply)
         }
