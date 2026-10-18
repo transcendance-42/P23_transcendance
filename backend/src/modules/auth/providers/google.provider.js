@@ -2,6 +2,7 @@ import {OAuth2Client} from 'google-auth-library'
 import crypto from 'crypto'
 import { creatUserRawData, findUser } from '../auth_queries.js'
 import { issueSession } from '../auth_controller.js'
+import { AppError } from '../../../error.js'
 
     const OAUTH_STATE_COOKIE_OPTIONS = {
         path: '/',
@@ -37,41 +38,35 @@ import { issueSession } from '../auth_controller.js'
     async function ExtractUserCredentials(query){     
         let { tokens } = await oauth2Client.getToken(query.code)
         oauth2Client.setCredentials(tokens)
-        try {
-            const ticket = await oauth2Client.verifyIdToken({
-                idToken:tokens.id_token,
-                audience: process.env.CLIENT_ID
-            })
-            const payload = ticket.getPayload()
-            const userCredential = {
-                googleId:payload.sub,
-                email:payload.email,
-                first_name:payload.given_name,
-                last_name:payload.family_name
-            }
-            return userCredential              
+        const ticket = await oauth2Client.verifyIdToken({
+            idToken:tokens.id_token,
+            audience: process.env.CLIENT_ID
+        })
+        const payload = ticket.getPayload()
+        const userCredential = {
+            googleId:payload.sub,
+            email:payload.email,
+            first_name:payload.given_name,
+            last_name:payload.family_name
         }
-        catch(e)
-        {
-            console.log('error', e)
-        }        
+        return userCredential                   
     }
 
     async function GetGoogleUserCredentials(request, reply){
         let q = request.query
         if (q.error){
             console.log('error: ' + q.error)
-            return reply.code(401).send({error:'google_auth_error'})
+            throw new AppError(401, 'AUTH_ERROR', 'google_auth_error')
         }
         else if (q.state !== request.cookies.oauth_state){
             console.log('State mismatch. Possivle CSRF attack')
-            return reply.code(401).send({error:'State mismatch. Possivle CSRF attack'})
+            throw new AppError(401, 'AUTH_ERROR', 'State mismatch. Possivle CSRF attack')
         }   
         reply.clearCookie('oauth_state', { path: '/' }) 
         const userCredential = await ExtractUserCredentials(q)
         console.log(userCredential)
         if (!userCredential)
-            return reply.code(401).send({error:'invalid_google credentials'})
+            throw new AppError(401, 'AUTH_ERROR', 'invalid_google credentials')
         let user = await findUser(userCredential.email)
         if(!user)
         {

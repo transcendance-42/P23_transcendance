@@ -139,5 +139,7 @@
     "DocuWarning": "Masque tes données personnelles avant l'envoi (adresse, téléphone).",
     "DocuNotPdf": "Le fichier doit être un PDF",
     "DocuTooBig": "Fichier trop lourd (5 Mo maximum)",
-    "DocuError": "Une erreur est survenue, réessaie"
+    "DocuError": "Une erreur est survenue, réessaie",
+    "UploadingPhoto": "Envoi de la photo {{current}}/{{total}}",
+    "UploadFailed": "Échec de l'envoi de {{name}}"
 }

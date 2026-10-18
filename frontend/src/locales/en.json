@@ -140,5 +140,7 @@
     "DocuWarning": "Hide your personal data before uploading (address, phone).",
     "DocuNotPdf": "The file must be a PDF",
     "DocuTooBig": "File too large (5 MB maximum)",
-    "DocuError": "Something went wrong, please try again"
+    "DocuError": "Something went wrong, please try again",
+    "UploadingPhoto": "Uploading photo {{current}}/{{total}}",
+    "UploadFailed": "Failed to upload {{name}}"
   }

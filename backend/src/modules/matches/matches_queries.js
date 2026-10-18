@@ -1,4 +1,5 @@
 import prisma from '../../utils/prisma.js'
+import { UserPublicFields } from '../users/users_queries.js'
 
 async function findMatchesByUserId(userId) {
   return prisma.matches.findMany({
@@ -50,7 +51,9 @@ async function findMessagesByMatchId(match_id) {
   return prisma.messages.findMany({
     where: { match_id: BigInt(match_id) },
     orderBy: { send_at: 'asc' },
-    include: { users: true }
+    include: { users:{
+               select:UserPublicFields
+    }}
   })
 }
 
@@ -70,7 +73,7 @@ async function deleteMatch(id) {
 
 async function desactivateMatchWithReq(request) {
   return prisma.matches.update({ 
-    where: { id: BigInt(request.params.id) },
+    where: { id: BigInt(request.params.matchId) },
     data: {
       is_active: false,
       unmatched_by: BigInt(request.userId)
