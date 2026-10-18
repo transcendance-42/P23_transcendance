@@ -1,6 +1,6 @@
 import NavBarAuth from '../components/ui/NavBarAuth';
 import { useTranslation } from 'react-i18next'
-import DogProfileCard from '../components/ui/DogProfileCard';
+import DogProfileCard from '../components/DogProfile/DogProfileCard';
 import {useNavigate, useParams} from 'react-router-dom';
 import { useState, useEffect} from 'react';
 import { authFetch } from '../api/authFetch';

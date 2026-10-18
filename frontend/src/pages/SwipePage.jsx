@@ -18,6 +18,7 @@ function SwipePage() {
             roomId={matchData.roomId}
             myPicId={matchData.myPicId}
             otherPicId={matchData.otherPicId}
+            otherDogId={matchData.otherDogId}
         />
     )}
             </div>
