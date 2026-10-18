@@ -36,7 +36,8 @@ async function removeUserPic(request, reply) {
 		if (!picPath)
 			return reply.code(404).send({ error: 'User pic not found' })
 		await fs.unlink(picPath.file_path)
-		return await deleteUserPic(request.params.id)
+		await deleteUserPic(request.params.id)
+		return { success: true }
 	} catch (e) {
 		return reply.code(500).send({ error: e.message })
 	}
