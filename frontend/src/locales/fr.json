@@ -127,5 +127,7 @@
     "SearchACity": "Recherche une ville",
     "DistanceToSearch": "Distance de recherce",
     "LocalisationButton": "Localisation", 
-    "WhatEmail": "Quelle est ton email ?"
+    "WhatEmail": "Quelle est ton email ?",
+    "UploadingPhoto": "Envoi de la photo {{current}}/{{total}}",
+    "UploadFailed": "Échec de l'envoi de {{name}}"
 }

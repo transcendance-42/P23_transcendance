@@ -128,5 +128,7 @@
     "DistanceToSearch": "Distance",
     "LocalisationButton": "Localisation", 
     "WhatEmail": "What's your email?",
-    "LocalisationButton": "Localisation"
+    "LocalisationButton": "Localisation",
+    "UploadingPhoto": "Uploading photo {{current}}/{{total}}",
+    "UploadFailed": "Failed to upload {{name}}"
   }
