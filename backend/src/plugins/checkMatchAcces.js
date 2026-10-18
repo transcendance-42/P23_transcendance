@@ -10,9 +10,9 @@ async function  checkMatchOfUserAccessParams(request, reply) {
         return reply.code(403).send({error: 'Forbidden'}) 
 }
 
-async function checkMatchAccessParamsDelete(request, reply) {
+async function checkMatchAccessParams(request, reply) {
     const userId = request.userId
-    const matchId = request.params.id
+    const matchId = request.params.matchId
     
     if (request.role === 'admin')
         return;
@@ -25,21 +25,7 @@ async function checkMatchAccessParamsDelete(request, reply) {
         return reply.code(403).send({error: 'Forbidden'})
 }
 
-async function checkMatchChatAccesParams(request, reply) {
-    const userId = request.userId
-    const chatId = request.params.match_id
-    
-    if (request.role === 'admin')
-        return;
-    const room = await findMessagesByMatchId(chatId)
-    if (!room)
-        return reply.code(404).send({error: 'Unknown room'})
-    if (room[0].users.id.toString() === userId.toString() || room[1].users.id.toString() === userId.toString())
-        request.chat = room[0].match_id;
-    else
-        return reply.code(403).send({error: 'Forbidden'})
-}
 
 
 
-export {checkMatchOfUserAccessParams, checkMatchAccessParamsDelete, checkMatchChatAccesParams}
+export {checkMatchOfUserAccessParams, checkMatchAccessParams}

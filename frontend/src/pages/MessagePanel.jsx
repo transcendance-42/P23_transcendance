@@ -23,8 +23,6 @@ export default function MessagePanel({rooms})
     const navigate = useNavigate()
     const socketRef = useRef(null)
 
-    const match = rooms.find((element) => String(element.id) === String(roomId))
-
     //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -32,9 +30,14 @@ export default function MessagePanel({rooms})
     }
 
     const loadMessages = async (roomId) => {
-        const response = await authFetch(`/api/messages/${roomId}`)
-        const data = await response.json()
-        setMessages(Array.isArray(data) ? data : data.messages || [])
+        try {
+            const response = await authFetch(`/api/messages/${roomId}`)
+            const data = await response.json()
+            setMessages(Array.isArray(data) ? data : data.messages || [])
+        }
+        catch (error){
+            console.error('Erreur lors du chargement des messages:', error)
+        } 
     }
     
     //use effect qui s'active des le debut pour que 
@@ -74,7 +77,7 @@ export default function MessagePanel({rooms})
             socket.disconnect()
             socketRef.current = null
         }
-    }, [token])
+    }, [token, roomId])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   
@@ -108,6 +111,8 @@ export default function MessagePanel({rooms})
         setFormData((prev) => ({ ...prev, content: '' }))
     }
 
+    const match = rooms.find((element) => String(element.id) === String(roomId))
+
     if (!match)
         return null
     const dogName = match.matchesAsDog1.owner_id === userId ? match.matchesAsDog2.dog_name : match.matchesAsDog1.dog_name;   
@@ -138,4 +143,3 @@ export default function MessagePanel({rooms})
 
     );
 }
-
