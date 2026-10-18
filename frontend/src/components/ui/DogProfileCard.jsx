@@ -13,6 +13,7 @@ export default function DogProfileCard( {dog} ){
     const [avatarUrl, setAvatarUrl] = useState(null)
     const navigate = useNavigate()
     const [roomId, setRoomId] = useState(null)
+    const [currentIndex, setCurrentIndex] = useState(0)
 
     useEffect(() => {
         if (!dog.dog_pics?.length) return
@@ -71,7 +72,20 @@ export default function DogProfileCard( {dog} ){
     return(
         <div className='flex flex-col md:flex-row gap-12 md:items-center'>
             <div className='md:w-1/2 relative rounded-[var(--radius-lg)] overflow-hidden shadow-floating'>
-                <img className='w-full aspect-[4/5] object-cover' src={pics[0] || defaultDog} alt={dog.dog_name}/>
+                <img className='w-full aspect-[4/5] object-cover' src={pics[currentIndex] || defaultDog} alt={dog.dog_name}/>
+                    {pics.length > 1 && (
+                    <>
+                        <button
+                            onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white text-2xl rounded-full w-10 h-10 flex items-center justify-center transition"
+                        >‹</button>
+                        <button
+                            onClick={() => setCurrentIndex(i => Math.min(pics.length - 1, i + 1))}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white text-2xl rounded-full w-10 h-10 flex items-center justify-center transition"
+                        >›</button>
+                        
+                    </>
+                    )}
                 <div className='absolute bottom-0 inset-x-0 bg-linear-to-t from-black/70 to-transparent p-6 
                     flex items-baseline gap-2'>
                     <span className='font-heading text-4xl font-bold text-white'>{dog.dog_name}</span>
