@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS dog_pics
-(
-    id BIGSERIAL PRIMARY KEY, 
-    dog_id BIGINT NOT NULL REFERENCES dogs(id) ON DELETE RESTRICT, 
-    file_path VARCHAR(500) NOT NULL,
-    position INT
-);
