@@ -22,19 +22,24 @@ async function checkUserGetAcces(request, reply) {
 }
 
 async function checkUserGetPicAcces(request, reply) {
-    if (request.roles === 'amdin')
-        return
-    const dogUser = await findDogByUserId(request.userId)
-    if (!dogUser)
-		return reply.code(405).send({ error: 'Dog not found' })
-    const dogUserTarget = await findDogByUserId(request.params.id)
-    if (!dogUserTarget)
-		return reply.code(405).send({ error: 'Dog not found' })
-	if (dogUserTarget.owner_id.toString() === request.userId.toString())
-		return
-    const is_matched = await findActiveMatch(dogUser.id, dogUserTarget.id)
-    if (!is_matched)
-        return reply.code(403).send({ error: 'forbidden access' })
+    try {
+        if (request.roles === 'admin')
+            return
+        const dogUser = await findDogByUserId(request.userId)
+        if (!dogUser)
+            return reply.code(405).send({ error: 'Dog not found' })
+        const dogUserTarget = await findDogByUserId(request.params.id)
+        if (!dogUserTarget)
+            return reply.code(405).send({ error: 'Dog not found' })
+        if (dogUserTarget.owner_id.toString() === request.userId.toString())
+            return
+        const is_matched = await findActiveMatch(dogUser.id, dogUserTarget.id)
+        if (!is_matched)
+            return reply.code(403).send({ error: 'forbidden access' })
+    } catch (e) {
+        request.log.error(e)
+        return reply.code(500).send({ error: e.message })
+    }
 }
 
 async function checkUserAcces(request, reply) {
@@ -53,4 +58,4 @@ async function checkUserAccesAdmin(request, reply) {
         return reply.code(403).send({error: 'Forbidden'})      
 }
 
-export { checkUserAcces, checkUserGetAcces, checkUserAccesAdmin }
+export { checkUserAcces, checkUserGetAcces, checkUserGetPicAcces, checkUserAccesAdmin }
