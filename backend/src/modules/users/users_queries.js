@@ -88,7 +88,7 @@ async function activateUser(id) {
   return prisma.users.update({
     where: { id: BigInt(id) },
     data: { is_active: true },
-    select: publicFields
+    select: UserPrivateFields
   })
 }
 
