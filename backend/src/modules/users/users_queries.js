@@ -84,4 +84,12 @@ async function deactivateUser(id) {
   })
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields }
+async function activateUser(id) {
+  return prisma.users.update({
+    where: { id: BigInt(id) },
+    data: { is_active: true },
+    select: publicFields
+  })
+}
+
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields, activateUser }

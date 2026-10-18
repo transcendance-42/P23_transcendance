@@ -9,7 +9,7 @@ async function usersRoutes(fastify) {
     fastify.put('/users/:id', {schema : updateUserSchema, preHandler:checkUserAcces}, putUser)
     fastify.put('/users/:id/position', {schema : updateUserPositionSchema, preHandler:checkUserAcces}, putUserPosition)
     fastify.patch('/users/:id/deactivate', {schema : deactivateUserSchema, preHandler:checkUserAcces}, patchDeactivateUser)
-    fastify.patch('/users/:id/reactivate', reactivateUser)
+    fastify.patch('/users/:id/reactivate', {schema : deactivateUserSchema, preHandler:checkUserAcces} , reactivateUser)
 }
 
 export {usersRoutes}

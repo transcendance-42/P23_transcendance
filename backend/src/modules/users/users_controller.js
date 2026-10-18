@@ -1,4 +1,4 @@
-import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition } from './users_queries.js'
+import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, activateUser } from './users_queries.js'
 
 async function getAllUsers(request, reply) {
   try {
@@ -50,11 +50,12 @@ async function patchDeactivateUser(request, reply) {
 }
 
 async function reactivateUser(request, reply) {
-    await prisma.users.update({
-        where: { id: BigInt(request.params.id) },
-        data: { is_active: true }
-    })
-    return reply.send({ success: true })
+  try {
+    return await activateUser(request.params.id)
+  } catch (e) {
+    if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
+    return reply.code(500).send({ error: e.message })
+  }
 }
 
 export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser}
