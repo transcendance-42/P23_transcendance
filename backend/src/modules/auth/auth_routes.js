@@ -4,7 +4,7 @@ import { generateGoogleUrl, GetGoogleUserCredentials } from './providers/google.
 import { postHearthBeat } from './auth_controller.js'
 
 async function authRoutes(fastify) {
-  fastify.post("/auth/login", {schema :{...loginSchema, security:[]}, config : configRateLimit5 }, login)
+  fastify.post("/auth/login", {schema :loginSchema, config : configRateLimit5 }, login)
   fastify.post("/auth/register", {schema : registerSchema, config: configRateLimit3 }, register)
   fastify.post("/auth/logout", logout)
   fastify.get("/auth/google",{ config:configRateLimit10} , generateGoogleUrl)

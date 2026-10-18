@@ -44,7 +44,7 @@ async function findDogsAroundMe (userId) {
             FROM users
             WHERE id = ${userId}
         ) me
-        WHERE ST_DWithin(
+        WHERE ST_DWithin(   
             u.position,
             me.position,
             me.radius * 1000::float8

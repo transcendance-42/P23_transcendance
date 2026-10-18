@@ -1,5 +1,5 @@
 import { findDogsIdParams, findDogByUserId } from "../modules/dog/dogs_queries.js";
-import { findPicsByDogId, findDogByPicId, findPicDogById } from "../modules/dog-pics/dog_pics_queries.js";
+import { findPicsByDogId, findDogByPicId, findPicDogById } from "../modules/dog_upload/dog_pics/dog_pics_queries.js";
 import { findActiveMatch } from "../modules/matches/matches_queries.js";
 
 async function checkAccesGetDogPic(request, reply) {

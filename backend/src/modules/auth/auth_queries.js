@@ -49,9 +49,7 @@ async function creatUserRawData(data) {
 async function updateLastSeenAt(id) {
 	return prisma.users.update({
 		where: { id:id },
-		data: {
-			lastSeenAt: new Date()
-		}
+		data: { lastSeenAt: new Date() }
 	})
 }
 

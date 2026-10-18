@@ -2,7 +2,7 @@ import { findMessagesByMatchId, deleteMessage, findMessageById, countUnreadMessa
 
 async function getMessages(request, reply) {
   try {
-    return await findMessagesByMatchId(request.params.matchId)
+    return await findMessagesByMatchId(request.params.matchId) // iden, pas de select dans le query donc on renvoie tout c est un prblm
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -10,7 +10,8 @@ async function getMessages(request, reply) {
 
 async function removeMessage(request, reply) {
   try {
-    return await deleteMessage(request.params.id)
+    await deleteMessage(request.params.id)
+    return reply.code(204).send()
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'Message not found' })
     return reply.code(500).send({ error: e.message })

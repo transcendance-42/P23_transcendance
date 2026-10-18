@@ -31,8 +31,10 @@ async function GetRefreshToken(request, reply){
         await revokeToken(stored)
 
         //trouver le user
-        const user = await findUserById(stored.user_id)
+        const user = await findUserById(stored.user_id, stored.user_id)
         if (!user)
+            return reply.code(401).send({error: 'User not found'})
+        if (!user.is_active)
             return reply.code(401).send({error: 'User not found'})
         // generate two new token
         const acces_token = generateAccessToken(user)

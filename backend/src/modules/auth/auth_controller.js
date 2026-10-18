@@ -54,7 +54,7 @@ async function login(request, reply) {
                 const user = await findUser(email)
                 const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
                 const isMatch = await bcrypt.compare(password, hash)
-                if (!user || !isMatch)
+                if (!user || !isMatch || !user.is_active)
                         return reply.code(401).send({error:'Invalid credentials'})
                 return issueSession(user, reply)
         }
@@ -78,13 +78,12 @@ async function logout(request, reply) {
         }
         if (stored && !stored.is_revoked) {
             console.log(`User ID: ${stored.user_id} logged out successfully`)
-            // en faisant ca on kill toutes les session du user, est ce que c'est vrmt
-            // ca qu on veut faire?
             await revokeToken(stored)
             return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
-                        .send({ success: `Logout ${stored.user_id} successful` })
+                        .send({ success: 'Logout' })
         }
+        return reply.code(401).send({ error: 'Token already revoked' })
     } catch (e) {
         console.error('LOGOUT ERROR:', e)
         return reply.code(500).send({message: 'Internal server error'})
@@ -128,8 +127,8 @@ async function register(request, reply) {
 
         try {
                 const hashPassword = await bcrypt.hash(request.body.password, 10)
-                const user = await creatUser(request, hashPassword, birthDate)
-                return reply.code(201).send({ success: true, userId: user.id })
+                await creatUser(request, hashPassword, birthDate)
+                return reply.code(201).send({ success: true })
         } catch (e) {
                 console.error(e)
                 return reply.code(500).send({error : e.message})
