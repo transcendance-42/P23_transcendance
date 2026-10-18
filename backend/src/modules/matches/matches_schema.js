@@ -6,25 +6,19 @@ const getMatchesByUserSchema = {
   }
 }
 
-// const getMyMatchesSchema = {
-//   params: {
-//     type: 'object'
-//   }
-// }
-
 const getMatchMessagesSchema = {
   params: {
     type: 'object',
-    properties: { match_id: { type: 'integer' } },
-    required: ['match_id']
+    properties: { matchId: { type: 'integer' } },
+    required: ['matchId']
   }
 }
 
 const deleteMatchSchema = {
   params: {
     type: 'object',
-    properties: { id: { type: 'integer' } },
-    required: ['id']
+    properties: { matchId: { type: 'integer' } },
+    required: ['matchId']
   }
 }
 

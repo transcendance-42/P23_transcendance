@@ -26,7 +26,7 @@ async function getAllMatches(request, reply) {
 
 async function getMatchMessages(request, reply) {
   try {
-    return await findMessagesByMatchId(request.params.match_id)
+    return await findMessagesByMatchId(request.params.matchId)
   } catch (e) {
     return reply.code(500).send({ error: e.message })
   }
@@ -34,7 +34,7 @@ async function getMatchMessages(request, reply) {
 
 async function removeMatch(request, reply) {
   try {
-    return await deleteMatch(request.params.id)
+    return await deleteMatch(request.params.matchId)
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'Match not found' })
     return reply.code(500).send({ error: e.message })

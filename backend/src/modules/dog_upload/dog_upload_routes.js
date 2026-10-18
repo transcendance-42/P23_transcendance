@@ -1,8 +1,10 @@
-import { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema } from './dog_pics_schema.js'
-import { getDogPic, getDogPics, putDogPic, postDogPic, removeDogPic } from './dog_pics_controller.js'
+import { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema } from './dog_pics/dog_pics_schema.js'
+import { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema } from './dog_docu/dog_docu_schema.js'
+import { getDogPic, getDogPics, putDogPic, postDogPic, removeDogPic } from './dog_pics/dog_pics_controller.js'
+import { getDogDocu, putDogDocu, removeDogDocu } from './dog_docu/dog_docu_controllers.js'
 import { checkAccesDogPicParams, checkAccesDogPic, checkAccesDogPicDelete } from '../../plugins/checkDogPicAcces.js'
 
-async function dogPicsRoutes(fastify) {
+async function dogUploadsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
   fastify.get('/dogs/:dogId/pics', {schema : getDogPicsSchema}, getDogPics) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
   fastify.get('/dog-pics/:id', {schema : getDogPicSchema}, getDogPic)
@@ -25,7 +27,11 @@ async function dogPicsRoutes(fastify) {
 	}
   }, putDogPic)
   fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema, preHandler: checkAccesDogPicDelete}, removeDogPic)
+
+  fastify.get('/dog-docu/:dogId', {schema : getDocuDogSchema}, getDogDocu)
+  fastify.put('/dog-docu/:dogId', {schema : putDocuDogSchema}, putDogDocu)
+  fastify.delete('/dog-docu/:dogId', {schema : deleteDocuDogSchema}, removeDogDocu)
   // add une route qui pourrait supprimer toutes les photos d'un dog?
 }
 
-export { dogPicsRoutes }
+export { dogUploadsRoutes }
