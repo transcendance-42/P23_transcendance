@@ -2,27 +2,32 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch'
 import NavBarAuth from '../components/ui/NavBarAuth'
-import Avatar from '../components/ui/Avatar'
-import Modal from '../components/ui/Modal'
-import ModalHeader from '../components/ui/ModalHeader'
-import PrimaryButton from '../components/ui/PrimaryButton'
-import SecondaryButton from '../components/ui/SecondaryButton'
+import UserSection from '../components/users/UserSection'
+import DeactivateModal from '../components/users/DeactivateModal'
+import ReactivateModal from '../components/users/ReactivateModal'
 
 export default function UsersLayout() {
     const { t } = useTranslation()
     const [users, setUsers] = useState([])
     const [userToDelete, setUserToDelete] = useState(null)
+    const [userToReactivate, setUserToReactivate] = useState(null)
     const [avatarUrls, setAvatarUrls] = useState({})
+
+    const activeUsers = users.filter(u => u.is_active !== false)
+    const inactiveUsers = users.filter(u => u.is_active === false)
 
     useEffect(() => {
         authFetch('/api/users')
-            .then(r => r.json())
-            .then(data => setUsers(data.filter(u => u.role !== 'admin')))
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP ${r.status}`)
+                return r.json()
+            })
+            .then(data => setUsers(Array.isArray(data) ? data.filter(u => u.role !== 'admin') : []))
             .catch(() => {})
     }, [])
 
     useEffect(() => {
-    if (users.length === 0) return
+        if (users.length === 0) return
         const fetchAvatarsSequentially = async () => {
             for (const u of users) {
                 try {
@@ -40,50 +45,40 @@ export default function UsersLayout() {
 
     const handleDeactivate = async () => {
         await authFetch(`/api/users/${userToDelete.id}/deactivate`, { method: 'PATCH' })
-        setUsers(users.filter(u => u.id !== userToDelete.id))
+        setUsers(users.map(u => u.id === userToDelete.id ? { ...u, is_active: false } : u))
         setUserToDelete(null)
+    }
+
+    const handleReactivate = async () => {
+        await authFetch(`/api/users/${userToReactivate.id}/reactivate`, { method: 'PATCH' })
+        setUsers(users.map(u => u.id === userToReactivate.id ? { ...u, is_active: true } : u))
+        setUserToReactivate(null)
     }
 
     return (
         <div className="min-h-screen bg-surface-cream">
             <NavBarAuth />
-            {userToDelete && (
-                <Modal onClose={() => setUserToDelete(null)} width="w-full mx-4 sm:w-96">
-                    <ModalHeader title={t('DeleteUser')} />
-                    <p className="text-text-caption text-sm text-center">
-                        {t('DeleteUserConfirm', { name: `${userToDelete.first_name} ${userToDelete.last_name}` })}
-                    </p>
-                    <div className="flex gap-3 w-full mt-2">
-                        <SecondaryButton onClick={() => setUserToDelete(null)}>{t('Cancel')}</SecondaryButton>
-                        <PrimaryButton onClick={handleDeactivate}>{t('Confirm')}</PrimaryButton>
-                    </div>
-                </Modal>
-            )}
-            <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-4">
+            <DeactivateModal user={userToDelete} onConfirm={handleDeactivate} onClose={() => setUserToDelete(null)} />
+            <ReactivateModal user={userToReactivate} onConfirm={handleReactivate} onClose={() => setUserToReactivate(null)} />
+            <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <h1 className="text-3xl font-bold tracking-tight text-text-primary font-heading">
                     {t('Users')}
                 </h1>
-                <div className="overflow-hidden rounded-2xl border border-surface-alt bg-surface-white shadow-soft">
-                    <div className="divide-y divide-surface-alt">
-                        {users.map(u => (
-                            <div key={u.id} className="flex items-center gap-4 p-4 relative">
-                                <Avatar url={avatarUrls[u.id]} size="md" />
-                                <div className="flex flex-1 flex-col min-w-0">
-                                    <span className="font-semibold text-text-primary truncate">
-                                        {u.first_name} {u.last_name}
-                                    </span>
-                                    <span className="text-xs text-text-caption">{u.email}</span>
-                                </div>
-                                <button
-                                    onClick={() => setUserToDelete(u)}
-                                    className="w-6 h-6 rounded-full bg-primary hover:bg-primary-hover text-surface-white text-xs flex items-center justify-center transition"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <UserSection
+                    title={t('ActiveUsers')}
+                    users={activeUsers}
+                    avatarUrls={avatarUrls}
+                    onDeactivate={setUserToDelete}
+                    onReactivate={setUserToReactivate}
+                />
+                <UserSection
+                    title={t('InactiveUsers')}
+                    users={inactiveUsers}
+                    avatarUrls={avatarUrls}
+                    onDeactivate={setUserToDelete}
+                    onReactivate={setUserToReactivate}
+                    inactive
+                />
             </div>
         </div>
     )

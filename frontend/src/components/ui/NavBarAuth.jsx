@@ -36,6 +36,7 @@ const NavBarAuth = () => {
     }
 
     useEffect(() => {
+        if (user?.role === 'admin') return
         const fetchUnread = () => {
             authFetch('/api/messages/unread-count')
                 .then(r => r.json())
@@ -47,7 +48,7 @@ const NavBarAuth = () => {
         const handleScroll = () => setOpen(false)
         window.addEventListener('scroll', handleScroll)
         return () => { clearInterval(interval); window.removeEventListener('scroll', handleScroll) }
-    }, [])
+    }, [user]) 
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">

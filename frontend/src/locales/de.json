@@ -128,10 +128,14 @@
     "DistanceToSearch": "Suchradius",
     "LocalisationButton": "Standort", 
     "WhatEmail": "Was ist deine E-Mail?",
-    "LocalisationButton": "Standort", 
     "Users": "Benutzer", 
     "AdminAccount": "Administratorkonto — Swipe-Zugriff deaktiviert", 
     "Logout": "Abmelden", 
     "DeleteUser" : "Benutzer löschen", 
-    "DeleteUserConfirm": "{{name}} löschen?"
+    "DeleteUserConfirm": "{{name}} löschen?", 
+    "ReactivateUser" : "Benutzer reaktivieren", 
+    "ReactivateUserConfirm": "{{name}} reaktivieren?", 
+    "Reactivate": "Ja, reaktivieren", 
+    "ActiveUsers": "Aktive Benutzer",
+    "InactiveUsers": "Deaktivierte Benutzer"
   }

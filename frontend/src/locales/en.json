@@ -121,17 +121,20 @@
     "Offline": "Offline", 
     "Back": "Back", 
     "GetStarted" : "Get Started",
-    "Offline": "Offline",
     "SearchMap": "Search",
     "ValideMapData": "validate",
     "SearchACity": "Search a city",
     "DistanceToSearch": "Distance",
     "LocalisationButton": "Localisation", 
     "WhatEmail": "What's your email?",
-    "LocalisationButton": "Localisation", 
     "Users": "Users", 
     "AdminAccount": "Administrator account — swipe access disabled", 
     "Logout": "Logout", 
     "DeleteUser" : "Delete user", 
-    "DeleteUserConfirm": "Delete {{name}}?"
+    "DeleteUserConfirm": "Delete {{name}}?", 
+    "ReactivateUser" : "Reactivate user" , 
+    "ReactivateUserConfirm": "Reactivate {{name}}?", 
+    "Reactivate": "Yes, reactivate", 
+    "ActiveUsers" : "Active users", 
+    "InactiveUsers": "Inactive users"
   }

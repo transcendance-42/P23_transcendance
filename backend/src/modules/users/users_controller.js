@@ -49,4 +49,12 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition }
+async function reactivateUser(request, reply) {
+    await prisma.users.update({
+        where: { id: BigInt(request.params.id) },
+        data: { is_active: true }
+    })
+    return reply.send({ success: true })
+}
+
+export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser}
