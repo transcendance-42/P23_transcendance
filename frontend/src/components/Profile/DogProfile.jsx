@@ -252,6 +252,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                         </div>
  
                         {error && <p className="text-action-pass text-xs">{error}</p>}
+                        <DogDocument dogId={dog.id} editable={editing} />
                         <div className="mt-2 flex justify-between gap-2">
                             <button
                                 onClick={() => setShowDeleteModal(true)}
@@ -304,9 +305,9 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                 </div>
                             </div>
                         )}
+                        <DogDocument dogId={dog.id} editable={editing} />
                     </>
                 )}
-                <DogDocument dogId={dog.id} editable={editing} />
             </div>
         </>
     )

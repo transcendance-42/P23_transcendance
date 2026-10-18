@@ -131,7 +131,7 @@
     "LocalisationButton": "Localisation",
     "HealthRecord": "Health record",
     "DocuNone": "No document",
-    "DocuPresent": "Document uploaded",
+    "DocuPresent": "Document uploaded ✅",
     "DocuOpen": "Open",
     "DocuAdd": "Add a PDF",
     "DocuReplace": "Replace",
