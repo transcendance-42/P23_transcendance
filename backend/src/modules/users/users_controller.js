@@ -58,4 +58,4 @@ async function reactivateUser(request, reply) {
   }
 }
 
-export { getUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser}
+export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser}
