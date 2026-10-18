@@ -1,5 +1,6 @@
 import { findDogsIdParams, findDogByUserId } from "../modules/dog/dogs_queries.js";
 import { findActiveMatch } from '../modules/matches/matches_queries.js'
+import { AppError } from "../error.js";
 
 async function checkDogAcces(request, reply) {
     const userId = request.userId
@@ -8,9 +9,9 @@ async function checkDogAcces(request, reply) {
         return;
     const dog = await findDogsIdParams(dogId)
     if(!dog)
-        return reply.code(405).send({error: 'Unknown dog'})
+        throw new AppError(404, 'NOT FOUND', 'Dog not found')
     if (userId.toString() !== dog.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})     
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')    
 }
 
 async function checkMyOtherAccess(request, reply) {
@@ -19,15 +20,15 @@ async function checkMyOtherAccess(request, reply) {
     const dogId = request.params.id ?? request.params.dogId
 	const dog = await findDogsIdParams(dogId)
 	if (!dog)
-		return reply.code(405).send({ error: 'Dog not found' })
+		throw new AppError(404, 'NOT FOUND', 'Dog not found')
 	const userdog = await findDogByUserId(request.userId)
 	if (!userdog)
-		return reply.code(405).send({ error: 'Yout dog not found' })
+		throw new AppError(404, 'NOT FOUND', 'Your Dog not found')
 	if (dog.owner_id.toString() === request.userId.toString())
 		return
 	const is_matched = await findActiveMatch(dog.id, userdog.id)
 	if (!is_matched)
-		return reply.code(403).send({ error: 'forbidden no match found' })
+		throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 // async function checkDogAccesPost(request, reply) {

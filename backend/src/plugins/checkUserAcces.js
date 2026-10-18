@@ -1,24 +1,25 @@
 import { findDogByUserId } from '../modules/dog/dogs_queries.js'
 import { findActiveMatch } from '../modules/matches/matches_queries.js'
 import { findUserById } from '../modules/users/users_queries.js'
+import { AppError } from "../error.js";
 
 async function checkUserGetAcces(request, reply) {
     if (request.roles === 'amdin')
         return
     const userByid = await findUserById(request.params.id)
     if (!userByid)
-		return reply.code(405).send({ error: 'User not found' })
+		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     if (userByid.id.toString() === request.params.id.toString())
         return
     const dogUser = await findDogByUserId(request.userId)
     if (!dogUser)
-		return reply.code(405).send({ error: 'Dog not found' })
+		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     const dogUserTarget = await findDogByUserId(request.params.id)
     if (!dogUserTarget)
-		return reply.code(405).send({ error: 'Dog not found' })
+		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     const is_matched = await findActiveMatch(dogUser.id, dogUserTarget.id)
     if (!is_matched)
-        return reply.code(403).send({ error: 'forbidden access' })
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 async function checkUserGetPicAcces(request, reply) {
@@ -48,14 +49,14 @@ async function checkUserAcces(request, reply) {
     if (request.role === 'admin')
         return;
     if (userId.toString() !== paramsUserId.toString())
-        return reply.code(403).send({error: 'Forbidden'})      
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')      
 }
 
 async function checkUserAccesAdmin(request, reply) {
     if (request.role === 'admin') // seulement l'admin a le droit de get tous les users
         return;
     else
-        return reply.code(403).send({error: 'Forbidden'})      
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')      
 }
 
 export { checkUserAcces, checkUserGetAcces, checkUserGetPicAcces, checkUserAccesAdmin }
