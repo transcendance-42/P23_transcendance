@@ -84,4 +84,41 @@ async function deactivateUser(id) {
   })
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields }
+async function deleteUser(id) {
+  const user = await prisma.users.findUnique({
+    where: {id: BigInt(id)},
+    select: { 
+      file_path: true,
+      dogs: {
+        select: {
+          dog_formular_path: true,
+          dog_pics: {
+            select: { file_path: true },
+          }
+        }
+      }
+    },
+  })
+  if (!user)
+    return
+  await prisma.$transaction([
+    prisma.refresh_tokens.deleteMany({where: {user_id: id}}),
+    prisma.messages.updateMany({ where: { sender_id: id }, data: { content: 'Message supprimé' } }),
+    prisma.matches.updateMany({
+      where: {
+        is_active: true,
+        OR: [
+          {matchesAsDog1: {owner_id: id}},
+          {matchesAsDog2: {owner_id: id}},
+        ],
+      },
+      data: {is_active: false},
+    }),
+    prisma.dog_pics.deleteMany({ where:{dogs:{owner_id:id}}}),
+    prisma.dogs.updateMany({
+      where: {owner_id:id}
+    })
+  ])
+}
+
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, deleteUser, UserPrivateFields, UserPublicFields }

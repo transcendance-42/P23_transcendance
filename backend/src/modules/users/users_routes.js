@@ -1,5 +1,5 @@
-import { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema } from './users_schema.js'
-import { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition } from './users_controller.js'
+import { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema, deleteUserSchema } from './users_schema.js'
+import { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition, removeUser } from './users_controller.js'
 import { checkUserAcces, checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'
 
 async function usersRoutes(fastify) {
@@ -9,6 +9,7 @@ async function usersRoutes(fastify) {
     fastify.put('/users/:id', {schema : updateUserSchema, preHandler:checkUserAcces}, putUser)
     fastify.put('/users/:id/position', {schema : updateUserPositionSchema, preHandler:checkUserAcces}, putUserPosition)
     fastify.patch('/users/:id/deactivate', {schema : deactivateUserSchema, preHandler:checkUserAcces}, patchDeactivateUser)
+    fastify.delete('/user/:id', {schema: deleteUserSchema, preHandler:checkUserAccesAdmin}, removeUser)
 }
 
 export {usersRoutes}
