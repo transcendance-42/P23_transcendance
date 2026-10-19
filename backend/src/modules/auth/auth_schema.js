@@ -1,3 +1,23 @@
+const configRateLimit5 = {
+	rateLimit: {
+		max: 5,
+		timeWindow: '1 minute'
+	}
+}
+const configRateLimit3 = {
+	rateLimit: {
+		max: 3,
+		timeWindow: '1 minute'
+	}
+}
+
+const configRateLimit10 = {
+	rateLimit: {
+		max: 10,
+		timeWindow: '1 minute'
+	}
+}
+
 const loginSchema = {
     body: {
       type: 'object',
@@ -48,13 +68,13 @@ const registerSchema = {
         type: 'integer',
         minimum: 1},
       date_of_birth: { type: 'string'},
-      longitude: {type: 'number'},
-      latitude: {type: 'number'},
-      radius: {type: 'number'}
+      longitude: { type: 'number', minimum: -180,  maximum: 180},
+      latitude: { type: 'number', minimum: -90,  maximum: 90 },
+      radius: { type: 'number', minimum: 1}
     },
     required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'longitude', 'latitude'],
     additionalProperties: false
   }
 }
 
-export {loginSchema, registerSchema}
+export {loginSchema, registerSchema, configRateLimit10, configRateLimit5, configRateLimit3}

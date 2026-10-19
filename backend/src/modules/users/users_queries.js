@@ -29,8 +29,7 @@ const UserPrivateFields = {
 async function findActiveUsers(request) { // route pour l'admin donc je laisse private fields
   const adminId = request.userId
   return prisma.users.findMany({
-    where: { id:{not: adminId}
-     },
+    where: { id:{not: adminId}},
     select: UserPrivateFields 
   })
 }
@@ -161,4 +160,12 @@ async function anonymized(id) {
   }
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, anonymized, UserPrivateFields, UserPublicFields }
+async function activateUser(id) {
+  return prisma.users.update({
+    where: { id: BigInt(id) },
+    data: { is_active: true },
+    select: UserPrivateFields
+  })
+}
+
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields, activateUser, anonymized }
