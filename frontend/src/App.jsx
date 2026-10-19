@@ -14,6 +14,7 @@ import ChatLayout from './pages/ChatLayout'
 import RequireAuth from './auth/RequireAuth'
 import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
+import DogProfilePage from './pages/DogProfilePage'
 import ScrollToTop from './components/ui/ScrollToTop'
 import PresenceProvider from './auth/presenceProvider'
 import RequireAdmin from './auth/RequireAdmin'
@@ -44,6 +45,7 @@ function App() {
             <Route path="/matches"     element={<MatchesPage/>} />
             <Route path="/chat"        element={<ChatLayout/>} />
             <Route path="/chat/:roomId" element={<ChatLayout/>} />
+            <Route path="/dogs/:id" element={<DogProfilePage/>} />
           </Route>  
 			</Route>
 		</Route>

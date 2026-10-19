@@ -8,10 +8,11 @@ import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import SecondaryButton from '../components/ui/SecondaryButton'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 
 export function RoomList ({rooms, setRooms}) {
     const { t } = useTranslation()
+    const navigate = useNavigate()
     const { userId } = useAuth()
     const [matchToDelete, setMatchToDelete] = useState(null)
     const [unreadPerRoom, setUnreadPerRoom] = useState({})
@@ -52,6 +53,14 @@ export function RoomList ({rooms, setRooms}) {
                 <Link to={`/chat/${c.id}`}>
                     <Room  match_dog_name={matchDog.dog_name}  lastSeenAt={matchDog.users.lastSeenAt}  matchUserId={matchDog.users.id} hasUnread={!!unreadPerRoom[String(c.id)]} />
                 </Link>
+                <button
+                    onClick={(e) => { e.preventDefault(); navigate(`/dogs/${matchDog.id}`) }}
+                    title={t('ViewProfile')}
+                    aria-label={t('ViewProfile')}
+                    className="absolute top-2 right-9 w-6 h-6 rounded-full bg-surface-cream hover:bg-surface-raised text-surface-raised hover:text-surface-white text-xs flex items-center justify-center transition z-10"
+                >
+                    🐾
+                </button>
                 <button
                     onClick={(e) => { e.preventDefault(); setMatchToDelete({ id: c.id, name: matchDog.dog_name }) }}
                     className="absolute top-2 right-2 w-6 h-6 rounded-full bg-primary hover:bg-primary-hover text-surface-white text-xs flex items-center justify-center transition z-10"

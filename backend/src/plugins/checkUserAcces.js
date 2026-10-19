@@ -6,7 +6,7 @@ import { AppError } from "../error.js";
 async function checkUserGetAcces(request, reply) {
     if (request.roles === 'amdin')
         return
-    const userByid = await findUserById(request.params.id)
+    const userByid = await findUserById(request.params.id, request.userId)
     if (!userByid)
 		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     if (userByid.id.toString() === request.params.id.toString())
