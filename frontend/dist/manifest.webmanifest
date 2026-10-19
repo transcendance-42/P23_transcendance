@@ -1,0 +1,1 @@
+{"name":"Tindog","short_name":"Tindog","description":"Swipe, match and chat with other dog owners","start_url":"/","display":"standalone","background_color":"#EDE0D3","theme_color":"#D96C4D","lang":"en","scope":"/","icons":[{"src":"pwa-192x192.png","sizes":"192x192","type":"image/png"},{"src":"pwa-512x512.png","sizes":"512x512","type":"image/png"}]}

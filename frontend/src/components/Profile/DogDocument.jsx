@@ -11,20 +11,20 @@ import SecondaryButton from '../ui/SecondaryButton'
 export default function DogDocument({ dogId, editable }) {
     const { t } = useTranslation()
     const { token } = useAuth()
-    const [hasDoc, setHasDoc] = useState(null)       // null = on ne sait pas encore
-    const [progress, setProgress] = useState(null)   // null = pas d'envoi en cours
+    const [hasDoc, setHasDoc] = useState(null)
+    const [progress, setProgress] = useState(null)
     const [error, setError] = useState('')
     const [showDelete, setShowDelete] = useState(false)
     const fileInputRef = useRef(null)
 
-    // 1. Au chargement : est-ce que le chien a déjà un document ?
+    // 1. Au chargement est-ce que le chien a déjà un document ?
     useEffect(() => {
         const checkDoc = async () => {
             const res = await authFetch(`/api/dog-docu/${dogId}`)
             if (res.ok) {
                 setHasDoc(true)
             } else {
-                setHasDoc(false)      // 404 = pas de document, ce n'est pas une erreur
+                setHasDoc(false)
             }
         }
         checkDoc()

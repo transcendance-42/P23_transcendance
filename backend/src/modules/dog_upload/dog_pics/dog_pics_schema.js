@@ -1,3 +1,10 @@
+const rateLimitPhoto = {
+  	rateLimit: {
+		max: 10,
+		timeWindow: '1 minute'
+	}
+}
+
 const getDogPicSchema = {
   params: {
     type: 'object',
@@ -48,4 +55,4 @@ const deleteDogPicSchema = {
   }
 }
 
-export { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema }
+export { getDogPicSchema, getDogPicsSchema, createDogPicSchema, updateDogPicSchema, deleteDogPicSchema, rateLimitPhoto }

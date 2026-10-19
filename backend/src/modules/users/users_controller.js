@@ -1,4 +1,4 @@
-import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition } from './users_queries.js'
+import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, activateUser } from './users_queries.js'
 import { AppError } from '../../error.js'
 
 async function getAllUsers(request, reply) {
@@ -42,4 +42,13 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
-export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition }
+async function reactivateUser(request, reply) {
+  try {
+    return await activateUser(request.params.id)
+  } catch (e) {
+    if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'User not found')
+    throw e
+  }
+}
+
+export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser }
