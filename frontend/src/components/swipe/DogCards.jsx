@@ -27,7 +27,8 @@ const DogCards = ({ onMatch }) => {
                 onMatch({
                 roomId: data.match?.id,
                 myPicId: data.myDog?.dog_pics?.[0]?.id,
-                otherPicId: frontDog.dog_pics?.[0]?.id
+                otherPicId: frontDog.dog_pics?.[0]?.id,
+                otherDogId: frontDog.id 
             })
         } catch (e) {
             console.error('Swipe error:', e.message)

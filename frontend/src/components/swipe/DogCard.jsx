@@ -27,7 +27,8 @@ const DogCard = ({ dog, index, total, onSwipe, onMatch }) => {
                 console.log(data)
                 if (data.matched) onMatch({
                     roomId: data.match?.id,
-                    otherPicId: dog.dog_pics?.[0]?.id
+                    otherPicId: dog.dog_pics?.[0]?.id,
+                    otherDogId: dog.id
                 })
             } catch (e) {
                 console.error('Swipe error:', e.message)
