@@ -99,13 +99,13 @@ export default function Register() {
                             setAvatarUrl(URL.createObjectURL(file))
                         }} />
                     </div>
-                    <InputField placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
-                    <InputField placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
-                    <InputField type="email" placeholder={t('Email')} value={formData.email} onChange={handleChange('email')} />
-                    <InputField type="password" placeholder={t('Password')}  value={formData.password} onChange={handleChange('password')} />
-                    <InputField type="password" placeholder={t('ConfirmPassword')}  value={formData.confirm_password} onChange={handleChange('confirm_password')} />
+                    <InputField id="First_name" label={t('FirstName')} placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
+                    <InputField id="LastName" label={t('LastName')} placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />
+                    <InputField id="Email" label={t('Email')} type="email" placeholder="Vincentleboss@42.com" value={formData.email} onChange={handleChange('email')} />
+                    <InputField id="Password" label={t('Password')} type="password" placeholder={t('Password')}  value={formData.password} onChange={handleChange('password')} />
+                    <InputField id="confirm_password" label={t('ConfirmPassword')} type="password" placeholder={t('ConfirmPassword')}  value={formData.confirm_password} onChange={handleChange('confirm_password')} />
                     {/* <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} /> */}
-                    <InputField type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
+                    <InputField id="date_of_birth" label={t('DateOfBirth')} type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
                     <LocationButton onLocationChange={handleLocationChange} />
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
