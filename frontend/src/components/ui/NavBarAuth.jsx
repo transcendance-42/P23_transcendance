@@ -15,7 +15,7 @@ const NavBarAuth = () => {
     const navigate = useNavigate()
     const [unreadCount, setUnreadCount] = useState(0)
 
-    const isProfileComplete = !!(
+    const isProfileComplete = user?.role === 'admin' ? false : !!(
         user?.first_name &&
         user?.last_name &&
         user?.city &&
@@ -36,6 +36,7 @@ const NavBarAuth = () => {
     }
 
     useEffect(() => {
+        if (user?.role === 'admin') return
         const fetchUnread = () => {
             authFetch('/api/messages/unread-count')
                 .then(r => r.json())
@@ -47,26 +48,39 @@ const NavBarAuth = () => {
         const handleScroll = () => setOpen(false)
         window.addEventListener('scroll', handleScroll)
         return () => { clearInterval(interval); window.removeEventListener('scroll', handleScroll) }
-    }, [])
+    }, [user]) 
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
-                <span className="text-xl text-primary font-bold font-heading">Tindog</span>
+                <div className="flex items-center gap-6">
+                    <span className="text-xl text-primary font-bold font-heading">Tindog</span>
+                    {user?.role === 'admin' && (
+                        <span className="text-xs font-bold text-surface-white bg-primary px-2 py-0.5 rounded-full uppercase tracking-wide">
+                            Admin
+                        </span>
+                    )}
+                </div>
                 <LangSwitcher />
                 <div className="flex justify-end">
                     <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
                     <div className="hidden lg:flex gap-6 text-sm">
                     <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
-                    <SecondaryButton to="/chat" disabled={!isProfileComplete}>
-                        <span className="flex items-center gap-2.5">
-                            {t('Chat')}
-                            {unreadCount > 0 && (
-                                <span className="w-3 h-3 bg-red-700 rounded-full inline-block" />
-                            )}
-                        </span>
-                    </SecondaryButton>
+                    {user?.role === 'admin' ? (
+                    <SecondaryButton to="/users">{t('Users')}</SecondaryButton>
+                ) : (
+                    <div className="relative inline-flex">
+                        <SecondaryButton to="/chat" disabled={!isProfileComplete}>
+                            <span className="flex items-center gap-2.5">
+                                {t('Chat')}
+                                {unreadCount > 0 && (
+                                    <span className="w-3 h-3 bg-red-700 rounded-full inline-block" />
+                                )}
+                            </span>
+                        </SecondaryButton>
+                    </div>
+                )}
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
-                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>{t('Logout')}</SecondaryButton>
                 </div>
             </div>
             </div>

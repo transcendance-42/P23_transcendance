@@ -16,6 +16,9 @@ import OAuthCallback from './pages/OAuthCallback'
 import RequireProfileComplete from './auth/profileComplete'
 import ScrollToTop from './components/ui/ScrollToTop'
 import PresenceProvider from './auth/presenceProvider'
+import RequireAdmin from './auth/RequireAdmin'
+import UsersLayout from './pages/UsersLayout'
+
 
 function App() {
   return (
@@ -33,6 +36,7 @@ function App() {
 			<Route path="/oauth-callback" element={<OAuthCallback />} />
 			<Route path="/profile"     element={<Profile/>} />
 			<Route path="/registerDog" element={<RegisterDog/>} />
+      <Route path="/users" element={<RequireAdmin><UsersLayout /></RequireAdmin>} />
 
 			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
           <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>

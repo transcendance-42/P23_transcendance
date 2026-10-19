@@ -121,7 +121,6 @@
     "Offline": "Hors Ligne", 
     "Back": "Retour", 
     "GetStarted": "Commencer",
-    "Offline": "Hors Ligne",
     "SearchMap": "Rechercher",
     "ValideMapData": "Valider",
     "SearchACity": "Recherche une ville",
@@ -129,5 +128,15 @@
     "LocalisationButton": "Localisation", 
     "WhatEmail": "Quelle est ton email ?",
     "UploadingPhoto": "Envoi de la photo {{current}}/{{total}}",
-    "UploadFailed": "Échec de l'envoi de {{name}}"
+    "UploadFailed": "Échec de l'envoi de {{name}}", 
+    "Users": "Utilisateurs", 
+    "AdminAccount": "Compte administrateur — accès swipe désactivé", 
+    "Logout": "Déconnexion", 
+    "DeleteUser" : "Supprimer l'utilisateur", 
+    "DeleteUserConfirm": "Supprimer {{name}} ?", 
+    "ReactivateUser" : "Réactiver l'utilisateur", 
+    "ReactivateUserConfirm": "Réactiver {{name}} ?", 
+    "Reactivate": "Oui, réactiver", 
+    "ActiveUsers": "Utilisateurs actifs",
+    "InactiveUsers": "Utilisateurs désactivés"
 }

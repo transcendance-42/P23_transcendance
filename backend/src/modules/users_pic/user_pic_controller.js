@@ -1,7 +1,7 @@
 import { updateUserPic, findPicPathByUserId, deleteUserPic } from './user_pic_query.js'
 import { creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeType } from '../../utils/pics_handle.js'
 import { promises as fs } from 'node:fs'
-import { createReadStream } from 'fs'
+import { createReadStream, existsSync } from 'fs'
 import { AppError } from '../../error.js'
 
 async function getUserPic(request, reply) {
