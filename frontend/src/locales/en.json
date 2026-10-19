@@ -143,5 +143,6 @@
     "ReactivateUserConfirm": "Reactivate {{name}}?", 
     "Reactivate": "Yes, reactivate", 
     "ActiveUsers" : "Active users", 
-    "InactiveUsers": "Inactive users"
+    "InactiveUsers": "Inactive users", 
+    "Photos": "Photos"
   }
