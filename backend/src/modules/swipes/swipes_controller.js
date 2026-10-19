@@ -6,12 +6,11 @@ async function postSwipe(request, reply) {
     const {target_id, direction } = request.body
     const userId = request.userId
 
-    if (BigInt(target_id) === BigInt(userId))
-        throw new AppError(409, 'CONFLICT', 'you can not swipe yourself')
-
     const myDog = await prisma.dogs.findFirst({ where: { owner_id: BigInt(userId) } })
     if (!myDog)
         throw new AppError(404, 'NOT_FOUND', 'No dog found for this user')
+    if (BigInt(target_id) === BigInt(myDog.id))
+        throw new AppError(409, 'CONFLICT', 'you can not swipe yourself')
 
     const swiper_id = myDog.id
 
