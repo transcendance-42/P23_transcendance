@@ -131,5 +131,17 @@
     "HisHuman": "Their human",
     "SendMessage": "Send a message",
     "DogNotFound": "This dog can't be found",
-    "ViewProfile": "View profile"
+    "ViewProfile": "View profile",
+    "UploadingPhoto": "Uploading photo {{current}}/{{total}}",
+    "UploadFailed": "Failed to upload {{name}}",
+    "Users": "Users", 
+    "AdminAccount": "Administrator account — swipe access disabled", 
+    "Logout": "Logout", 
+    "DeleteUser" : "Delete user", 
+    "DeleteUserConfirm": "Delete {{name}}?", 
+    "ReactivateUser" : "Reactivate user" , 
+    "ReactivateUserConfirm": "Reactivate {{name}}?", 
+    "Reactivate": "Yes, reactivate", 
+    "ActiveUsers" : "Active users", 
+    "InactiveUsers": "Inactive users"
   }

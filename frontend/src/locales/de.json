@@ -131,5 +131,17 @@
     "HisHuman": "Sein Mensch",
     "SendMessage": "Nachricht senden",
     "DogNotFound": "Dieser Hund wurde nicht gefunden",
-    "ViewProfile": "Profil ansehen"
+    "ViewProfile": "Profil ansehen",
+    "UploadingPhoto": "Foto {{current}}/{{total}} wird hochgeladen",
+    "UploadFailed": "Hochladen von {{name}} fehlgeschlagen",
+    "Users": "Benutzer", 
+    "AdminAccount": "Administratorkonto — Swipe-Zugriff deaktiviert", 
+    "Logout": "Abmelden", 
+    "DeleteUser" : "Benutzer löschen", 
+    "DeleteUserConfirm": "{{name}} löschen?", 
+    "ReactivateUser" : "Benutzer reaktivieren", 
+    "ReactivateUserConfirm": "{{name}} reaktivieren?", 
+    "Reactivate": "Ja, reaktivieren", 
+    "ActiveUsers": "Aktive Benutzer",
+    "InactiveUsers": "Deaktivierte Benutzer"
   }

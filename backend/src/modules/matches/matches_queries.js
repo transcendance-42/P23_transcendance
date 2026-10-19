@@ -1,4 +1,5 @@
 import prisma from '../../utils/prisma.js'
+import { UserPublicFields } from '../users/users_queries.js'
 
 async function findMatchesByUserId(userId) {
   return prisma.matches.findMany({
@@ -37,6 +38,24 @@ async function findMatchesByUserId(userId) {
   })
 }
 
+async function findActiveMatch(dog_id1, dog_id2) {
+  return prisma.matches.findFirst({
+    where: {
+      is_active: true,
+      OR: [
+        {
+          id_dog1: BigInt(dog_id1),
+          id_dog2: BigInt(dog_id2)
+        },
+        {
+          id_dog1: BigInt(dog_id2),
+          id_dog2: BigInt(dog_id1)
+        }
+      ]
+    }
+  })
+}
+
 async function findAllMatches() {
   return prisma.matches.findMany({
     include: {
@@ -50,7 +69,9 @@ async function findMessagesByMatchId(match_id) {
   return prisma.messages.findMany({
     where: { match_id: BigInt(match_id) },
     orderBy: { send_at: 'asc' },
-    include: { users: true }
+    include: { users:{
+               select:UserPublicFields
+    }}
   })
 }
 
@@ -70,7 +91,7 @@ async function deleteMatch(id) {
 
 async function desactivateMatchWithReq(request) {
   return prisma.matches.update({ 
-    where: { id: BigInt(request.params.id) },
+    where: { id: BigInt(request.params.matchId) },
     data: {
       is_active: false,
       unmatched_by: BigInt(request.userId)
@@ -78,4 +99,4 @@ async function desactivateMatchWithReq(request) {
   })  
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
+export { findMatchesByUserId, findActiveMatch, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
