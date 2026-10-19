@@ -1,5 +1,6 @@
 import { findDogsIdParams } from "../modules/dog/dogs_queries.js";
 import { findPicsByDogId } from "../modules/dog_upload/dog_pics/dog_pics_queries.js";
+import { AppError } from "../error.js";
 
 async function checkAccesDogPicParams(request, reply) {
     const userId = request.userId
@@ -8,9 +9,9 @@ async function checkAccesDogPicParams(request, reply) {
         return;
     const dog = await findDogsIdParams(dogId)
     if (!dog)
-        return reply.code(404).send({error: 'Unknown dog'})        
+        throw new AppError(404, 'NOT FOUND', 'Dog not found')        
     if (userId.toString() !== dog.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})  
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')  
     
 }
 
@@ -21,9 +22,9 @@ async function checkAccesDogPic(request, reply) {
         return;
     const dog = await findDogsIdParams(dogId)
     if (!dog)
-        return reply.code(404).send({error: 'Unknown dog'})        
+        throw new AppError(404, 'NOT FOUND', 'Dog not found')        
     if (userId.toString() !== dog.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})  
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')   
 }
 
 async function checkAccesDogPicDelete(request, reply) {
@@ -33,9 +34,9 @@ async function checkAccesDogPicDelete(request, reply) {
         return;
     const dogPic = await findPicsByDogId(dogPicId)
     if (!dogPic)
-        return reply.code(404).send({error: 'Unknown Dog Pic'})        
+        throw new AppError(404, 'NOT FOUND', 'Dog pic not found')       
     if (userId.toString() !== dogPic.dogs.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})  
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 

@@ -3,6 +3,7 @@ import crypto  from 'crypto'
 import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { saveRefreshToken, findRefreshToken, revokeToken } from '../tokens/tokens_queries.js'
+import { AppError } from '../../error.js'
 
 const COOKIE_OPTIONS = {
         path:'/',
@@ -43,62 +44,44 @@ async function issueSession(user, reply, redirect = false) {
     }
 
     return reply
-        .code(200)
+        .code(201)
         .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
         .send({ success: true, userId: user.id, message: 'Login successful', access_token: token, profileComplete: isUserComplete(user) })
 }
 
 async function login(request, reply) {
         const { email, password } = request.body
-        try{
-                const user = await findUser(email)
-                const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
-                const isMatch = await bcrypt.compare(password, hash)
-                if (!user || !isMatch)
-                        return reply.code(401).send({error:'Invalid credentials'})
-                return issueSession(user, reply)
-        }
-        catch(e)
-        {
-                return reply.code(500).send({message: 'Internal server error'})
-        }
+        const user = await findUser(email)
+        const hash = user?.password_hash ?? 'un hash bidon pour faire croire que le password a ete comparé'
+        const isMatch = await bcrypt.compare(password, hash)
+        if (!user || !isMatch || !user.is_active)
+                throw new AppError(401, 'INVALID_CREDENTIALS', 'Invalid credentials')
+        return issueSession(user, reply)
 }
 
 async function logout(request, reply) {
-    try {
         const token = request.cookies.refresh_token
         if (!token)
-            return reply.code(400).send({error : 'No refresh token found'})
+                throw new AppError(401, 'REFRESH_TOKEN_MISSING', 'No refresh token found')
         const hash_token = crypto.createHash('sha256').update(token).digest('hex')
         const stored = await findRefreshToken(hash_token)
         if (!stored || stored.expires_at < new Date())
-        {
-            console.log('TOKEN NON STOKE EN DB ou EXPIRE')
-            return reply.code(401).send({error: 'Invalid token'})
-        }
+                throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
         if (stored && !stored.is_revoked) {
             console.log(`User ID: ${stored.user_id} logged out successfully`)
             await revokeToken(stored)
             return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
-                        .send({ success: 'Logout' })
+                        .send({ success: 'Logout'  })
         }
-        return reply.code(401).send({ error: 'Token already revoked' })
-    } catch (e) {
-        console.error('LOGOUT ERROR:', e)
-        return reply.code(500).send({message: 'Internal server error'})
-    }
+        else
+                throw new AppError(401, 'REFRESH_TOKEN_CONFLICT', 'Token already revoked')
 }
 
 async function register(request, reply) {
-        try {
-                const existingUser = await findUser(request.body.email)
-                if (existingUser)
-                        return reply.code(409).send({error : 'Email already exists'})
-        } catch (e) {
-                console.error(e)
-                return reply.code(500).send({error : e.message})
-        }
+        const existingUser = await findUser(request.body.email)
+        if (existingUser)
+                throw new AppError(409, 'ALREADY_EXISTS', 'Email already exists')
         const birthDate = new Date(request.body.date_of_birth);
         const today = new Date();
         const maxBirthDate = new Date(
@@ -112,39 +95,17 @@ async function register(request, reply) {
                 today.getDate()
         )
         if (birthDate > minBirthDate)
-                return reply.code(401).send({error : 'TOO_YOUNG'})
+                throw new AppError(401, 'TOO_YOUNG', 'You must be at least 18 years old')
         if (birthDate < maxBirthDate)
-                return reply.code(401).send({error : 'TOO_OLD'})
-        
-	const lng = Number(request.body.longitude)
-	const lat = Number(request.body.latitude)        
-        if ( !Number.isFinite(lng) || !Number.isFinite(lat) || // verification longitude et latitude
-                lng < -180 || lng > 180 ||
-                lat < -90 || lat > 90 )
-        {
-                return reply.code(400).send({error : 'Invalid position'}) 
-        }
-
-        try {
-                const hashPassword = await bcrypt.hash(request.body.password, 10)
-                await creatUser(request, hashPassword, birthDate)
-                return reply.code(201).send({ success: true })
-        } catch (e) {
-                console.error(e)
-                return reply.code(500).send({error : e.message})
-        }
+                throw new AppError(401, 'TOO_OLD', 'You must be alive :)')
+        const hashPassword = await bcrypt.hash(request.body.password, 10)
+        const user = await creatUser(request, hashPassword, birthDate)
+        return reply.code(201).send({ success: true, userId: user.id })
 }
 
 async function postHearthBeat(request, reply) {
-        try{
-                await updateLastSeenAt(request.userId)
-                return reply.code(200).send({success: true})
-        }
-        catch(e)
-        {
-                console.error(e)
-                return reply.code(500).send({error : e.message})
-        }
+        await updateLastSeenAt(request.userId)
+        return reply.code(200).send({success: true})
 }
 
 

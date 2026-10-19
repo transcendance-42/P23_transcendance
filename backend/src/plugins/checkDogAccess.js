@@ -1,4 +1,5 @@
 import { findDogsIdParams } from "../modules/dog/dogs_queries.js";
+import { AppError } from "../error.js";
 
 async function checkDogAcces(request, reply) {
     const userId = request.userId
@@ -7,9 +8,9 @@ async function checkDogAcces(request, reply) {
         return;
     const dog = await findDogsIdParams(dogId)
     if(!dog)
-        return reply.code(405).send({error: 'Unknown dog'})
+        throw new AppError(404, 'NOT FOUND', 'Dog not found')
     if (userId.toString() !== dog.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})     
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')     
 }
 
 // async function checkDogAccesPost(request, reply) {
