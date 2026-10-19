@@ -121,12 +121,13 @@
     "Offline": "Offline", 
     "Back": "Back", 
     "GetStarted" : "Get Started",
-    "Offline": "Offline",
     "SearchMap": "Search",
     "ValideMapData": "validate",
     "SearchACity": "Search a city",
     "DistanceToSearch": "Distance",
     "LocalisationButton": "Localisation", 
-    "WhatEmail": "What's your email?",
-    "LocalisationButton": "Localisation"
+    "WhatEmail": "What's your email?", 
+    "ErrorLoadingMessages": "Unable to load messages",
+    "ErrorConnection": "Connection error",
+    "Retry": "Try again"
   }

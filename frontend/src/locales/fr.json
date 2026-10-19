@@ -121,11 +121,13 @@
     "Offline": "Hors Ligne", 
     "Back": "Retour", 
     "GetStarted": "Commencer",
-    "Offline": "Hors Ligne",
     "SearchMap": "Rechercher",
     "ValideMapData": "Valider",
     "SearchACity": "Recherche une ville",
     "DistanceToSearch": "Distance de recherce",
     "LocalisationButton": "Localisation", 
-    "WhatEmail": "Quelle est ton email ?"
+    "WhatEmail": "Quelle est ton email ?", 
+    "ErrorLoadingMessages": "Impossible de charger les messages",
+    "ErrorConnection": "Erreur de connexion",
+    "Retry": "Réessayer"
 }
