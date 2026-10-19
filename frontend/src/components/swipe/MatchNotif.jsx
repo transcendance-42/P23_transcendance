@@ -7,7 +7,6 @@ import defaultDog from '../../assets/defaultPic.png'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../../api/authFetch'
 import { useAuth } from '../../auth/AuthContext'
-import SecondaryButton from '../ui/SecondaryButton'
 
 
 const MatchNotif = ({ onClose, roomId, otherPicId, otherDogId }) => {
@@ -38,10 +37,12 @@ const MatchNotif = ({ onClose, roomId, otherPicId, otherDogId }) => {
                 <img src={myUrl || defaultDog} alt="your dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
                 <img src={otherUrl || defaultDog} alt="other dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 px-4 pb-4">
-                <SecondaryButton onClick={() => navigate(`/dogs/${otherDogId}`)}>
-                    {t('ViewProfile')}
-                </SecondaryButton>
+            <div className="w-full flex flex-col sm:flex-row gap-3 px-4 pb-4">
+                <button
+                    onClick={() => navigate(`/dogs/${otherDogId}`)}
+                    className='w-full rounded-full py-2 font-semibold whitespace-nowrap border-2 border-primary text-surface-white bg-transparent hover:bg-primary transition'>
+                        {t('ViewProfile')}
+                </button>
                 <PrimaryButton onClick={() => navigate(`/chat/${roomId}`)}>
                     {t('StartChat')}
                 </PrimaryButton>

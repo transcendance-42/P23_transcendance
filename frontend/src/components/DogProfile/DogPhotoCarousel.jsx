@@ -14,20 +14,23 @@ export default function DogPhotoCarousel({ dog }) {
         const createdUrls = []
 
         const loadPics = async () => {
-            const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
-            const urls = await Promise.all(
-                sorted.map(async (pic) => {
-                    const res = await authFetch(`/api/dog-pics/${pic.id}`)
-                    const blob = await res.blob()
-                    const url = URL.createObjectURL(blob)
-                    createdUrls.push(url)
-                    return url
-                })
-            )
-            if (!cancelRef.current) setPics(urls)
-        }
+        const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
+        const urls = []
 
-        loadPics()
+        for (const pic of sorted) {
+            if (cancelRef.current) return
+        const res = await authFetch(`/api/dog-pics/${pic.id}`)
+            if (!res.ok) continue
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        createdUrls.push(url)
+        urls.push(url)
+    }
+
+    if (!cancelRef.current) setPics(urls)
+    }
+
+    loadPics().catch(() => {})
 
         return () => {
             cancelRef.current = true

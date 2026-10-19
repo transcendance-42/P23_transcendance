@@ -10,8 +10,12 @@ export default function DogOwnerCard({ ownerId }) {
 
     useEffect(() => {
         authFetch(`/api/users/${ownerId}`)
-            .then(res => res.json())
-            .then(data => setOwner(data))
+        .then(res => {
+            if (!res.ok) throw new Error()
+            return res.json()
+        })
+        .then(data => setOwner(data))
+        .catch(() => {})
     }, [ownerId])
 
     useEffect(() => {
@@ -23,9 +27,7 @@ export default function DogOwnerCard({ ownerId }) {
 
     return (
         <div className='bg-surface-raised rounded-[var(--radius-md)] p-5 flex items-center gap-4'>
-            <div className='w-16 h-16 rounded-full overflow-hidden bg-surface-cream flex items-center justify-center'>
-                <Avatar url={avatarUrl} size='xl' />
-            </div>
+            <Avatar url={avatarUrl} size='xl' />
             <div className='flex flex-col'>
                 <span className='text-xs uppercase tracking-widest text-text-caption'>{t('HisHuman')}</span>
                 <span className='font-heading text-xl text-surface-white'>{owner?.first_name}</span>

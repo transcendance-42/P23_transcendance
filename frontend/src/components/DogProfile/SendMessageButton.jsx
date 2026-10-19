@@ -11,7 +11,10 @@ export default function SendMessageButton({ dogId }) {
 
     useEffect(() => {
         authFetch(`/api/matches/me`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error()
+                return res.json()
+            })
             .then(data => {
                 if (!Array.isArray(data)) return
                 const room = data.find(m =>
