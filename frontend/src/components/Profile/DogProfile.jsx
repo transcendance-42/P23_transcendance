@@ -135,11 +135,13 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
  
         const fd = new FormData()
         fd.append('file', file)
+        fd.append('dog_id', String(dog.id))
+        fd.append('position', String(pics.length + 1))
  
         setUploadProgress(0)
  
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', `/api/dogs/${dog.id}/pics`)
+        xhr.open('POST', `/api/dog-pics`)
         if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`)
  
         xhr.upload.addEventListener('progress', (ev) => {

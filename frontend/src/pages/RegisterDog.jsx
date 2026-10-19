@@ -10,6 +10,7 @@ import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
 import { authFetch } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
+import { uploadDogPics } from '../api/dogs'
 
 
 export default function RegisterDog() {
@@ -26,7 +27,10 @@ export default function RegisterDog() {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const navigate = useNavigate()
-    const { refreshUser } = useAuth()
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(null)
+    const [uploadIndex, setUploadIndex] = useState(0)
+    const { refreshUser, token } = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -58,10 +62,10 @@ export default function RegisterDog() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
+        setIsSubmitting(true)
         const { date_of_birth, ...rest } = formData
         const body = { ...rest, age: calculateAge(date_of_birth) }
         try {
-           
             const dogRes = await authFetch('/api/dogs', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -70,6 +74,7 @@ export default function RegisterDog() {
             const dogData = await dogRes.json()
             if (!dogRes.ok) {
                 setError(dogData.error || 'Server error')
+                setIsSubmitting(false)
                 return
             }
             // Étape 2 : créer les photos pour le chien, multipart
@@ -78,19 +83,25 @@ export default function RegisterDog() {
                 fd.append('dog_id', dogData.id)
                 fd.append('file', photos[index])
                 fd.append('position', index + 1)
-                const picDogRes = await authFetch('/api/dog-pics', { method: 'POST', body: fd })
-                if (!picDogRes.ok) {
-                    setError(`Échec de l'upload de ${photos[index].name}`)
+                setUploadIndex(index + 1)
+                setUploadProgress(0)
+                try {
+                    await uploadDogPics(fd, token, setUploadProgress)
+                } catch {
+                    setError(t('UploadFailed', { name: photos[index].name }))
                     await refreshUser()
                     setTimeout(() => navigate('/profile'), 1500)
                     return
+                } finally {
+                    setUploadProgress(null)
                 }
             }
             await refreshUser()
             setSuccess('Profile created!')
             setTimeout(() => navigate('/swipes'), 1500)
-        } catch (e) {
+        } catch {
             setError('Server unreachable, please try again')
+            setIsSubmitting(false)
         }
     }
 
@@ -141,11 +152,24 @@ export default function RegisterDog() {
                     {photos.length === 0 && (
                         <p className="text-text-caption text-xs text-center">At least 1 photo required</p>
                     )}
+                    
+                    {uploadProgress !== null && (
+                        <div className="w-full flex flex-col gap-1">
+                            <p className="text-xs text-center text-text-caption">
+                                {t('UploadingPhoto', { current: uploadIndex, total: photos.length })} — {uploadProgress}%
+                            </p>
+                            <div role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={uploadProgress}
+                                 className="h-1 w-full bg-surface-mid rounded-full overflow-hidden">
+                                <div className="h-full bg-primary transition-all duration-200"
+                                     style={{ width: `${uploadProgress}%` }} />
+                            </div>
+                        </div>
+                    )}
 
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
-                    <PrimaryButton type="submit" disabled={!allFilled}>
+                    <PrimaryButton type="submit" disabled={!allFilled || isSubmitting}>
                         {t('Profile2')}
                     </PrimaryButton>
                 </form>

@@ -1,5 +1,6 @@
 import { findMatch } from "../modules/matches/matches_queries.js";
 import { findMessagesByMatchId } from "../modules/matches/matches_queries.js";
+import { AppError } from "../error.js";
 
 async function  checkMatchOfUserAccessParams(request, reply) {
     const userId = request.userId
@@ -7,39 +8,25 @@ async function  checkMatchOfUserAccessParams(request, reply) {
     if (request.role === 'admin')
         return;
     if (userId.toString() !== paramsUserId.toString())
-        return reply.code(403).send({error: 'Forbidden'}) 
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
-async function checkMatchAccessParamsDelete(request, reply) {
+async function checkMatchAccessParams(request, reply) {
     const userId = request.userId
-    const matchId = request.params.id
+    const matchId = request.params.matchId
     
     if (request.role === 'admin')
         return;
     const match = await findMatch(matchId)
     if (!match)
-        return reply.code(404).send({error: 'Unknown room'})
+        throw new AppError(404, 'NOT_FOUND', 'Match not found')
     if (match.matchesAsDog1.owner_id.toString() === userId.toString() || match.matchesAsDog2.owner_id.toString() === userId.toString())
         request.matchId = matchId
     else
-        return reply.code(403).send({error: 'Forbidden'})
-}
-
-async function checkMatchChatAccesParams(request, reply) {
-    const userId = request.userId
-    const chatId = request.params.match_id
-    
-    if (request.role === 'admin')
-        return;
-    const room = await findMessagesByMatchId(chatId)
-    if (!room)
-        return reply.code(404).send({error: 'Unknown room'})
-    if (room[0].users.id.toString() === userId.toString() || room[1].users.id.toString() === userId.toString())
-        request.chat = room[0].match_id;
-    else
-        return reply.code(403).send({error: 'Forbidden'})
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 
 
-export {checkMatchOfUserAccessParams, checkMatchAccessParamsDelete, checkMatchChatAccesParams}
+
+export {checkMatchOfUserAccessParams, checkMatchAccessParams}
