@@ -65,7 +65,7 @@ describe('jwt_auth', () => {
     await expect(jwt_auth(request, {})).resolves.toBeUndefined();
     expect(request.userId).toBe(42);
     expect(request.role).toBe('user');
-    expect(findUserById).toHaveBeenCalledWith(42);
+    expect(findUserById).toHaveBeenCalledWith(42, 42);
   });
 
   it('refuse un utilisateur inexistant', async () => {
