@@ -6,7 +6,7 @@ import { AppError } from '../../error.js'
 
 async function getUserPic(request, reply) {
 	const picPath = await findPicPathByUserId(request.params.id)
-	if (!picPath || !existsSync(picPath.file_path))
+	if (!picPath || !picPath.file_path)
 		throw new AppError(404, 'NOT_FOUND', 'User pic not found')
 	reply.type(picPath.mime_type)
 	return reply.send(createReadStream(picPath.file_path))

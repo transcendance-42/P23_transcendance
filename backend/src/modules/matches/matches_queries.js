@@ -38,6 +38,24 @@ async function findMatchesByUserId(userId) {
   })
 }
 
+async function findActiveMatch(dog_id1, dog_id2) {
+  return prisma.matches.findFirst({
+    where: {
+      is_active: true,
+      OR: [
+        {
+          id_dog1: BigInt(dog_id1),
+          id_dog2: BigInt(dog_id2)
+        },
+        {
+          id_dog1: BigInt(dog_id2),
+          id_dog2: BigInt(dog_id1)
+        }
+      ]
+    }
+  })
+}
+
 async function findAllMatches() {
   return prisma.matches.findMany({
     include: {
@@ -81,4 +99,4 @@ async function desactivateMatchWithReq(request) {
   })  
 }
 
-export { findMatchesByUserId, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
+export { findMatchesByUserId, findActiveMatch, findAllMatches, findMessagesByMatchId, deleteMatch, desactivateMatchWithReq, findMatch }
