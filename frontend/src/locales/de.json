@@ -144,5 +144,7 @@
     "Reactivate": "Ja, reaktivieren", 
     "ActiveUsers": "Aktive Benutzer",
     "InactiveUsers": "Deaktivierte Benutzer", 
-    "Photos": "Fotos"
+    "Photos": "Fotos", 
+    "DeactivateProfile": "Profil deaktivieren", 
+    "DeactivateProfileConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre E-Mail-Adresse kann 3 Monate lang nicht wiederverwendet werden."
   }
