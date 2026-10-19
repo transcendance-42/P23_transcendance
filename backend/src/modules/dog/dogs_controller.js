@@ -34,7 +34,7 @@ async function PostDogs(request, reply) {
 			throw new AppError(409, 'DOG_ALREADY_EXISTS', 'A dog already exists')
 		throw e
     }
-  }
+}
 
 async function PutDogs (request, reply) {
     try {
@@ -55,6 +55,6 @@ async function DeleteDogs (request, reply) {
       if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'Dog not found')
       throw e
     }
-  }
+}
 
 export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe, GetDogsAroundMe }

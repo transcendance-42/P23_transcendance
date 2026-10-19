@@ -1,7 +1,16 @@
 import prisma from '../../../utils/prisma.js'
 
 async function findPicDogById(id) {
-  return prisma.dog_pics.findUnique({where: { id: BigInt(id) }})
+  return prisma.dog_pics.findUnique({ where: { id: BigInt(id)},
+                                      include: {dogs: true}
+})
+}
+
+async function findDogByPicId(id) {
+  return prisma.dog_pics.findUnique({
+    where: { id: BigInt(id) },
+    include: { dogs: true }
+  })
 }
 
 async function findPicsByDogId(dogId) {
@@ -36,4 +45,4 @@ async function deleteDogPic(id) {
   return prisma.dog_pics.delete({ where: { id: BigInt(id) } })
 }
 
-export { findPicsByDogId, findPicDogById, createDogPic, updateDogPic, deleteDogPic }
+export { findPicsByDogId, findPicDogById, findDogByPicId, createDogPic, updateDogPic, deleteDogPic }

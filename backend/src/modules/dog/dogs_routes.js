@@ -1,22 +1,15 @@
 import {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete} from './dogs_schema.js'
 import {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogsExceptMe, GetDogsAroundMe} from './dogs_controller.js'
-import { checkUserAcces } from '../../plugins/checkUserAcces.js'
-import { checkDogAcces} from '../../plugins/checkDogAccess.js'
+import { checkDogAcces, checkMyOtherAccess} from '../../plugins/checkDogAccess.js'
+import { checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'
+import { configRateLimit } from '../users_pic/user_pic_schema.js'
 
 async function dogsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
-  fastify.get('/dogs', GetAllDogsExceptMe) 
+  fastify.get('/dogs', {preHandler:checkUserAccesAdmin}, GetAllDogsExceptMe) 
   fastify.get('/neardog', GetDogsAroundMe)
-  fastify.get('/dogs/:id', {schema : SchemaDogGetId}, GetDogsByID) // a mettre un handler qui va gerer ce que le client peut voir selon si il match ou pas
-  fastify.post('/dogs', {
-    schema : SchemaDogPost,
-    config : {
-      rateLimit: {
-      max: 10,
-      timeWindow: '1 minute'
-      }
-    }
-  }  , PostDogs)
+  fastify.get('/dogs/:id', {schema : SchemaDogGetId, preHandler:checkMyOtherAccess}, GetDogsByID)
+  fastify.post('/dogs', {schema : SchemaDogPost, config : configRateLimit}  , PostDogs)
   fastify.put('/dogs/:id', {schema : SchemaDogsPut, preHandler:checkDogAcces}, PutDogs)
   fastify.delete('/dogs/:id', {schema : SchemaDogsDelete, preHandler:checkDogAcces}, DeleteDogs)
 }
