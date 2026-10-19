@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
             return
         try {
             const response = await authFetch(`/api/users/${userId}`)
-            if (response.status === 401) // si le users n'est plus actif
+            if (response.status === 401 || response.status === 403) // si le users n'est plus actif
             {
                 await logout()
                 return   

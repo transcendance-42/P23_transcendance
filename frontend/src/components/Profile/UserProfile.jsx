@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { authFetch } from "../../api/authFetch";
 import { useAuth } from "../../auth/AuthContext"
 import LocationButton from '../Map/LocationButton'
+import PrimaryButton from "../ui/PrimaryButton";
 
 export default function UserProfile({ user, onSaved, missingFields = [] }) {
     const { t } = useTranslation()

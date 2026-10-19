@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { authFetch } from '../api/authFetch'
 import Avatar from '../components/ui/Avatar'
+import PrimaryButton from '../components/ui/PrimaryButton'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
@@ -23,6 +24,8 @@ export default function Profile() {
     const { userId } = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
+    const [showDeactivateModal, setShowDeactivateModal] = useState(false)
+
 
     const handleAvatarUpload = async (file) => {
         const fd = new FormData()
@@ -130,6 +133,7 @@ export default function Profile() {
                     onSaved={setUser}
                     missingFields={isAdmin ? [] : missingUserFields.map(f => f.field)}
                 />
+                
             </div>
         </div>
     )

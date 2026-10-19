@@ -18,7 +18,7 @@ export async function apiRefresh() {
     const data = await response.json()
     if (!response.ok || !data.success)
         throw new Error(data.message || data.error || 'Refresh failed')
-    return { token: data.acces_token, userId: data.userId }
+    return { token: data.access_token, userId: data.userId }
 }
 
 export async function apiLogout() {

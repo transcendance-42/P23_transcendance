@@ -10,7 +10,7 @@ async function getUser(request, reply) {
     console.log('user dans le controller')
     console.log(user)
     if (!user) throw new AppError(404, 'NOT_FOUND', 'User not found')
-    if (!user.is_active) throw new AppError(401, 'NOT_FOUND', 'User not found')
+    if (!user.is_active) throw new AppError(403, 'ACCOUNT_DISABLED', 'Account disabled')
     return user
 }
 
