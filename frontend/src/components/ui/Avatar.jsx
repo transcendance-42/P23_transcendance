@@ -2,7 +2,7 @@ import defaultAvatar from '../../assets/pdpDefault.png'
 import { useRef } from 'react'
 
 const Avatar = ({ url, size = 'md', onUpload }) => {
-    const sizesPx = { sm: 32, md: 40, lg: 128 }
+    const sizesPx = { sm: 32, md: 40, lg: 128, xl: 64}
     const fileInputRef = useRef(null)
 
     const handleChange = (e) => {

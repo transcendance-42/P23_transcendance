@@ -9,7 +9,7 @@ import { authFetch } from '../../api/authFetch'
 import { useAuth } from '../../auth/AuthContext'
 
 
-const MatchNotif = ({ onClose, roomId, otherPicId }) => {
+const MatchNotif = ({ onClose, roomId, otherPicId, otherDogId }) => {
     const { user } = useAuth()
     const myPicId = user?.dogs?.dog_pics?.[0]?.id
     const { t } = useTranslation()
@@ -37,9 +37,16 @@ const MatchNotif = ({ onClose, roomId, otherPicId }) => {
                 <img src={myUrl || defaultDog} alt="your dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
                 <img src={otherUrl || defaultDog} alt="other dog" className="w-1/2 h-48 sm:h-80 object-cover rounded-[var(--radius-md)] border-6 border-action-match pointer-events-none"/>
             </div>
-            <PrimaryButton onClick={() => navigate(`/chat/${roomId}`)}>
-                {t('StartChat')}
-            </PrimaryButton>
+            <div className="w-full flex flex-col sm:flex-row gap-3 px-4 pb-4">
+                <button
+                    onClick={() => navigate(`/dogs/${otherDogId}`)}
+                    className='w-full rounded-full py-2 font-semibold whitespace-nowrap border-2 border-primary text-surface-white bg-transparent hover:bg-primary transition'>
+                        {t('ViewProfile')}
+                </button>
+                <PrimaryButton onClick={() => navigate(`/chat/${roomId}`)}>
+                    {t('StartChat')}
+                </PrimaryButton>
+            </div>
         </Modal>
     )
 }
