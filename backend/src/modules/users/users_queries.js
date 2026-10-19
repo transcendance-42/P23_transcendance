@@ -1,5 +1,7 @@
 import { Client } from 'pg'
 import prisma from '../../utils/prisma.js'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
 // est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
 const UserPublicFields = {
@@ -84,7 +86,16 @@ async function deactivateUser(id) {
   })
 }
 
-async function deleteUser(id) {
+async function removeFile(path) {
+  try {
+    await fs.unlink(path)
+  } catch (e) {
+    if (e.code === 'ENOENT')
+      return
+  }
+}
+
+async function anonymized(id) {
   const user = await prisma.users.findUnique({
     where: {id: BigInt(id)},
     select: { 
@@ -116,9 +127,38 @@ async function deleteUser(id) {
     }),
     prisma.dog_pics.deleteMany({ where:{dogs:{owner_id:id}}}),
     prisma.dogs.updateMany({
-      where: {owner_id:id}
-    })
+      where: {owner_id:id},
+      data: {
+        dog_name: 'deleted',
+        bio: '',
+        dog_formular_path: null,
+        dog_formular_type: null,
+      }
+    }),
+    prisma.users.updateMany({
+      where: {id: id},
+      data: {
+        is_active: false,
+        google_id: null,
+        email: `deleted${id}@mail`,
+        password_hash: null,
+        first_name: null,
+        last_name: null,
+        city: null,
+        file_path: null,
+        mime_type: null,
+      }
+    }),
+    prisma.$executeRaw`UPDATE users SET position = NULL WHERE id = ${id}`,
   ])
+  const files = [
+    user.file_path,
+    user.dogs?.dog_formular_path,
+    ...(user.dogs?.dog_pics.map(p => p.file_path) ?? []),
+  ].filter(Boolean)
+  for (const file of files) {
+    await removeFile(file)
+  }
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, deleteUser, UserPrivateFields, UserPublicFields }
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, anonymized, UserPrivateFields, UserPublicFields }

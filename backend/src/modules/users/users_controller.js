@@ -1,4 +1,4 @@
-import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, deleteUser } from './users_queries.js'
+import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, anonymized } from './users_queries.js'
 
 async function getAllUsers(request, reply) {
   try {
@@ -51,7 +51,7 @@ async function patchDeactivateUser(request, reply) {
 
 async function removeUser(request, reply) {
   try {
-    return await deleteUser(request.params.id)
+    return await anonymized(request.params.id)
   } catch (e) {
     if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
       return reply.code(500).send({ error: e.message })
