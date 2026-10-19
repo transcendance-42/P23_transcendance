@@ -6,10 +6,10 @@ import { AppError } from '../error.js'
 async function jwt_auth(request, reply){
     const token_bearer = request.headers.authorization
     if (!token_bearer)
-        throw new AppError(404, 'ACCESS_TOKEN_MISSING', 'Access token not found')   
+        throw new AppError(401, 'ACCESS_TOKEN_MISSING', 'Access token not found')   
     const token = token_bearer.split(' ')[1]
     if (!token)
-        throw new AppError(404, 'ACCESS_TOKEN_MISSING', 'Access token not found')
+        throw new AppError(401, 'ACCESS_TOKEN_MISSING', 'Access token not found')
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await findUserById(decoded.id)

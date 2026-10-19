@@ -1,13 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { checkUserAcces, checkUserAccesAdmin } from './checkUserAcces.js';
-
-function createReply() {
-  return {
-    code: (statusCode) => ({
-      send: (body) => ({ statusCode, body }),
-    }),
-  };
-}
+import { checkUserAcces, checkUserAccesAdmin } from '../src/plugins/checkUserAcces.js';
 
 describe('checkUserAcces', () => {
   it('autorise un utilisateur à modifier ses propres données', async () => {
@@ -17,7 +9,8 @@ describe('checkUserAcces', () => {
       params: { id: '7' },
     };
 
-    await expect(checkUserAcces(request, createReply())).resolves.toBeUndefined();
+    await expect(checkUserAcces(request, {})).resolves.toBeUndefined();
+    expect(request.userId).toBe(7);
   });
 
   it('refuse à un utilisateur de modifier les données d’un autre utilisateur', async () => {
@@ -27,9 +20,10 @@ describe('checkUserAcces', () => {
       params: { id: '8' },
     };
 
-    await expect(checkUserAcces(request, createReply())).resolves.toEqual({
+    await expect(checkUserAcces(request, {})).rejects.toMatchObject({
       statusCode: 403,
-      body: { error: 'Forbidden' },
+      code: 'FORBIDDEN',
+      message: 'Forbidden',
     });
   });
 
@@ -40,7 +34,7 @@ describe('checkUserAcces', () => {
       params: { id: '8' },
     };
 
-    await expect(checkUserAcces(request, createReply())).resolves.toBeUndefined();
+    await expect(checkUserAcces(request, {})).resolves.toBeUndefined();
   });
 });
 
@@ -49,18 +43,20 @@ describe('checkUserAccesAdmin', () => {
     const request = { role: 'admin' };
 
     await expect(
-      checkUserAccesAdmin(request, createReply()),
+      checkUserAccesAdmin(request, {}),
     ).resolves.toBeUndefined();
+    expect(request.role).toBe('admin');
   });
 
   it('refuse un utilisateur standard', async () => {
     const request = { role: 'user' };
 
     await expect(
-      checkUserAccesAdmin(request, createReply()),
-    ).resolves.toEqual({
+      checkUserAccesAdmin(request, {}),
+    ).rejects.toMatchObject({
       statusCode: 403,
-      body: { error: 'Forbidden' },
+      code: 'FORBIDDEN',
+      message: 'Forbidden',
     });
   });
 });

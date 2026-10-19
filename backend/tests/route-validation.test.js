@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import buildApp from './app.js';
+import buildApp from '../src/app.js';
 
 let app;
 
@@ -26,6 +26,7 @@ describe('POST /api/auth/login validation', () => {
     });
 
     expect(response.statusCode).toBe(400);
+    expect(response.json()).toHaveProperty('error');
   });
 });
 
@@ -66,5 +67,6 @@ describe('POST /api/auth/register validation', () => {
     });
 
     expect(response.statusCode).toBe(400);
+    expect(response.json()).toHaveProperty('error');
   });
 });

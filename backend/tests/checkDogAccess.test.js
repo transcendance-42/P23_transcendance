@@ -1,18 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { findDogsIdParams } from '../modules/dog/dogs_queries.js';
-import { checkDogAcces } from './checkDogAccess.js';
+import { findDogsIdParams } from '../src/modules/dog/dogs_queries.js';
+import { checkDogAcces } from '../src/plugins/checkDogAccess.js';
 
-vi.mock('../modules/dog/dogs_queries.js', () => ({
+vi.mock('../src/modules/dog/dogs_queries.js', () => ({
   findDogsIdParams: vi.fn(),
 }));
-
-function createReply() {
-  return {
-    code: (statusCode) => ({
-      send: (body) => ({ statusCode, body }),
-    }),
-  };
-}
 
 describe('checkDogAcces', () => {
   beforeEach(() => {
@@ -28,7 +20,8 @@ describe('checkDogAcces', () => {
       params: { id: '12' },
     };
 
-    await expect(checkDogAcces(request, createReply())).resolves.toBeUndefined();
+    await expect(checkDogAcces(request, {})).resolves.toBeUndefined();
+    expect(findDogsIdParams).toHaveBeenCalledWith('12');
   });
 
   it('refuse un utilisateur qui ne possède pas le chien', async () => {
@@ -40,10 +33,12 @@ describe('checkDogAcces', () => {
       params: { id: '12' },
     };
 
-    await expect(checkDogAcces(request, createReply())).resolves.toEqual({
+    await expect(checkDogAcces(request, {})).rejects.toMatchObject({
       statusCode: 403,
-      body: { error: 'Forbidden' },
+      code: 'FORBIDDEN',
+      message: 'Forbidden',
     });
+    expect(findDogsIdParams).toHaveBeenCalledWith('12');
   });
 
   it('retourne 405 si le chien est inconnu', async () => {
@@ -55,9 +50,10 @@ describe('checkDogAcces', () => {
       params: { id: '12' },
     };
 
-    await expect(checkDogAcces(request, createReply())).resolves.toEqual({
-      statusCode: 405,
-      body: { error: 'Unknown dog' },
+    await expect(checkDogAcces(request, {})).rejects.toMatchObject({
+      statusCode: 404,
+      code: 'NOT FOUND',
+      message: 'Dog not found',
     });
   });
 
@@ -68,7 +64,7 @@ describe('checkDogAcces', () => {
       params: { id: '12' },
     };
 
-    await expect(checkDogAcces(request, createReply())).resolves.toBeUndefined();
+    await expect(checkDogAcces(request, {})).resolves.toBeUndefined();
     expect(findDogsIdParams).not.toHaveBeenCalled();
   });
 });

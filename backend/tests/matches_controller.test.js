@@ -5,7 +5,7 @@ import {
   findAllMatches,
   findMatchesByUserId,
   findMessagesByMatchId,
-} from './matches_queries.js';
+} from '../src/modules/matches/matches_queries.js';
 import {
   desactivateMatch,
   getAllMatches,
@@ -13,9 +13,9 @@ import {
   getMatchesByUser,
   getMyMatches,
   removeMatch,
-} from './matches_controller.js';
+} from '../src/modules/matches/matches_controller.js';
 
-vi.mock('./matches_queries.js', () => ({
+vi.mock('../src/modules/matches/matches_queries.js', () => ({
   findMatchesByUserId: vi.fn(),
   findAllMatches: vi.fn(),
   deleteMatch: vi.fn(),
@@ -48,6 +48,7 @@ describe('matches controllers', () => {
     await expect(
       getMatchesByUser({ params: { userId: '7' } }, createReply()),
     ).resolves.toEqual(matches);
+    expect(findMatchesByUserId).toHaveBeenCalledWith('7');
   });
 
   it('retourne les matchs de l’utilisateur connecté', async () => {
@@ -65,6 +66,7 @@ describe('matches controllers', () => {
     findAllMatches.mockResolvedValue(matches);
 
     await expect(getAllMatches({}, createReply())).resolves.toEqual(matches);
+    expect(findAllMatches).toHaveBeenCalledOnce();
   });
 
   it('retourne les messages d’un match', async () => {
@@ -72,37 +74,56 @@ describe('matches controllers', () => {
     findMessagesByMatchId.mockResolvedValue(messages);
 
     await expect(
-      getMatchMessages({ params: { match_id: '9' } }, createReply()),
+      getMatchMessages({ params: { matchId: '9' } }, createReply()),
     ).resolves.toEqual(messages);
+    expect(findMessagesByMatchId).toHaveBeenCalledWith('9');
+  });
+
+  it('supprime un match quand la requête réussit', async () => {
+    deleteMatch.mockResolvedValue({ success: true });
+
+    await expect(
+      removeMatch({ params: { matchId: '9' } }, createReply()),
+    ).resolves.toEqual({ success: true });
+    expect(deleteMatch).toHaveBeenCalledWith('9');
   });
 
   it('retourne 404 quand la suppression du match échoue avec P2025', async () => {
     deleteMatch.mockRejectedValue({ code: 'P2025' });
     const reply = createReply();
 
-    await removeMatch({ params: { id: '9' } }, reply);
-
-    expect(reply.statusCode).toBe(404);
-    expect(reply.body).toEqual({ error: 'Match not found' });
+    await expect(
+      removeMatch({ params: { matchId: '9' } }, reply),
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      code: 'NOT_FOUND',
+      message: 'Match not found',
+    });
   });
 
   it('retourne 500 en cas d’erreur inattendue lors de la suppression', async () => {
     deleteMatch.mockRejectedValue(new Error('database unavailable'));
     const reply = createReply();
 
-    await removeMatch({ params: { id: '9' } }, reply);
-
-    expect(reply.statusCode).toBe(500);
-    expect(reply.body).toEqual({ error: 'database unavailable' });
+    await expect(
+      removeMatch({ params: { matchId: '9' } }, reply),
+    ).rejects.toThrow('database unavailable');
   });
 
   it('retourne 404 quand la désactivation échoue avec P2025', async () => {
     desactivateMatchWithReq.mockRejectedValue({ code: 'P2025' });
     const reply = createReply();
 
-    await desactivateMatch({ params: { id: '9' }, userId: 7 }, reply);
-
-    expect(reply.statusCode).toBe(404);
-    expect(reply.body).toEqual({ error: 'Match not found' });
+    await expect(
+      desactivateMatch({ params: { id: '9' }, userId: 7 }, reply),
+    ).rejects.toMatchObject({
+      statusCode: 404,
+      code: 'NOT_FOUND',
+      message: 'Match not found',
+    });
+    expect(desactivateMatchWithReq).toHaveBeenCalledWith({
+      params: { id: '9' },
+      userId: 7,
+    });
   });
 });

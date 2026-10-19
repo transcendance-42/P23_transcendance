@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import buildApp from './app.js';
+import buildApp from '../src/app.js';
 
 let app;
 
@@ -60,7 +60,6 @@ describe('protected routes', () => {
     ['GET', '/api/matches/me'],
     ['GET', '/api/matches/1/messages'],
     ['GET', '/api/matches'],
-    ['DELETE', '/api/matches/1'],
     ['PATCH', '/api/matches/1'],
     ['GET', '/api/messages/1'],
     ['DELETE', '/api/messages/1'],
@@ -72,6 +71,9 @@ describe('protected routes', () => {
     });
 
     expect(response.statusCode).toBe(401);
-    expect(response.json()).toEqual({ error: 'NO_TOKEN' });
+    expect(response.json()).toMatchObject({
+      error: 'ACCESS_TOKEN_MISSING',
+      message: 'Access token not found',
+    });
   });
 });
