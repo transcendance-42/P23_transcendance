@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['pwa-192x192.png'],
       manifest: {
         name: 'Tindog',
         short_name: 'Tindog',
