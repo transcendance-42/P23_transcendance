@@ -10,17 +10,20 @@ import { usersRoutes } from './modules/users/users_routes.js';
 import { userPicRoutes } from './modules/users_pic/user_pic_routes.js'
 import { dogsRoutes } from './modules/dog/dogs_routes.js';
 import { swipesRoutes }from './modules/swipes/swipes_routes.js';
-import { dogPicsRoutes} from './modules/dog-pics/dog_pics_routes.js';
+import { dogUploadsRoutes } from './modules/dog_upload/dog_upload_routes.js';
 import { matchesRoutes }from './modules/matches/matches_routes.js';
 import { messagesRoutes } from './modules/messages/messages_routes.js';
 import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
+import { errorHandler } from './error.js';
 
 const fastify = Fastify({ logger: true, trustProxy:true })
 
 async function buildApp() {
 
+  fastify.setErrorHandler(errorHandler)
+  
   await fastify.register(import('@fastify/rate-limit'), {
     max:100,
     timeWindow: '1 minute',
@@ -79,7 +82,7 @@ async function buildApp() {
   fastify.register(userPicRoutes, { prefix: '/api' })
   fastify.register(dogsRoutes, { prefix: '/api' })
   fastify.register(swipesRoutes, { prefix: '/api' })
-  fastify.register(dogPicsRoutes, { prefix: '/api' })
+  fastify.register(dogUploadsRoutes, { prefix: '/api' })
   fastify.register(matchesRoutes, { prefix: '/api' })
   fastify.register(messagesRoutes, { prefix: '/api' }) 
   fastify.register(authRoutes, { prefix: '/api' })

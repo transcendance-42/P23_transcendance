@@ -120,7 +120,6 @@
     "Online": "Online", 
     "Back": "Zurück", 
     "GetStarted": "Loslegen",
-    "Offline": "Offline",
     "SearchMap": "Suchen",
     "ValideMapData": "bestätigen",
     "SearchACity": "Stadt suchen",
@@ -129,5 +128,17 @@
     "LocalisationButton": "Standort", 
     "ErrorLoadingMessages": "Nachrichten konnten nicht geladen werden",
     "ErrorConnection": "Verbindungsfehler",
-    "Retry": "Erneut versuchen"
+    "Retry": "Erneut versuchen",
+    "UploadingPhoto": "Foto {{current}}/{{total}} wird hochgeladen",
+    "UploadFailed": "Hochladen von {{name}} fehlgeschlagen",
+    "Users": "Benutzer", 
+    "AdminAccount": "Administratorkonto — Swipe-Zugriff deaktiviert", 
+    "Logout": "Abmelden", 
+    "DeleteUser" : "Benutzer löschen", 
+    "DeleteUserConfirm": "{{name}} löschen?", 
+    "ReactivateUser" : "Benutzer reaktivieren", 
+    "ReactivateUserConfirm": "{{name}} reaktivieren?", 
+    "Reactivate": "Ja, reaktivieren", 
+    "ActiveUsers": "Aktive Benutzer",
+    "InactiveUsers": "Deaktivierte Benutzer"
   }

@@ -27,6 +27,7 @@ export default function MessagePanel({rooms})
 
     const match = rooms.find((element) => String(element.id) === String(roomId))
 
+    //gerer l'entree qui est mise dans l'input
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData({ ...formData, [name]: value })
@@ -80,7 +81,7 @@ export default function MessagePanel({rooms})
             socket.disconnect()
             socketRef.current = null
         }
-    }, [token])
+    }, [token, roomId])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   
@@ -113,6 +114,8 @@ export default function MessagePanel({rooms})
         // Clear content input
         setFormData((prev) => ({ ...prev, content: '' }))
     }
+
+    const match = rooms.find((element) => String(element.id) === String(roomId))
 
     if (!match)
         return null
@@ -155,4 +158,3 @@ export default function MessagePanel({rooms})
     </div>
     );
 }
-

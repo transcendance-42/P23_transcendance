@@ -22,9 +22,11 @@ async function createMessage({match_id, sender_id, content}){
             sender_id: BigInt(sender_id),
             content
           },
-        include: {
-          users:true
-        }
+          include: {
+            users: { 
+              select: { first_name: true }
+            }
+          }
         })
 }
 
