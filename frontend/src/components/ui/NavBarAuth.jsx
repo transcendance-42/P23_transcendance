@@ -49,6 +49,7 @@ const NavBarAuth = () => {
         window.addEventListener('scroll', handleScroll)
         return () => { clearInterval(interval); window.removeEventListener('scroll', handleScroll) }
     }, [user]) 
+
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
@@ -87,11 +88,17 @@ const NavBarAuth = () => {
             </div>
             </div>
             {open && (
-                    <div className="lg:hidden flex flex-col gap-3 mt-4 items-end">
-                    <SecondaryButton to="/swipes">{t('Swipes')}</SecondaryButton>
-                    <SecondaryButton to="/chat">{t('Chat')}</SecondaryButton>
+                <div className="lg:hidden flex flex-col gap-3 mt-4 items-end">
+                    {user?.role === 'admin' ? (
+                        <SecondaryButton to="/users">{t('Users')}</SecondaryButton>
+                    ) : (
+                        <>
+                            <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
+                            <SecondaryButton to="/chat" disabled={!isProfileComplete}>{t('Chat')}</SecondaryButton>
+                        </>
+                    )}
                     <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
-                    <SecondaryButton onClick={handleLogout}>Logout</SecondaryButton>
+                    <SecondaryButton onClick={handleLogout}>{t('Logout')}</SecondaryButton>
                 </div>
             )}
         </nav>
