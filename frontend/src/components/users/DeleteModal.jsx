@@ -4,7 +4,7 @@ import ModalHeader from '../ui/ModalHeader'
 import PrimaryButton from '../ui/PrimaryButton'
 import SecondaryButton from '../ui/SecondaryButton'
 
-export default function DeleteteModal({ user, onConfirm, onClose }) {
+export default function DeleteModal({ user, onConfirm, onClose }) {
     const { t } = useTranslation()
     if (!user) return null
 
@@ -12,7 +12,7 @@ export default function DeleteteModal({ user, onConfirm, onClose }) {
         <Modal onClose={onClose} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
             <ModalHeader title={t('DeleteUser')} />
             <p className="text-text-caption text-sm text-center">
-                {t('DeactivateUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
+                {t('DeleteUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
             </p>
             <div className="flex gap-3 w-full mt-2">
                 <SecondaryButton onClick={onClose}>{t('Cancel')}</SecondaryButton>

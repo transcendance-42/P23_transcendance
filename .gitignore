@@ -4,3 +4,4 @@ certs
 /uploads/*
 !/uploads/seed/
 !/uploads/users/
+/backend/prisma/seed.js
