@@ -143,5 +143,6 @@
     "ReactivateUserConfirm": "{{name}} reaktivieren?", 
     "Reactivate": "Ja, reaktivieren", 
     "ActiveUsers": "Aktive Benutzer",
-    "InactiveUsers": "Deaktivierte Benutzer"
+    "InactiveUsers": "Deaktivierte Benutzer", 
+    "ErrorSwipe": "Profile konnten nicht geladen werden"
   }

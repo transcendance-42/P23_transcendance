@@ -48,7 +48,7 @@ const DogCards = ({ onMatch }) => {
     if (error) return (
         <div className="flex flex-col items-center gap-3">
             <Mascot index={2} size="md" />
-            <p className="text-center text-text-secondary">{t('ErrorLoadingMessages')}</p>
+            <p className="text-center text-text-secondary">{t('ErrorSwipe')}</p>
         </div>
     )
 
