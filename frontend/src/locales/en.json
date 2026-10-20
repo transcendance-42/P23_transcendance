@@ -128,7 +128,7 @@
     "LocalisationButton": "Localisation", 
     "WhatEmail": "What's your email?",
     "Years": "years",
-    "HisHuman": "Their human",
+    "HisHuman": "Owner", 
     "SendMessage": "Send a message",
     "DogNotFound": "This dog can't be found",
     "ViewProfile": "View profile",
@@ -146,5 +146,6 @@
     "InactiveUsers": "Inactive users", 
     "Photos": "Photos", 
     "DeactivateProfile" : "Deactivate your profil", 
-    "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months."
+    "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months.",
+    "ErrorSwipe": "Unable to load profiles"
   }

@@ -128,7 +128,7 @@
     "LocalisationButton": "Standort", 
     "WhatEmail": "Was ist deine E-Mail?",
     "Years": "Jahre",
-    "HisHuman": "Sein Mensch",
+    "HisHuman": "Besitzer",
     "SendMessage": "Nachricht senden",
     "DogNotFound": "Dieser Hund wurde nicht gefunden",
     "ViewProfile": "Profil ansehen",
@@ -146,5 +146,6 @@
     "InactiveUsers": "Deaktivierte Benutzer", 
     "Photos": "Fotos", 
     "DeactivateProfile": "Profil deaktivieren", 
-    "DeactivateProfileConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre E-Mail-Adresse kann 3 Monate lang nicht wiederverwendet werden."
+    "DeactivateProfileConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre E-Mail-Adresse kann 3 Monate lang nicht wiederverwendet werden.",
+    "ErrorSwipe": "Profile konnten nicht geladen werden"
   }
