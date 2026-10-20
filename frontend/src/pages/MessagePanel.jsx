@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { apiRefresh } from '../api/auth'
+import Mascot from '../components/ui/Mascot'
 
 const initalFormData = {
   content: '',
@@ -18,12 +19,14 @@ export default function MessagePanel({rooms})
     const { t } = useTranslation()
     const [messages, setMessages] = useState([])
     const [formData, setFormData] = useState(initalFormData)
-    const { roomId } = useParams() // reprendre le parametre utilise dans l'url
+    const { roomId } = useParams()
     const { userId, logout } = useAuth()
     const navigate = useNavigate()
     const socketRef = useRef(null)
+    const [error, setError] = useState(null)
 
-    //gerer l'entree qui est mise dans l'input
+    const match = rooms.find((element) => String(element.id) === String(roomId))
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData({ ...formData, [name]: value })
@@ -32,12 +35,13 @@ export default function MessagePanel({rooms})
     const loadMessages = async (roomId) => {
         try {
             const response = await authFetch(`/api/messages/${roomId}`)
+            if (!response.ok) throw new Error(`HTTP ${response.status}`)
             const data = await response.json()
             setMessages(Array.isArray(data) ? data : data.messages || [])
+            setError(null)
+        } catch (e) {
+            setError(t('ErrorLoadingMessages'))
         }
-        catch (error){
-            console.error('Erreur lors du chargement des messages:', error)
-        } 
     }
     
     //use effect qui s'active des le debut pour que 
@@ -55,20 +59,19 @@ export default function MessagePanel({rooms})
                 setMessages((preMessages) => [...preMessages, message])
         }
 
-        socket.on('connect_error', async () =>{
-            try{
-                const { token:newToken } = await apiRefresh()
+        socket.on('connect_error', async () => {
+            try {
+                const { token: newToken } = await apiRefresh()
                 socket.auth.token = newToken
                 socket.connect()
-            }catch(e)
-            {
-                console.log(e.message)
+            } catch (e) {
+                setError(t('ErrorConnection'))
                 logout()
                 socket.disconnect()
                 socketRef.current = null
                 navigate('/login')
             }
-        })    
+        })
         socket.on("receive_message", handeleReceiveMessage)
 
         return () => {
@@ -77,7 +80,7 @@ export default function MessagePanel({rooms})
             socket.disconnect()
             socketRef.current = null
         }
-    }, [token, roomId])
+    }, [token])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   
@@ -111,17 +114,27 @@ export default function MessagePanel({rooms})
         setFormData((prev) => ({ ...prev, content: '' }))
     }
 
-    const match = rooms.find((element) => String(element.id) === String(roomId))
-
     if (!match)
         return null
     const dogName = match.matchesAsDog1.owner_id === userId ? match.matchesAsDog2.dog_name : match.matchesAsDog1.dog_name;   
 
     return(
-    <div className="flex flex-1 flex-col min-h-0 bg-surface-cream">
-        <ChatHeader link={() => navigate('/chat')} dogName={dogName}/>
-        <MessageList messages={messages} userId={userId} />
-
+        <div className="flex flex-1 flex-col min-h-0 bg-surface-cream">
+            <ChatHeader link={() => navigate('/chat')} dogName={dogName} />
+            {error ? (
+                <div className="flex flex-1 flex-col items-center justify-center gap-3 p-8 text-text-caption">
+                    <Mascot index={2} size="md" />
+                    <p className="text-sm">{error}</p>
+                    <button
+                        onClick={() => loadMessages(roomId)}
+                        className="text-sm text-primary underline"
+                    >
+                        {t('Retry')}
+                    </button>
+                </div>
+            ) : (
+                <MessageList messages={messages} userId={userId} />
+            )}
         <div className="flex items-center gap-2 border-t border-surface-alt bg-surface-cream p-4">
         <input
             onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
@@ -138,8 +151,8 @@ export default function MessagePanel({rooms})
         >
             {t('Send')}
         </button>
+        </div>
     </div>
-    </div>
-
     );
 }
+
