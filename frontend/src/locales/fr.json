@@ -144,5 +144,8 @@
     "Reactivate": "Oui, réactiver", 
     "ActiveUsers": "Utilisateurs actifs",
     "InactiveUsers": "Utilisateurs désactivés", 
+    "Photos": "Photos", 
+    "DeactivateProfile": "Désactiver ton profil", 
+    "DeactivateProfileConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Votre email ne sera pas réutilisable pendant 3 mois.",
     "ErrorSwipe": "Impossible de charger les profils"
 }
