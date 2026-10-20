@@ -48,7 +48,8 @@ async function removeUser(request, reply) {
   const removed = await anonymized(request.params.id)
   if (!removed)
     throw new AppError(404, 'NOT_FOUND', 'User not found')
-  return reply.code(204)
+  else 
+    return reply.code(204).send()
 }
 
 async function reactivateUser(request, reply) {

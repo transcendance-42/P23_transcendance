@@ -158,6 +158,7 @@ async function anonymized(id) {
   for (const file of files) {
     await removeFile(file)
   }
+  return true
 }
 
 async function activateUser(id) {
