@@ -128,7 +128,7 @@
     "LocalisationButton": "Localisation", 
     "WhatEmail": "Quelle est ton email ?",
     "Years": "ans",
-    "HisHuman": "Son humain",
+    "HisHuman": "Propriétaire",
     "SendMessage": "Envoyer un message",
     "DogNotFound": "Ce chien est introuvable",
     "ViewProfile": "Voir le profil",
@@ -143,5 +143,6 @@
     "ReactivateUserConfirm": "Réactiver {{name}} ?", 
     "Reactivate": "Oui, réactiver", 
     "ActiveUsers": "Utilisateurs actifs",
-    "InactiveUsers": "Utilisateurs désactivés"
+    "InactiveUsers": "Utilisateurs désactivés", 
+    "ErrorSwipe": "Impossible de charger les profils"
 }
