@@ -13,7 +13,7 @@ async function getDogPic(request, reply) {
 }
 
 async function getDogPics(request, reply) {
-    const picsByDogId = await findPicsByDogId(request.params.dogId)
+    const picsByDogId = await findPicsByDogId(request.params.id)
     if (!picsByDogId)
       throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     const arraypicsByDog = picsByDogId.map(pic => ({

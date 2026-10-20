@@ -24,7 +24,7 @@ const loginSchema = {
       properties: {
         email: { 
           type: 'string',
-          format: 'email', // rajouter module ajv-format pour que ca marche 
+          format: 'email',
           maxLength: 200
          },
         password: {
@@ -62,15 +62,13 @@ const registerSchema = {
         maxLength: 20
       },
       city: {type: 'string'},
-      latitude: {type: 'number'},
-      longitude: {type: 'number'},
-      radius: {
-        type: 'integer',
-        minimum: 1},
-      date_of_birth: { type: 'string'},
+      date_of_birth: { 
+        type: 'string',
+        format: 'date'
+      },
       longitude: { type: 'number', minimum: -180,  maximum: 180},
       latitude: { type: 'number', minimum: -90,  maximum: 90 },
-      radius: { type: 'number', minimum: 1}
+      radius: { type: 'integer', minimum: 1, maximum: 500} // jsuis passé de number a integer pour evier les decimaux, on garde?
     },
     required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'longitude', 'latitude'],
     additionalProperties: false

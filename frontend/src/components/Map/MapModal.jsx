@@ -61,8 +61,8 @@ export default function MapModal({ onLocationChange, onClose }) {
     }
 
     const handleValidate = () => {
-        if (radius < 1) {
-            setError('le rayon doit être de au moins 1km')
+        if (!Number.isInteger(radius) || radius < 1 || radius > 500) {
+            setError('le rayon doit être compris entre 1 et 500km')
             return
         }
         console.log('radius :', radius)

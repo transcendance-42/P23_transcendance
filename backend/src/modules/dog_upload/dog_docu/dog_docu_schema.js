@@ -1,32 +1,33 @@
-const getDocuDogSchema = {
-	params: {
+const dogIdParams = {
     	type: 'object',
     	properties: {
-      		dogId: { type: 'string' }
+      		dogId: {
+				type: 'string',
+				pattern: '^[1-9][0-9]*$',
+				maxLength: 19
+			}
    		},
-    	required: ['dogId']
-  }
+}
+
+const getDocuDogSchema = {
+	params : dogIdParams
 }
 
 const putDocuDogSchema = {
+	params: dogIdParams,
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
 		properties: {
 			file: { type: 'object' },
 		},
-		required: ['file']
+		required: ['file'],
+		additionalProperties: false
 	}
 }
 
 const deleteDocuDogSchema = {
-  	params: {
-		type: 'object',
-		properties: {
-			dogId: { type: 'string' }
-		},
-		required: ['dogId']
-	}
+  	params: dogIdParams
 }
 
 export { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema }
