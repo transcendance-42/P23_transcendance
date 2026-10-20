@@ -143,5 +143,7 @@
     "ReactivateUserConfirm": "Réactiver {{name}} ?", 
     "Reactivate": "Oui, réactiver", 
     "ActiveUsers": "Utilisateurs actifs",
-    "InactiveUsers": "Utilisateurs désactivés"
+    "InactiveUsers": "Utilisateurs désactivés",
+    "ShowPassword": "Afficher le mot de passe",
+    "HidePassword": "Masquer le mot de passe"
 }
