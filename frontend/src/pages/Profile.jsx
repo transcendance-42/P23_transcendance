@@ -145,7 +145,7 @@ export default function Profile() {
                     <PrimaryButton onClick={() => setShowDeactivateModal(true)}>{t("DeactivateProfile")}</PrimaryButton>
                 }
                 {showDeactivateModal && (
-                    <Modal onClose={() => setShowDeactivateModal(false)} width="w-full mx-4 sm:w-96">
+                    <Modal onClose={() => setShowDeactivateModal(false)} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
                         <ModalHeader title={t('DeactivateProfile')} />
                         <p className="text-text-caption text-sm text-center">
                             {t('DeactivateProfileConfirm')}

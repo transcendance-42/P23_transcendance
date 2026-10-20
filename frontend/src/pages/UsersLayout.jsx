@@ -58,7 +58,7 @@ export default function UsersLayout() {
     return (
         <div className="min-h-screen bg-surface-cream">
             <NavBarAuth />
-            <DeactivateModal user={userToDelete} onConfirm={handleDeactivate} onClose={() => setUserToDelete(null)} />
+            <DeactivateModal user={userToDelete} onConfirm={handleDeactivate} onClose={() => setUserToDelete(null)}/>
             <ReactivateModal user={userToReactivate} onConfirm={handleReactivate} onClose={() => setUserToReactivate(null)} />
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <h1 className="text-3xl font-bold tracking-tight text-text-primary font-heading">
