@@ -4,16 +4,16 @@ import { AppError } from "../error.js";
 
 async function  checkMatchOfUserAccessParams(request, reply) {
     const userId = request.userId
-    const paramsUserId = request.params.userId
+    const paramsUserId = request.params.id
     if (request.role === 'admin')
         return;
-    if (userId.toString() !== paramsUserId.toString())
+    if (userId.toString() !== paramsUserId)
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 async function checkMatchAccessParams(request, reply) {
     const userId = request.userId
-    const matchId = request.params.matchId
+    const matchId = request.params.id
     
     if (request.role === 'admin')
         return;
@@ -25,8 +25,5 @@ async function checkMatchAccessParams(request, reply) {
     else
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
-
-
-
 
 export {checkMatchOfUserAccessParams, checkMatchAccessParams}

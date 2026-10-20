@@ -1,20 +1,21 @@
+const idParams = {
+  type: 'object',
+  properties: { 
+    id: { 
+      type: 'string',
+      pattern: '^[1-9][0-9]*$',
+      maxLength: 19
+    } 
+  },
+  required: ['id']
+}
+
 const getUserByIdSchema = {
-  params: {
-    type: 'object',
-    properties: { id: { type: 'integer' } },
-    required: ['id']
-  }
+  params: idParams
 }
 
 const updateUserSchema = {
-  params: {
-    type: 'object',
-    properties: {
-      id: { type: 'integer' }
-    },
-    required: ['id']
-  },
-
+  params: idParams,
   body: {
     type: 'object',
     properties: {
@@ -28,13 +29,7 @@ const updateUserSchema = {
 }
 
 const updateUserPositionSchema = {
-    params: {
-    type: 'object',
-    properties: {
-      id: { type: 'integer' }
-    },
-    required: ['id']
-  },
+    params: idParams,
     body: {
     type: 'object',
     properties: {
@@ -48,11 +43,7 @@ const updateUserPositionSchema = {
 }
 
 const deactivateUserSchema = {
-  params: {
-    type: 'object',
-    properties: { id: { type: 'integer' } },
-    required: ['id']
-  }
+  params: idParams
 }
 
 export { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema }

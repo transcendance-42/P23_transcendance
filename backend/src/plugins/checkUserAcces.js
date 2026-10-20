@@ -9,7 +9,7 @@ async function checkUserGetAcces(request, reply) {
     const userByid = await findUserById(request.params.id, request.userId)
     if (!userByid)
 		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
-    if (userByid.id.toString() === request.params.id.toString())
+    if (userByid.id.toString() === request.params.id)
         return
     const dogUser = await findDogByUserId(request.userId)
     if (!dogUser)
@@ -48,7 +48,7 @@ async function checkUserAcces(request, reply) {
     const paramsUserId = request.params.id
     if (request.role === 'admin')
         return;
-    if (userId.toString() !== paramsUserId.toString())
+    if (userId.toString() !== paramsUserId)
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')      
 }
 

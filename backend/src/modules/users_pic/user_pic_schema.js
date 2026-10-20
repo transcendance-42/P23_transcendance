@@ -12,30 +12,35 @@ const configRateLimitAdmin = {
 	}
 }
 
+const idParams = {
+  type: 'object',
+  properties: { 
+    id: { 
+      type: 'string',
+      pattern: '^[1-9][0-9]*$',
+      maxLength: 19
+    } 
+  },
+  required: ['id']
+}
 
 const getUserPicSchema = {
-    params: {
-        type: 'object',
-        properties: { id: { type: 'string' } },
-        required: ['id']
-    }
+    params: idParams
 }
 
 const putUserPicSchema = {
+	params: idParams,
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
 		properties: { file: { type: 'object' } },
-		required: ['file']
+		required: ['file'],
+		additionalProperties: false
 	}
 }
 
 const deleteUserPicSchema = {
-	params: {
-		type: 'object',
-		properties: { id: { type: 'string' } },
-		required: ['id']
-	}
+	params: idParams
 }
 
 export { getUserPicSchema, putUserPicSchema, deleteUserPicSchema, configRateLimit, configRateLimitAdmin }

@@ -2,7 +2,7 @@ import { findMatchesByUserId, findAllMatches, deleteMatch, findMessagesByMatchId
 import { AppError } from '../../error.js'
 
 async function getMatchesByUser(request, reply) {
-    return await findMatchesByUserId(request.params.userId)
+    return await findMatchesByUserId(request.params.id)
 }
 
 async function getMyMatches(request, reply) {
@@ -14,12 +14,12 @@ async function getAllMatches(request, reply) {
 }
 
 async function getMatchMessages(request, reply) {
-    return await findMessagesByMatchId(request.params.matchId)
+    return await findMessagesByMatchId(request.params.id)
 }
 
 async function removeMatch(request, reply) {
   try {
-    return await deleteMatch(request.params.matchId)
+    return await deleteMatch(request.params.id)
   } catch (e) {
     if (e.code === 'P2025')
       throw new AppError(404, 'NOT_FOUND', 'Match not found')
