@@ -68,7 +68,10 @@ export default function MessagePanel({rooms})
                 socketRef.current = null
                 navigate('/login')
             }
-        })    
+        })
+        socket.on('socket_error', (error) => {
+            console.error(error)
+        })
         socket.on("receive_message", handeleReceiveMessage)
 
         return () => {
