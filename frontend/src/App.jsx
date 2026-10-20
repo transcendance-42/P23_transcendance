@@ -19,12 +19,14 @@ import ScrollToTop from './components/ui/ScrollToTop'
 import PresenceProvider from './auth/presenceProvider'
 import RequireAdmin from './auth/RequireAdmin'
 import UsersLayout from './pages/UsersLayout'
+import OfflineBanner from './components/ui/OfflineBanner'
 
 
 function App() {
   return (
     <>
       <ScrollToTop/>
+      <OfflineBanner/>
       <Routes>
           <Route path="/" element={<LandingPage/>} />
           <Route path="/register" element={<Register/>} />
