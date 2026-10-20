@@ -110,7 +110,7 @@ async function anonymized(id) {
     },
   })
   if (!user)
-    return
+    return user
   await prisma.$transaction([
     prisma.refresh_tokens.deleteMany({where: {user_id: id}}),
     prisma.messages.updateMany({ where: { sender_id: id }, data: { content: 'Message supprimé' } }),

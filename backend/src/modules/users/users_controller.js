@@ -43,12 +43,12 @@ async function patchDeactivateUser(request, reply) {
 }
 
 async function removeUser(request, reply) {
-  try {
-    return await anonymized(request.params.id)
-  } catch (e) {
-    if (e.code === 'P2025') return reply.code(404).send({ error: 'User not found' })
-      return reply.code(500).send({ error: e.message })
-  }
+  if (request.role === 'admin' && request.userId.toString() === request.params.id.toString())
+    throw new AppError(409, 'CONFLICT', 'Admin account cannot delete itself')
+  const removed = await anonymized(request.params.id)
+  if (!removed)
+    throw new AppError(404, 'NOT_FOUND', 'User not found')
+  return reply.code(204)
 }
 
 async function reactivateUser(request, reply) {
