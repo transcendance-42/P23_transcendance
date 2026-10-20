@@ -38,7 +38,7 @@ async function findDogsAroundMe (userId) {
         select: { target_id: true }
     })
     const excludedIds = swipedIds.map(s => s.target_id)
-    excludedIds.push(Number(myDog.id))
+    excludedIds.push(BigInt(myDog.id))
 
     const nearUsers = await prisma.$queryRaw`
         SELECT * 
