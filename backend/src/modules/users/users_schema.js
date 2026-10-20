@@ -55,4 +55,13 @@ const deactivateUserSchema = {
   }
 }
 
-export { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema }
+const deleteUserSchema = {
+  params: {
+    type: 'object',
+    properties: {id: {type: 'integer'}},
+    required: ['id'],
+    additionalProperties: false
+  },
+}
+
+export { getUserByIdSchema, updateUserSchema, deactivateUserSchema, updateUserPositionSchema, deleteUserSchema }

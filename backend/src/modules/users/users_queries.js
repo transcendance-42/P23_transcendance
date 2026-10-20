@@ -1,5 +1,7 @@
 import { Client } from 'pg'
 import prisma from '../../utils/prisma.js'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 
 // est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
 const UserPublicFields = {
@@ -83,6 +85,82 @@ async function deactivateUser(id) {
   })
 }
 
+async function removeFile(path) {
+  try {
+    await fs.unlink(path)
+  } catch (e) {
+    if (e.code === 'ENOENT')
+      return
+  }
+}
+
+async function anonymized(id) {
+  const user = await prisma.users.findUnique({
+    where: {id: BigInt(id)},
+    select: { 
+      file_path: true,
+      dogs: {
+        select: {
+          dog_formular_path: true,
+          dog_pics: {
+            select: { file_path: true },
+          }
+        }
+      }
+    },
+  })
+  if (!user)
+    return user
+  await prisma.$transaction([
+    prisma.refresh_tokens.deleteMany({where: {user_id: id}}),
+    prisma.messages.updateMany({ where: { sender_id: id }, data: { content: 'Message supprimé' } }),
+    prisma.matches.updateMany({
+      where: {
+        is_active: true,
+        OR: [
+          {matchesAsDog1: {owner_id: id}},
+          {matchesAsDog2: {owner_id: id}},
+        ],
+      },
+      data: {is_active: false},
+    }),
+    prisma.dog_pics.deleteMany({ where:{dogs:{owner_id:id}}}),
+    prisma.dogs.updateMany({
+      where: {owner_id:id},
+      data: {
+        dog_name: 'deleted',
+        bio: '',
+        dog_formular_path: null,
+        dog_formular_type: null,
+      }
+    }),
+    prisma.users.updateMany({
+      where: {id: id},
+      data: {
+        is_active: false,
+        google_id: null,
+        email: `deleted${id}@mail`,
+        password_hash: null,
+        first_name: null,
+        last_name: null,
+        city: null,
+        file_path: null,
+        mime_type: null,
+      }
+    }),
+    prisma.$executeRaw`UPDATE users SET position = NULL WHERE id = ${id}`,
+  ])
+  const files = [
+    user.file_path,
+    user.dogs?.dog_formular_path,
+    ...(user.dogs?.dog_pics.map(p => p.file_path) ?? []),
+  ].filter(Boolean)
+  for (const file of files) {
+    await removeFile(file)
+  }
+  return true
+}
+
 async function activateUser(id) {
   return prisma.users.update({
     where: { id: BigInt(id) },
@@ -91,4 +169,4 @@ async function activateUser(id) {
   })
 }
 
-export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields, activateUser }
+export { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, UserPrivateFields, UserPublicFields, activateUser, anonymized }

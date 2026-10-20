@@ -11,7 +11,7 @@ export default function Login() {
 
     return (
         <div className="min-h-screen bg-surface-cream">
-        <Modal>
+        <Modal showBack={true}>
            <div className="flex gap-4 self-end">
                 <LangSwitcher />
             </div>

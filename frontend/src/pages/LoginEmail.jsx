@@ -32,7 +32,6 @@ export default function LoginEmail() {
     return (
         <div className="min-h-screen bg-surface-cream">
         <Modal showBack={true} >
-            <Link to="/login" className="absolute top-4 right-4 text-text-caption hover:text-surface-white transition text-xl">✕</Link>
             <div className="flex gap-4 self-end">
                 <LangSwitcher />
             </div>
