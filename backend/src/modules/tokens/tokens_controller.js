@@ -8,7 +8,8 @@ import { AppError } from "../../error.js"
 async function GetRefreshToken(request, reply){
     const token = request.cookies.refresh_token
     if (!token)
-        throw new AppError(401, 'REFRESH_TOKEN_MISSING', 'No refresh token')
+        return reply.code(200).send({ success: false, error:
+    'REFRESH_TOKEN_MISSING', message: 'No refresh token' })
     // on a pas de secret pour hassh le refresh token?
     const hash_token = crypto.createHash('sha256').update(token).digest('hex')
     // apparemment cette ligne est pas necessaire dans le sens ou un hash va
