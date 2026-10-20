@@ -90,6 +90,8 @@ model swipes {
   created_at                      DateTime? @default(now()) @db.Timestamp(6)
   swipesAsSwiper                  dogs      @relation("swipesSwiper", fields: [swiper_id], references: [id], onUpdate: NoAction)
   swipesAsTarget                  dogs      @relation("swipesTarget", fields: [target_id], references: [id], onUpdate: NoAction)
+
+  @@unique([swiper_id, target_id], map: "unique_swipe_per_pair")
 }
 
 model users {

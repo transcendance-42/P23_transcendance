@@ -139,8 +139,12 @@
     "DocuNotPdf": "Le fichier doit être un PDF",
     "DocuTooBig": "Fichier trop lourd (5 Mo maximum)",
     "DocuError": "Une erreur est survenue, réessaie",
+    "WhatEmail": "Quelle est ton email ?", 
+    "ErrorLoadingMessages": "Impossible de charger les messages",
+    "ErrorConnection": "Erreur de connexion",
+    "Retry": "Réessayer",
     "Years": "ans",
-    "HisHuman": "Son humain",
+    "HisHuman": "Propriétaire",
     "SendMessage": "Envoyer un message",
     "DogNotFound": "Ce chien est introuvable",
     "ViewProfile": "Voir le profil",
@@ -155,5 +159,9 @@
     "ReactivateUserConfirm": "Réactiver {{name}} ?", 
     "Reactivate": "Oui, réactiver", 
     "ActiveUsers": "Utilisateurs actifs",
-    "InactiveUsers": "Utilisateurs désactivés"
+    "InactiveUsers": "Utilisateurs désactivés", 
+    "Photos": "Photos", 
+    "DeactivateProfile": "Désactiver ton profil", 
+    "DeactivateProfileConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Votre email ne sera pas réutilisable pendant 3 mois.",
+    "ErrorSwipe": "Impossible de charger les profils"
 }

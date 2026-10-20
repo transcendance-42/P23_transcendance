@@ -7,6 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
 import { authFetch } from '../api/authFetch'
 import Avatar from '../components/ui/Avatar'
+import PrimaryButton from '../components/ui/PrimaryButton'
+import Modal from '../components/ui/Modal'
+import ModalHeader from '../components/ui/ModalHeader'
+import SecondaryButton from '../components/ui/SecondaryButton'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
@@ -20,9 +24,10 @@ export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const { userId } = useAuth()
+    const { userId, logout } = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
+    const [showDeactivateModal, setShowDeactivateModal] = useState(false)
 
     const handleAvatarUpload = async (file) => {
         const fd = new FormData()
@@ -38,6 +43,12 @@ export default function Profile() {
             setAvatarUrl(url)
         }
     }   
+
+    const handleDeactivate = async () => {
+        await authFetch(`/api/users/${userId}/deactivate`, { method: 'PATCH' })
+        setShowDeactivateModal(false)
+        await logout()
+    }
 
     useEffect(() => {
         const load = async () => {
@@ -130,6 +141,21 @@ export default function Profile() {
                     onSaved={setUser}
                     missingFields={isAdmin ? [] : missingUserFields.map(f => f.field)}
                 />
+                {!isAdmin &&
+                    <PrimaryButton onClick={() => setShowDeactivateModal(true)}>{t("DeactivateProfile")}</PrimaryButton>
+                }
+                {showDeactivateModal && (
+                    <Modal onClose={() => setShowDeactivateModal(false)} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
+                        <ModalHeader title={t('DeactivateProfile')} />
+                        <p className="text-text-caption text-sm text-center">
+                            {t('DeactivateProfileConfirm')}
+                        </p>
+                        <div className="flex gap-3 w-full mt-2">
+                            <SecondaryButton onClick={() => setShowDeactivateModal(false)}>{t('Cancel')}</SecondaryButton>
+                            <PrimaryButton onClick={handleDeactivate}>{t('Confirm')}</PrimaryButton>
+                        </div>
+                    </Modal>
+                )}
             </div>
         </div>
     )

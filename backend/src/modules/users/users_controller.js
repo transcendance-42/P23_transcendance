@@ -1,4 +1,4 @@
-import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, activateUser } from './users_queries.js'
+import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, activateUser, anonymized } from './users_queries.js'
 import { AppError } from '../../error.js'
 
 async function getAllUsers(request, reply) {
@@ -42,6 +42,16 @@ async function patchDeactivateUser(request, reply) {
   }
 }
 
+async function removeUser(request, reply) {
+  if (request.role === 'admin' && request.userId.toString() === request.params.id.toString())
+    throw new AppError(409, 'CONFLICT', 'Admin account cannot delete itself')
+  const removed = await anonymized(request.params.id)
+  if (!removed)
+    throw new AppError(404, 'NOT_FOUND', 'User not found')
+  else 
+    return reply.code(204).send()
+}
+
 async function reactivateUser(request, reply) {
   try {
     return await activateUser(request.params.id)
@@ -51,4 +61,4 @@ async function reactivateUser(request, reply) {
   }
 }
 
-export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition, reactivateUser }
+export { getAllUsers, getUser, putUser, patchDeactivateUser, putUserPosition, removeUser, reactivateUser }

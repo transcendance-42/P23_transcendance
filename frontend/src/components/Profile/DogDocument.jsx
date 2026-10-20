@@ -17,7 +17,6 @@ export default function DogDocument({ dogId, editable }) {
     const [showDelete, setShowDelete] = useState(false)
     const fileInputRef = useRef(null)
 
-    // 1. Au chargement est-ce que le chien a déjà un document ?
     useEffect(() => {
         const checkDoc = async () => {
             const res = await authFetch(`/api/dog-docu/${dogId}`)
@@ -30,7 +29,6 @@ export default function DogDocument({ dogId, editable }) {
         checkDoc()
     }, [dogId])
 
-    // 2. L'utilisateur choisit un fichier
     const handleFile = async (e) => {
         const file = e.target.files[0]
         if (!file) return
@@ -55,7 +53,6 @@ export default function DogDocument({ dogId, editable }) {
         setProgress(null)
     }
 
-    // 3. Ouvrir le PDF dans un nouvel onglet
     const handleOpen = async () => {
         const res = await authFetch(`/api/dog-docu/${dogId}`)
         if (!res.ok) {
@@ -67,7 +64,6 @@ export default function DogDocument({ dogId, editable }) {
         window.open(url, '_blank')
     }
 
-    // 4. Supprimer le document
     const handleDelete = async () => {
         const res = await authFetch(`/api/dog-docu/${dogId}`, { method: 'DELETE' })
         if (res.ok) {

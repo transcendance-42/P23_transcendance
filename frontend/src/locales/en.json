@@ -140,8 +140,12 @@
     "DocuNotPdf": "The file must be a PDF",
     "DocuTooBig": "File too large (5 MB maximum)",
     "DocuError": "Something went wrong, please try again",
+    "WhatEmail": "What's your email?", 
+    "ErrorLoadingMessages": "Unable to load messages",
+    "ErrorConnection": "Connection error",
+    "Retry": "Try again",
     "Years": "years",
-    "HisHuman": "Their human",
+    "HisHuman": "Owner", 
     "SendMessage": "Send a message",
     "DogNotFound": "This dog can't be found",
     "ViewProfile": "View profile",
@@ -156,5 +160,9 @@
     "ReactivateUserConfirm": "Reactivate {{name}}?", 
     "Reactivate": "Yes, reactivate", 
     "ActiveUsers" : "Active users", 
-    "InactiveUsers": "Inactive users"
+    "InactiveUsers": "Inactive users", 
+    "Photos": "Photos", 
+    "DeactivateProfile" : "Deactivate your profil", 
+    "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months.",
+    "ErrorSwipe": "Unable to load profiles"
   }
