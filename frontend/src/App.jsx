@@ -1,5 +1,4 @@
 import SwipePage from './pages/SwipePage'
-import MatchesPage from './pages/MatchesPage'
 import './App.css'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import Login from './pages/Login'
@@ -40,11 +39,9 @@ function App() {
 			<Route path="/profile"     element={<Profile/>} />
 			<Route path="/registerDog" element={<RegisterDog/>} />
       <Route path="/users" element={<RequireAdmin><UsersLayout /></RequireAdmin>} />
-
 			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
           <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>
             <Route path="/swipes"      element={<SwipePage/>} />
-            <Route path="/matches"     element={<MatchesPage/>} />
             <Route path="/chat"        element={<ChatLayout/>} />
             <Route path="/chat/:roomId" element={<ChatLayout/>} />
             <Route path="/dogs/:id" element={<DogProfilePage/>} />
