@@ -53,7 +53,9 @@ const NavBarAuth = () => {
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
                 <div className="flex items-center gap-6">
-                    <span className="text-xl text-primary font-bold font-heading">Tindog</span>
+                    <button onClick={() => { navigate('/swipes'); window.scrollTo(0, 0) }} className="text-xl text-primary font-bold font-heading text-left">
+                        Tindog
+                    </button>
                     {user?.role === 'admin' && (
                         <span className="text-xs font-bold text-surface-white bg-primary px-2 py-0.5 rounded-full uppercase tracking-wide">
                             Admin
