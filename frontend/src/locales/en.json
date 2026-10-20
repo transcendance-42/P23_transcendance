@@ -139,6 +139,8 @@
     "Logout": "Logout", 
     "DeleteUser" : "Delete user", 
     "DeleteUserConfirm": "Delete {{name}}?", 
+    "DeactivateUser": "Deactivate user", 
+    "DeactivateUserConfirm": "Deactivate {{name}}?", 
     "ReactivateUser" : "Reactivate user" , 
     "ReactivateUserConfirm": "Reactivate {{name}}?", 
     "Reactivate": "Yes, reactivate", 

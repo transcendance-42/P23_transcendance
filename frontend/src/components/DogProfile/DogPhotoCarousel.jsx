@@ -29,7 +29,6 @@ export default function DogPhotoCarousel({ dog }) {
 
     if (!cancelRef.current) setPics(urls)
     }
-
     loadPics().catch(() => {})
 
         return () => {

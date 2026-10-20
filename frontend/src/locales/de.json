@@ -139,6 +139,8 @@
     "Logout": "Abmelden", 
     "DeleteUser" : "Benutzer löschen", 
     "DeleteUserConfirm": "{{name}} löschen?", 
+    "DeactivateUser": "Benutzer deaktivieren",
+    "DeactiveuserConfirm": "{{name}} deaktivieren?",
     "ReactivateUser" : "Benutzer reaktivieren", 
     "ReactivateUserConfirm": "{{name}} reaktivieren?", 
     "Reactivate": "Ja, reaktivieren", 

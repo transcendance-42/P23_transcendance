@@ -10,7 +10,7 @@ export default function DeactivateModal({ user, onConfirm, onClose }) {
 
     return (
         <Modal onClose={onClose} width="w-full mx-4 sm:w-96">
-            <ModalHeader title={t('DeleteUser')} />
+            <ModalHeader title={t('DeactivateUser')} />
             <p className="text-text-caption text-sm text-center">
                 {t('DeleteUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
             </p>
