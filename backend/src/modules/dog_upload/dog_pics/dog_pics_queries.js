@@ -1,15 +1,17 @@
 import prisma from '../../../utils/prisma.js'
+import { DogPrivateFields } from '../../dog/dogs_queries.js'
+import { DogPublicFields } from '../../dog/dogs_queries.js'
 
 async function findPicDogById(id) {
   return prisma.dog_pics.findUnique({ where: { id: BigInt(id)},
-                                      include: {dogs: true}
+                                      include: {dogs: {select: DogPublicFields} }
 })
 }
 
 async function findDogByPicId(id) {
   return prisma.dog_pics.findUnique({
     where: { id: BigInt(id) },
-    include: { dogs: true }
+    include: {dogs: {select: DogPublicFields} }
   })
 }
 
@@ -17,7 +19,7 @@ async function findPicsByDogId(dogId) {
   return prisma.dog_pics.findMany({
     where: { dog_id: BigInt(dogId) },
     orderBy: { position: 'asc' },
-    include: {dogs: true}
+    include: {dogs: {select: DogPublicFields} }
   })
 }
 

@@ -1,5 +1,32 @@
 import prisma from '../../utils/prisma.js'
 
+const DogPublicFields = {
+  id:true,
+  owner_id: true,
+  dog_name: true,
+  gender: true,
+  breed:true,
+  age:true,
+  size:true,
+  bio:true,
+  dog_pics:true
+}
+
+const DogPrivateFields = {      
+  id:true,
+  owner_id: true,
+  dog_name: true,
+  gender: true,
+  breed:true,
+  age:true,
+  size:true,
+  bio:true,
+  dog_pics:true,
+  dog_formular_path:true,
+  dog_formular_type:true,
+}
+
+
 async function findAllDogs() {
 	return prisma.dogs.findMany({
 		include: { dog_pics: true }
@@ -57,7 +84,7 @@ async function findDogsAroundMe (userId) {
             owner_id: { in: nearUsers.map(n => n.id)  },
             id: { notIn: excludedIds },
         },
-        include: {dog_pics: true}
+        select: DogPublicFields
     }) 
 
     return Dogs
@@ -66,7 +93,7 @@ async function findDogsAroundMe (userId) {
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(request.params.id) },
-		include: { dog_pics: true }
+		select: DogPublicFields
 	})
 }
 
@@ -103,4 +130,4 @@ async function deleteDogs(request) {
     return prisma.dogs.delete({ where: { id } })
 }
 
-export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}
+export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPrivateFields, DogPublicFields}
