@@ -5,7 +5,7 @@ import DogProfile from '../components/Profile/DogProfile'
 import UserProfile from '../components/Profile/UserProfile'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
-import { authFetch } from '../api/authFetch'
+import { authFetch, getToken } from '../api/authFetch'
 import Avatar from '../components/ui/Avatar'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
@@ -25,7 +25,7 @@ export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const { userId, logout, token } = useAuth()
+    const { userId, logout} = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
     const [showDeactivateModal, setShowDeactivateModal] = useState(false)
@@ -34,7 +34,7 @@ export default function Profile() {
     const handleAvatarUpload = async (file) => {
         setAvatarProgress(0)
         try {
-            await uploadFile('PUT', `/api/user/${userId}/pic`, file, token, setAvatarProgress)
+            await uploadFile('PUT', `/api/user/${userId}/pic`, file, getToken(), setAvatarProgress)
             setAvatarUrl(URL.createObjectURL(file))
         } catch {
             // echec donc on voit rien
