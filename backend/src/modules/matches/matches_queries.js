@@ -96,7 +96,7 @@ async function deleteMatch(id) {
 
 async function desactivateMatchWithReq(request) {
   return prisma.matches.update({ 
-    where: { id: BigInt(request.params.matchId) },
+    where: { id: BigInt(request.params.id) },
     data: {
       is_active: false,
       unmatched_by: BigInt(request.userId)
