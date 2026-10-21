@@ -4,3 +4,5 @@ certs
 /uploads/*
 !/uploads/seed/
 !/uploads/users/
+dev-dist
+dist

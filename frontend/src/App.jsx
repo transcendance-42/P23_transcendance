@@ -1,5 +1,4 @@
 import SwipePage from './pages/SwipePage'
-import MatchesPage from './pages/MatchesPage'
 import './App.css'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import Login from './pages/Login'
@@ -19,12 +18,14 @@ import ScrollToTop from './components/ui/ScrollToTop'
 import PresenceProvider from './auth/presenceProvider'
 import RequireAdmin from './auth/RequireAdmin'
 import UsersLayout from './pages/UsersLayout'
+import OfflineBanner from './components/ui/OfflineBanner'
 
 
 function App() {
   return (
     <>
       <ScrollToTop/>
+      <OfflineBanner/>
       <Routes>
           <Route path="/" element={<LandingPage/>} />
           <Route path="/register" element={<Register/>} />
@@ -38,11 +39,9 @@ function App() {
 			<Route path="/profile"     element={<Profile/>} />
 			<Route path="/registerDog" element={<RegisterDog/>} />
       <Route path="/users" element={<RequireAdmin><UsersLayout /></RequireAdmin>} />
-
 			<Route element={<RequireProfileComplete><Outlet /> </RequireProfileComplete>}>
           <Route element={<PresenceProvider><Outlet /> </PresenceProvider>}>
             <Route path="/swipes"      element={<SwipePage/>} />
-            <Route path="/matches"     element={<MatchesPage/>} />
             <Route path="/chat"        element={<ChatLayout/>} />
             <Route path="/chat/:roomId" element={<ChatLayout/>} />
             <Route path="/dogs/:id" element={<DogProfilePage/>} />
