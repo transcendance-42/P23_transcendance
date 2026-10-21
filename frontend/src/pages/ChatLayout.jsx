@@ -17,13 +17,25 @@ export default function ChatLayout(){
 
     useEffect(() => {
         const loadRooms = async () => {
-            const response = await authFetch(`/api/matches/me`);
-            const data = await response.json();
-            setRooms(data);
+            try {
+                const response = await authFetch(`/api/matches/me`)
+                if (!response.ok) throw new Error(`HTTP ${response.status}`)
+                const data = await response.json()
+                if (!Array.isArray(data)) return
+
+                const sorted = [...data].sort((a, b) => {
+                    const aTime = new Date(a.messages?.[0]?.send_at ?? a.created_at)
+                    const bTime = new Date(b.messages?.[0]?.send_at ?? b.created_at)
+                    return bTime - aTime
+                })
+                setRooms(sorted)
+            } catch (e) {
+                console.error('Failed to load rooms', e)
+            }
         }
         loadRooms();
         setRoomsLoaded(true)
-        const id = setInterval(() => { // rechargement des rooms pour savoir si user online
+        const id = setInterval(() => {
             if (document.visibilityState === 'visible')
                 loadRooms()
         }, 30_000)

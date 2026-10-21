@@ -9,7 +9,7 @@ export default function ReactivateModal({ user, onConfirm, onClose }) {
     if (!user) return null
 
     return (
-        <Modal onClose={onClose} width="w-full mx-4 sm:w-96">
+        <Modal onClose={onClose} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
             <ModalHeader title={t('ReactivateUser')} />
             <p className="text-text-caption text-sm text-center">
                 {t('ReactivateUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
