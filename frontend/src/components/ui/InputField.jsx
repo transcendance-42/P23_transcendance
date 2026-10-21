@@ -15,7 +15,7 @@ const EyeOffIcon = () => (
             <line x1="1" y1="1" x2="23" y2="23" />
         </svg>)
 
-const InputField = ({ type = 'text', value, onChange, placeholder, label, id }) => {
+const InputField = ({ type = 'text', value, onChange, onBlur, placeholder, label, id, error}) => {
     const {t} = useTranslation()
     const [showPassword, setShowPassword] = useState(false)
     const isPassword = type === 'password'
@@ -35,8 +35,9 @@ const InputField = ({ type = 'text', value, onChange, placeholder, label, id }) 
             type={inputType}
             value={value}
             onChange={onChange}
+            onBlur={onBlur}
             placeholder={placeholder}
-            className={`w-full bg-transparent border border-text-tertiary rounded-lg px-4 py-3 text-white placeholder-text-caption focus:outline-none focus:border-primary transition ${isPassword ? 'pr-12' : ''}`}
+            className={`w-full bg-transparent border ${error ? 'border-action-pass' : 'border-text-tertiary'} rounded-lg px-4 py-3 text-white placeholder-text-caption focus:outline-none focus:border-primary transition ${isPassword ? 'pr-12' : ''}`}
         />
         {isPassword && (
             <button type="button"
@@ -47,6 +48,7 @@ const InputField = ({ type = 'text', value, onChange, placeholder, label, id }) 
             </button>
         )}
         </div>
+        {error && <p className="text-action-pass text-xs">{error}</p>}
    </div>
     )
 }

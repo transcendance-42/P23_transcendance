@@ -153,5 +153,16 @@
     "DeactivateProfileConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre E-Mail-Adresse kann 3 Monate lang nicht wiederverwendet werden.",
     "ErrorSwipe": "Profile konnten nicht geladen werden",
     "AddPhoto" : "Foto hinzufügen",
-    "ChangePhoto" : "Foto ändern"
-  }
+    "ChangePhoto" : "Foto ändern",
+    "ErrRequired": "Dieses Feld ist erforderlich",
+    "ErrEmailInvalid": "Ungültige E-Mail-Adresse",
+    "ErrPasswordShort": "Mindestens 8 Zeichen",
+    "ErrPasswordMatch": "Die Passwörter stimmen nicht überein",
+    "ErrTooYoung": "Sie müssen mindestens 18 Jahre alt sein",
+    "ErrTooOld": "Das Jahr muss 1900 oder später sein",
+    "ErrInvalidData": "Ungültige Daten",
+    "ErrEmailExists": "Diese E-Mail wird bereits verwendet",
+    "ErrServer": "Serverfehler, bitte erneut versuchen",
+    "AccountCreated": "Konto erstellt!",
+    "CompleteForm": "Füllen Sie alle Felder aus, inklusive Foto und Standort, um Ihr Konto zu erstellen"
+}

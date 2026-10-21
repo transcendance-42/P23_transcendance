@@ -154,5 +154,16 @@
     "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months.",
     "ErrorSwipe": "Unable to load profiles",
     "AddPhoto" : "Add a photo",
-    "ChangePhoto" : "Change photo"
+    "ChangePhoto" : "Change photo",
+    "ErrRequired": "This field is required",
+    "ErrEmailInvalid": "Invalid email address",
+    "ErrPasswordShort": "At least 8 characters",
+    "ErrPasswordMatch": "Passwords do not match",
+    "ErrTooYoung": "You must be at least 18 years old",
+    "ErrTooOld": "Year must be 1900 or later",
+    "ErrInvalidData": "Invalid data",
+    "ErrEmailExists": "This email is already in use",
+    "ErrServer": "Server error, please try again",
+    "AccountCreated": "Account created!",
+    "CompleteForm": "Fill in every field, including photo and location, to create your account"
   }

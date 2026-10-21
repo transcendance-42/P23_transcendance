@@ -154,5 +154,16 @@
     "DeactivateProfileConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Votre email ne sera pas réutilisable pendant 3 mois.",
     "ErrorSwipe": "Impossible de charger les profils",
     "AddPhoto" : "Ajouter une photo",
-    "ChangePhoto" : "Changer la photo"
+    "ChangePhoto" : "Changer la photo",
+    "ErrRequired": "Ce champ est obligatoire",
+    "ErrEmailInvalid": "Adresse email invalide",
+    "ErrPasswordShort": "8 caractères minimum",
+    "ErrPasswordMatch": "Les mots de passe ne correspondent pas",
+    "ErrTooYoung": "Vous devez avoir au moins 18 ans",
+    "ErrTooOld": "L'année doit être 1900 ou plus",
+    "ErrInvalidData": "Données invalides",
+    "ErrEmailExists": "Cet email est déjà utilisé",
+    "ErrServer": "Erreur serveur, veuillez réessayer",
+    "AccountCreated": "Compte créé !",
+    "CompleteForm": "Remplissez tous les champs, photo et localisation comprises, pour créer votre compte"
 }
