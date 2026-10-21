@@ -93,11 +93,14 @@ export default function Register() {
             <Modal showBack={true} >
                 <ModalHeader title="Create account" />
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                    <div className="flex justify-center w-full">
+                    <div className="flex flex-col items-center gap-2 w-full">
                         <Avatar size='lg' url={avatarUrl} onUpload={(file) => {
                             setAvatarFile(file)
                             setAvatarUrl(URL.createObjectURL(file))
                         }} />
+                        <p className="text-sm text-text-caption">
+                            {avatarUrl ? t('ChangePhoto') : t('AddPhoto')}
+                        </p>
                     </div>
                     <InputField id="First_name" label={t('FirstName')} placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} />
                     <InputField id="LastName" label={t('LastName')} placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} />

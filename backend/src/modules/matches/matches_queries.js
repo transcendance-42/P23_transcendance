@@ -33,6 +33,11 @@ async function findMatchesByUserId(userId) {
           }
         }}
       },
+      messages: {
+        orderBy: { send_at: 'desc' },
+        take: 1,
+        select: { send_at: true }
+      }
     },
     orderBy: { created_at: 'desc' }
   })

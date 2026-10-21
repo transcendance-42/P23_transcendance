@@ -25,8 +25,6 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const { refreshUser } = useAuth()
 
     useEffect(() => {
-        console.log('useEffect triggered, dog:', dog)
-        console.log('dog.dog_pics:', dog?.dog_pics)
         let cancel = false
         const createdUrls = []
         const loadPics = async () => {
@@ -170,7 +168,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     return (
         <>
             {showDeleteModal && (
-                <Modal onClose={() => setShowDeleteModal(false)} width="w-full mx-4 sm:w-96">
+                <Modal onClose={() => setShowDeleteModal(false)} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
                     <ModalHeader title={t('DeleteConfirmTitle')} />
                     <p className="text-text-caption text-sm text-center">
                         {t('DeleteConfirmText', { name: dog.dog_name })}
@@ -219,27 +217,28 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                         </button>
                                     </div>
                                 ))}
- 
-                                <button
-                                    onClick={() => fileInputRef.current?.click()}
-                                    disabled={uploadProgress !== null}
-                                    className="aspect-square rounded-md border-2 border-dashed border-surface-mid hover:border-primary text-text-caption hover:text-primary flex flex-col items-center justify-center gap-1 transition disabled:opacity-50 overflow-hidden relative"
-                                >
-                                    {uploadProgress !== null ? (
-                                        <>
-                                            <span className="text-xs font-bold text-primary z-10">{uploadProgress}%</span>
-                                            <div
-                                                className="absolute bottom-0 left-0 h-1 bg-primary transition-all duration-200"
-                                                style={{ width: `${uploadProgress}%` }}
-                                            />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="text-xl">+</span>
-                                            <span className="text-xs">{t('AddPhoto')}</span>
-                                        </>
-                                    )}
-                                </button>
+                                {pics.length < 5 && (
+                                    <button
+                                        onClick={() => fileInputRef.current?.click()}
+                                        disabled={uploadProgress !== null}
+                                        className="aspect-square rounded-md border-2 border-dashed border-surface-mid hover:border-primary text-text-caption hover:text-primary flex flex-col items-center justify-center gap-1 transition disabled:opacity-50 overflow-hidden relative"
+                                    >
+                                        {uploadProgress !== null ? (
+                                            <>
+                                                <span className="text-xs font-bold text-primary z-10">{uploadProgress}%</span>
+                                                <div
+                                                    className="absolute bottom-0 left-0 h-1 bg-primary transition-all duration-200"
+                                                    style={{ width: `${uploadProgress}%` }}
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="text-xl">+</span>
+                                                <span className="text-xs">{t('AddPhoto')}</span>
+                                            </>
+                                        )}
+                                    </button>
+                                )}
                             </div>
                             <input
                                 ref={fileInputRef}

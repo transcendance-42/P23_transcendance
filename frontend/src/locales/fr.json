@@ -126,9 +126,12 @@
     "SearchACity": "Recherche une ville",
     "DistanceToSearch": "Distance de recherce",
     "LocalisationButton": "Localisation", 
-    "WhatEmail": "Quelle est ton email ?",
+    "WhatEmail": "Quelle est ton email ?", 
+    "ErrorLoadingMessages": "Impossible de charger les messages",
+    "ErrorConnection": "Erreur de connexion",
+    "Retry": "Réessayer",
     "Years": "ans",
-    "HisHuman": "Son humain",
+    "HisHuman": "Propriétaire",
     "SendMessage": "Envoyer un message",
     "DogNotFound": "Ce chien est introuvable",
     "ViewProfile": "Voir le profil",
@@ -145,5 +148,11 @@
     "ActiveUsers": "Utilisateurs actifs",
     "InactiveUsers": "Utilisateurs désactivés",
     "ShowPassword": "Afficher le mot de passe",
-    "HidePassword": "Masquer le mot de passe"
+    "HidePassword": "Masquer le mot de passe",
+    "Photos": "Photos", 
+    "DeactivateProfile": "Désactiver ton profil", 
+    "DeactivateProfileConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Votre email ne sera pas réutilisable pendant 3 mois.",
+    "ErrorSwipe": "Impossible de charger les profils",
+    "AddPhoto" : "Ajouter une photo",
+    "ChangePhoto" : "Changer la photo"
 }
