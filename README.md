@@ -152,6 +152,16 @@ The database contains 7 tables:
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
+### Developer Tools
+
+- **Swagger API documentation**: https://localhost/api/documentation
+- **Prisma Studio** (database explorer):
+```bash
+cd backend
+npx prisma studio
+```
+Then open http://localhost:51212
+
 # Resourcesn and AI Usage
 
 AI tools (primarily **Claude by Anthropic**) were used throughout the project as a learning and development support tool:
