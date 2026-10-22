@@ -95,6 +95,7 @@ We use **PostgreSQL** as our primary database. It is:
 
 <img width="696" height="542" alt="Screenshot 2026-10-22 at 16 23 36" src="https://github.com/user-attachments/assets/b732736b-bd4d-4886-9e2d-4446283289b9" />
 
+
 The database contains 7 tables:
 
 - **users** — stores user accounts with personal info, geolocation (`position`), role (`admin`/`user`), avatar path and online status (`lastSeenAt`)
