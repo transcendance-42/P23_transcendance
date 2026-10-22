@@ -23,8 +23,8 @@ async function creatFileBuffer(request, allowType) {
   const buffer = await request.body.file.toBuffer()
   const type = await fileTypeFromBuffer(buffer)
   if (!type || !allowType.includes(type.mime)) {
-    const error = new Error( 'Invalid file type')
-    error.statusCode = 400
+    const error = new Error( 'Invalid file type') // la gestion d'error est ce que
+    error.statusCode = 400                        // ca joue comme ca
     throw error
   }
   return buffer
