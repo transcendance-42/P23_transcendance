@@ -91,6 +91,20 @@ We use **PostgreSQL** as our primary database. It is:
 - Extended with **PostGIS** to support geolocation queries, which powers our distance-based dog discovery feature
 - Fully compatible with Prisma
 
+## Database Schema
+
+<img width="696" height="542" alt="Screenshot 2026-10-22 at 16 23 36" src="https://github.com/user-attachments/assets/b732736b-bd4d-4886-9e2d-4446283289b9" />
+
+The database contains 7 tables:
+
+- **users** — stores user accounts with personal info, geolocation (`position`), role (`admin`/`user`), avatar path and online status (`lastSeenAt`)
+- **dogs** — each user owns one dog, with name, breed, age, bio, gender, size and optional health certificate
+- **dog_pics** — up to 5 photos per dog, ordered by `position`
+- **swipes** — records every like/pass action between two dogs (`swiper_id` → `target_id`)
+- **matches** — created when two dogs mutually like each other, links `id_dog1` and `id_dog2`, can be deactivated on unmatch
+- **messages** — chat messages linked to a match (`match_id`) and a sender (`sender_id`)
+- **refresh_tokens** — stores hashed refresh tokens for JWT authentication, with expiry and revocation status
+
 ## Modules
 
 | Module | Type | Points | Description |
