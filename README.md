@@ -12,14 +12,6 @@
 | jubelda | Developer | Implemented features, participated in code reviews, tested and documented work |
 | csarfati | Developer | Implemented features, participated in code reviews, tested and documented work |
 
-## Development Practices
-
-The project follows the general requirements defined in the subject:
-
-- **Version Control**: Git is used throughout the project with clear and meaningful commit messages. All team members contributed commits reflecting proper work distribution.
-- **Containerization**: The entire stack (frontend, backend, database, reverse proxy) runs via Docker
-- **Browser compatibility**: The application is compatible with the latest stable versions of Google Chrome and Mozilla Firefox.
-
 ## Description
 
 Tindog is our ft_transcendence project, the final mandatory project at 42 School.
@@ -34,6 +26,14 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 - Each user's data is fully isolated — matches, messages and profile information are private and consistent.
 
 The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
+
+## Technical Choices
+
+The project follows the general requirements defined in the subject:
+
+- **Version Control**: Git is used throughout the project with clear and meaningful commit messages. All team members contributed commits reflecting proper work distribution.
+- **Containerization**: The entire stack (frontend, backend, database, reverse proxy) runs via Docker
+- **Browser compatibility**: The application is compatible with the latest stable versions of Google Chrome and Mozilla Firefox.
 
 ### Frontend
 
