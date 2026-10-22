@@ -133,6 +133,8 @@ The database contains 7 tables:
 
 ## Instructions
 
+A COMPLETER PARCE QUE LA CEST UN PEU NIMP
+
 ### Prerequisites
 
 - **Docker** >= 24.0
