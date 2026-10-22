@@ -73,7 +73,7 @@ async function removeDogPic(request, reply) {
   } catch (e) {
     request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
   }
-  return { success: true }
+  return reply.code(204).send()
 }
 
 export { getDogPic, getDogPics, postDogPic, putDogPic, removeDogPic }
