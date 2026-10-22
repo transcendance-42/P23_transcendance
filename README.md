@@ -12,6 +12,16 @@
 | jubelda | Developer | Implemented features, participated in code reviews, tested and documented work |
 | csarfati | Developer | Implemented features, participated in code reviews, tested and documented work |
 
+## Project Management
+
+The team used the following tools and practices to organize the work:
+
+- **GitHub Issues** to track tasks, bugs and feature requests. Each issue was assigned to a team member with a clear description and acceptance criteria.
+- **Pull Requests** were reviewed and approved by at least one other team member before merging.
+- **Miro** for planning sessions, brainstorming and mapping out features at the start of the project.
+- **Discord** and **WhatsApp** as our main communication channels for day-to-day coordination.
+- The team worked **side by side as much as possible**, meeting regularly in person to sync, pair program and unblock each other.
+
 ## Description
 
 Tindog is our ft_transcendence project, the final mandatory project at 42 School.
