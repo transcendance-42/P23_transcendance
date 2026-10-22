@@ -1,6 +1,6 @@
 # Ft_Transendance
 
-dchellen, jubelda, pchatagn, masase, csarfati
+*This project has been created as part of the 42 curriculum by dchellen, jubelda, pchatagn, masase and csarfati.*
 
 ## Team
 
