@@ -21,9 +21,6 @@ We chose JavaScript over TypeScript to keep the learning curve manageable for th
 
 We use Tailwind CSS for styling. It's an utility-first CSS framework that allows us to style components directly in JSX without writing separate CSS files. It keeps the code consistent and speeds up UI development.
 
-We use Framer Motion for animations. It integrates natively with React and makes it straightforward to implement gesture-based interactions like the swipe cards.
-
-¨
 
 ### Backend
 
@@ -37,7 +34,6 @@ We chose JavaScript for the same reasons as the frontend:
 
 We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using JavaScript, with auto-generated types and built-in protection against SQL injection.
 
-
 ### Database 
 
 We use PostgreSQL as our primary database. We made this choice becuase PostgreSQL is:
@@ -46,8 +42,6 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 - well-suited for structured data with complex relationships 
 - support foreign key
 - compatible with PRISMA
-
-(Redis: an ultra-fast, open-source, in-memory NoSQL key-value data store. It is widely used to achieve sub-millisecond response times for dynamic applications. It operates primarily in RAM but supports persistence options, and functions as a database, cache, message broker, and streaming engine.)
 
 ## Instruction 
 
