@@ -18,14 +18,7 @@ Tindog is our ft_transcendence project, the final mandatory project at 42 School
 
 Inspired by Tinder, Tindog is a swipe-based matching app, but for dog owners. Users create a profile for their dog and browse other dogs nearby. A simple swipe right means interest, swipe left means pass. When two dogs mutually like each other, it's a match and their owners can start chatting.
 
-Tindog is designed as a social network for dog owners and supports multiple simultaneous users:
-
-- Multiple users can be logged in and active at the same time.
-- Concurrent swipes and matches are handled safely on the backend with no data conflicts.
-- Chat rooms reflect real-time activity — online status is updated every 30 seconds across all connected users.
-- Each user's data is fully isolated — matches, messages and profile information are private and consistent.
-
-The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
+Tindog is designed as a social network for dog owners and supports multiple simultaneous users. The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
 
 ## Technical Choices
 
