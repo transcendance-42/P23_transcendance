@@ -80,7 +80,7 @@ export default function MessagePanel({rooms})
             socket.disconnect()
             socketRef.current = null
         }
-    }, [token])
+    }, [token, roomId])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   
