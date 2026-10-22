@@ -29,7 +29,7 @@ async function putDogDocu(request, reply) {
 		} catch (cleanError) {
 			request.log.error({ err: cleanError, filePath})
 		}
-		throw e
+		throw new AppError(500, 'INTERNAL_SERVER_ERROR', 'Internal server error')
 	}
 	if (dog && dog.dog_formular_path) {
 		try {

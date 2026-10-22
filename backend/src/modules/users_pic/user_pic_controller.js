@@ -25,7 +25,7 @@ async function putUserPic(request, reply) {
 		} catch (cleanErr) {
 			request.log.error({ err: cleanErr, filePath })
 		}
-		throw e
+		throw new AppError(500, 'INTERNAL_SERVER_ERROR', 'Internal server error')
 	}
 	if (oldPic && oldPic.file_path) {
 		try {

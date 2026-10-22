@@ -39,9 +39,9 @@ async function postDogPic(request, reply) {
       try {
         await fs.unlink(filePath)
       } catch (err) {
-          request.log.error({ err, path: dog.filePath }, 'old file cleanup failed')
+          request.log.error({ err, path: filePath }, 'old file cleanup failed')
       }
-      throw e
+      throw new AppError(500, 'INTERNAL_SERVER_ERROR', 'Internal server error')
     }
     return reply.code(201).send(newPic)
 }
