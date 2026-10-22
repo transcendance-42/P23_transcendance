@@ -1,5 +1,8 @@
 .env
 node_modules
 certs
-/uploads/
-/backend/prisma/seed.js
+/uploads/*
+!/uploads/seed/
+!/uploads/users/
+dev-dist
+dist
