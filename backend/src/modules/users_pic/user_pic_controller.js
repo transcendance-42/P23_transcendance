@@ -34,8 +34,7 @@ async function putUserPic(request, reply) {
 			request.log.error({ err, path: oldPic.file_path }, 'old file cleanup failed')
 		}
 	}
-		await fs.unlink(oldPic.file_path)
-	return reply.code(200).send({ message: 'User pic updated' })
+	return reply.code(204).send()
 }
 
 async function removeUserPic(request, reply) {
