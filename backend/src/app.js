@@ -17,26 +17,26 @@ import { authRoutes } from './modules/auth/auth_routes.js';
 import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 import { errorHandler } from './error.js';
+import { timeoutRoutes } from '../tests/timeout_route.js';
 
 const fastify = Fastify({
   logger: true, 
   trustProxy:true,
-  requestTimeout:30_000,
+  requestTimeout: 30_000,
+  connectionTimeout: 30_000,
+  http: { headersTimeout: 30_000},
  })
 
 async function buildApp() {
 
   fastify.setErrorHandler(errorHandler)
+
   
   await fastify.register(import('@fastify/rate-limit'), {
     max:100,
     timeWindow: '1 minute',
     global:true,
   })
-  fastify.post('/api/caddy', async (request) => {
-  await new Promise(resolve => setTimeout(resolve, 10_000))
-  return { received: true }
-})
 
   fastify.get('/api/health', {security:[]},async () => {
     return { status: 'ok' }
@@ -85,6 +85,7 @@ async function buildApp() {
 
   fastify.decorate('authorize', jwt_auth)
 
+  // fastify.register(timeoutRoutes)
   fastify.register(corsPlugin)
   fastify.register(usersRoutes, { prefix: '/api' })
   fastify.register(userPicRoutes, { prefix: '/api' })
