@@ -20,6 +20,28 @@ Inspired by Tinder, Tindog is a swipe-based matching app, but for dog owners. Us
 
 Tindog is designed as a social network for dog owners and supports multiple simultaneous users. The goal is to make it easier for dog owners to connect, whether to arrange playdates, share advice, or simply bond over their love of dogs.
 
+## Features List
+
+| Feature | Description | Team Member(s) |
+|---------|-------------|----------------|
+| Registration | Create an account with email and password | ... |
+| Login / Logout | Authenticate securely with JWT and refresh tokens | ... |
+| Google OAuth | Sign in with Google | ... |
+| Profile Setup | Fill in personal information (name, city, date of birth) | ... |
+| Avatar Upload | Upload a profile photo | ... |
+| Dog Profile | Create a dog profile with name, breed, age and bio | ... |
+| Dog Photo Upload | Upload up to 5 photos per dog | ... |
+| Swipe | Like or pass on nearby dogs | ... |
+| Matching | When two dogs mutually like each other, a match is created | ... |
+| Chat | Real-time messaging between matched users | ... |
+| Geolocation | Discover dogs based on proximity | ... |
+| Online Status | See when other users were last active | ... |
+| Unmatch | Remove a match and its chat | ... |
+| Deactivate Account | Users can deactivate their own account | ... |
+| Admin Panel | Admins can view, deactivate, reactivate and delete users | ... |
+| Internationalization | App available in English, French and German | ... |
+| PWA | Installable as a mobile app | ... |
+
 ## Technical Choices
 
 The project follows the general requirements defined in the subject:
@@ -59,6 +81,26 @@ We use **PostgreSQL** as our primary database. It is:
 - Extended with **PostGIS** to support geolocation queries, which powers our distance-based dog discovery feature
 - Fully compatible with Prisma
 
+## Modules
+
+| Module | Type | Points | Description |
+|--------|------|--------|-------------|
+| Frontend & Backend Frameworks | Major | 2 | React (frontend) + Fastify (backend) |
+| Real-time Features | Major | 2 | Online status updated in real-time across clients |
+| User Interaction | Major | 2 | Chat system, profile pages, match system |
+| Public REST API | Major | 2 | Secured API with rate limiting, Swagger documentation, and full CRUD endpoints |
+| Standard User Management | Major | 2 | Profile editing, avatar upload, online status, profile pages |
+| Advanced Permissions System | Major | 2 | Admin panel with CRUD on users, role-based views and actions |
+| ORM | Minor | 1 | Prisma ORM for all database interactions |
+| PWA | Minor | 1 | Installable as a mobile app with offline support |
+| Design System | Minor | 1 | Custom design system with Tailwind — color palette, typography, 10+ reusable components |
+| File Upload | Minor | 1 | Image upload for avatars and dog photos with type/size validation and secure storage |
+| Internationalization | Minor | 1 | 3 languages (English, French, German) with i18n and language switcher |
+| Additional Browser Support | Minor | 1 | Compatible with Chrome and Firefox |
+| OAuth 2.0 | Minor | 1 | Google OAuth login |
+
+**Total: 6 Major × 2pts + 7 Minor × 1pt = 19 points**
+
 ## Instruction 
 
 ## Getting Started
@@ -85,7 +127,16 @@ We use **PostgreSQL** as our primary database. It is:
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
-# Resources
+# Resourcesn and AI Usage
+
+AI tools (primarily **Claude by Anthropic**) were used throughout the project as a learning and development support tool:
+
+- Understanding new concepts and technologies
+- Debugging and troubleshooting errors
+- Code improvements and suggestions
+- Translating i18n strings (English, French, German)
+
+All code was understood and validated by the team before being integrated into the project.
 
 ### Workflow Github
 
