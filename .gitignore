@@ -1,8 +1,6 @@
 .env
 node_modules
 certs
-/uploads/*
-!/uploads/seed/
-!/uploads/users/
+/uploads/
 dev-dist
 dist
