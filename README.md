@@ -42,25 +42,25 @@ The team used the following tools and practices to organize the work:
 
 ## Features List
 
-| Feature | Description | Team Member(s) |
-|---------|-------------|----------------|
-| Registration | Create an account with email and password | ... |
-| Login / Logout | Authenticate securely with JWT and refresh tokens | ... |
-| Google OAuth | Sign in with Google | ... |
-| Profile Setup | Fill in personal information (name, city, date of birth) | ... |
-| Avatar Upload | Upload a profile photo | ... |
-| Dog Profile | Create a dog profile with name, breed, age and bio | ... |
-| Dog Photo Upload | Upload up to 5 photos per dog | ... |
-| Swipe | Like or pass on nearby dogs | ... |
-| Matching | When two dogs mutually like each other, a match is created | ... |
-| Chat | Real-time messaging between matched users | ... |
-| Geolocation | Discover dogs based on proximity | ... |
-| Online Status | See when other users were last active | ... |
-| Unmatch | Remove a match and its chat | ... |
-| Deactivate Account | Users can deactivate their own account | ... |
-| Admin Panel | Admins can view, deactivate, reactivate and delete users | ... |
-| Internationalization | App available in English, French and German | ... |
-| PWA | Installable as a mobile app | ... |
+| Feature | Description | Team Member(Frontend) |  Team Member(Backend) |
+|---------|-------------|----------------|----------------|
+| Registration | Create an account with email and password | pchatagn | dchellen |
+| Login / Logout | Authenticate securely with JWT and refresh tokens | csarfati | masase |
+| Google OAuth | Sign in with Google | masase | masase |
+| Profile Setup | Fill in personal information (name, city, date of birth) | csarfati | dchellen |
+| Avatar Upload | Upload a profile photo | pchatagn | dchellen |
+| Dog Profile | Create a dog profile with name, breed, age and bio | jubelda | masase/dchellen |
+| Dog Photo Upload | Upload up to 5 photos per dog | csarfati/pchatagn | dchellen |
+| Swipe | Like or pass on nearby dogs | jubelda | pchatagn/dchellen |
+| Matching | When two dogs mutually like each other, a match is created | pchatagn | dchellen/masase |
+| Chat | Real-time messaging between matched users | csarfati | masase |
+| Geolocation | Discover dogs based on proximity | dchellen | masase |
+| Online Status | See when other users were last active | masase | masase |
+| Unmatch | Remove a match and its chat | pchatagn | dchellen |
+| Deactivate Account | Users can deactivate their own account | pchatagn | pchatagn |
+| Admin Panel | Admins can view, deactivate, reactivate and delete users | pchatagn | dchellen |
+| Internationalization | App available in English, French and German | pchatagn | - |
+| PWA | Installable as a mobile app | csarfati | - |
 
 ## Modules
 
