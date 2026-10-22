@@ -2,7 +2,6 @@
 
 dchellen, jubelda, pchatagn, masase, csarfati
 
-
 ## Team
 
 | Login | Role | Responsibilities |
@@ -12,6 +11,23 @@ dchellen, jubelda, pchatagn, masase, csarfati
 | pchatagn | Technical Lead | Evaluated and selected the tech stack, defined the architecture, ensured code quality and reviewed critical changes |
 | jubelda | Developer | Implemented features, participated in code reviews, tested and documented work |
 | csarfati | Developer | Implemented features, participated in code reviews, tested and documented work |
+
+## Development Practices
+
+The project follows the general requirements defined in the subject:
+
+- **Version Control**: Git is used throughout the project with clear and meaningful commit messages. All team members contributed commits reflecting proper work distribution.
+- **Containerization**: The entire stack (frontend, backend, database, reverse proxy) runs via Docker
+- **Browser compatibility**: The application is compatible with the latest stable versions of Google Chrome and Mozilla Firefox.
+
+- ## Multi-user Support
+
+Tindog is designed as a social network for dog owners and supports multiple simultaneous users:
+
+- Multiple users can be logged in and active at the same time.
+- Concurrent swipes and matches are handled safely on the backend with no data conflicts.
+- Chat rooms reflect real-time activity — online status is updated every 30 seconds across all connected users.
+- Each user's data is fully isolated — matches, messages and profile information are private and consistent.
 
 ## Description
 
