@@ -18,7 +18,11 @@ import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 import { errorHandler } from './error.js';
 
-const fastify = Fastify({ logger: true, trustProxy:true })
+const fastify = Fastify({
+  logger: true, 
+  trustProxy:true,
+  requestTimeout:30_000,
+ })
 
 async function buildApp() {
 
@@ -29,6 +33,9 @@ async function buildApp() {
     timeWindow: '1 minute',
     global:true,
   })
+  fastify.post('/api/test-slow-upload', async (request) => {
+  return { received: true }
+})
 
   fastify.get('/api/health', {security:[]},async () => {
     return { status: 'ok' }

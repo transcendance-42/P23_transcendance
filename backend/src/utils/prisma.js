@@ -2,7 +2,11 @@ import 'dotenv/config'
 import { PrismaClient } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+const adapter = new PrismaPg({
+	connectionString: process.env.DATABASE_URL,
+	connectionTimeoutMillis:5_000,
+	statement_timeout:10_000
+ })
 const prisma = new PrismaClient({ adapter })
 
 export default prisma
