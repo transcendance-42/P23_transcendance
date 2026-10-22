@@ -30,38 +30,34 @@ The project follows the general requirements defined in the subject:
 
 ### Frontend
 
-We use React for building the user interface. React seems like the appropriate choice since: 
-- mainly used amoung companies 
-- easy to build reusable UI elements 
-- manage dynamic state across the app
+We use **React** for building the user interface. React is appropriate for Tindog because:
+- It is widely adopted in the industry and well-documented
+- It makes it easy to build reusable UI components (cards, modals, buttons) that are reused across the app
+- It handles dynamic state efficiently which is essential for a real-time chat and swipe interface
 
-We use Vite as our build tool and dev server. Compared to the older Create React App, Vite is significantly faster to start and rebuild, which improves the development experience. It is now the recommended standard for React projects.
+We use **Vite** as our build tool and dev server. Compared to Create React App, Vite starts and rebuilds significantly faster, which improved our development experience. It is now the recommended standard for React projects.
 
-We chose JavaScript over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster. 
+We chose **JavaScript** over TypeScript to keep the learning curve manageable for the team and focus on delivering features faster.
 
-We use Tailwind CSS for styling. It's an utility-first CSS framework that allows us to style components directly in JSX without writing separate CSS files. It keeps the code consistent and speeds up UI development.
-
+We use **Tailwind CSS** for styling. It is a utility-first CSS framework that allows us to style components directly in JSX without writing separate CSS files. It keeps the codebase consistent and speeds up UI development.
 
 ### Backend
 
-We use Node.js as our runtime environment, which allows us to run JavaScript server-side. 
+We use **Node.js** as our runtime environment, which allows us to run JavaScript server-side — keeping the language consistent across the full stack.
 
-On top of it, we use Fastify as our web framework to handle HTTP requests and expose our REST API. We chose Fastify over alternatives like Express because it is significantly faster, has native TypeScript support, and includes built-in request validation and logging.
+On top of it, we use **Fastify** as our web framework to handle HTTP requests and expose our REST API. We chose Fastify over Express because it is significantly faster, includes built-in request validation, schema-based serialization, and structured logging out of the box.
 
-We chose JavaScript for the same reasons as the frontend:
-- consistency across the codebase
-- a lower barrier to entry for the team.
+We chose **JavaScript** for the same reasons as the frontend: consistency across the codebase and a lower barrier to entry for the team.
 
-We use PRISMA as our ORM. Instead of writing raw SQL in the backend code, Prisma lets us query the database using JavaScript, with auto-generated types and built-in protection against SQL injection.
+We use **Prisma** as our ORM. Instead of writing raw SQL, Prisma lets us query the database using JavaScript with auto-completion, auto-generated types, and built-in protection against SQL injection. It also handles database migrations, which made evolving our schema safer throughout the project.
 
-### Database 
+### Database
 
-We use PostgreSQL as our primary database. We made this choice becuase PostgreSQL is:
-- robust
-- opensource
-- well-suited for structured data with complex relationships 
-- support foreign key
-- compatible with PRISMA
+We use **PostgreSQL** as our primary database. It is:
+- Robust, open-source, and production-ready
+- Well-suited for structured data with complex relationships — users, dogs, matches, messages all rely on foreign keys and joins
+- Extended with **PostGIS** to support geolocation queries, which powers our distance-based dog discovery feature
+- Fully compatible with Prisma
 
 ## Instruction 
 
