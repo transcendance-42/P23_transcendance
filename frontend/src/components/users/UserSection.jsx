@@ -1,6 +1,6 @@
 import UserRow from './UserRow'
 
-export default function UserSection({ title, users, avatarUrls, onDeactivate, onReactivate, inactive = false }) {
+export default function UserSection({ title, users, avatarUrls, onDeactivate, onReactivate, onDelete, inactive = false }) {
     if (users.length === 0) return null
 
     return (
@@ -17,6 +17,7 @@ export default function UserSection({ title, users, avatarUrls, onDeactivate, on
                             avatarUrls={avatarUrls}
                             onDeactivate={onDeactivate}
                             onReactivate={onReactivate}
+                            onDelete={onDelete}
                             inactive={inactive}
                         />
                     ))}

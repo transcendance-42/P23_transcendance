@@ -5,7 +5,7 @@ export default function MessageBubble({ senderName, send_at, text, isMine }) {
 
             {!isMine && <span className="text-xs text-text-caption mb-1">{senderName}</span>}
 
-            <div className={`px-4 py-2 rounded-md break-words ${isMine ? 'bg-primary text-surface-white' : 'bg-surface-white text-text-primary'}`}>
+            <div className={`px-4 py-2 rounded-md wrap-anywhere ${isMine ? 'bg-primary text-surface-white' : 'bg-surface-white text-text-primary'}`}>
                 <p>{text}</p>
                 <span className="text-xs opacity-70 block text-right mt-1">{cleanDate}</span>
             </div>

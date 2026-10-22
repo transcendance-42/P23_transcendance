@@ -8,6 +8,7 @@ import PrimaryButton from "../ui/PrimaryButton"
 import { useTranslation } from 'react-i18next'
 import { authFetch } from "../../api/authFetch"
 import { useAuth } from "../../auth/AuthContext"
+import DogDocument from './DogDocument'
 
 const GENDERS = ['Male', 'Female', 'Other']
 const SIZES = ['Small', 'Medium', 'Large']
@@ -250,7 +251,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                         </div>
  
                         {error && <p className="text-action-pass text-xs">{error}</p>}
- 
+                        <DogDocument dogId={dog.id} editable={editing} />
                         <div className="mt-2 flex justify-between gap-2">
                             <button
                                 onClick={() => setShowDeleteModal(true)}
@@ -303,6 +304,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                 </div>
                             </div>
                         )}
+                        <DogDocument dogId={dog.id} editable={editing} />
                     </>
                 )}
             </div>
