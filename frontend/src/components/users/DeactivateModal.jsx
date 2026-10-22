@@ -12,11 +12,11 @@ export default function DeactivateModal({ user, onConfirm, onClose }) {
         <Modal onClose={onClose} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
             <ModalHeader title={t('DeleteUser')} />
             <p className="text-text-caption text-sm text-center">
-                {t('DeleteUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
+                {t('DeactivateUserConfirm', { name: `${user.first_name} ${user.last_name}` })}
             </p>
             <div className="flex gap-3 w-full mt-2">
                 <SecondaryButton onClick={onClose}>{t('Cancel')}</SecondaryButton>
-                <PrimaryButton onClick={onConfirm}>{t('Confirm')}</PrimaryButton>
+                <PrimaryButton onClick={onConfirm}>{t('ConfirmDeactivate')}</PrimaryButton>
             </div>
         </Modal>
     )
