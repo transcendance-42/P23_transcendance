@@ -89,12 +89,6 @@ We use PostgreSQL as our primary database. We made this choice becuase PostgreSQ
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
-## Lancer des fake data en local pour dev
-```bash
-cd backend
-node prisma/seed.js
-```
-
 # Resources
 
 ### Workflow Github
