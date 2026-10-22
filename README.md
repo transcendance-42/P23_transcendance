@@ -20,7 +20,7 @@ The project follows the general requirements defined in the subject:
 - **Containerization**: The entire stack (frontend, backend, database, reverse proxy) runs via Docker
 - **Browser compatibility**: The application is compatible with the latest stable versions of Google Chrome and Mozilla Firefox.
 
-- ## Multi-user Support
+## Multi-user Support
 
 Tindog is designed as a social network for dog owners and supports multiple simultaneous users:
 
