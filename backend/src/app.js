@@ -33,7 +33,8 @@ async function buildApp() {
     timeWindow: '1 minute',
     global:true,
   })
-  fastify.post('/api/test-slow-upload', async (request) => {
+  fastify.post('/api/caddy', async (request) => {
+  await new Promise(resolve => setTimeout(resolve, 10_000))
   return { received: true }
 })
 
