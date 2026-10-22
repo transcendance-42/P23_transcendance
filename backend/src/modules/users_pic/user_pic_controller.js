@@ -16,9 +16,24 @@ async function putUserPic(request, reply) {
 	const buffer = await creatFileBuffer(request, allowedImagesMimeType)
 	const oldPic = await findPicPathByUserId(request.userId)
 	const filePath = await creaFilePath('uploads', request.body.file.filename)
-	await fs.writeFile(filePath, buffer)
-	await updateUserPic(request, filePath)
-	if (oldPic && oldPic.file_path)
+	try {
+		await fs.writeFile(filePath, buffer)
+		await updateUserPic(request, filePath)
+	} catch (e) {
+		try {
+			await fs.unlink(filePath)
+		} catch (cleanErr) {
+			request.log.error({ err: cleanErr, filePath })
+		}
+		throw e
+	}
+	if (oldPic && oldPic.file_path) {
+		try {
+			await fs.unlink(oldPic.file_path)
+		} catch (err) {
+			request.log.error({ err, path: oldPic.file_path }, 'old file cleanup failed')
+		}
+	}
 		await fs.unlink(oldPic.file_path)
 	return reply.code(200).send({ message: 'User pic updated' })
 }
@@ -27,9 +42,13 @@ async function removeUserPic(request, reply) {
 	const picPath = await findPicPathByUserId(request.params.id)
 	if (!picPath)
 		throw new AppError(404, 'NOT_FOUND', 'User pic not found')
-	await fs.unlink(picPath.file_path)
 	await deleteUserPic(request.params.id)
-	return { success: true }
+	try {
+		await fs.unlink(picPath.file_path)
+	} catch (e) {
+		request.log.error({ e, path: picPath.file_path }, 'file cleanup failed')
+	}
+	return reply.code(204).send()
 }
 
 export { getUserPic, putUserPic, removeUserPic }

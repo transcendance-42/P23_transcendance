@@ -31,7 +31,7 @@ async function putDogDocu(request, reply) {
 		}
 		throw e
 	}
-	if (dog.dog_formular_path) {
+	if (dog && dog.dog_formular_path) {
 		try {
 			await fs.unlink(dog.dog_formular_path)
 		} catch (err) {
