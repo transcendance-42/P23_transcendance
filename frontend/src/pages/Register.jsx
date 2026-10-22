@@ -14,13 +14,19 @@ import LocationButton from '../components/Map/LocationButton'
 const getErrors = (data, avatarFile) => {
     const errors = {}
 
-    if(!data.first_name.trim()) errors.first_name = 'ErrRequired'
-    if(!data.last_name.trim()) errors.last_name = 'ErrRequired'
+    const first = data.first_name.trim()
+    if (!first) errors.first_name = 'ErrRequired'
+    else if (first.length < 3 || first.length > 20) errors.first_name = 'ErrNameLength'
+    
+    const last = data.last_name.trim()
+    if (!last) errors.last_name = 'ErrRequired'
+    else if (last.length < 3 || last.length > 20) errors.last_name = 'ErrNameLength'
     
     if(!data.email) errors.email = 'ErrRequired'
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'ErrEmailInvalid'
 
     if(data.password.length < 8) errors.password = 'ErrPasswordShort'
+    else if (data.password.length > 20) errors.password = 'ErrPasswordLong'
     if(!data.confirm_password) errors.confirm_password = 'ErrRequired'
     else if (data.confirm_password !== data.password) errors.confirm_password = 'ErrPasswordMatch'
 
@@ -121,6 +127,8 @@ export default function Register() {
     const isValid = Object.keys(errors).length === 0
     const fieldError = (field) =>
         touched[field] && errors[field] ? t(errors[field]) : null
+    const hasStarted = Object.keys(touched).length > 0
+    
 
     return (
         <div className="min-h-screen bg-surface-cream">
@@ -132,9 +140,13 @@ export default function Register() {
                             setAvatarFile(file)
                             setAvatarUrl(URL.createObjectURL(file))
                         }} />
+                        {hasStarted && errors.avatar ? (
+                        <p className="text-sm text-action-pass">{t('ErrPhotoRequired')}</p>
+                            ) : (
                         <p className="text-sm text-text-caption">
                             {avatarUrl ? t('ChangePhoto') : t('AddPhoto')}
                         </p>
+                        )}
                     </div>
                     <InputField id="First_name" label={t('FirstName')} placeholder={t('FirstName')} value={formData.first_name} onChange={handleChange('first_name')} onBlur={handleBlur('first_name')} error={fieldError('first_name')}/>
                     <InputField id="LastName" label={t('LastName')} placeholder={t('LastName')} value={formData.last_name} onChange={handleChange('last_name')} onBlur={handleBlur('last_name')} error={fieldError('last_name')}/>
@@ -144,6 +156,9 @@ export default function Register() {
                     {/* <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} /> */}
                     <InputField id="date_of_birth" label={t('DateOfBirth')} type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} onBlur={handleBlur('date_of_birth')} error={fieldError('date_of_birth')}/>
                     <LocationButton onLocationChange={handleLocationChange} />
+                    {hasStarted && errors.location && (
+                    <p className="text-xs text-action-pass">{t('ErrLocationRequired')}</p>
+                    )}
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
                     <PrimaryButton type="submit" disabled={!isValid}>

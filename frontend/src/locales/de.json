@@ -180,5 +180,9 @@
     "ErrEmailExists": "Diese E-Mail wird bereits verwendet",
     "ErrServer": "Serverfehler, bitte erneut versuchen",
     "AccountCreated": "Konto erstellt!",
-    "CompleteForm": "Füllen Sie alle Felder aus, inklusive Foto und Standort, um Ihr Konto zu erstellen"
+    "CompleteForm": "Füllen Sie alle Felder aus, inklusive Foto und Standort, um Ihr Konto zu erstellen",
+    "ErrNameLength": "Zwischen 3 und 20 Zeichen",
+    "ErrPasswordLong": "Maximal 20 Zeichen",
+    "ErrPhotoRequired": "Ein Profilbild ist erforderlich",
+    "ErrLocationRequired": "Wählen Sie Ihren Standort"
 }

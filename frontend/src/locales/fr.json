@@ -181,5 +181,9 @@
     "ErrEmailExists": "Cet email est déjà utilisé",
     "ErrServer": "Erreur serveur, veuillez réessayer",
     "AccountCreated": "Compte créé !",
-    "CompleteForm": "Remplissez tous les champs, photo et localisation comprises, pour créer votre compte"
+    "CompleteForm": "Remplissez tous les champs, photo et localisation comprises, pour créer votre compte",
+    "ErrNameLength": "Entre 3 et 20 caractères",
+    "ErrPasswordLong": "20 caractères maximum",
+    "ErrPhotoRequired": "Une photo de profil est obligatoire",
+    "ErrLocationRequired": "Choisissez votre localisation"
 }
