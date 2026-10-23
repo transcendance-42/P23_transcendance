@@ -167,5 +167,6 @@
     "Photos": "Photos", 
     "DeactivateProfile": "Désactiver ton profil", 
     "DeactivateProfileConfirm": "Êtes-vous sûr de vouloir désactiver votre compte ? Votre email ne sera pas réutilisable pendant 3 mois.",
-    "ErrorSwipe": "Impossible de charger les profils"
+    "ErrorSwipe": "Impossible de charger les profils",
+    "ErrorRefresh": "Trop de requêtes. Veuillez actualiser la page dans {{seconds}} secondes."
 }

@@ -168,5 +168,6 @@
     "Photos": "Photos", 
     "DeactivateProfile" : "Deactivate your profil", 
     "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months.",
-    "ErrorSwipe": "Unable to load profiles"
+    "ErrorSwipe": "Unable to load profiles",
+    "ErrorRefresh": "Too many requests. Please refresh the page in {{seconds}} seconds."
   }
