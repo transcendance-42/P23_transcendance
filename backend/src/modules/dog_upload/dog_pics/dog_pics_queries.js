@@ -1,5 +1,4 @@
 import prisma from '../../../utils/prisma.js'
-import { DogPrivateFields } from '../../dog/dogs_queries.js'
 import { DogPublicFields } from '../../dog/dogs_queries.js'
 
 async function findPicDogById(id) {

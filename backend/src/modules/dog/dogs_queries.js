@@ -9,27 +9,12 @@ const DogPublicFields = {
   age:true,
   size:true,
   bio:true,
-  dog_pics:true
+  dog_pics:{select:{id:true, position:true}}
 }
-
-const DogPrivateFields = {      
-  id:true,
-  owner_id: true,
-  dog_name: true,
-  gender: true,
-  breed:true,
-  age:true,
-  size:true,
-  bio:true,
-  dog_pics:true,
-  dog_formular_path:true,
-  dog_formular_type:true,
-}
-
 
 async function findAllDogs() {
 	return prisma.dogs.findMany({
-		include: { dog_pics: true }
+		include: { dog_pics:{select:{id:true, position:true}} }
 	})
 }
 
@@ -93,7 +78,7 @@ async function findDogsAroundMe (userId) {
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(request.params.id) },
-		select: DogPrivateFields
+		select: DogPublicFields
 	})
 }
 
@@ -130,4 +115,4 @@ async function deleteDogs(request) {
     return prisma.dogs.delete({ where: { id } })
 }
 
-export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPrivateFields, DogPublicFields}
+export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPublicFields}
