@@ -106,7 +106,7 @@ export default function Register() {
                     <InputField type="password" placeholder={t('ConfirmPassword')}  value={formData.confirm_password} onChange={handleChange('confirm_password')} />
                     {/* <InputField placeholder={t('City')}  value={formData.city} onChange={handleChange('city')} /> */}
                     <InputField type="date" placeholder={t('DateOfBirth')}  value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
-                    <LocationButton onLocationChange={handleLocationChange} />
+                    <LocationButton dark={true} onLocationChange={handleLocationChange} />
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
                     <PrimaryButton type="submit" disabled={!allFilled}>
