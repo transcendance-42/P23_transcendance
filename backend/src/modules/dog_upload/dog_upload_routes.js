@@ -13,7 +13,7 @@ async function dogUploadsRoutes(fastify) {
   fastify.put('/dog-pics/:id', {schema : updateDogPicSchema, config : rateLimitPhoto, preHandler:checkAccesDogPicPut}, putDogPic) // Route non utilisée par le front on peut la supprimer
   fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema, preHandler: checkAccesDogPicDelete}, removeDogPic)
 
-  fastify.get('/dog-docu/:dogId', {schema : getDocuDogSchema}, getDogDocu)
+  fastify.get('/dog-docu/:dogId', {schema : getDocuDogSchema, preHandler: checkMyOtherAccess}, getDogDocu)
   fastify.put('/dog-docu/:dogId', {schema : putDocuDogSchema, config : rateLimitPhoto, preHandler: checkAccesDogUpload}, putDogDocu)
   fastify.delete('/dog-docu/:dogId', {schema : deleteDocuDogSchema, preHandler: checkAccesDogUpload}, removeDogDocu)
   // add une route qui pourrait supprimer toutes les photos d'un dog?
