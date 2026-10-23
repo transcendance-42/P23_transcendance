@@ -20,6 +20,7 @@ const NavBarAuth = () => {
         user?.last_name &&
         user?.city &&
         user?.date_of_birth &&
+        user?.file_path &&
         !!user?.dogs
     )
 
