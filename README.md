@@ -75,7 +75,7 @@ The team used the following tools and practices to organize the work:
 | ORM | Minor | 1 | Prisma ORM for all database interactions |
 | PWA | Minor | 1 | Installable as a mobile app with offline support |
 | Design System | Minor | 1 | Custom design system with Tailwind (color palette, typography, 10+ reusable components) |
-| File Upload | Minor | 1 | Image upload for avatars and dog photos with type/size validation and secure storage |
+| File Upload | Minor | 1 | Image upload for avatars and dog photos and pdf for dog's documentation with type/size validation and secure storage |
 | Internationalization | Minor | 1 | 3 languages (English, French, German) with i18n and language switcher |
 | Additional Browser Support | Minor | 1 | Compatible with Chrome and Firefox |
 | OAuth 2.0 | Minor | 1 | Google OAuth login |
