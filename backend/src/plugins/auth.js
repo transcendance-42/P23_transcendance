@@ -29,9 +29,6 @@ async function api_auth(request, reply){
     const api_key = request.headers['x-api-key']
     if (!api_key)
         throw new AppError(404, 'API_KEY_MISSING', 'Api key not found')
-    // const key = api_key.split(' ')[1]
-    // if (!key)
-    //     throw new AppError(404, 'API_KEY_MISSING', 'Api key not found')
     if (api_key !== process.env.SECURED_API_KEY)
         throw new AppError(404, 'API_KEY_INVALID', 'Api key invalid')
     request.role = 'admin'
