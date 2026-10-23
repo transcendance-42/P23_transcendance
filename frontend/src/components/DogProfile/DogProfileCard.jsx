@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import DogPhotoCarousel from './DogPhotoCarousel'
 import DogOwnerCard from './DogOwnerCard'
 import SendMessageButton from './SendMessageButton'
+import DogDocument from '../Profile/DogDocument'
 
 export default function DogProfileCard({ dog }) {
     const { t } = useTranslation()
@@ -21,6 +22,7 @@ export default function DogProfileCard({ dog }) {
                     <p className='text-text-secondary leading-relaxed'>{dog.bio}</p>
                 </div>
                 <DogOwnerCard ownerId={dog.owner_id} />
+                <DogDocument dogId={dog.id} editable={false} />
                 <SendMessageButton dogId={dog.id} />
             </div>
         </div>
