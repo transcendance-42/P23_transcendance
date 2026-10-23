@@ -20,8 +20,22 @@ async function checkMatchAccessParams(request, reply) {
     const match = await findMatch(matchId)
     if (!match)
         throw new AppError(404, 'NOT_FOUND', 'Match not found')
+    if (!match.is_active)
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
     if (match.matchesAsDog1.owner_id.toString() === userId.toString() || match.matchesAsDog2.owner_id.toString() === userId.toString())
         request.matchId = matchId
+    else
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
+}
+
+async function checkMatchAccessParamsSocket(userId, matchId) {
+    const match = await findMatch(matchId)
+    if (!match)
+        throw new AppError(404, 'NOT_FOUND', 'Match not found')
+    if (!match.is_active)
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
+    if (match.matchesAsDog1.owner_id.toString() === userId.toString() || match.matchesAsDog2.owner_id.toString() === userId.toString())
+        return
     else
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
@@ -29,4 +43,4 @@ async function checkMatchAccessParams(request, reply) {
 
 
 
-export {checkMatchOfUserAccessParams, checkMatchAccessParams}
+export {checkMatchOfUserAccessParams, checkMatchAccessParams, checkMatchAccessParamsSocket}
