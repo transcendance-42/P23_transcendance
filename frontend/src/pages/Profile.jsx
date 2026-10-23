@@ -5,8 +5,13 @@ import DogProfile from '../components/Profile/DogProfile'
 import UserProfile from '../components/Profile/UserProfile'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
-import { authFetch } from '../api/authFetch'
+import { authFetch, getToken } from '../api/authFetch'
 import Avatar from '../components/ui/Avatar'
+import PrimaryButton from '../components/ui/PrimaryButton'
+import Modal from '../components/ui/Modal'
+import ModalHeader from '../components/ui/ModalHeader'
+import SecondaryButton from '../components/ui/SecondaryButton'
+import { uploadFile } from '../api/upload'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
@@ -20,24 +25,29 @@ export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const { userId } = useAuth()
+    const { userId, logout} = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
+    const [showDeactivateModal, setShowDeactivateModal] = useState(false)
+    const [avatarProgress, setAvatarProgress] = useState(null)
 
     const handleAvatarUpload = async (file) => {
-        const fd = new FormData()
-        fd.append('file', file)
-
-        const uploadedFile = fd.get('file')
-        const res = await authFetch(`/api/user/${userId}/pic`, {
-            method: 'PUT',
-            body: fd
-        })
-        if (res.ok) {
-            const url = URL.createObjectURL(file)
-            setAvatarUrl(url)
+        setAvatarProgress(0)
+        try {
+            await uploadFile('PUT', `/api/user/${userId}/pic`, file, getToken(), setAvatarProgress)
+            setAvatarUrl(URL.createObjectURL(file))
+        } catch {
+            // echec donc on voit rien
+        } finally {
+            setAvatarProgress(null)
         }
-    }   
+    }
+
+    const handleDeactivate = async () => {
+        await authFetch(`/api/users/${userId}/deactivate`, { method: 'PATCH' })
+        setShowDeactivateModal(false)
+        await logout()
+    }
 
     useEffect(() => {
         const load = async () => {
@@ -79,7 +89,7 @@ export default function Profile() {
 
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <div className="flex items-center gap-4">
-                    <Avatar size='lg' url={avatarUrl} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
+                    <Avatar size='lg' url={avatarUrl} progress={avatarProgress} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
                     <h1 className="font-heading text-3xl font-bold text-text-primary">
                         {t('MyProfile')}
                     </h1>
@@ -130,6 +140,21 @@ export default function Profile() {
                     onSaved={setUser}
                     missingFields={isAdmin ? [] : missingUserFields.map(f => f.field)}
                 />
+                {!isAdmin &&
+                    <PrimaryButton onClick={() => setShowDeactivateModal(true)}>{t("DeactivateProfile")}</PrimaryButton>
+                }
+                {showDeactivateModal && (
+                    <Modal onClose={() => setShowDeactivateModal(false)} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
+                        <ModalHeader title={t('DeactivateProfile')} />
+                        <p className="text-text-caption text-sm text-center">
+                            {t('DeactivateProfileConfirm')}
+                        </p>
+                        <div className="flex gap-3 w-full mt-2">
+                            <SecondaryButton onClick={() => setShowDeactivateModal(false)}>{t('Cancel')}</SecondaryButton>
+                            <PrimaryButton onClick={handleDeactivate}>{t('Confirm')}</PrimaryButton>
+                        </div>
+                    </Modal>
+                )}
             </div>
         </div>
     )

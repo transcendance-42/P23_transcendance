@@ -9,27 +9,26 @@ export default function DogPhotoCarousel({ dog }) {
     const [currentIndex, setCurrentIndex] = useState(0)
 
     useEffect(() => {
+        setCurrentIndex(0) 
         if (!dog.dog_pics?.length) return
         const cancelRef = { current: false }
         const createdUrls = []
 
         const loadPics = async () => {
-        const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
-        const urls = []
+            const sorted = [...dog.dog_pics].sort((a, b) => a.position - b.position)
+            const urls = []
 
-        for (const pic of sorted) {
-            if (cancelRef.current) return
-        const res = await authFetch(`/api/dog-pics/${pic.id}`)
-            if (!res.ok) continue
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        createdUrls.push(url)
-        urls.push(url)
+            for (const pic of sorted) {
+                if (cancelRef.current) return
+            const res = await authFetch(`/api/dog-pics/${pic.id}`)
+                if (!res.ok) continue
+            const blob = await res.blob()
+            const url = URL.createObjectURL(blob)
+            createdUrls.push(url)
+            urls.push(url)
+        }
+        if (!cancelRef.current) setPics(urls)
     }
-
-    if (!cancelRef.current) setPics(urls)
-    }
-
     loadPics().catch(() => {})
 
         return () => {

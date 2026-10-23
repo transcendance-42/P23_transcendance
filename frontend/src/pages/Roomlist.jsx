@@ -75,7 +75,7 @@ export function RoomList ({rooms, setRooms}) {
     return (
         <>
         {matchToDelete && (
-            <Modal onClose={() => setMatchToDelete(null)} width="w-full mx-4 sm:w-96">
+            <Modal onClose={() => setMatchToDelete(null)} width="w-full mx-4 sm:w-96" bg="backdrop-blur-md bg-black/30">
                 <ModalHeader title={t('UnmatchConfirmTitle')} />
                 <p className="text-text-caption text-sm text-center">
                     {t('UnmatchConfirmText', { name: matchToDelete.name })}
