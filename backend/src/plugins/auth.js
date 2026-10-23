@@ -13,10 +13,8 @@ async function jwt_auth(request, reply){
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await findUserById(decoded.id, decoded.id)
-        console.log('USER')
-        console.log(user)
         if (!user.is_active)
-            return reply.code(401).send({error: 'INVALID_TOKEN'})
+            throw new AppError(401, 'INVALID_TOKEN', 'Access token is invalid')
         request.userId = decoded.id
         request.role = decoded.role
     }

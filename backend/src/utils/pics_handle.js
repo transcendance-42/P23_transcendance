@@ -2,6 +2,7 @@ import { fileTypeFromBuffer } from 'file-type'
 import { randomUUID } from 'node:crypto'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
+import { AppError } from '../error.js'
 
 const allowedImagesMimeType = [
   'image/jpeg',
@@ -23,9 +24,7 @@ async function creatFileBuffer(request, allowType) {
   const buffer = await request.body.file.toBuffer()
   const type = await fileTypeFromBuffer(buffer)
   if (!type || !allowType.includes(type.mime)) {
-    const error = new Error( 'Invalid file type') // la gestion d'error est ce que
-    error.statusCode = 400                        // ca joue comme ca
-    throw error
+    throw new AppError(400, 'INVALID_FILE_TYPE', 'Invalid file type')
   }
   return buffer
 }
