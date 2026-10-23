@@ -18,6 +18,7 @@ const REQUIRED_USER_FIELDS = [
     { field: 'last_name',     label: 'LastName'    },
     { field: 'city',          label: 'City'        },
     { field: 'date_of_birth', label: 'DateOfBirth' },
+    { field: 'file_path',     label: 'Avatar'      },
 ]
  
 export default function Profile() {
@@ -25,7 +26,7 @@ export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const { userId, logout} = useAuth()
+    const { userId, logout, refreshUser } = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
     const [showDeactivateModal, setShowDeactivateModal] = useState(false)
@@ -36,8 +37,10 @@ export default function Profile() {
         try {
             await uploadFile('PUT', `/api/user/${userId}/pic`, file, getToken(), setAvatarProgress)
             setAvatarUrl(URL.createObjectURL(file))
+            const response = await authFetch(`/api/users/${userId}`)
+            if (response.ok) setUser(await response.json())
+            await refreshUser()
         } catch {
-            // echec donc on voit rien
         } finally {
             setAvatarProgress(null)
         }
@@ -81,8 +84,7 @@ export default function Profile() {
     const dog = user.dogs ?? null
  
     const missingUserFields = REQUIRED_USER_FIELDS.filter(({ field }) => !user[field])
-    const isProfileComplete = missingUserFields.length === 0 && !!dog
-    console.log('Profile render, isProfileComplete =', isProfileComplete)
+    const isProfileComplete = missingUserFields.length === 0 && !!dog && !!user.file_path
     return (
         <div className="min-h-screen bg-surface-cream">
             <NavBarAuth isProfileComplete={isProfileComplete} />
