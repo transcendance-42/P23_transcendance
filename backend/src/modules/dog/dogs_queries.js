@@ -1,4 +1,8 @@
 import prisma from '../../utils/prisma.js'
+import { findPicsByDogId } from '../dog_upload/dog_pics/dog_pics_queries.js'
+import { promises as fs } from 'node:fs'
+import { findDogDocuByDogId } from '../dog_upload/dog_docu/dog_docu_queries.js'
+
 
 async function findAllDogs() {
 	return prisma.dogs.findMany({
@@ -34,7 +38,7 @@ async function findDogsAroundMe (userId) {
         select: { target_id: true }
     })
     const excludedIds = swipedIds.map(s => s.target_id)
-    excludedIds.push(Number(myDog.id))
+    excludedIds.push(BigInt(myDog.id))
 
     const nearUsers = await prisma.$queryRaw`
         SELECT * 
@@ -91,16 +95,39 @@ async function updateDogs(request) {
 		})
 }
 
-async function deleteDogs(request) {
+async function deleteDogs(request, reply) {
     const id = BigInt(request.params.id)
-    await prisma.dog_pics.deleteMany({ where: { dog_id: id } })
-    await prisma.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
-    const matches = await prisma.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
-    for (const match of matches) {
-        await prisma.messages.deleteMany({ where: { match_id: match.id } })
-    }
-    await prisma.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
-    return prisma.dogs.delete({ where: { id } })
+    await prisma.$transaction(async (tx) => {
+        const pics = await tx.dog_pics.findMany({
+                        where: { dog_id: BigInt(id) },
+                        orderBy: { position: 'asc' },
+                        include: {dogs: true}
+                    })
+        if (pics){
+            for (const pic of pics){
+                await tx.dog_pics.delete({ where: { id: BigInt(pic.id) } })
+                await fs.unlink(pic.file_path)
+            }
+        }
+        const docu = await findDogDocuByDogId(id)
+        if (docu?.dog_formular_path){
+            await 	tx.dogs.update({
+                where: { id: BigInt(id) },
+			    data: {
+                    dog_formular_path: null,
+                    dog_formular_type: null
+			    }
+	        })
+            await fs.unlink(docu.dog_formular_path)
+        }
+        await tx.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
+        const matches = await tx.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+        for (const match of matches) {
+            await tx.messages.deleteMany({ where: { match_id: match.id } })
+        }
+        await tx.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+        return await tx.dogs.delete({ where: { id:id } })
+    })
 }
 
 export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}
