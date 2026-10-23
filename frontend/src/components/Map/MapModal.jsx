@@ -153,6 +153,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                 <button
                     type="button"
                     onClick={handleValidate}
+                    // pour rendre le bouton cliquable uniquement quand les champs sont remplis
                     // disabled={!isValid}
                     // className={`text-white px-4 py-2 rounded-lg transition-all duration-200 ${
                         // isValid
