@@ -18,9 +18,9 @@ export default function LoginChoice({onEmail}) {
             <ModalHeader title={t('GetStarted')} />
             <p className="text-xs text-text-caption text-center">
                 {t('Login1')}{' '}
-                <span className="text-primary underline cursor-pointer">{t('Login2')}</span>.
+                <Link to="/terms" className="text-primary underline">{t('Login2')}</Link>.
                     {t('Login3')}{' '}
-                <span className="text-primary underline cursor-pointer">{t('Privacy')}</span>.
+                <Link to="/privacy" className="text-primary underline cursor-pointer">{t('Privacy')}</Link>.
             </p>
 
             <button onClick={onEmail} className="w-full flex items-center justify-center gap-3 border border-text-tertiary rounded-full py-3 hover:bg-surface-raised transition">
@@ -34,10 +34,6 @@ export default function LoginChoice({onEmail}) {
             </a>
 
             <PrimaryButton to="/register">{t('Login6')}</PrimaryButton>
-
-            <p className="text-primary text-sm underline cursor-pointer">
-                {t('Login7')}
-            </p>
         </>
     )
 }
