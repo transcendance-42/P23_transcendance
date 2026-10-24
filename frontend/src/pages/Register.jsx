@@ -157,7 +157,7 @@ export default function Register() {
                         value={formData.last_name} onChange={handleChange('last_name')}
                         onBlur={handleBlur('last_name')} error={fieldError('last_name')} />
 
-                    <InputField id="Email" label={t('Email')} type="email" placeholder="Vincentleboss@42.com"
+                    <InputField id="Email" label={t('Email')} type="email" placeholder="email@gmail.com"
                         value={formData.email} onChange={handleChange('email')}
                         onBlur={handleBlur('email')} error={fieldError('email')} />
 
@@ -174,9 +174,7 @@ export default function Register() {
                         onBlur={handleBlur('date_of_birth')} error={fieldError('date_of_birth')} />
 
                     <LocationButton onLocationChange={handleLocationChange} />
-                    {hasStarted && errors.location && (
-                        <p className="text-xs text-action-pass">{t('ErrLocationRequired')}</p>
-                    )}
+                    {hasStarted && errors.location && (<p className="text-xs text-action-pass">{t('ErrLocationRequired')}</p>)}
 
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
@@ -184,9 +182,7 @@ export default function Register() {
                     <PrimaryButton type="submit" disabled={!isValid}>
                         {t('CreateAccount')}
                     </PrimaryButton>
-                    {!isValid && (
-                        <p className="text-text-caption text-xs text-center">{t('CompleteForm')}</p>
-                    )}
+                    {!isValid && (<p className="text-text-caption text-xs text-center">{t('CompleteForm')}</p>)}
                 </form>
 
                 <Mascot index={4} size="lg" />
