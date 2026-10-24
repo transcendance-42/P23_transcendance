@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 const SecondaryButton = ({ children, to, onClick, disabled = false }) => {
-    console.log('SecondaryButton disabled:', disabled, children)
     const [hovered, setHovered] = useState(false)
 
     const className = "min-w-[80px] px-5 py-2 text-sm font-medium transition whitespace-nowrap flex items-center justify-center"
