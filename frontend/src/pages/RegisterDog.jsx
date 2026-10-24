@@ -8,7 +8,7 @@ import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
-import { authFetch } from '../api/authFetch'
+import { authFetch, getToken } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
 import { uploadDogPics } from '../api/dogs'
 
@@ -30,7 +30,7 @@ export default function RegisterDog() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(null)
     const [uploadIndex, setUploadIndex] = useState(0)
-    const { refreshUser, token } = useAuth()
+    const { refreshUser } = useAuth()
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
@@ -86,7 +86,7 @@ export default function RegisterDog() {
                 setUploadIndex(index + 1)
                 setUploadProgress(0)
                 try {
-                    await uploadDogPics(fd, token, setUploadProgress)
+                    await uploadDogPics(fd, getToken(), setUploadProgress)
                 } catch {
                     setError(t('UploadFailed', { name: photos[index].name }))
                     await refreshUser()
