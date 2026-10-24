@@ -8,6 +8,6 @@ export default function RequireAuth({ children }) {
     if (loading)
         return <div className="min-h-screen flex items-center justify-center">{t("Loading")}</div>
     if (!token)
-        return <Navigate to="/login" replace />
+        return <Navigate to="/" replace />
     return children
 }

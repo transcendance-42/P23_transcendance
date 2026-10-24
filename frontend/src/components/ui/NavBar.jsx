@@ -11,13 +11,8 @@ const NavBar = () => {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [open, setOpen] = useState(false)
-    useEffect(() => {
-        const handleScroll = () => setOpen(false)
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-    
     const [showLogin, setShowLogin] = useState(false)
+
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
             <div className="grid grid-cols-3 items-center">
@@ -25,17 +20,17 @@ const NavBar = () => {
                     Tindog
                 </button>
                 <LangSwitcher />
-            <div className="flex justify-end">
-            <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
-            <div className="hidden lg:flex gap-6 text-sm">
-                <SecondaryButton onClick={() => setShowLogin(true)}>{t('LogIn')}</SecondaryButton>
-                <PrimaryButton to="/register" fullWidth={false}>{t('SignUp')}</PrimaryButton>
+                <div className="flex justify-end">
+                    <button className="lg:hidden text-2xl" onClick={() => { setOpen(o => !o) }}>☰</button>
+                    <div className="hidden lg:flex gap-6 text-sm">
+                        <SecondaryButton onClick={() => setShowLogin(true)}>{t('LogIn')}</SecondaryButton>
+                        <PrimaryButton to="/register" fullWidth={false}>{t('SignUp')}</PrimaryButton>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>  
             {open && (
-                <div className="lg:hidden flex flex-col gap-3 mt-4">
-                    <SecondaryButton onClick={() => setShowLogin(true)}>{t('LogIn')}</SecondaryButton>
+                <div className="lg:hidden absolute top-full right-0 left-0 bg-surface-raised flex flex-col gap-3 px-6 py-4 items-stretch z-50">
+                    <SecondaryButton onClick={() => { setShowLogin(true); setOpen(false) }}>{t('LogIn')}</SecondaryButton>
                     <PrimaryButton to="/register">{t('SignUp')}</PrimaryButton>
                 </div>
             )}
