@@ -181,5 +181,15 @@
     "ErrNameLength": "Zwischen 3 und 20 Zeichen",
     "ErrPasswordLong": "Maximal 20 Zeichen",
     "ErrPhotoRequired": "Ein Profilbild ist erforderlich",
-    "ErrLocationRequired": "Wählen Sie Ihren Standort"
+    "ErrLocationRequired": "Wählen Sie Ihren Standort",
+    "ErrDogNameShort": "Mindestens 2 Zeichen",
+    "ErrDogNameLong": "Maximal 50 Zeichen",
+    "ErrBreedLong": "Maximal 30 Zeichen",
+    "ErrDateFuture": "Das Datum darf nicht in der Zukunft liegen",
+    "ErrDogTooOld": "Ihr Hund kann nicht älter als 30 Jahre sein",
+    "ErrBioLong": "Maximal 400 Zeichen",
+    "ErrPhotoTooLarge": "{{name}} ist zu groß (maximal 5 MB)",
+    "ErrPhotoDuplicate": "{{name}} wurde bereits hinzugefügt",
+    "ErrDogExists": "Sie haben bereits einen Hund",
+    "DogCreated": "Hundeprofil erstellt!"
 }
