@@ -4,6 +4,10 @@ up: certs
 	docker-compose build --no-cache
 	docker-compose up -d -V
 
+dev: certs
+	docker-compose build
+	FRONT_MODE=dev docker-compose up -d -V
+
 down:
 	docker-compose down
 
@@ -30,4 +34,4 @@ certs:
 		localhost
 
 
-.PHONY: all up down re clean fclean logs ps
+.PHONY: all up dev down re clean fclean logs ps

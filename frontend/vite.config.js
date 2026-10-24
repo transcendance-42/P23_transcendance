@@ -44,4 +44,10 @@ export default defineConfig({
       clientPort: 443,
     },
   },
+  preview: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+    allowedHosts: ['localhost'],
+  },
 })
