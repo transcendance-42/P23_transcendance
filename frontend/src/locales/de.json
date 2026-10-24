@@ -165,6 +165,7 @@
     "DeactivateProfile": "Profil deaktivieren", 
     "DeactivateProfileConfirm": "Sind Sie sicher, dass Sie Ihr Konto deaktivieren möchten? Ihre E-Mail-Adresse kann 3 Monate lang nicht wiederverwendet werden.",
     "ErrorSwipe": "Profile konnten nicht geladen werden",
+    "ErrorRefresh": "Trop de requêtes. Veuillez actualiser la page dans {{seconds}} secondes.",
     "AddPhoto" : "Foto hinzufügen",
     "ChangePhoto" : "Foto ändern",
     "ErrRequired": "Dieses Feld ist erforderlich",
