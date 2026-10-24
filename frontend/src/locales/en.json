@@ -182,5 +182,7 @@
     "ErrNameLength": "Between 3 and 20 characters",
     "ErrPasswordLong": "20 characters maximum",
     "ErrPhotoRequired": "A profile picture is required",
-    "ErrLocationRequired": "Choose your location"
+    "ErrLocationRequired": "Choose your location", 
+    "PageNotFound": "This page doesn't exist.",
+    "BackHome": "Back to home"
   }

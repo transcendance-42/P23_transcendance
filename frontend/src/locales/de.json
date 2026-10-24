@@ -181,5 +181,7 @@
     "ErrNameLength": "Zwischen 3 und 20 Zeichen",
     "ErrPasswordLong": "Maximal 20 Zeichen",
     "ErrPhotoRequired": "Ein Profilbild ist erforderlich",
-    "ErrLocationRequired": "Wählen Sie Ihren Standort"
+    "ErrLocationRequired": "Wählen Sie Ihren Standort", 
+    "PageNotFound": "Diese Seite existiert nicht.",
+    "BackHome": "Zurück zur Startseite"
 }
