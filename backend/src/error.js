@@ -60,6 +60,7 @@ export function errorHandler(error, request, reply) {
 	}
 
   // Toutes les erreurs imprévues
+	console.log(error.message)
 	return reply.code(500).send({
 		error: 'INTERNAL_SERVER_ERROR',
 		message: 'Internal server error'
