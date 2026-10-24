@@ -68,7 +68,6 @@ async function logout(request, reply) {
         if (!stored || stored.expires_at < new Date())
                 throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
         if (stored && !stored.is_revoked) {
-            console.log(`User ID: ${stored.user_id} logged out successfully`)
             await revokeToken(stored)
             return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)

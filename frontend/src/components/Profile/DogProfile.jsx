@@ -98,7 +98,6 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
             setEditing(false)
             await refreshUser()
         } catch (e) {
-            console.log(e)
             setError('Impossible de contacter le serveur')
         }
     }

@@ -12,8 +12,6 @@ async function authenticateSocket(socket, next){
     const user = await findUserById(socket.user.id, socket.user.id)
     if (!user.is_active)
       throw new Error('User not found')
-    console.log('userid socket authentifie:')
-    console.log(socket.user.id)
     next();
   } catch (err){
     next(new Error("Authentication error: invalid token"));
@@ -48,12 +46,10 @@ function attachwebsocket(app){
         }
     })
     io.on("connection", (socket) => {
-        console.log(`User connected ${socket.user.id}`)
         socket.on('join_room', async (roomName) =>{
           try{
             await checkMatchAccessParamsSocket(socket.user.id, roomName)
             socket.join(roomName.toString());
-            console.log(`${socket.user.id} joined room ${roomName}`)
           }
           catch(e){
             socket.emit('socket_error', {
@@ -68,7 +64,6 @@ function attachwebsocket(app){
           await checkMatchAccessParamsSocket(socket.user.id, roomName)
           socket.leave(roomName);
           io.to(roomName).emit('send_message', `User ${socket.user.id} leave the ${roomName} room`)
-          console.log(`${socket.user.id} leave room: ${roomName}`)
         }
         catch(e){
             socket.emit('socket_error', {

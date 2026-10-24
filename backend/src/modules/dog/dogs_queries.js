@@ -75,8 +75,6 @@ async function findDogsId(request) {
 }
 
 async function findDogsIdParams(dogId) {
-    console.log('LA DOG ID')
-    console.log(dogId)
 	return prisma.dogs.findUnique({where: { id: BigInt(dogId) }})
 }
 
