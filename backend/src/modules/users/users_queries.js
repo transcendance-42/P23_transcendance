@@ -23,7 +23,8 @@ const UserPrivateFields = {
   id:true,
   is_active:true,
   lastSeenAt:true,
-  role:true
+  role:true,
+  file_path: true,
 }
 
 async function findActiveUsers(request) { // route pour l'admin donc je laisse private fields

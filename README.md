@@ -26,7 +26,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 |-------|--------------|
 | masase | ... |
 | dchellen | ... |
-| pchatagny | ... |
+| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Set up the initial project structure: Docker, Docker Compose and Makefile. Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
 | jubedla | ... |
 | csarfati | ... |
 
