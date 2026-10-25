@@ -133,26 +133,23 @@ The database contains 7 tables:
 
 ## Instructions
 
-A COMPLETER PARCE QUE LA CEST UN PEU NIMP
-
 ### Prerequisites
 
-- **Docker** >= 24.0
-- **Docker Compose** >= 2.0
+- **Docker** 
+- **Docker Compose**
 - **Git**
-- A `.env` file configured (see `.env.example`)
 
 ### Installation & Running
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/transcendance-42/P23_transcendance.git
-cd P23_transcendance
+git clone https://github.com/transcendance-42/P23_transcendance.git ft_transcendance
+cd ft_transcendance
 ```
 
-2. Copy the environment file and fill in your values:
+2. Copy the environment files and fill in your values:
 ```bash
-cp .env.example .env
+cp backend/.env.docker.example backend/.env.docker
 ```
 
 3. Build and start all services:
@@ -167,6 +164,15 @@ make seed
 
 The app is available at **https://localhost**
 
+### Development
+
+To work with hot reload:
+```bash
+make dev
+```
+
+> With `make up`, changes require a rebuild (`make re`). Use `make dev` while coding.
+
 ### Developer Tools
 
 - **Swagger API documentation**: https://localhost/api/documentation
@@ -174,17 +180,18 @@ The app is available at **https://localhost**
 ```bash
 docker compose exec backend npx prisma studio
 ```
-Then open http://localhost:51212
+Then open http://localhost:5555
 
 ### Makefile Commands
 
 | Command | Description |
 |---------|-------------|
-| `make up` | Build and start all containers |
+| `make up` | Build and start all containers (production mode, PWA offline enabled) |
+| `make dev` | Build and start all containers in development mode (hot reload) |
 | `make down` | Stop all containers |
-| `make re` | Restart all containers |
-| `make clean` | Stop containers |
-| `make fclean` | Full reset — removes all Docker images and containers |
+| `make re` | Rebuild and restart all containers |
+| `make clean` | Stop containers and remove them |
+| `make fclean` | Full reset — removes all Docker images, containers and volumes |
 | `make logs` | Stream logs from all containers |
 | `make ps` | Show running containers |
 
