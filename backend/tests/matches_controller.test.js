@@ -46,7 +46,7 @@ describe('matches controllers', () => {
     findMatchesByUserId.mockResolvedValue(matches);
 
     await expect(
-      getMatchesByUser({ params: { userId: '7' } }, createReply()),
+      getMatchesByUser({ params: { id: '7' } }, createReply()),
     ).resolves.toEqual(matches);
     expect(findMatchesByUserId).toHaveBeenCalledWith('7');
   });
@@ -74,7 +74,7 @@ describe('matches controllers', () => {
     findMessagesByMatchId.mockResolvedValue(messages);
 
     await expect(
-      getMatchMessages({ params: { matchId: '9' } }, createReply()),
+      getMatchMessages({ params: { id: '9' } }, createReply()),
     ).resolves.toEqual(messages);
     expect(findMessagesByMatchId).toHaveBeenCalledWith('9');
   });
@@ -83,7 +83,7 @@ describe('matches controllers', () => {
     deleteMatch.mockResolvedValue({ success: true });
 
     await expect(
-      removeMatch({ params: { matchId: '9' } }, createReply()),
+      removeMatch({ params: { id: '9' } }, createReply()),
     ).resolves.toEqual({ success: true });
     expect(deleteMatch).toHaveBeenCalledWith('9');
   });
@@ -93,7 +93,7 @@ describe('matches controllers', () => {
     const reply = createReply();
 
     await expect(
-      removeMatch({ params: { matchId: '9' } }, reply),
+      removeMatch({ params: { id: '9' } }, reply),
     ).rejects.toMatchObject({
       statusCode: 404,
       code: 'NOT_FOUND',
@@ -106,7 +106,7 @@ describe('matches controllers', () => {
     const reply = createReply();
 
     await expect(
-      removeMatch({ params: { matchId: '9' } }, reply),
+      removeMatch({ params: { id: '9' } }, reply),
     ).rejects.toThrow('database unavailable');
   });
 

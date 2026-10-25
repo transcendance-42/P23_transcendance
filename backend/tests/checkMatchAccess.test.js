@@ -15,7 +15,7 @@ describe('match access plugins', () => {
   it('autorise un utilisateur à consulter ses propres matchs', async () => {
     await expect(
       checkMatchOfUserAccessParams(
-        { userId: 7, role: 'user', params: { userId: '7' } },
+        { userId: 7, role: 'user', params: { id: '7' } },
         {},
       ),
     ).resolves.toBeUndefined();
@@ -24,7 +24,7 @@ describe('match access plugins', () => {
   it('refuse un utilisateur qui consulte les matchs d’un autre', async () => {
     await expect(
       checkMatchOfUserAccessParams(
-        { userId: 7, role: 'user', params: { userId: '8' } },
+        { userId: 7, role: 'user', params: { id: '8' } },
         {},
       ),
     ).rejects.toMatchObject({ statusCode: 403, code: 'FORBIDDEN' });
@@ -33,7 +33,7 @@ describe('match access plugins', () => {
   it('autorise un admin sans consulter la base', async () => {
     await expect(
       checkMatchAccessParams(
-        { userId: 1, role: 'admin', params: { matchId: '4' } },
+        { userId: 1, role: 'admin', params: { id: '4' } },
         {},
       ),
     ).resolves.toBeUndefined();
@@ -49,7 +49,7 @@ describe('match access plugins', () => {
     const request = {
       userId: 7,
       role: 'user',
-      params: { matchId: '4' },
+      params: { id: '4' },
     };
 
     await expect(checkMatchAccessParams(request, {})).resolves.toBeUndefined();
@@ -61,7 +61,7 @@ describe('match access plugins', () => {
     findMatch.mockResolvedValueOnce(null);
     await expect(
       checkMatchAccessParams(
-        { userId: 7, role: 'user', params: { matchId: '4' } },
+        { userId: 7, role: 'user', params: { id: '4' } },
         {},
       ),
     ).rejects.toMatchObject({ statusCode: 404, code: 'NOT_FOUND' });
@@ -72,7 +72,7 @@ describe('match access plugins', () => {
     });
     await expect(
       checkMatchAccessParams(
-        { userId: 7, role: 'user', params: { matchId: '4' } },
+        { userId: 7, role: 'user', params: { id: '4' } },
         {},
       ),
     ).rejects.toMatchObject({ statusCode: 403, code: 'FORBIDDEN' });

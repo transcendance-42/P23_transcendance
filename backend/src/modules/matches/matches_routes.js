@@ -4,8 +4,7 @@ import { checkMatchOfUserAccessParams, checkMatchAccessParams } from '../../plug
 import { checkUserAccesAdmin } from '../../plugins/checkUserAcces.js'
 
 async function matchesRoutes(fastify) {
-    fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route 
-    // dans ce cas la userId c bien mais pas grv 
+    fastify.addHook('onRequest', fastify.authorize)
     fastify.get('/matches/user/:id', {schema : getMatchesByUserSchema, preHandler:checkMatchOfUserAccessParams}, getMatchesByUser) // route pas necessaire soit on la supp soit on la reserve à l'admin
     fastify.get('/matches/me', getMyMatches)
     //fastify.get('/matches/:id/messages', { schema: getMatchMessagesSchema, preHandler:checkMatchAccessParams }, getMatchMessages) // pas necessaire on peut avoir les messages via la route messages

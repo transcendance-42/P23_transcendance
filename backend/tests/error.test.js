@@ -77,7 +77,7 @@ describe('errorHandler', () => {
 
     expect(reply.statusCode).toBe(400);
     expect(reply.body).toEqual({
-      error: 'VALIIDATION_ERROR',
+      error: 'VALIDATION_ERROR',
       message: 'Invalid request data',
     });
   });
