@@ -25,7 +25,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | Login | Contributions |
 |-------|--------------|
 | masase | ... |
-| dchellen | ... |
+| dchellen | Project Manager & Developer. Coordinated the team by organizing meetings, following up on progress, monitoring each member’s contributions, and helping identify and resolve blockers. On the backend, restructured the API to follow a clear separation of concerns between schemas, controllers and database queries. Implemented most CRUD routes, file upload and deletion handling, access control and security measures. Managed regular database schema updates and migrations using Prisma and PostgreSQL/PostGIS. On the frontend, implemented the map functionality and contributed to integration, testing and documentation. |
 | pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Set up the initial project structure: Docker, Docker Compose and Makefile. Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
 | jubedla | ... |
 | csarfati | ... |
@@ -45,7 +45,7 @@ The team used the following tools and practices to organize the work:
 | Feature | Description | Team Member(Frontend) |  Team Member(Backend) |
 |---------|-------------|----------------|----------------|
 | Registration | Create an account with email and password | pchatagn | dchellen |
-| Login / Logout | Authenticate securely with JWT and refresh tokens | csarfati | masase |
+| Login / Logout | Authenticate securely with JWT and refresh tokens | csarfati | masase / dchellen |
 | Google OAuth | Sign in with Google | masase | masase |
 | Profile Setup | Fill in personal information (name, city, date of birth) | csarfati | dchellen |
 | Avatar Upload | Upload a profile photo | pchatagn | dchellen |
@@ -58,6 +58,7 @@ The team used the following tools and practices to organize the work:
 | Online Status | See when other users were last active | masase | masase |
 | Unmatch | Remove a match and its chat | pchatagn | dchellen |
 | Deactivate Account | Users can deactivate their own account | pchatagn | pchatagn |
+| Anonymization | Admin can delete, anonymized users accounts | pchatagn | dchellen
 | Admin Panel | Admins can view, deactivate, reactivate and delete users | pchatagn | dchellen |
 | Internationalization | App available in English, French and German | pchatagn | - |
 | PWA | Installable as a mobile app | csarfati | - |
@@ -116,6 +117,10 @@ We use **PostgreSQL** as our primary database. It is:
 - Well-suited for structured data with complex relationships — users, dogs, matches, messages all rely on foreign keys and joins
 - Extended with **PostGIS** to support geolocation queries, which powers our distance-based dog discovery feature
 - Fully compatible with Prisma
+
+### Proxy
+
+We use **Caddy** as our reverse proxy to handle incoming HTTP and HTTPS traffic and route requests to the appropriate services. We chose Caddy because it offers automatic HTTPS support, simple configuration, and efficient reverse proxying. In our project, it uses a local TLS certificate to secure connections through HTTPS on `localhost`, forwards API requests (`/api/*`) and Socket.IO connections (`/socket.io/*`) to the backend, and routes all other requests to the frontend. We also configured connection and response timeouts for API requests to improve reliability.
 
 ## Database Schema
 
@@ -218,6 +223,7 @@ All code was understood and validated by the team before being integrated into t
 
 - Dockerize React app using Vite: https://dev.to/nandhakumar/step-by-step-guide-to-dockerize-react-app-created-using-vite-2jg3
 - Fetch API: https://javascript.info/fetch
+- React docs: https://react.dev/learn
 - useState: https://react.dev/learn/state-a-components-memory
 - useEffect: https://react.dev/reference/react/useEffect
 - Learn JavaScript (interactive): https://learnjavascript.online
@@ -227,19 +233,36 @@ All code was understood and validated by the team before being integrated into t
 - Tinder card swipe with framer-motion: https://www.geeksforgeeks.org/reactjs/how-to-create-tinder-card-swipe-gesture-using-react-and-framer-motion/
 - Tailwind CSS docs: https://tailwindcss.com/docs/font-size
 - Google Fonts: https://fonts.google.com
+- leaflet react: https://react-leaflet.js.org/docs/example-popup-marker/
+- Leafletjs: https://leafletjs.com/examples/quick-start/
+- nominatim manual: https://nominatim.org/release-docs/latest/customize/Overview/
+- nominatim geoloc: https://www.youtube.com/watch?v=vOPr5k_SGVA
 
 ### Backend
 
+- Node.js docus: https://nodejs.org/docs/latest/api/
+- File system docus: https://nodejs.org/docs/latest/api/fs.html
 - Fastify official docs: https://fastify.dev/docs/latest/Guides/Getting-Started/
 - Fastify in Docker: https://fastify.dev/docs/latest/Guides/Serverless/#docker
 - Prisma ORM (beginner video): https://www.youtube.com/watch?v=gimSKEsWYb4
 - Prisma official docs: https://www.prisma.io/docs/getting-started
 - Prisma CRUD operations: https://www.prisma.io/docs/orm/prisma-client/queries/crud
 - JWT authentication: https://www.youtube.com/watch?v=Y2H3DXDeS3Q
+- Upload with fastify: https://betterstack.com/community/guides/scaling-nodejs/fastify-file-uploads/
+- fasitfy validation: https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/
+- cookies mdn: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies
+- Jwt explained: https://www.youtube.com/watch?v=Y2H3DXDeS3Q&t=97s
 
 ### Database
 
 - SQL basics: https://sqlbolt.com/
 - PostgreSQL official docs: https://www.postgresql.org/docs/
 - PostgreSQL for beginners: https://www.youtube.com/watch?v=qw--VYLpxG4
+- PostgreSQL cheat-sheet: https://neon.com/postgresql/cheat-sheet
 - PostGIS with Prisma: https://github.com/prisma/orm/discussions/29537
+- Postgis docs: https://postgis.net/development/docs/
+
+### Proxy
+
+- caddy docs: https://caddyserver.com/docs/quick-starts/reverse-proxy
+- mkcert https: https://github.com/filosottile/mkcert
