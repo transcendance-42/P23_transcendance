@@ -20,6 +20,7 @@ const NavBarAuth = () => {
         user?.last_name &&
         user?.city &&
         user?.date_of_birth &&
+        user?.file_path &&
         !!user?.dogs
     )
 
@@ -36,6 +37,12 @@ const NavBarAuth = () => {
     }
 
     useEffect(() => {
+        const handleClickOutside = () => setOpen(false)
+        window.addEventListener('mousedown', handleClickOutside)
+        return () => window.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    useEffect(() => {
         if (user?.role === 'admin') return
         const fetchUnread = () => {
             authFetch('/api/messages/unread-count')
@@ -45,10 +52,8 @@ const NavBarAuth = () => {
         }
         fetchUnread()
         const interval = setInterval(fetchUnread, 30000)
-        const handleScroll = () => setOpen(false)
-        window.addEventListener('scroll', handleScroll)
-        return () => { clearInterval(interval); window.removeEventListener('scroll', handleScroll) }
-    }, [user]) 
+        return () => { clearInterval(interval) }
+    }, [user])
 
     return (
         <nav className="w-full sticky top-0 z-50 bg-surface-raised text-surface-white px-6 py-4 relative">
@@ -65,7 +70,7 @@ const NavBarAuth = () => {
                 </div>
                 <LangSwitcher />
                 <div className="flex justify-end">
-                    <button className="lg:hidden text-2xl" onClick={() => setOpen(!open)}>☰</button>
+                    <button className="lg:hidden text-2xl" onMouseDown={(e) => { e.stopPropagation(); setOpen(!open) }}>☰</button>
                     <div className="hidden lg:flex gap-6 text-sm">
                     <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
                     {user?.role === 'admin' ? (
@@ -88,17 +93,20 @@ const NavBarAuth = () => {
             </div>
             </div>
             {open && (
-                <div className="lg:hidden flex flex-col gap-3 mt-4 items-end">
+                <div 
+                    onMouseDown={e => e.stopPropagation()}
+                    className="lg:hidden absolute top-full left-0 right-0 bg-surface-raised flex flex-col gap-3 px-6 py-4 items-stretch z-50"
+                >
                     {user?.role === 'admin' ? (
-                        <SecondaryButton to="/users">{t('Users')}</SecondaryButton>
+                        <SecondaryButton to="/users" onClick={() => setOpen(false)}>{t('Users')}</SecondaryButton>
                     ) : (
                         <>
-                            <SecondaryButton to="/swipes" disabled={!isProfileComplete}>{t('Swipes')}</SecondaryButton>
-                            <SecondaryButton to="/chat" disabled={!isProfileComplete}>{t('Chat')}</SecondaryButton>
+                            <SecondaryButton to="/swipes" disabled={!isProfileComplete} onClick={() => setOpen(false)}>{t('Swipes')}</SecondaryButton>
+                            <SecondaryButton to="/chat" disabled={!isProfileComplete} onClick={() => setOpen(false)}>{t('Chat')}</SecondaryButton>
                         </>
                     )}
-                    <SecondaryButton to="/profile">{t('Profile')}</SecondaryButton>
-                    <SecondaryButton onClick={handleLogout}>{t('Logout')}</SecondaryButton>
+                    <SecondaryButton to="/profile" onClick={() => setOpen(false)}>{t('Profile')}</SecondaryButton>
+                    <SecondaryButton onClick={() => { setOpen(false); handleLogout() }}>{t('Logout')}</SecondaryButton>
                 </div>
             )}
         </nav>

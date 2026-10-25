@@ -5,6 +5,7 @@ import NavBarAuth from '../components/ui/NavBarAuth'
 import UserSection from '../components/users/UserSection'
 import DeactivateModal from '../components/users/DeactivateModal'
 import ReactivateModal from '../components/users/ReactivateModal'
+import DeleteModal from '../components/users/DeleteModal'
 
 export default function UsersLayout() {
     const { t } = useTranslation()
@@ -12,6 +13,7 @@ export default function UsersLayout() {
     const [userToDelete, setUserToDelete] = useState(null)
     const [userToReactivate, setUserToReactivate] = useState(null)
     const [avatarUrls, setAvatarUrls] = useState({})
+    const [userToDeletePermanently, setUserToDeletePermanently] = useState(null)
 
     const activeUsers = users.filter(u => u.is_active !== false)
     const inactiveUsers = users.filter(u => u.is_active === false)
@@ -43,6 +45,12 @@ export default function UsersLayout() {
         fetchAvatarsSequentially()
     }, [users])
 
+    const handleDelete = async () => {
+        await authFetch(`/api/users/${userToDeletePermanently.id}/delete`, { method: 'DELETE' })
+        setUsers(users.filter(u => u.id !== userToDeletePermanently.id))
+        setUserToDeletePermanently(null)
+    }
+
     const handleDeactivate = async () => {
         await authFetch(`/api/users/${userToDelete.id}/deactivate`, { method: 'PATCH' })
         setUsers(users.map(u => u.id === userToDelete.id ? { ...u, is_active: false } : u))
@@ -60,6 +68,7 @@ export default function UsersLayout() {
             <NavBarAuth />
             <DeactivateModal user={userToDelete} onConfirm={handleDeactivate} onClose={() => setUserToDelete(null)}/>
             <ReactivateModal user={userToReactivate} onConfirm={handleReactivate} onClose={() => setUserToReactivate(null)} />
+            <DeleteModal user={userToDeletePermanently} onConfirm={handleDelete} onClose={() => setUserToDeletePermanently(null)} />
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <h1 className="text-3xl font-bold tracking-tight text-text-primary font-heading">
                     {t('Users')}
@@ -70,6 +79,7 @@ export default function UsersLayout() {
                     avatarUrls={avatarUrls}
                     onDeactivate={setUserToDelete}
                     onReactivate={setUserToReactivate}
+                    onDelete={setUserToDeletePermanently}
                 />
                 <UserSection
                     title={t('InactiveUsers')}
@@ -77,6 +87,7 @@ export default function UsersLayout() {
                     avatarUrls={avatarUrls}
                     onDeactivate={setUserToDelete}
                     onReactivate={setUserToReactivate}
+                    onDelete={setUserToDeletePermanently}
                     inactive
                 />
             </div>

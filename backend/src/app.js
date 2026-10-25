@@ -18,6 +18,7 @@ import { jwt_auth } from './plugins/auth.js';
 import { tokensRoutes } from './modules/tokens/tokens_routes.js';
 import { errorHandler } from './error.js';
 import { timeoutRoutes } from '../tests/timeout_route.js';
+import { dogsRoutesPublic } from './modules/dog/dogs_routes.js';
 
 const fastify = Fastify({
   logger: true, 
@@ -54,6 +55,12 @@ async function buildApp() {
             type: 'http',
             scheme: 'bearer',
             bearerFormat: 'JWT'
+          },
+          apiKeyAuth: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'X-API-Key',
+            description: 'Clé API requise pour accéder à l’API publique'
           }
         }
       },
@@ -61,9 +68,7 @@ async function buildApp() {
     }
   })
 
-  fastify.register(swaggerUI, {
-    routePrefix: '/api/documentation',
-  })
+  fastify.register(swaggerUI, {routePrefix: '/api/documentation',})
 
   fastify.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET,
@@ -96,6 +101,7 @@ async function buildApp() {
   fastify.register(messagesRoutes, { prefix: '/api' }) 
   fastify.register(authRoutes, { prefix: '/api' })
   fastify.register(tokensRoutes, { prefix: '/api'})
+  fastify.register(dogsRoutesPublic, { prefix: '/api' })
 
   return fastify
 }

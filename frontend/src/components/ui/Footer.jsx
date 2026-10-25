@@ -20,7 +20,6 @@ const Footer = () => {
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
                 <Link to="/privacy" className="hover:text-surface-white transition">{t('Privacy')}</Link>
                 <Link to="/terms" className="hover:text-surface-white transition">{t('Terms')}</Link>
-                <Link to="/contact" className="hover:text-surface-white transition">{t('ContactUs')}</Link>
             </div>
             <p>{t('Rights')}</p>
         </div>

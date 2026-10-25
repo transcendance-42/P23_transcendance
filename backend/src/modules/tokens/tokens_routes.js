@@ -4,7 +4,7 @@ async function tokensRoutes (fastify){
     fastify.post('/token/refresh', {
         config : {
             rateLimit: {
-            max: 5,
+            max: 8,
             timeWindow: '1 minute'
             }
         }

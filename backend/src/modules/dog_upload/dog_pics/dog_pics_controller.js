@@ -55,8 +55,8 @@ async function removeDogPic(request, reply) {
     const pic = await findPicDogById(request.params.id)
     if (!pic)
       throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
-    await fs.unlink(pic.file_path)
     await deleteDogPic(request.params.id)
+    await fs.unlink(pic.file_path)
     return { success: true }
 }
 
