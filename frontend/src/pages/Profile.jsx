@@ -60,7 +60,6 @@ export default function Profile() {
                 const data = await response.json()
                 setUser(data)
             } catch (e) {
-                console.log(e.message)
                 setError('Impossible de contacter le serveur')
             } finally {
                 setLoading(false)

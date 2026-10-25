@@ -33,15 +33,11 @@ export default defineConfig({
     }),
   ],
   server: {
-    host: true,
+    host: '0.0.0.0',
     port: 5173,
     strictPort: true,
     watch: { usePolling: true },
-    allowedHosts: ['localhost'],
-    hmr: {
-      host: 'localhost',
-      protocol: 'wss',
-      clientPort: 443,
-    },
+    allowedHosts: true,
+    hmr: false,
   },
 })

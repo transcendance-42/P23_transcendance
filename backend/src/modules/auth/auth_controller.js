@@ -8,8 +8,8 @@ import { AppError } from '../../error.js'
 const COOKIE_OPTIONS = {
         path:'/',
         httpOnly:true,
-        sameSite:'none',
-        secure:true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
@@ -68,7 +68,6 @@ async function logout(request, reply) {
         if (!stored || stored.expires_at < new Date())
                 throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
         if (stored && !stored.is_revoked) {
-            console.log(`User ID: ${stored.user_id} logged out successfully`)
             await revokeToken(stored)
             return reply.code(200)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
