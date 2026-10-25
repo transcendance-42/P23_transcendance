@@ -79,7 +79,7 @@ export default function MapModal({ onLocationChange, onClose }) {
 
     return (
         <div className="bg-white rounded-lg p-4">
-            <h1 className="absolute top-5 left-5 text-lg font-semibold text-black">
+            <h1 className="absolute top-5 left-5 text-[20px] font-semibold text-black">
                 {t('MapTitle')}
             </h1>
             <div className="flex gap-2 mb-4">
@@ -139,31 +139,31 @@ export default function MapModal({ onLocationChange, onClose }) {
                     />
                 )}
             </MapContainer>
-            <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <input
-                        type="number"
-                        min="1"
-                        placeholder={t('DistanceToSearch')}
-                        onChange={(e) => setRadius(Number(e.target.value))}
-                        className="w-auto border border-gray-300 rounded-lg px-4 py-2 text-black"
-                    />
-                    <span className="text-black"> km </span>
+            <div className="mt-4 flex flex-col items-start gap-2">
+                <p className="text-sm text-gray-600">
+                    {t('SearchDistanceMessage')}
+                </p>
+
+                <div className="flex items-center gap-2 w-full">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="number"
+                            min="1"
+                            placeholder={t('DistanceToSearch')}
+                            onChange={(e) => setRadius(Number(e.target.value))}
+                            className="w-auto border border-gray-300 rounded-lg px-4 py-2 text-black"
+                        />
+                        <span className="text-black">km</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={handleValidate}
+                        className="ml-auto text-white px-4 py-2 rounded-lg transition-all duration-100 bg-green-500 hover:bg-green-600 cursor-pointer"
+                    >
+                        {t('ValideMapData')}
+                    </button>
                 </div>
-                <button
-                    type="button"
-                    onClick={handleValidate}
-                    // pour rendre le bouton cliquable uniquement quand les champs sont remplis
-                    // disabled={!isValid}
-                    // className={`text-white px-4 py-2 rounded-lg transition-all duration-200 ${
-                        // isValid
-                    //         ? 'bg-green-500 hover:bg-green-600 hover:scale-105 cursor-pointer'
-                    //         : 'bg-gray-400 cursor-not-allowed'
-                    // }`}
-                    className="text-white px-4 py-2 rounded-lg transition-all duration-100 bg-green-500 hover:bg-green-600 hover:scale-[1.02] cursor-pointer"
-                >   
-                    {t('ValideMapData')}
-                </button>
             </div>
         </div>
     )

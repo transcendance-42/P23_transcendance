@@ -122,7 +122,6 @@
     "Offline": "Offline", 
     "Back": "Back", 
     "GetStarted" : "Get Started",
-
     "MapTitle": "Choose a place and a distance",
     "SearchMap": "Search",
     "ValideMapData": "validate",
@@ -132,9 +131,9 @@
     "RequestError": "Request Error",
     "ErrorCityNotFound": "No city found",
     "CatchMapError": "An error occurred during the search",
-    "EmptySearch": "You must specify a city with search  button",
+    "SearchDistanceMessage": "Over what distance would you like to meet people?",
+    "EmptySearch": "You must specify a city with search button",
     "EmplyRadius": "The radius must be at least 1 km",
-
     "WhatEmail": "What's your email?",
     "LocalisationButton": "Localisation",
     "HealthRecord": "Health record",

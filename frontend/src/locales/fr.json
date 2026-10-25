@@ -122,8 +122,7 @@
     "Offline": "Hors Ligne", 
     "Back": "Retour", 
     "GetStarted": "Commencer",
-
-    "MapTitle": "Choisissez un lieu et une distance",
+    "MapTitle": "Tappez le nom de votre ville",
     "SearchMap": "Rechercher",
     "ValideMapData": "Valider",
     "SearchACity": "Recherche une ville",
@@ -132,9 +131,9 @@
     "RequestError": "Erreur lors de la requete",
     "ErrorCityNotFound": "Aucune ville trouvée",
     "CatchMapError": "Une erreur est survenue lors de la recherche",
-    "EmptySearch": "Vous devez indiquer une ville vias Search",
+    "SearchDistanceMessage": "Sur quelle distance souhaitez-vous faire des rencontres",
+    "EmptySearch": "Vous devez indiquer une ville vias Rechercher",
     "EmplyRadius": "le rayon doit être de au moins 1km",
-
     "WhatEmail": "Quelle est ton email ?",
     "HealthRecord": "Carnet de santé",
     "DocuNone": "Aucun document",
