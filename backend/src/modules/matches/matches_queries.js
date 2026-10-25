@@ -1,5 +1,6 @@
 import prisma from '../../utils/prisma.js'
 import { UserPublicFields } from '../users/users_queries.js'
+import { DogPublicFields } from '../dog/dogs_queries.js'
 
 async function findMatchesByUserId(userId) {
   return prisma.matches.findMany({
@@ -12,7 +13,7 @@ async function findMatchesByUserId(userId) {
     },
     include: {
       matchesAsDog1:{
-        include: {
+        select: {...DogPublicFields,
           users:{
           select:{
             id: true,
@@ -23,7 +24,7 @@ async function findMatchesByUserId(userId) {
         }}
       },
       matchesAsDog2:{
-        include: {
+        select: {...DogPublicFields,
           users:{
           select:{
             id: true,
@@ -64,8 +65,8 @@ async function findActiveMatch(dog_id1, dog_id2) {
 async function findAllMatches() {
   return prisma.matches.findMany({
     include: {
-      matchesAsDog1: true,
-      matchesAsDog2: true
+      matchesAsDog1: {select: DogPublicFields},
+      matchesAsDog2: {select: DogPublicFields}
     }
   })
 }
@@ -84,8 +85,8 @@ async function findMatch(id) {
   return prisma.matches.findUnique({
     where: { id: BigInt(id) },
     include: {
-      matchesAsDog1: true,
-      matchesAsDog2: true
+      matchesAsDog1: {select: DogPublicFields},
+      matchesAsDog2: {select: DogPublicFields}
     }
   })
 }

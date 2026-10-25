@@ -6,7 +6,7 @@ import Modal from "../ui/Modal"
 import ModalHeader from "../ui/ModalHeader"
 import PrimaryButton from "../ui/PrimaryButton"
 import { useTranslation } from 'react-i18next'
-import { authFetch } from "../../api/authFetch"
+import { authFetch, getToken } from "../../api/authFetch"
 import { useAuth } from "../../auth/AuthContext"
 import DogDocument from './DogDocument'
 
@@ -15,7 +15,6 @@ const SIZES = ['Small', 'Medium', 'Large']
 
 export default function DogProfile({ dog, onSaved, onDeleted }) {
     const { t } = useTranslation()
-    const { token } = useAuth()
     const [editing, setEditing] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [formData, setFormData] = useState({})
@@ -141,6 +140,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
  
         const xhr = new XMLHttpRequest()
         xhr.open('POST', `/api/dog-pics`)
+        const token = getToken()
         if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`)
  
         xhr.upload.addEventListener('progress', (ev) => {

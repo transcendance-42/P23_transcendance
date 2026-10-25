@@ -2,6 +2,7 @@ import { Client } from 'pg'
 import prisma from '../../utils/prisma.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { DogPublicFields } from '../dog/dogs_queries.js'
 
 // est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
 const UserPublicFields = {
@@ -23,13 +24,17 @@ const UserPrivateFields = {
   id:true,
   is_active:true,
   lastSeenAt:true,
-  role:true
+  role:true,
+  file_path: true,
 }
 
 async function findActiveUsers(request) { // route pour l'admin donc je laisse private fields
   const adminId = request.userId
   return prisma.users.findMany({
-    where: { id:{not: adminId}},
+    where: { 
+      id:{not: adminId},
+      first_name: { not: null }
+    },
     select: UserPrivateFields 
   })
 }
@@ -41,7 +46,7 @@ async function findUserById(id, clientId) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
     select: {...fields,
-      dogs: { include: { dog_pics: true } }
+      dogs: { select: DogPublicFields }
     } 
   })
 }
