@@ -32,11 +32,6 @@ export default function Privacy() {
                     <h2 className="font-heading text-xl">{t('Privacy8')}</h2>
                     <p className="text-text-caption text-sm leading-relaxed">{t('Privacy9')}</p>
                 </section>
-
-                <section className="flex flex-col gap-3">
-                    <h2 className="font-heading text-xl">{t('Privacy10')}</h2>
-                    <p className="text-text-caption text-sm leading-relaxed">{t('Privacy11')}</p>
-                </section>
             </div>
             <Footer />
         </div>

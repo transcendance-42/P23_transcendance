@@ -37,11 +37,6 @@ export default function Terms() {
                     <h2 className="font-heading text-xl">{t('Terms9')}</h2>
                     <p className="text-text-caption  text-sm leading-relaxed">{t('Terms10')}</p>
                 </section>
-
-                <section className="flex flex-col gap-3">
-                    <h2 className="font-heading text-xl">{t('Terms11')}</h2>
-                    <p className="text-text-caption text-sm leading-relaxed">{t('Terms12')}</p>
-                </section>
             </div>
             <Footer />
         </div>

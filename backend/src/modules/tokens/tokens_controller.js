@@ -18,13 +18,11 @@ async function GetRefreshToken(request, reply){
     const stored = await findRefreshToken(hash_token)
     if (!stored || stored.expires_at < new Date())
     {
-        console.log('TOKEN NON STOKE EN DB ou EXPIRE')
         throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
     }
 
     if (stored?.is_revoked )
     {
-        console.log('TOKEN REVOKE')
         await revokeAllUserToken(stored.user_id)
         throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
     }

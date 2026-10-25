@@ -5,12 +5,12 @@ const PrimaryButton = ({ children, disabled, onClick, type = 'button', to, fullW
     const [hovered, setHovered] = useState(false)
 
     const style = {
-    backgroundColor: disabled ? 'var(--color-text-tertiary)' : hovered ? 'var(--color-primary-hover)' : 'var(--color-primary)',
-    color: disabled ? 'var(--color-text-caption)' : 'var(--color-surface-white)',
-    cursor: disabled ? 'not-allowed' : 'pointer'
-}
-
-    const className = `${fullWidth ? 'w-full' : 'px-6'} flex items-center justify-center rounded-full py-2 font-semibold transition`
+        backgroundColor: disabled ? 'var(--color-text-tertiary)' : hovered ? 'var(--color-primary-hover)' : 'var(--color-primary)',
+        color: disabled ? 'var(--color-text-caption)' : 'var(--color-surface-white)',
+        cursor: disabled ? 'not-allowed' : 'pointer'
+    }
+    const className = `${fullWidth ? 'w-full' : 'w-fit px-6'} flex items-center justify-center rounded-full py-2 font-semibold transition`
+    
     if (to)
         return (
             <Link to={to} className={className} style={style}

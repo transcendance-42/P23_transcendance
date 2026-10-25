@@ -15,7 +15,6 @@ async function findRefreshToken(token) {
 }
 
 async function revokeToken(token) {
-    console.log('ON REVOKE LE TOKEN')
     return prisma.refresh_tokens.update({
         where:{id: token.id},
         data: {is_revoked: true}
@@ -23,7 +22,6 @@ async function revokeToken(token) {
 }
 
 async function revokeAllUserToken(userId){
-    console.log('ON REVOKE TOUS LES TOKEN DES USERS')
     return prisma.refresh_tokens.updateMany({
     where:{user_id: userId},
     data: {is_revoked: true}

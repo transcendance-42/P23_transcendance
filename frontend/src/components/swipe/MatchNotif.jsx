@@ -27,8 +27,6 @@ const MatchNotif = ({ onClose, roomId, otherPicId, otherDogId }) => {
         loadPic(myPicId, setMyUrl)
         loadPic(otherPicId, setOtherUrl)
     }, [myPicId, otherPicId])
-    console.log('user.dogs:', user?.dogs)
-    console.log('myPicId:', myPicId)
 
     return (
         <Modal onClose={onClose} width="w-full mx-4 sm:w-180" bg="bg-action-match/20">
