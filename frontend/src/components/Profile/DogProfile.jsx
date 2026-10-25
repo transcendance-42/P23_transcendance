@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { authFetch, getToken } from "../../api/authFetch"
 import { useAuth } from "../../auth/AuthContext"
 import DogDocument from './DogDocument'
+import { validateImage } from '../../utils/validateImage'
 
 const GENDERS = ['Male', 'Female', 'Other']
 const SIZES = ['Small', 'Medium', 'Large']
@@ -29,16 +30,23 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         const createdUrls = []
         const loadPics = async () => {
             try {
-                const loaded = await Promise.all(
+                const results = await Promise.allSettled(
                     (dog.dog_pics ?? []).map(async (pic) => {
                         const res = await authFetch(`/api/dog-pics/${pic.id}`)
+                        if (!res.ok) return null
                         const blob = await res.blob()
                         const url = URL.createObjectURL(blob)
                         createdUrls.push(url)
                         return { id: pic.id, position: pic.position, url }
                     })
                 )
-                if (!cancel) setPics(loaded.sort((a, b) => a.position - b.position))
+                if (!cancel) {
+                    const loaded = results
+                        .filter(r => r.status === 'fulfilled' && r.value !== null)
+                        .map(r => r.value)
+                        .sort((a, b) => a.position - b.position)
+                    setPics(loaded)
+                }
             } catch (e) {
                 console.error('Failed to load dog pics', e)
             }
@@ -129,6 +137,9 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         const file = e.target.files[0]
         if (!file) return
         e.target.value = ''
+
+        const err = validateImage(file, t)
+        if (err) { setError(err); return }
  
         const fd = new FormData()
         fd.append('file', file)
@@ -240,13 +251,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                                     </button>
                                 )}
                             </div>
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleAddPic}
-                            />
+                            <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleAddPic} />
                         </div>
  
                         {error && <p className="text-action-pass text-xs">{error}</p>}

@@ -193,7 +193,6 @@
     "ErrLocationRequired": "Choisissez votre localisation", 
     "PageNotFound": "Cette page n'existe pas.",
     "BackHome": "Retour à l'accueil",
-    "ErrLocationRequired": "Choisissez votre localisation",
     "ErrDogNameShort": "2 caractères minimum",
     "ErrDogNameLong": "50 caractères maximum",
     "ErrBreedLong": "30 caractères maximum",
@@ -203,5 +202,7 @@
     "ErrPhotoTooLarge": "{{name}} est trop lourde (5 Mo maximum)",
     "ErrPhotoDuplicate": "{{name}} est déjà ajoutée",
     "ErrDogExists": "Vous avez déjà un chien",
-    "DogCreated": "Profil du chien créé !"
+    "DogCreated": "Profil du chien créé !", 
+    "ErrInvalidFileType": "Le fichier doit être une image",
+    "ErrAvatarUpload": "Échec de l'envoi de la photo"
 }
