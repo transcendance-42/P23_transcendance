@@ -4,9 +4,21 @@ import { promises as fs } from 'node:fs'
 import { findDogDocuByDogId } from '../dog_upload/dog_docu/dog_docu_queries.js'
 
 
+const DogPublicFields = {
+  id:true,
+  owner_id: true,
+  dog_name: true,
+  gender: true,
+  breed:true,
+  age:true,
+  size:true,
+  bio:true,
+  dog_pics:{select:{id:true, position:true}}
+}
+
 async function findAllDogs() {
 	return prisma.dogs.findMany({
-		include: { dog_pics: true }
+		include: { dog_pics:{select:{id:true, position:true}} }
 	})
 }
 
@@ -61,7 +73,7 @@ async function findDogsAroundMe (userId) {
             owner_id: { in: nearUsers.map(n => n.id)  },
             id: { notIn: excludedIds },
         },
-        include: {dog_pics: true}
+        select: DogPublicFields
     }) 
 
     return Dogs
@@ -70,7 +82,7 @@ async function findDogsAroundMe (userId) {
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(request.params.id) },
-		include: { dog_pics: true }
+		select: DogPublicFields
 	})
 }
 
@@ -140,4 +152,4 @@ async function deleteDogs(request, reply) {
     })
 }
 
-export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}
+export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPublicFields}
