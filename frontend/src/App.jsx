@@ -18,6 +18,7 @@ import PresenceProvider from './auth/presenceProvider'
 import RequireAdmin from './auth/RequireAdmin'
 import UsersLayout from './pages/UsersLayout'
 import OfflineBanner from './components/ui/OfflineBanner'
+import NotFound from './pages/NotFound'
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           </Route>  
 			</Route>
 		</Route>
+    <Route path="*" element={<NotFound />} />
     </Routes>
 </>
   )
