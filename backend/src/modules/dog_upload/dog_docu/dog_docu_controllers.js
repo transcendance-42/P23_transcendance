@@ -20,10 +20,24 @@ async function putDogDocu(request, reply) {
 		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
 	const buffer = await creatFileBuffer(request, allowedPdfMimeType)
 	const filePath = await creaFilePath('uploads', request.body.file.filename)
-	await fs.writeFile(filePath, buffer)
-	await updateDogDocu(request.params.dogId, filePath, request.body.file.mimetype)
-	if (dog.dog_formular_path)
-		await fs.unlink(dog.dog_formular_path)
+	try {
+		await fs.writeFile(filePath, buffer)
+		await updateDogDocu(request.params.dogId, filePath, request.body.file.mimetype)
+	} catch (e) {
+		try {
+			await fs.unlink(filePath)
+		} catch (cleanError) {
+			request.log.error({ err: cleanError, filePath})
+		}
+		throw new AppError(500, 'INTERNAL_SERVER_ERROR', 'Internal server error')
+	}
+	if (dog && dog.dog_formular_path) {
+		try {
+			await fs.unlink(dog.dog_formular_path)
+		} catch (err) {
+			request.log.error({ err, path: dog.dog_formular_path }, 'old file cleanup failed')
+		}
+	}
 	return reply.code(204).send()
 }
 
@@ -34,7 +48,11 @@ async function removeDogDocu(request, reply) {
 	if (!dog.dog_formular_path)
 		throw new AppError(404, 'NOT_FOUND', 'Dog form not found')
 	await deleteDogDocu(request.params.dogId)
-	await fs.unlink(dog.dog_formular_path)
+	try {
+		await fs.unlink(dog.dog_formular_path)
+	} catch (e) {
+		request.log.error({ e, path: dog.dog_formular_path }, 'file cleanup failed')
+	}
 	return reply.code(204).send()
 }
 
