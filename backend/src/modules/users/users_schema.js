@@ -31,15 +31,14 @@ const updateUserSchema = {
 const updateUserPositionSchema = {
     params: idParams,
     body: {
-    type: 'object',
-    properties: {
-      city: { type: 'string', minLength: 3 },
-      longitude: { type: 'number', minimum: -180,  maximum: 180},
-      latitude: { type: 'number', minimum: -90,  maximum: 90 },
-      radius: { type: 'integer', minimum: 1, maximum: 500} // pareil que dans register integer poru eviter les decimaux
-    },
-    additionalProperties: false
-  }
+        type: 'object',
+        properties: {
+            city: { type: 'string', minLength: 3, maxLength: 100 },
+            radius: { type: 'integer', minimum: 1, maximum: 500 }
+        },
+        required: ['city', 'radius'],
+        additionalProperties: false
+    }
 }
 
 const deactivateUserSchema = {

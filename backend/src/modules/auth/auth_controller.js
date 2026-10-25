@@ -4,6 +4,7 @@ import bcrypt  from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { saveRefreshToken, findRefreshToken, revokeToken } from '../tokens/tokens_queries.js'
 import { AppError } from '../../error.js'
+import { validate_geo_data } from '../../utils/validate_geo_data.js'
 
 const COOKIE_OPTIONS = {
         path:'/',
@@ -97,15 +98,15 @@ async function register(request, reply) {
                 throw new AppError(401, 'TOO_YOUNG', 'You must be at least 18 years old')
         if (birthDate < maxBirthDate)
                 throw new AppError(401, 'TOO_OLD', 'You must be alive :)')
+        const geoData = await validate_geo_data(request.body.city)
         const hashPassword = await bcrypt.hash(request.body.password, 10)
-        const user = await creatUser(request, hashPassword, birthDate)
-        return reply.code(201).send({ success: true, userId: user.id })
+        await creatUser(request, hashPassword, birthDate, geoData)
+        return reply.code(204).send()
 }
 
 async function postHearthBeat(request, reply) {
         await updateLastSeenAt(request.userId)
-        return reply.code(200).send({success: true})
+        return reply.code(204).send()
 }
-
 
 export { login, register, logout, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS, postHearthBeat }

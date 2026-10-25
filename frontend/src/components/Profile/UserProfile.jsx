@@ -23,20 +23,16 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
             first_name: user.first_name,
             last_name: user.last_name,
             city: user.city,
-            latitude: user.latitude || null,
-            longitude: user.longitude || null,
             radius: user.radius || '',
             date_of_birth: user.date_of_birth ? user.date_of_birth.slice(0, 10) : ''
         })
         setEditing(true);
     }
 
-    const handleLocationChange = (city, latitude, longitude, radius) => {
+    const handleLocationChange = (city, radius) => {
         setFormdata(prev => ({
             ...prev,
             city,
-            latitude,
-            longitude,
             radius
         }))
     }
@@ -61,18 +57,14 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
             return
         }
         const data = await response.json();
-        if (formData.latitude && formData.longitude) {
         await authFetch(`/api/users/${user.id}/position`, {
             method: 'PUT',
-            headers: { 'Content-type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                latitude: formData.latitude,
-                longitude: formData.longitude,
-                radius: formData.radius,
-                city: formData.city
+                city: formData.city,
+                radius: Number(formData.radius)
             })
         })
-    }
         onSaved({...user, ...data});
         setEditing(false);
         await refreshUser()

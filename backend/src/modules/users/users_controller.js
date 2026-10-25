@@ -1,5 +1,6 @@
 import { findActiveUsers, findUserById, updateUser, deactivateUser, updateUserPosition, activateUser, anonymized } from './users_queries.js'
 import { AppError } from '../../error.js'
+import { validate_geo_data } from '../../utils/validate_geo_data.js'
 
 async function getAllUsers(request, reply) {
     return await findActiveUsers(request)
@@ -23,7 +24,13 @@ async function putUser(request, reply) {
 
 async function putUserPosition(request, reply){
   try {
-    await updateUserPosition(request.params.id, request.body)
+    const geoData = await validate_geo_data(request.body.city)
+    await updateUserPosition(request.params.id, {
+        city: request.body.city,
+        radius: request.body.radius,
+        latitude: geoData.latitude,
+        longitude: geoData.longitude
+    })
     reply.code(204).send()
   } catch (e) {
     if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'User not found')
