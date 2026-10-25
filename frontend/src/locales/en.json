@@ -130,7 +130,7 @@
     "CatchMapError": "An error occurred during the search",
     "SearchDistanceMessage": "Over what distance would you like to meet people?",
     "EmptySearch": "You must specify a city with search button",
-    "EmplyRadius": "The radius must be at least 1 km",
+    "EmplyRadius": "The radius must be a number between 1 and 500 km",
     "WhatEmail": "What's your email?",
     "HealthRecord": "Health record",
     "DocuNone": "No document",
