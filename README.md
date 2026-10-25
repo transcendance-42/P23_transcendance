@@ -14,9 +14,9 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 
 | Login | Role | Responsibilities |
 |-------|------|-----------------|
-| masase | Product Owner | Defined features and priorities, validated completed work, communicated with evaluators and peers |
-| dchellen | Project Manager | Facilitated team coordination, organized meetings and planning sessions, tracked progress and managed blockers |
-| pchatagn | Technical Lead | Evaluated and selected the tech stack, defined the architecture, ensured code quality and reviewed critical changes |
+| masase | Product Owner / Developer | Defined features and priorities, validated completed work, communicated with evaluators and peers. Implemented features, participated in code reviews, tested and documented work |
+| dchellen | Project Manager / Developer| Facilitated team coordination, organized meetings and planning sessions, tracked progress and managed blockers. Implemented features, participated in code reviews, tested and documented work |
+| pchatagn | Technical Lead / Developer | Evaluated and selected the tech stack, defined the architecture, ensured code quality and reviewed critical changes. Implemented features, participated in code reviews, tested and documented work |
 | jubelda | Developer | Implemented features, participated in code reviews, tested and documented work |
 | csarfati | Developer | Implemented features, participated in code reviews, tested and documented work |
 
@@ -26,7 +26,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 |-------|--------------|
 | masase | ... |
 | dchellen | ... |
-| pchatagny | ... |
+| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Set up the initial project structure: Docker, Docker Compose and Makefile. Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
 | jubedla | ... |
 | csarfati | ... |
 
@@ -74,8 +74,8 @@ The team used the following tools and practices to organize the work:
 | Advanced Permissions System | Major | 2 | Admin panel with CRUD on users, role-based views and actions |
 | ORM | Minor | 1 | Prisma ORM for all database interactions |
 | PWA | Minor | 1 | Installable as a mobile app with offline support |
-| Design System | Minor | 1 | Custom design system with Tailwind — color palette, typography, 10+ reusable components |
-| File Upload | Minor | 1 | Image upload for avatars and dog photos with type/size validation and secure storage |
+| Design System | Minor | 1 | Custom design system with Tailwind (color palette, typography, 10+ reusable components) |
+| File Upload | Minor | 1 | Image upload for avatars and dog photos and pdf for dog's documentation with type/size validation and secure storage |
 | Internationalization | Minor | 1 | 3 languages (English, French, German) with i18n and language switcher |
 | Additional Browser Support | Minor | 1 | Compatible with Chrome and Firefox |
 | OAuth 2.0 | Minor | 1 | Google OAuth login |

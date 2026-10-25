@@ -61,7 +61,6 @@ async function checkAccesDogPicPut(request, reply) {
     if (request.role === 'admin')
         return;
     const dogPic = await findPicDogById(dogPicId)
-    console.log(dogPic)
     if (userId.toString() !== dogPic.dogs.owner_id?.toString())
         return reply.code(403).send({error: 'Forbidden'})  
 }

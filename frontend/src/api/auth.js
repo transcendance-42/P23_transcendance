@@ -16,6 +16,15 @@ export async function apiRefresh() {
         credentials: 'include'
     })
     const data = await response.json()
+    if (response.status === 429) {
+        const retryAfter = Number(
+        response.headers.get('Retry-After') ?? 2)
+
+        const error = new Error('Too many request')
+        error.status = 429
+        error.retryAfter = retryAfter
+        throw error
+        }
     if (!response.ok || !data.success)
         throw new Error(data.message || data.error || 'Refresh failed')
     return { token: data.acces_token, userId: data.userId }

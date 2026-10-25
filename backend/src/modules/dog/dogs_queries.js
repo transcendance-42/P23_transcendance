@@ -1,8 +1,24 @@
 import prisma from '../../utils/prisma.js'
+import { findPicsByDogId } from '../dog_upload/dog_pics/dog_pics_queries.js'
+import { promises as fs } from 'node:fs'
+import { findDogDocuByDogId } from '../dog_upload/dog_docu/dog_docu_queries.js'
+
+
+const DogPublicFields = {
+  id:true,
+  owner_id: true,
+  dog_name: true,
+  gender: true,
+  breed:true,
+  age:true,
+  size:true,
+  bio:true,
+  dog_pics:{select:{id:true, position:true}}
+}
 
 async function findAllDogs() {
 	return prisma.dogs.findMany({
-		include: { dog_pics: true }
+		include: { dog_pics:{select:{id:true, position:true}} }
 	})
 }
 
@@ -34,7 +50,7 @@ async function findDogsAroundMe (userId) {
         select: { target_id: true }
     })
     const excludedIds = swipedIds.map(s => s.target_id)
-    excludedIds.push(Number(myDog.id))
+    excludedIds.push(BigInt(myDog.id))
 
     const nearUsers = await prisma.$queryRaw`
         SELECT * 
@@ -57,7 +73,7 @@ async function findDogsAroundMe (userId) {
             owner_id: { in: nearUsers.map(n => n.id)  },
             id: { notIn: excludedIds },
         },
-        include: {dog_pics: true}
+        select: DogPublicFields
     }) 
 
     return Dogs
@@ -66,13 +82,11 @@ async function findDogsAroundMe (userId) {
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(request.params.id) },
-		include: { dog_pics: true }
+		select: DogPublicFields
 	})
 }
 
 async function findDogsIdParams(dogId) {
-    console.log('LA DOG ID')
-    console.log(dogId)
 	return prisma.dogs.findUnique({where: { id: BigInt(dogId) }})
 }
 
@@ -91,16 +105,49 @@ async function updateDogs(request) {
 		})
 }
 
-async function deleteDogs(request) {
+async function deleteDogs(request, reply) {
     const id = BigInt(request.params.id)
-    await prisma.dog_pics.deleteMany({ where: { dog_id: id } })
-    await prisma.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
-    const matches = await prisma.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
-    for (const match of matches) {
-        await prisma.messages.deleteMany({ where: { match_id: match.id } })
-    }
-    await prisma.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
-    return prisma.dogs.delete({ where: { id } })
+    await prisma.$transaction(async (tx) => {
+        const pics = await tx.dog_pics.findMany({
+                        where: { dog_id: BigInt(id) },
+                        orderBy: { position: 'asc' },
+                        include: {dogs: true}
+                    })
+        if (pics){
+            for (const pic of pics){
+                await tx.dog_pics.delete({ where: { id: BigInt(pic.id) } })
+                try{
+                    await fs.unlink(pic.file_path)
+                }
+                catch(e){
+                    request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
+                }
+            }
+        }
+        const docu = await findDogDocuByDogId(id)
+        if (docu?.dog_formular_path){
+            await 	tx.dogs.update({
+                where: { id: BigInt(id) },
+			    data: {
+                    dog_formular_path: null,
+                    dog_formular_type: null
+			    }
+	        })
+            try {
+                await fs.unlink(docu.dog_formular_path)
+            }
+            catch(e){
+                request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
+            }
+        }
+        await tx.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
+        const matches = await tx.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+        for (const match of matches) {
+            await tx.messages.deleteMany({ where: { match_id: match.id } })
+        }
+        await tx.matches.deleteMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
+        return await tx.dogs.delete({ where: { id:id } })
+    })
 }
 
-export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}
+export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPublicFields}

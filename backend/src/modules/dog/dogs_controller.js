@@ -36,6 +36,19 @@ async function PostDogs(request, reply) {
     }
 }
 
+async function PostDogsPublicApi(request, reply) {
+    try {
+      const rest  = request.body
+      const owner_id = request.params.userId
+      const dog = await creatDogs(owner_id, rest)
+      return { id: dog.id }
+    } catch (e) {
+    	if (e.code === 'P2002')
+			throw new AppError(409, 'DOG_ALREADY_EXISTS', 'A dog already exists')
+		throw e
+    }
+}
+
 async function PutDogs (request, reply) {
     try {
       const dog = await updateDogs(request)
@@ -50,11 +63,11 @@ async function PutDogs (request, reply) {
 async function DeleteDogs (request, reply) {
     try {
       await deleteDogs(request)
-      return reply.code(204).send({ success: true })
+      return reply.code(204).send()
     } catch (e) {
       if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'Dog not found')
       throw e
     }
 }
 
-export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe, GetDogsAroundMe }
+export {GetDogsByID, PostDogs, PutDogs, DeleteDogs, GetAllDogs, GetAllDogsExceptMe, GetDogsAroundMe, PostDogsPublicApi }

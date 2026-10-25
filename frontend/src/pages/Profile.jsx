@@ -5,18 +5,20 @@ import DogProfile from '../components/Profile/DogProfile'
 import UserProfile from '../components/Profile/UserProfile'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../auth/AuthContext'
-import { authFetch } from '../api/authFetch'
+import { authFetch, getToken } from '../api/authFetch'
 import Avatar from '../components/ui/Avatar'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import SecondaryButton from '../components/ui/SecondaryButton'
+import { uploadFile } from '../api/upload'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
     { field: 'last_name',     label: 'LastName'    },
     { field: 'city',          label: 'City'        },
     { field: 'date_of_birth', label: 'DateOfBirth' },
+    { field: 'file_path',     label: 'Avatar'      },
 ]
  
 export default function Profile() {
@@ -24,25 +26,25 @@ export default function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const { userId, logout } = useAuth()
+    const { userId, logout, refreshUser } = useAuth()
     const [avatarUrl, setAvatarUrl] = useState(null)
     const isAdmin = user?.role === 'admin'
     const [showDeactivateModal, setShowDeactivateModal] = useState(false)
+    const [avatarProgress, setAvatarProgress] = useState(null)
 
     const handleAvatarUpload = async (file) => {
-        const fd = new FormData()
-        fd.append('file', file)
-
-        const uploadedFile = fd.get('file')
-        const res = await authFetch(`/api/user/${userId}/pic`, {
-            method: 'PUT',
-            body: fd
-        })
-        if (res.ok) {
-            const url = URL.createObjectURL(file)
-            setAvatarUrl(url)
+        setAvatarProgress(0)
+        try {
+            await uploadFile('PUT', `/api/user/${userId}/pic`, file, getToken(), setAvatarProgress)
+            setAvatarUrl(URL.createObjectURL(file))
+            const response = await authFetch(`/api/users/${userId}`)
+            if (response.ok) setUser(await response.json())
+            await refreshUser()
+        } catch {
+        } finally {
+            setAvatarProgress(null)
         }
-    }   
+    }
 
     const handleDeactivate = async () => {
         await authFetch(`/api/users/${userId}/deactivate`, { method: 'PATCH' })
@@ -58,7 +60,6 @@ export default function Profile() {
                 const data = await response.json()
                 setUser(data)
             } catch (e) {
-                console.log(e.message)
                 setError('Impossible de contacter le serveur')
             } finally {
                 setLoading(false)
@@ -82,15 +83,14 @@ export default function Profile() {
     const dog = user.dogs ?? null
  
     const missingUserFields = REQUIRED_USER_FIELDS.filter(({ field }) => !user[field])
-    const isProfileComplete = missingUserFields.length === 0 && !!dog
-    console.log('Profile render, isProfileComplete =', isProfileComplete)
+    const isProfileComplete = missingUserFields.length === 0 && !!dog && !!user.file_path
     return (
         <div className="min-h-screen bg-surface-cream">
             <NavBarAuth isProfileComplete={isProfileComplete} />
 
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <div className="flex items-center gap-4">
-                    <Avatar size='lg' url={avatarUrl} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
+                    <Avatar size='lg' url={avatarUrl} progress={avatarProgress} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
                     <h1 className="font-heading text-3xl font-bold text-text-primary">
                         {t('MyProfile')}
                     </h1>
