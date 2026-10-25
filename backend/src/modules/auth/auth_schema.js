@@ -68,7 +68,7 @@ const registerSchema = {
       },
       longitude: { type: 'number', minimum: -180,  maximum: 180},
       latitude: { type: 'number', minimum: -90,  maximum: 90 },
-      radius: { type: 'integer', minimum: 1, maximum: 500} // jsuis passé de number a integer pour evier les decimaux, on garde?
+      radius: { type: 'integer', minimum: 1, maximum: 500}
     },
     required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'longitude', 'latitude'],
     additionalProperties: false

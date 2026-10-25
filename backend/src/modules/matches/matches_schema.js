@@ -4,7 +4,7 @@ const matchIdParams = {
         id: {
             type: 'string',
             pattern: '^[1-9][0-9]*$',
-            maxLength: 19
+            maxLength: 18
         }
     },
     required: ['id']

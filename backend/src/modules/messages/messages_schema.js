@@ -1,4 +1,3 @@
-
 const getMessagesSchema = {
   params: {
     type: 'object',

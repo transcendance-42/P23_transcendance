@@ -1,14 +1,4 @@
-const dogIdParams = {
-	type: 'object',
-	properties: {
-		dogId: {
-			type: 'string',
-			pattern: '^[1-9][0-9]*$',
-			maxLength: 19
-		}
-	},
-	required: ['dogId']
-}
+import { dogIdParams } from '../../dog/dogs_schema.js'
 
 const getDocuDogSchema = {
 	params : dogIdParams
