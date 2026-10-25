@@ -55,16 +55,13 @@ import { AppError } from '../../../error.js'
     async function GetGoogleUserCredentials(request, reply){
         let q = request.query
         if (q.error){
-            console.log('error: ' + q.error)
             throw new AppError(401, 'AUTH_ERROR', 'google_auth_error')
         }
         else if (q.state !== request.cookies.oauth_state){
-            console.log('State mismatch. Possivle CSRF attack')
             throw new AppError(401, 'AUTH_ERROR', 'State mismatch. Possivle CSRF attack')
         }   
         reply.clearCookie('oauth_state', { path: '/' }) 
         const userCredential = await ExtractUserCredentials(q)
-        console.log(userCredential)
         if (!userCredential)
             throw new AppError(401, 'AUTH_ERROR', 'invalid_google credentials')
         let user = await findUser(userCredential.email)

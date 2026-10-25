@@ -1,7 +1,6 @@
 import SwipePage from './pages/SwipePage'
 import './App.css'
 import { Routes, Route, Outlet } from 'react-router-dom'
-import Login from './pages/Login'
 import LoginEmail from './pages/LoginEmail'
 import LandingPage from './pages/LandingPage'
 import Register from './pages/Register'
@@ -19,6 +18,7 @@ import PresenceProvider from './auth/presenceProvider'
 import RequireAdmin from './auth/RequireAdmin'
 import UsersLayout from './pages/UsersLayout'
 import OfflineBanner from './components/ui/OfflineBanner'
+import NotFound from './pages/NotFound'
 
 
 function App() {
@@ -29,7 +29,6 @@ function App() {
       <Routes>
           <Route path="/" element={<LandingPage/>} />
           <Route path="/register" element={<Register/>} />
-          <Route path="/login" element={<Login/>} />
           <Route path="/login/email" element={<LoginEmail/>} />
           <Route path="/privacy" element = {<Privacy />} />
           <Route path="/terms" element = {<Terms/>} />
@@ -48,6 +47,7 @@ function App() {
           </Route>  
 			</Route>
 		</Route>
+    <Route path="*" element={<NotFound />} />
     </Routes>
 </>
   )

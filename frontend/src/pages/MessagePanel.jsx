@@ -72,6 +72,9 @@ export default function MessagePanel({rooms})
                 navigate('/login')
             }
         })
+        socket.on('socket_error', () => {
+            setError(t('ErrorConnection'))
+        })
         socket.on("receive_message", handeleReceiveMessage)
 
         return () => {
@@ -80,7 +83,7 @@ export default function MessagePanel({rooms})
             socket.disconnect()
             socketRef.current = null
         }
-    }, [token])
+    }, [token, roomId])
 
     // useEffect qui s'active des quand rentre/selectionne dans une room
     useEffect(() => {   

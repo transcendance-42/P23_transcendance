@@ -14,7 +14,7 @@ async function checkAccesDogPicParams(request, reply) {
     if (userId.toString() !== dog.owner_id.toString())
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
-    
+
 async function checkAccesGetDogPic(request, reply) {
     if (request.role === 'admin')
         return
@@ -31,9 +31,9 @@ async function checkAccesGetDogPic(request, reply) {
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
-async function checkAccesDogPic(request, reply) {
+async function checkAccesDogUpload(request, reply) {
     const userId = request.userId
-    const dogId = request.body.dog_id.value
+    const dogId = request.body?.dog_id?.value ?? request.params?.dogId
     if (request.role === 'admin')
         return
     const dog = await findDogsIdParams(dogId)
@@ -61,10 +61,8 @@ async function checkAccesDogPicPut(request, reply) {
     if (request.role === 'admin')
         return;
     const dogPic = await findPicDogById(dogPicId)
-    console.log(dogPic)
     if (userId.toString() !== dogPic.dogs.owner_id?.toString())
         return reply.code(403).send({error: 'Forbidden'})  
 }
 
-
-export { checkAccesGetDogPic, checkAccesDogPic, checkAccesDogPicDelete, checkAccesDogPicPut }
+export { checkAccesGetDogPic, checkAccesDogUpload, checkAccesDogPicDelete, checkAccesDogPicPut }

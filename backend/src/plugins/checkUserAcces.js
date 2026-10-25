@@ -4,7 +4,7 @@ import { findUserById } from '../modules/users/users_queries.js'
 import { AppError } from "../error.js";
 
 async function checkUserGetAcces(request, reply) {
-    if (request.roles === 'amdin')
+    if (request.role === 'amdin')
         return
     const userByid = await findUserById(request.params.id, request.userId)
     if (!userByid)
@@ -24,7 +24,7 @@ async function checkUserGetAcces(request, reply) {
 
 async function checkUserGetPicAcces(request, reply) {
     try {
-        if (request.roles === 'admin')
+        if (request.role === 'admin')
             return
         const dogUser = await findDogByUserId(request.userId)
         if (!dogUser)

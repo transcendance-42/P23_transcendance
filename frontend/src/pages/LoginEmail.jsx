@@ -14,6 +14,7 @@ export default function LoginEmail() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
+    const [emailTouched, setEmailTouched] = useState(false)
     const navigate = useNavigate()
     const {login} = useAuth()
 
@@ -29,6 +30,9 @@ export default function LoginEmail() {
         }
     }
 
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    const emailError = emailTouched && !emailValid ? t('ErrEmailInvalid') : null
+
     return (
         <div className="min-h-screen bg-surface-cream">
         <Modal showBack={true} >
@@ -41,11 +45,14 @@ export default function LoginEmail() {
                 {t('Login8')}
             </p>
             <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                <InputField type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('EnterEmail')} />
+                <InputField type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                    onBlur={() => setEmailTouched(true)} error={emailError}
+                    placeholder={t('EnterEmail')}
+                />
                 <InputField type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t('EnterPassword')} />
                 {error && <p className="text-action-pass text-xs text-center">{error}</p>}
 
-                <PrimaryButton type="submit" disabled={!email || !password}>
+                <PrimaryButton type="submit" disabled={!emailValid || !password}>
                     {t('Next')}
                 </PrimaryButton>
             </form>

@@ -8,10 +8,40 @@ import Mascot from '../components/ui/Mascot'
 import SelectField from '../components/ui/SelectField'
 import calculateAge from '../utils/calculateAge'
 import { useTranslation } from 'react-i18next'
-import { authFetch } from '../api/authFetch'
+import { authFetch, getToken } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
 import { uploadDogPics } from '../api/dogs'
+import { validateImage } from '../utils/validateImage'
 
+const getErrors = (data, photos) => {
+    const errors = {}
+
+    if (!data.dog_name.trim()) errors.dog_name = 'ErrRequired'
+    else if (data.dog_name.trim().length < 2) errors.dog_name = 'ErrDogNameShort'
+    else if (data.dog_name.length > 50) errors.dog_name = 'ErrDogNameLong'
+
+    if (!data.breed.trim()) errors.breed = 'ErrRequired'
+    else if (data.breed.length > 30) errors.breed = 'ErrBreedLong'
+
+    if (!data.gender) errors.gender = 'ErrRequired'
+
+    if (!data.date_of_birth) errors.date_of_birth = 'ErrRequired'
+    else {
+        const birth = new Date(data.date_of_birth)
+        const today = new Date()
+        if (birth > today) errors.date_of_birth = 'ErrDateFuture'
+        else if (today.getFullYear() - birth.getFullYear() > 30) errors.date_of_birth = 'ErrDogTooOld'
+    }
+
+    if (!data.size) errors.size = 'ErrRequired'
+
+    if (!data.bio.trim()) errors.bio = 'ErrRequired'
+    else if (data.bio.length > 400) errors.bio = 'ErrBioLong'
+
+    if (photos.length === 0) errors.photos = 'ErrPhotoRequired'
+
+    return errors
+}
 
 export default function RegisterDog() {
     const { t } = useTranslation()
@@ -30,29 +60,30 @@ export default function RegisterDog() {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(null)
     const [uploadIndex, setUploadIndex] = useState(0)
-    const { refreshUser, token } = useAuth()
+    const { refreshUser } = useAuth()
+    const [touched, setTouched] = useState({})
+    const [photoError, setPhotoError] = useState('')
 
     const handleChange = (field) => (e) =>
         setFormData({ ...formData, [field]: e.target.value })
 
-    const handlePhoto = (e) => {
-    const files = Array.from(e.target.files)
-    const MAX_SIZE = 5 * 1024 * 1024
+    const handleBlur = (field) => () =>
+        setTouched(prev => ({ ...prev, [field]: true }))
 
-    for (const file of files) {
-        if (file.size > MAX_SIZE)
-        {
-            setError(`${file.name} is too large — please choose a file under 5MB`)
-            return
+    const handlePhoto = (e) => {
+        const files = Array.from(e.target.files)
+        const MAX_SIZE = 5 * 1024 * 1024
+
+        for (const file of files) {
+            const err = validateImage(file, t)
+            if (err) { setPhotoError(err); return }
+            if (photos.some(p => p.name === file.name && p.size === file.size)) {
+                setPhotoError(t('ErrPhotoDuplicate', { name: file.name }))
+                return
+            }
         }
-        if (photos.some(p => p.name === file.name && p.size === file.size))
-        {
-            setError(`${file.name} is already uploaded`)
-            return
-        }
-    }
-    setError('')
-    setPhotos(prev => [...prev, ...files].slice(0, 5))
+        setPhotoError('')
+        setPhotos(prev => [...prev, ...files].slice(0, 5))
     }
 
     const removePhoto = (index) => {
@@ -73,11 +104,12 @@ export default function RegisterDog() {
             })
             const dogData = await dogRes.json()
             if (!dogRes.ok) {
-                setError(dogData.error || 'Server error')
-                setIsSubmitting(false)
-                return
-            }
-            // Étape 2 : créer les photos pour le chien, multipart
+            if (dogData.error === 'DOG_ALREADY_EXISTS') setError(t('ErrDogExists'))
+            else if (dogData.error === 'VALIIDATION_ERROR') setError(t('ErrInvalidData'))
+            else setError(t('ErrServer'))
+            setIsSubmitting(false)
+            return
+        }
             for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
                 fd.append('dog_id', dogData.id)
@@ -86,7 +118,7 @@ export default function RegisterDog() {
                 setUploadIndex(index + 1)
                 setUploadProgress(0)
                 try {
-                    await uploadDogPics(fd, token, setUploadProgress)
+                    await uploadDogPics(fd, getToken(), setUploadProgress)
                 } catch {
                     setError(t('UploadFailed', { name: photos[index].name }))
                     await refreshUser()
@@ -97,15 +129,18 @@ export default function RegisterDog() {
                 }
             }
             await refreshUser()
-            setSuccess('Profile created!')
+            setSuccess(t('DogCreated'))
             setTimeout(() => navigate('/swipes'), 1500)
         } catch {
-            setError('Server unreachable, please try again')
+            setError(t('ErrServer'))
             setIsSubmitting(false)
         }
     }
 
-    const allFilled = Object.values(formData).every(v => v !== '') && photos.length > 0
+    const errors = getErrors(formData, photos)
+    const isValid = Object.keys(errors).length === 0
+    const fieldError = (field) =>
+        touched[field] && errors[field] ? t(errors[field]) : null
 
     return (
         <div className="min-h-screen bg-surface-cream">
@@ -114,22 +149,28 @@ export default function RegisterDog() {
                 <ModalHeader title={t('CreateDog')} />
                 <p className="text-primary text-xs text-center">{t('Register1')}</p>
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-                    <InputField placeholder={t('Name')} value={formData.dog_name} onChange={handleChange('dog_name')} />
-                    <InputField placeholder={t('Breed')} value={formData.breed} onChange={handleChange('breed')} />
-                    <SelectField value={formData.gender} onChange={handleChange('gender')}>
+                    <InputField id="dog_name" label={t('Name')} placeholder={t('Name')} value={formData.dog_name}
+                        onChange={handleChange('dog_name')} onBlur={handleBlur('dog_name')} error={fieldError('dog_name')} />
+                    <InputField id="breed" label={t('Breed')} placeholder={t('Breed')} value={formData.breed}
+                        onChange={handleChange('breed')} onBlur={handleBlur('breed')} error={fieldError('breed')} />
+                    <SelectField id="gender" label={t('Gender')} value={formData.gender}
+                        onChange={handleChange('gender')} onBlur={handleBlur('gender')} error={fieldError('gender')}>
                         <option value="">{t('Gender')}</option>
                         <option value="Male">{t('Male')}</option>
                         <option value="Female">{t('Female')}</option>
                         <option value="Other">{t('Other')}</option>
                     </SelectField>
-                    <InputField type="date" placeholder={t('DateOfBirth')} value={formData.date_of_birth} onChange={handleChange('date_of_birth')} />
-                    <SelectField value={formData.size} onChange={handleChange('size')}>
+                    <InputField id="date_of_birth" label={t('DateOfBirth')} type="date" value={formData.date_of_birth}
+                        onChange={handleChange('date_of_birth')} onBlur={handleBlur('date_of_birth')} error={fieldError('date_of_birth')} />
+                    <SelectField id="size" label={t('Size')} value={formData.size}
+                        onChange={handleChange('size')} onBlur={handleBlur('size')} error={fieldError('size')}>
                         <option value="">{t('Size')}</option>
-                        <option value={t('Small')}>{t('Small')}</option>
-                        <option value={t('Medium')}>{t('Medium')}</option>
-                        <option value={t('Large')}>{t('Large')}</option>
+                        <option value="Small">{t('Small')}</option>
+                        <option value="Medium">{t('Medium')}</option>
+                        <option value="Large">{t('Large')}</option>
                     </SelectField>
-                    <InputField placeholder={t('Bio')} value={formData.bio} onChange={handleChange('bio')} />
+                    <InputField id="bio" label={t('Bio')} placeholder={t('Bio')} value={formData.bio}
+                        onChange={handleChange('bio')} onBlur={handleBlur('bio')} error={fieldError('bio')} />
 
                     <div className="grid grid-cols-3 gap-2">
                         {photos.map((photo, i) => (
@@ -145,12 +186,15 @@ export default function RegisterDog() {
                         {photos.length < 5 && (
                             <label className="h-24 border border-dashed border-text-tertiary rounded-[var(--radius-sm)] flex items-center justify-center text-text-caption cursor-pointer text-2xl">
                                 +
-                                <input type="file" accept="image/*" multiple onChange={handlePhoto} className="hidden" />
+                                <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handlePhoto} className="hidden" />
                             </label>
                         )}
                     </div>
-                    {photos.length === 0 && (
-                        <p className="text-text-caption text-xs text-center">At least 1 photo required</p>
+                        {photoError && (
+                            <p className="text-action-pass text-xs text-center">{photoError}</p>
+                        )}
+                        {!photoError && errors.photos && (
+                            <p className="text-text-caption text-xs text-center">{t(errors.photos)}</p>
                     )}
                     
                     {uploadProgress !== null && (
@@ -169,7 +213,7 @@ export default function RegisterDog() {
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}
                     {success && <p className="text-action-match text-xs text-center">{success}</p>}
 
-                    <PrimaryButton type="submit" disabled={!allFilled || isSubmitting}>
+                    <PrimaryButton type="submit" disabled={!isValid || isSubmitting}>
                         {t('Profile2')}
                     </PrimaryButton>
                 </form>

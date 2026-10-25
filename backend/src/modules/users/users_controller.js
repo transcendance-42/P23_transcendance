@@ -7,8 +7,6 @@ async function getAllUsers(request, reply) {
 
 async function getUser(request, reply) {
     const user = await findUserById(request.params.id, request.userId)
-    console.log('user dans le controller')
-    console.log(user)
     if (!user) throw new AppError(404, 'NOT_FOUND', 'User not found')
     if (!user.is_active) throw new AppError(401, 'NOT_FOUND', 'User not found')
     return user

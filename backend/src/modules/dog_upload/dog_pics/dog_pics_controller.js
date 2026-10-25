@@ -3,6 +3,7 @@ import { creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeTyp
 import { promises as fs } from 'node:fs'
 import { createReadStream } from 'fs'
 import { AppError } from '../../../error.js'
+import { dogUploadsRoutes } from '../dog_upload_routes.js'
 
 async function getDogPic(request, reply) {
     const pic = await findPicDogById(request.params.id)
@@ -27,9 +28,19 @@ async function getDogPics(request, reply) {
 async function postDogPic(request, reply) {
     const buffer = await creatFileBuffer(request, allowedImagesMimeType)
     const filePath = await creaFilePath('uploads', request.body.file.filename)
-    const newPic = await createDogPic(request, filePath)
     await fs.writeFile(filePath, buffer)
-    return reply.send(newPic)
+    let newPic
+    try {
+      newPic = await createDogPic(request, filePath)
+    } catch (e) {
+      try {
+        await fs.unlink(filePath)
+      } catch (err) {
+          request.log.error({ err, path: filePath }, 'old file cleanup failed')
+      }
+      throw new AppError(500, 'INTERNAL_SERVER_ERROR', 'Internal server error')
+    }
+    return reply.code(201).send(newPic)
 }
 
 // unused par le front
@@ -47,20 +58,16 @@ async function postDogPic(request, reply) {
 // }
 
 async function removeDogPic(request, reply) {
-    const pic = await findPicDogById(request.params.id)
-    if (!pic)
-      throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
+  const pic = await findPicDogById(request.params.id)
+  if (!pic)
+    throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
+  await deleteDogPic(request.params.id)
+  try {
     await fs.unlink(pic.file_path)
-    await deleteDogPic(request.params.id)
-    return { success: true }
-}
-
-async function getDogForm(request, reply) {
-    const pic = await findPicDogById(request.params.id)
-    if (!pic)
-      throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
-    reply.type(pic.mime_type)
-    return reply.send(createReadStream(pic.file_path))
+  } catch (e) {
+    request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
+  }
+  return reply.code(204).send()
 }
 
 export { getDogPic, getDogPics, postDogPic, removeDogPic }

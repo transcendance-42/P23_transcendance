@@ -6,7 +6,7 @@ export function setFetchToken(token){
     currentToken = token
 }
 
-function getToken() {
+export function getToken() {
     return currentToken
 }
 

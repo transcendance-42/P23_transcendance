@@ -24,6 +24,7 @@ export default defineConfig({
         ],
       },
       workbox: {
+        globPatterns: ['**/*.{js,css,html,png,svg,webp,ico}'],
         navigateFallbackDenylist: [/^\/api/, /^\/socket\.io/],
         cleanupOutdatedCaches: true,
       },
@@ -43,5 +44,11 @@ export default defineConfig({
       protocol: 'wss',
       clientPort: 443,
     },
+  },
+  preview: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+    allowedHosts: ['localhost'],
   },
 })
