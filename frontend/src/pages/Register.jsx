@@ -91,7 +91,7 @@ export default function Register() {
     return (
         <div className="min-h-screen bg-surface-cream">
             <Modal showBack={true} >
-                <ModalHeader title="Create account" />
+                <ModalHeader title={t("CreateAccount")}/>
                 <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
                     <div className="flex justify-center w-full">
                         <Avatar size='lg' url={avatarUrl} onUpload={(file) => {
