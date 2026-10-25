@@ -1,13 +1,13 @@
 const dogIdParams = {
 	type: 'object',
 	properties: {
-		dogId: {
+		id: {
 			type: 'string',
 			pattern: '^[1-9][0-9]*$',
 			maxLength: 18
 		}
 	},
-	required: ['dogId']
+	required: ['id']
 }
 
 const SchemaDogGetId = {
