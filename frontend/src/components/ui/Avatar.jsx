@@ -1,7 +1,11 @@
 import defaultAvatar from '../../assets/pdpDefault.png'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import { validateImage } from '../../utils/validateImage'
+import { useTranslation } from 'react-i18next'
 
 const Avatar = ({ url, size = 'md', onUpload, progress = null }) => {
+    const { t } = useTranslation()
+    const [localError, setLocalError] = useState('')
     const sizesPx = { sm: 32, md: 40, lg: 128, xl: 64}
     const fileInputRef = useRef(null)
     const badgePx = sizesPx[size] / 4
@@ -11,13 +15,17 @@ const Avatar = ({ url, size = 'md', onUpload, progress = null }) => {
         const file = e.target.files[0]
         if (!file) return
         e.target.value = ''
+        const err = validateImage(file, t)
+        if (err) { setLocalError(err); return }
+        setLocalError('')
         onUpload?.(file)
     }
 
     return (
-        <div className={`relative ${onUpload && !uploading ? 'cursor-pointer hover:opacity-80 transition' : ''}`}
-             style={{ width: sizesPx[size], height: sizesPx[size] }}
-             onClick={() => onUpload && !uploading && fileInputRef.current?.click()} >
+        <div className="flex flex-col items-center gap-1">
+            <div className={`relative ${onUpload && !uploading ? 'cursor-pointer hover:opacity-80 transition' : ''}`}
+                 style={{ width: sizesPx[size], height: sizesPx[size] }}
+                 onClick={() => onUpload && !uploading && fileInputRef.current?.click()}>
             <div className="relative w-full h-full rounded-full overflow-hidden">
                 <img src={url || defaultAvatar} alt="avatar" className="w-full h-full object-cover" />
                 {uploading && (
@@ -35,7 +43,9 @@ const Avatar = ({ url, size = 'md', onUpload, progress = null }) => {
                     +
                 </span>
             )}
-            {onUpload && <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleChange} />}
+            </div>
+            {localError && <p className="text-action-pass text-xs text-center">{localError}</p>}
+            {onUpload && <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleChange} />}
         </div>
     )
 }

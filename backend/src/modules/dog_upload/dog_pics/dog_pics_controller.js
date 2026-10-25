@@ -14,7 +14,7 @@ async function getDogPic(request, reply) {
 }
 
 async function getDogPics(request, reply) {
-    const picsByDogId = await findPicsByDogId(request.params.dogId)
+    const picsByDogId = await findPicsByDogId(request.params.id)
     if (!picsByDogId)
       throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     const arraypicsByDog = picsByDogId.map(pic => ({
@@ -27,9 +27,6 @@ async function getDogPics(request, reply) {
 
 async function postDogPic(request, reply) {
     const buffer = await creatFileBuffer(request, allowedImagesMimeType)
-    const position = Number(request.body.position.value)
-    if (!Number.isInteger(position) || position < 1 || position > 5) // on peut gerer ca dans le schema
-      throw new AppError(400, 'BAD_REQUEST', 'Invalide position number')
     const filePath = await creaFilePath('uploads', request.body.file.filename)
     await fs.writeFile(filePath, buffer)
     let newPic
@@ -46,18 +43,19 @@ async function postDogPic(request, reply) {
     return reply.code(201).send(newPic)
 }
 
-// unused
-async function putDogPic(request, reply) {
-    const buffer = await creatFileBuffer(request, allowedImagesMimeType)
-    const position = Number(request.body.position.value)
-    if (!Number.isInteger(position) || position < 1 || position > 5)
-      throw new AppError(400, 'BAD_REQUEST', 'Invalide position number')
-    const fileToUpdate = await findPicDogById(request.params.id)
-    if (!fileToUpdate)
-      throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
-    await updateDogPic(request, request.params.id, fileToUpdate.file_path)
-    await fs.writeFile(fileToUpdate.file_path, buffer)
-}
+// unused par le front
+// async function putDogPic(request, reply) {
+//     const buffer = await creatFileBuffer(request, allowedImagesMimeType)
+//     const fileToUpdate = await findPicDogById(request.params.id)
+//     if (!fileToUpdate)
+//       throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
+//     console.log('filname :', request.body.file.filename)
+//     console.log('mimetype:', request.body.file.mimetype)
+//     console.log('bytes   :', request.body.file.file.bytesRead)
+//     console.log('has been uploaded')
+//     await updateDogPic(request, request.params.id, fileToUpdate.file_path)
+//     await fs.writeFile(fileToUpdate.file_path, buffer)
+// }
 
 async function removeDogPic(request, reply) {
   const pic = await findPicDogById(request.params.id)
@@ -72,4 +70,4 @@ async function removeDogPic(request, reply) {
   return reply.code(204).send()
 }
 
-export { getDogPic, getDogPics, postDogPic, putDogPic, removeDogPic }
+export { getDogPic, getDogPics, postDogPic, removeDogPic }

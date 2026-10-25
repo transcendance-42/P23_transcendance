@@ -10,6 +10,7 @@ import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
 import LocationButton from '../components/Map/LocationButton'
+import { validateImage } from '../utils/validateImage'
 
 const getErrors = (data, avatarFile) => {
     const errors = {}
@@ -79,8 +80,11 @@ export default function Register() {
         const fd = new FormData()
         fd.append('file', pendingAvatarFile)
         authFetch(`/api/user/${userId}/pic`, { method: 'PUT', body: fd })
-            .then(() => setPendingAvatarFile(null))
-            .catch(() => {})
+            .then(r => {
+                if (!r.ok) setError(t('ErrAvatarUpload'))
+                setPendingAvatarFile(null)
+            })
+            .catch(() => setError(t('ErrAvatarUpload')))
     }, [userId, pendingAvatarFile])
 
     const handleChange = (field) => (e) =>
@@ -90,6 +94,8 @@ export default function Register() {
         setTouched(prev => ({ ...prev, [field]: true }))
 
     const handleAvatarUpload = (file) => {
+        const err = validateImage(file, t)
+        if (err) { setError(err); return }
         setAvatarFile(file)
         setAvatarUrl(URL.createObjectURL(file))
     }
@@ -186,7 +192,7 @@ export default function Register() {
                 </form>
 
                 <Mascot index={4} size="lg" />
-                <p onClick={() => navigate('/login')} className="text-primary text-sm underline cursor-pointer">
+                <p onClick={() => navigate('/')} className="text-primary text-sm underline cursor-pointer">
                     {t('AlreadyAccount')}
                 </p>
             </Modal>

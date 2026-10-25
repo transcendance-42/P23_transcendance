@@ -1,32 +1,24 @@
+import { dogIdParams } from '../../dog/dogs_schema.js'
+
 const getDocuDogSchema = {
-	params: {
-    	type: 'object',
-    	properties: {
-      		dogId: { type: 'string' }
-   		},
-    	required: ['dogId']
-  }
+	params : dogIdParams
 }
 
 const putDocuDogSchema = {
+	params: dogIdParams,
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
 		properties: {
 			file: { type: 'object' },
 		},
-		required: ['file']
+		required: ['file'],
+		additionalProperties: false
 	}
 }
 
 const deleteDocuDogSchema = {
-  	params: {
-		type: 'object',
-		properties: {
-			dogId: { type: 'string' }
-		},
-		required: ['dogId']
-	}
+  	params: dogIdParams
 }
 
 export { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema }

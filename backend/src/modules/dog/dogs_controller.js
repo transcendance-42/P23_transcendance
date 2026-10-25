@@ -16,7 +16,6 @@ async function GetDogsAroundMe(request, reply) {
 	return dogs
 }
 
-
 async function GetDogsByID (request, reply) {
 	const dog = await findDogsId(request)
 	if (!dog) throw new AppError(404, 'NOT_FOUND', 'Dog not found')
