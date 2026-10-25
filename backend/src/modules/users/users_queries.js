@@ -2,6 +2,7 @@ import { Client } from 'pg'
 import prisma from '../../utils/prisma.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { DogPublicFields } from '../dog/dogs_queries.js'
 
 // est ce qu on met ca ailleurs ou on choisit manuellemtn le champs envoyé au front pour les autres controllers
 const UserPublicFields = {
@@ -45,7 +46,7 @@ async function findUserById(id, clientId) {
   return prisma.users.findUnique({
     where: { id: BigInt(id) },
     select: {...fields,
-      dogs: { include: { dog_pics: true } }
+      dogs: { select: DogPublicFields }
     } 
   })
 }

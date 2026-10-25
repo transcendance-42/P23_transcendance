@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
     const [userId, setUserId] = useState(null)
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
+    const [waitInSeconds, setWaitInSeconds] = useState(0)
 
     useEffect(() => {
         const boot = async () => {
@@ -17,7 +18,10 @@ export function AuthProvider({ children }) {
                 setToken(token)
                 setFetchToken(token) // pour que la fonction authFetch ait aussi le token
                 setUserId(userId)
-            } catch {
+            } catch(error) {
+                if (error.status === 429) {
+                    setWaitInSeconds(error.retryAfter)
+                }
                 setLoading(false)
             }
         }
@@ -84,7 +88,7 @@ export function AuthProvider({ children }) {
     }, [refreshUser])
 
     return (
-        <AuthContext.Provider value={{ token, userId, loading, login, logout, user, setUser, refreshUser }}>
+        <AuthContext.Provider value={{ token, userId, loading, login, logout, user, setUser, refreshUser, waitInSeconds }}>
             {children}
         </AuthContext.Provider>
     )

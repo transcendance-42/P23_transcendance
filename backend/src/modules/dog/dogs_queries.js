@@ -4,9 +4,21 @@ import { promises as fs } from 'node:fs'
 import { findDogDocuByDogId } from '../dog_upload/dog_docu/dog_docu_queries.js'
 
 
+const DogPublicFields = {
+  id:true,
+  owner_id: true,
+  dog_name: true,
+  gender: true,
+  breed:true,
+  age:true,
+  size:true,
+  bio:true,
+  dog_pics:{select:{id:true, position:true}}
+}
+
 async function findAllDogs() {
 	return prisma.dogs.findMany({
-		include: { dog_pics: true }
+		include: { dog_pics:{select:{id:true, position:true}} }
 	})
 }
 
@@ -61,7 +73,7 @@ async function findDogsAroundMe (userId) {
             owner_id: { in: nearUsers.map(n => n.id)  },
             id: { notIn: excludedIds },
         },
-        include: {dog_pics: true}
+        select: DogPublicFields
     }) 
 
     return Dogs
@@ -70,7 +82,7 @@ async function findDogsAroundMe (userId) {
 async function findDogsId(request) {
 	return prisma.dogs.findUnique({
 		where: { id: BigInt(request.params.id) },
-		include: { dog_pics: true }
+		select: DogPublicFields
 	})
 }
 
@@ -106,7 +118,12 @@ async function deleteDogs(request, reply) {
         if (pics){
             for (const pic of pics){
                 await tx.dog_pics.delete({ where: { id: BigInt(pic.id) } })
-                await fs.unlink(pic.file_path)
+                try{
+                    await fs.unlink(pic.file_path)
+                }
+                catch(e){
+                    request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
+                }
             }
         }
         const docu = await findDogDocuByDogId(id)
@@ -118,7 +135,12 @@ async function deleteDogs(request, reply) {
                     dog_formular_type: null
 			    }
 	        })
-            await fs.unlink(docu.dog_formular_path)
+            try {
+                await fs.unlink(docu.dog_formular_path)
+            }
+            catch(e){
+                request.log.error({ e, path: pic.file_path }, 'file cleanup failed')
+            }
         }
         await tx.swipes.deleteMany({ where: { OR: [{ swiper_id: id }, { target_id: id }] } })
         const matches = await tx.matches.findMany({ where: { OR: [{ id_dog1: id }, { id_dog2: id }] } })
@@ -130,4 +152,4 @@ async function deleteDogs(request, reply) {
     })
 }
 
-export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe}
+export {findDogsId, findDogByUserId, creatDogs, updateDogs, deleteDogs, findAllDogs, findDogsIdParams, findAllDogsExceptMe, findDogsAroundMe, DogPublicFields}

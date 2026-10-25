@@ -14,7 +14,7 @@ async function jwt_auth(request, reply){
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await findUserById(decoded.id, decoded.id)
         if (!user.is_active)
-            return reply.code(401).send({error: 'INVALID_TOKEN'})
+            throw new AppError(401, 'INVALID_TOKEN', 'Access token is invalid')
         request.userId = decoded.id
         request.role = decoded.role
     }
@@ -24,4 +24,14 @@ async function jwt_auth(request, reply){
         throw new AppError(401, 'INVALID_TOKEN', 'Access token is invalid')
     }
 }
-export {jwt_auth}
+
+async function api_auth(request, reply){
+    const api_key = request.headers['x-api-key']
+    if (!api_key)
+        throw new AppError(404, 'API_KEY_MISSING', 'Api key not found')
+    if (api_key !== process.env.SECURED_API_KEY)
+        throw new AppError(404, 'API_KEY_INVALID', 'Api key invalid')
+    request.role = 'admin'
+}
+
+export {jwt_auth, api_auth}

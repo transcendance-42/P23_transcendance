@@ -166,6 +166,7 @@
     "DeactivateProfile" : "Deactivate your profil", 
     "DeactivateProfileConfirm" : "Are you sure you want to delete your acount? Your email won't be usable for 3 months.",
     "ErrorSwipe": "Unable to load profiles",
+    "ErrorRefresh": "Too many requests. Please refresh the page in {{seconds}} seconds.",
     "AddPhoto" : "Add a photo",
     "ChangePhoto" : "Change photo",
     "ErrRequired": "This field is required",
@@ -184,5 +185,16 @@
     "ErrPhotoRequired": "A profile picture is required",
     "ErrLocationRequired": "Choose your location", 
     "PageNotFound": "This page doesn't exist.",
-    "BackHome": "Back to home"
+    "BackHome": "Back to home",
+    "ErrLocationRequired": "Choose your location",
+    "ErrDogNameShort": "2 characters minimum",
+    "ErrDogNameLong": "50 characters maximum",
+    "ErrBreedLong": "30 characters maximum",
+    "ErrDateFuture": "The date cannot be in the future",
+    "ErrDogTooOld": "Your dog cannot be older than 30",
+    "ErrBioLong": "400 characters maximum",
+    "ErrPhotoTooLarge": "{{name}} is too large (5 MB maximum)",
+    "ErrPhotoDuplicate": "{{name}} is already added",
+    "ErrDogExists": "You already have a dog",
+    "DogCreated": "Dog profile created!"
   }
