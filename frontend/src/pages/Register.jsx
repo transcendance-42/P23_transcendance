@@ -10,6 +10,7 @@ import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
 import LocationButton from '../components/Map/LocationButton'
+import LoginPopup from '../components/login/LoginPopup'
 import { validateImage } from '../utils/validateImage'
 
 const getErrors = (data, avatarFile) => {
@@ -55,6 +56,7 @@ export default function Register() {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { login, userId } = useAuth()
+    const [showLogin, setShowLogin] = useState(false)
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -192,9 +194,10 @@ export default function Register() {
                 </form>
 
                 <Mascot index={4} size="lg" />
-                <p onClick={() => navigate('/')} className="text-primary text-sm underline cursor-pointer">
+                <p onClick={() => setShowLogin(true)} className="text-primary text-sm underline cursor-pointer">
                     {t('AlreadyAccount')}
                 </p>
+                {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
             </Modal>
         </div>
     )
