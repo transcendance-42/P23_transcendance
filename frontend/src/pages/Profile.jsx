@@ -12,6 +12,7 @@ import Modal from '../components/ui/Modal'
 import ModalHeader from '../components/ui/ModalHeader'
 import SecondaryButton from '../components/ui/SecondaryButton'
 import { uploadFile } from '../api/upload'
+import { validateImage } from '../utils/validateImage'
 
 const REQUIRED_USER_FIELDS = [
     { field: 'first_name',    label: 'FirstName'   },
@@ -31,8 +32,12 @@ export default function Profile() {
     const isAdmin = user?.role === 'admin'
     const [showDeactivateModal, setShowDeactivateModal] = useState(false)
     const [avatarProgress, setAvatarProgress] = useState(null)
+    const [avatarError, setAvatarError] = useState('')
 
     const handleAvatarUpload = async (file) => {
+        const err = validateImage(file, t)
+        if (err) { setAvatarError(err); return }
+        setAvatarError('')
         setAvatarProgress(0)
         try {
             await uploadFile('PUT', `/api/user/${userId}/pic`, file, getToken(), setAvatarProgress)
@@ -41,6 +46,7 @@ export default function Profile() {
             if (response.ok) setUser(await response.json())
             await refreshUser()
         } catch {
+            setAvatarError(t('ErrAvatarUpload'))
         } finally {
             setAvatarProgress(null)
         }
@@ -91,9 +97,10 @@ export default function Profile() {
             <div className="mx-auto max-w-2xl px-6 py-10 flex flex-col gap-6">
                 <div className="flex items-center gap-4">
                     <Avatar size='lg' url={avatarUrl} progress={avatarProgress} onUpload={isAdmin ? undefined : handleAvatarUpload}/>
-                    <h1 className="font-heading text-3xl font-bold text-text-primary">
-                        {t('MyProfile')}
-                    </h1>
+                    <div>
+                        <h1 className="font-heading text-3xl font-bold text-text-primary">{t('MyProfile')}</h1>
+                        {avatarError && <p className="text-action-pass text-xs mt-1">{avatarError}</p>}
+                    </div>
                 </div>
 
                 {user.role === 'admin' ? (

@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { authFetch, getToken } from '../api/authFetch'
 import { useAuth } from '../auth/AuthContext'
 import { uploadDogPics } from '../api/dogs'
+import { validateImage } from '../utils/validateImage'
 
 const getErrors = (data, photos) => {
     const errors = {}
@@ -70,23 +71,19 @@ export default function RegisterDog() {
         setTouched(prev => ({ ...prev, [field]: true }))
 
     const handlePhoto = (e) => {
-    const files = Array.from(e.target.files)
-    const MAX_SIZE = 5 * 1024 * 1024
+        const files = Array.from(e.target.files)
+        const MAX_SIZE = 5 * 1024 * 1024
 
-    for (const file of files) {
-        if (file.size > MAX_SIZE)
-        {
-            setPhotoError(t('ErrPhotoTooLarge', { name: file.name }))
-            return
+        for (const file of files) {
+            const err = validateImage(file, t)
+            if (err) { setPhotoError(err); return }
+            if (photos.some(p => p.name === file.name && p.size === file.size)) {
+                setPhotoError(t('ErrPhotoDuplicate', { name: file.name }))
+                return
+            }
         }
-        if (photos.some(p => p.name === file.name && p.size === file.size))
-        {
-            setPhotoError(t('ErrPhotoDuplicate', { name: file.name }))
-            return
-        }
-    }
-    setPhotoError('')
-    setPhotos(prev => [...prev, ...files].slice(0, 5))
+        setPhotoError('')
+        setPhotos(prev => [...prev, ...files].slice(0, 5))
     }
 
     const removePhoto = (index) => {
@@ -113,7 +110,6 @@ export default function RegisterDog() {
             setIsSubmitting(false)
             return
         }
-            // Étape 2 : créer les photos pour le chien, multipart
             for (let index = 0; index < photos.length; index++) {
                 const fd = new FormData()
                 fd.append('dog_id', dogData.id)
@@ -190,7 +186,7 @@ export default function RegisterDog() {
                         {photos.length < 5 && (
                             <label className="h-24 border border-dashed border-text-tertiary rounded-[var(--radius-sm)] flex items-center justify-center text-text-caption cursor-pointer text-2xl">
                                 +
-                                <input type="file" accept="image/*" multiple onChange={handlePhoto} className="hidden" />
+                                <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handlePhoto} className="hidden" />
                             </label>
                         )}
                     </div>

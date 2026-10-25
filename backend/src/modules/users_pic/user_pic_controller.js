@@ -20,6 +20,7 @@ async function putUserPic(request, reply) {
 		await fs.writeFile(filePath, buffer)
 		await updateUserPic(request, filePath)
 	} catch (e) {
+		request.log.error({ err: e }, 'putUserPic failed')
 		try {
 			await fs.unlink(filePath)
 		} catch (cleanErr) {
