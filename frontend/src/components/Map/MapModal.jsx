@@ -68,7 +68,7 @@ export default function MapModal({ onLocationChange, onClose }) {
             setError(t('EmptySearch'))
             return
         }
-        if (radius < 1) {
+        if (!Number.isInteger(radius) || radius < 1 || radius > 500) {
             setError(t('EmplyRadius'))
             return
         }

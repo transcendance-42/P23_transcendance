@@ -23,12 +23,12 @@ async function putUser(request, reply) {
 
 async function putUserPosition(request, reply){
   try {
-    return await updateUserPosition(request.params.id, request.body)
+    await updateUserPosition(request.params.id, request.body)
+    reply.code(204).send()
   } catch (e) {
     if (e.code === 'P2025') throw new AppError(404, 'NOT_FOUND', 'User not found')
     throw e
   }
-
 }
 
 async function patchDeactivateUser(request, reply) {

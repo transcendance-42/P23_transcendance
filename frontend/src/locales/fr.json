@@ -130,7 +130,7 @@
     "CatchMapError": "Une erreur est survenue lors de la recherche",
     "SearchDistanceMessage": "Sur quelle distance souhaitez-vous faire des rencontres",
     "EmptySearch": "Vous devez indiquer une ville vias Rechercher",
-    "EmplyRadius": "le rayon doit être de au moins 1km",
+    "EmplyRadius": "le rayon doit être un nombre entre 1 et 500 km",
     "WhatEmail": "Quelle est ton email ?",
     "HealthRecord": "Carnet de santé",
     "DocuNone": "Aucun document",
@@ -193,7 +193,6 @@
     "ErrLocationRequired": "Choisissez votre localisation", 
     "PageNotFound": "Cette page n'existe pas.",
     "BackHome": "Retour à l'accueil",
-    "ErrLocationRequired": "Choisissez votre localisation",
     "ErrDogNameShort": "2 caractères minimum",
     "ErrDogNameLong": "50 caractères maximum",
     "ErrBreedLong": "30 caractères maximum",
@@ -203,5 +202,7 @@
     "ErrPhotoTooLarge": "{{name}} est trop lourde (5 Mo maximum)",
     "ErrPhotoDuplicate": "{{name}} est déjà ajoutée",
     "ErrDogExists": "Vous avez déjà un chien",
-    "DogCreated": "Profil du chien créé !"
+    "DogCreated": "Profil du chien créé !", 
+    "ErrInvalidFileType": "Le fichier doit être une image",
+    "ErrAvatarUpload": "Échec de l'envoi de la photo"
 }

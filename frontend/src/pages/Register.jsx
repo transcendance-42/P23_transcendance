@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
 import LocationButton from '../components/Map/LocationButton'
 import LoginPopup from '../components/login/LoginPopup'
+import { validateImage } from '../utils/validateImage'
 
 const getErrors = (data, avatarFile) => {
     const errors = {}
@@ -81,8 +82,11 @@ export default function Register() {
         const fd = new FormData()
         fd.append('file', pendingAvatarFile)
         authFetch(`/api/user/${userId}/pic`, { method: 'PUT', body: fd })
-            .then(() => setPendingAvatarFile(null))
-            .catch(() => {})
+            .then(r => {
+                if (!r.ok) setError(t('ErrAvatarUpload'))
+                setPendingAvatarFile(null)
+            })
+            .catch(() => setError(t('ErrAvatarUpload')))
     }, [userId, pendingAvatarFile])
 
     const handleChange = (field) => (e) =>
@@ -92,6 +96,8 @@ export default function Register() {
         setTouched(prev => ({ ...prev, [field]: true }))
 
     const handleAvatarUpload = (file) => {
+        const err = validateImage(file, t)
+        if (err) { setError(err); return }
         setAvatarFile(file)
         setAvatarUrl(URL.createObjectURL(file))
     }

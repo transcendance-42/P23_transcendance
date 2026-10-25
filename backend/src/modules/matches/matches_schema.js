@@ -1,25 +1,25 @@
-const getMatchesByUserSchema = {
-  params: {
+const matchIdParams = {
     type: 'object',
-    properties: { userId: { type: 'integer' } },
-    required: ['userId']
-  }
+    properties: {
+        id: {
+            type: 'string',
+            pattern: '^[1-9][0-9]*$',
+            maxLength: 18
+        }
+    },
+    required: ['id']
+}
+
+const getMatchesByUserSchema = {
+  params: matchIdParams
 }
 
 const getMatchMessagesSchema = {
-  params: {
-    type: 'object',
-    properties: { matchId: { type: 'integer' } },
-    required: ['matchId']
-  }
+  params: matchIdParams
 }
 
 const deleteMatchSchema = {
-  params: {
-    type: 'object',
-    properties: { matchId: { type: 'integer' } },
-    required: ['matchId']
-  }
+  params: matchIdParams
 }
 
 export { getMatchesByUserSchema, getMatchMessagesSchema, deleteMatchSchema }
