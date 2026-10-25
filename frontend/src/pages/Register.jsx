@@ -115,7 +115,11 @@ export default function Register() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         })
-        const data = await response.json()
+        let data = {}
+
+        if (response.status !== 204) {
+            data = await response.json()
+        }
 
         if (response.status === 400) return setError(t('ErrInvalidData'))
         if (response.status === 401) {

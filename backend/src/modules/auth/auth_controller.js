@@ -101,12 +101,12 @@ async function register(request, reply) {
         const geoData = await validate_geo_data(request.body.city)
         const hashPassword = await bcrypt.hash(request.body.password, 10)
         await creatUser(request, hashPassword, birthDate, geoData)
-        return reply.code(201).send()
+        return reply.code(204).send()
 }
 
 async function postHearthBeat(request, reply) {
         await updateLastSeenAt(request.userId)
-        return reply.code(200).send()
+        return reply.code(204).send()
 }
 
 export { login, register, logout, generateRefreshToken, generateAccessToken , issueSession, COOKIE_OPTIONS, postHearthBeat }
