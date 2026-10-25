@@ -4,10 +4,9 @@ async function findUser(email) {
 	return prisma.users.findUnique({ where: { email } })
 }
 
-async function creatUser(request, hashPassword, date) {
-
-	const lng = Number(request.body.longitude)
-	const lat = Number(request.body.latitude)
+async function creatUser(request, hashPassword, date, geoData) {
+	const lng = geoData.longitude
+	const lat = geoData.latitude
 
 	return prisma.$transaction(async (tx) => {
 

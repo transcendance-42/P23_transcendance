@@ -13,10 +13,10 @@ export default function LocationButton({ onLocationChange, initialCity = '', ini
         setRadius(initialRadius)
     }, [initialCity, initialRadius])
 
-    const handleLocationChange = (city, latitude, longitude, rad) => {
+    const handleLocationChange = (city, rad) => {
         setLocation(city)
         setRadius(rad)
-        onLocationChange(city, latitude, longitude, rad)
+        onLocationChange(city,rad)
     }
 
     const textColor = dark ? 'text-white border-white' : 'text-text-primary border-text-tertiary'

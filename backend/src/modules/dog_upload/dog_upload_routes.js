@@ -2,14 +2,14 @@ import { getDogPicSchema, getDogPicsSchema, createDogPicSchema, deleteDogPicSche
 import { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema } from './dog_docu/dog_docu_schema.js'
 import { getDogPic, getDogPics, postDogPic, removeDogPic } from './dog_pics/dog_pics_controller.js'
 import { getDogDocu, putDogDocu, removeDogDocu } from './dog_docu/dog_docu_controllers.js'
-import { checkAccesGetDogPic, checkAccesDogUpload, checkAccesDogPicDelete, checkAccesDogPicPut } from '../../plugins/checkDogPicAcces.js'
+import { checkAccesDogUpload, checkAccesDogPicDelete, checkAccesDogPicPut } from '../../plugins/checkDogPicAcces.js'
 import { checkMyOtherAccess } from '../../plugins/checkDogAccess.js'
 
 async function dogUploadsRoutes(fastify) {
   fastify.addHook('onRequest', fastify.authorize) // pour autoriser la route
   fastify.get('/dogs/:id/pics', {schema : getDogPicsSchema}, getDogPics) // preHandler:checkMyOtherAccess desactivé
   fastify.get('/dog-pics/:id', {schema : getDogPicSchema}, getDogPic)// preHandler:checkAccesGetDogPic desactivé
-  fastify.post('/dog-pics', {schema : createDogPicSchema, config : rateLimitPhoto, preHandler: checkAccesDogPic}, postDogPic)
+  fastify.post('/dog-pics', {schema : createDogPicSchema, config : rateLimitPhoto, preHandler: checkAccesDogUpload}, postDogPic)
   // fastify.put('/dog-pics/:id', {schema : updateDogPicSchema, config : rateLimitPhoto, preHandler:checkAccesDogPicPut}, putDogPic) // Route non utilisée par le front on peut la supprimer
   fastify.delete('/dog-pics/:id', {schema : deleteDogPicSchema, preHandler: checkAccesDogPicDelete}, removeDogPic)
 

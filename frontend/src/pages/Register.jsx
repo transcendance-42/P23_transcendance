@@ -63,8 +63,6 @@ export default function Register() {
         password: '',
         confirm_password: '',
         city: '',
-        latitude: null,
-        longitude: null,
         radius: '',
         date_of_birth: ''
     })
@@ -100,8 +98,12 @@ export default function Register() {
         setAvatarUrl(URL.createObjectURL(file))
     }
 
-    const handleLocationChange = (city, latitude, longitude, radius) => {
-        setFormData(prev => ({ ...prev, city, latitude, longitude, radius }))
+    const handleLocationChange = (city, radius) => {
+        setFormData(prev => ({
+            ...prev,
+            city,
+            radius
+        }))
     }
 
     const handleSubmit = async (e) => {
