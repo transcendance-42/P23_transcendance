@@ -12,7 +12,7 @@ export function errorHandler(error, request, reply) {
 
 	if (error.validation) {
 		return reply.code(400).send({
-			error: 'VALIIDATION_ERROR',
+			error: 'VALIDATION_ERROR',
 			message: 'Invalid request data'
 		})
 	}
