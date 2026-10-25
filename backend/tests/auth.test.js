@@ -79,7 +79,7 @@ describe('jwt_auth', () => {
     });
   });
 
-  it('retourne une réponse pour un utilisateur désactivé', async () => {
+  it('refuse un utilisateur désactivé', async () => {
     const token = jwt.sign({ id: 42, role: 'user' }, secret);
     const request = { headers: { authorization: `Bearer ${token}` } };
     const reply = {
@@ -94,9 +94,12 @@ describe('jwt_auth', () => {
     };
     findUserById.mockResolvedValue({ id: 42, is_active: false });
 
-    await expect(jwt_auth(request, reply)).resolves.toBe(reply);
-    expect(reply.statusCode).toBe(401);
-    expect(reply.body).toEqual({ error: 'INVALID_TOKEN' });
-    expect(reply.code).toHaveBeenCalledWith(401);
+    await expect(jwt_auth(request, reply)).rejects.toMatchObject({
+      statusCode: 401,
+      code: 'INVALID_TOKEN',
+      message: 'Access token is invalid',
+    });
+    expect(reply.code).not.toHaveBeenCalled();
+    expect(reply.send).not.toHaveBeenCalled();
   });
 });

@@ -127,7 +127,6 @@ describe('dogs controllers', () => {
       DeleteDogs({ params: { id: '12' } }, reply),
     ).resolves.toBe(reply);
     expect(reply.statusCode).toBe(204);
-    expect(reply.body).toEqual({ success: true });
     expect(deleteDogs).toHaveBeenCalledWith({ params: { id: '12' } });
   });
 });

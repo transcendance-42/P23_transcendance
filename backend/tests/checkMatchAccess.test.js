@@ -42,6 +42,7 @@ describe('match access plugins', () => {
 
   it('attache le match à la requête si l’utilisateur en fait partie', async () => {
     findMatch.mockResolvedValue({
+      is_active: true,
       matchesAsDog1: { owner_id: 7 },
       matchesAsDog2: { owner_id: 8 },
     });
