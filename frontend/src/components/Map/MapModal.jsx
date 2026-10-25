@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
@@ -18,8 +18,10 @@ const defaultIcon = L.icon({
 // Déplace la carte lorsque les coordonnées changent
 function MapController({ position }) {
     const map = useMap()
-    if (position)
-        map.setView(position, 10)
+    useEffect(() => {
+        if (position)
+            map.setView(position, 10)
+    }, [map, position])
     return null
 }
 
@@ -31,6 +33,8 @@ export default function MapModal({ onLocationChange, onClose }) {
     const [error, setError] = useState('')
     const [radius, setRadius] = useState('')
     const [city, setCity] = useState('')
+    const [hasSearch, setHasSearch] = useState(false)
+    const isValid = hasSearch && city && radius >= 1 // pour rendre le bouton non cliquable
 
     const handleSearch = async () => {
         if (!search.trim())
@@ -38,13 +42,13 @@ export default function MapModal({ onLocationChange, onClose }) {
         try {
             setError('')
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&q=${encodeURIComponent(search)}`
+                `https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&featuretype=city&q=${encodeURIComponent(search)}`
             )
             if (!response.ok)
-                throw new Error('Erreur lors de la recherche')
+                throw new Error(t('RequestError'))
             const results = await response.json()
             if (results.length === 0) {
-                setError('Ville introuvable')
+                setError(t('ErrorCityNotFound'))
                 return
             }
             const address = results[0].address
@@ -52,15 +56,20 @@ export default function MapModal({ onLocationChange, onClose }) {
             const newPosition = [parseFloat(results[0].lat), parseFloat(results[0].lon)]
             setCity(newCity)
             setPosition(newPosition)
+            setHasSearch(true)
         } catch (error) {
             console.error(error)
-            setError('Impossible de chercher cette ville')
+            setError(t('CatchMapError'))
         }
     }
 
     const handleValidate = () => {
+        if (!city) {
+            setError(t('EmptySearch'))
+            return
+        }
         if (radius < 1) {
-            setError('le rayon doit être de au moins 1km')
+            setError(t('EmplyRadius'))
             return
         }
 		onLocationChange(city, position[0], position[1], radius)
@@ -69,6 +78,9 @@ export default function MapModal({ onLocationChange, onClose }) {
 
     return (
         <div className="bg-white rounded-lg p-4">
+            <h1 className="absolute top-5 left-5 text-[20px] font-semibold text-black">
+                {t('MapTitle')}
+            </h1>
             <div className="flex gap-2 mb-4">
                 <input
                     type="text"
@@ -84,7 +96,7 @@ export default function MapModal({ onLocationChange, onClose }) {
                 <button
                     type="button"
                     onClick={handleSearch}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                    className="bg-blue-500 hover:bg-blue-700 cursor-pointer text-white px-4 py-2 rounded-lg"
                 >
                     {t('SearchMap')}
                 </button>
@@ -99,8 +111,8 @@ export default function MapModal({ onLocationChange, onClose }) {
                 zoom={10}
                 style={{ width: '400px', height: '400px' }}
                 scrollWheelZoom={true}
-                dragging={false}
-                doubleClickZoom={true}
+                dragging={true}
+                doubleClickZoom={false}
                 touchZoom={true}
                 keyboard={false}
             >
@@ -109,38 +121,48 @@ export default function MapModal({ onLocationChange, onClose }) {
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <MapController position={position}/>
-                <Marker
+                {hasSearch && (< 
+                    Marker
                     position={position}
                     icon={defaultIcon}
-                />
-                <Circle
-                    center={position}
-                    radius={radius * 1000}
-                    pathOptions={{
-                        color: 'red',
-                        fillColor: 'red',
-                        fillOpacity: 0.10
-                    }}
-                />
-            </MapContainer>
-            <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <input
-                        type="number"
-                        min="1"
-                        placeholder={t('DistanceToSearch')}
-                        onChange={(e) => setRadius(Number(e.target.value))}
-                        className="w-auto border border-gray-300 rounded-lg px-4 py-2 text-black"
+                />)}
+                {hasSearch && (<
+                        Circle
+                        center={position}
+                        radius={radius * 1000}
+                        pathOptions={{
+                            color: 'red',
+                            fillColor: 'red',
+                            fillOpacity: 0.10
+                        }}
                     />
-                    <span className="text-black"> km </span>
+                )}
+            </MapContainer>
+            <div className="mt-4 flex flex-col items-start gap-2">
+                <p className="text-sm text-gray-600">
+                    {t('SearchDistanceMessage')}
+                </p>
+
+                <div className="flex items-center gap-2 w-full">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="number"
+                            min="1"
+                            placeholder={t('DistanceToSearch')}
+                            onChange={(e) => setRadius(Number(e.target.value))}
+                            className="w-auto border border-gray-300 rounded-lg px-4 py-2 text-black"
+                        />
+                        <span className="text-black">km</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={handleValidate}
+                        className="ml-auto text-white px-4 py-2 rounded-lg transition-all duration-100 bg-green-500 hover:bg-green-600 cursor-pointer"
+                    >
+                        {t('ValideMapData')}
+                    </button>
                 </div>
-                <button
-                    type="button"
-                    onClick={handleValidate}
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg"
-                >
-                    {t('ValideMapData')}
-                </button>
             </div>
         </div>
     )

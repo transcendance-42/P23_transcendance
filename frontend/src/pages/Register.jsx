@@ -173,7 +173,7 @@ export default function Register() {
                         value={formData.date_of_birth} onChange={handleChange('date_of_birth')}
                         onBlur={handleBlur('date_of_birth')} error={fieldError('date_of_birth')} />
 
-                    <LocationButton onLocationChange={handleLocationChange} />
+                    <LocationButton dark={true} onLocationChange={handleLocationChange} />
                     {hasStarted && errors.location && (<p className="text-xs text-action-pass">{t('ErrLocationRequired')}</p>)}
 
                     {error && <p className="text-action-pass text-xs text-center">{error}</p>}

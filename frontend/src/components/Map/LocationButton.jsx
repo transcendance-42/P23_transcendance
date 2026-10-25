@@ -32,7 +32,7 @@ export default function LocationButton({ onLocationChange, initialCity = '', ini
                 <span className={`w-7 h-7 rounded-full border flex items-center justify-center ${iconBorder}`}>
                     🌍
                 </span>
-                <span>
+                <span className={dark ? 'text-white' : 'text-black'}>
                     {location ? `${location}${radius ? ` (${radius} km)` : ''}` : t('LocalisationButton')}
                 </span>
             </button>
@@ -42,9 +42,9 @@ export default function LocationButton({ onLocationChange, initialCity = '', ini
                         <button
                             type="button"
                             onClick={() => setShowMap(false)}
-                            className="absolute top-2 right-2 z-50 bg-red-300 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl shadow-md hover:bg-red-400"
+                            className="absolute top-2 right-2 z-50 bg-red-300 hover:bg-red-500 cursor-pointer text-white rounded-full w-8 h-8 flex items-center justify-center"
                         >
-                            X
+                        X
                         </button>
                         <MapModal
                             onLocationChange={handleLocationChange}
