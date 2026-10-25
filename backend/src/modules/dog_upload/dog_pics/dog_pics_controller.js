@@ -55,10 +55,6 @@ async function putDogPic(request, reply) {
     const fileToUpdate = await findPicDogById(request.params.id)
     if (!fileToUpdate)
       throw new AppError(404, 'NOT_FOUND', 'Dog pic not found')
-    console.log('filname :', request.body.file.filename)
-    console.log('mimetype:', request.body.file.mimetype)
-    console.log('bytes   :', request.body.file.file.bytesRead)
-    console.log('has been uploaded')
     await updateDogPic(request, request.params.id, fileToUpdate.file_path)
     await fs.writeFile(fileToUpdate.file_path, buffer)
 }
