@@ -27,11 +27,12 @@ ps:
 	docker-compose ps
 
 certs:
-	@command -v mkcert >/dev/null || { echo "Installe mkcert d'abord : https://github.com/FiloSottile/mkcert"; exit 1; }
-	@mkcert -install
 	@mkdir -p certs
-	@mkcert -cert-file certs/local.pem -key-file certs/local-key.pem \
-		localhost
-
+	@test -f certs/local.pem || openssl req -x509 -newkey rsa:2048 -nodes \
+        -keyout certs/local-key.pem \
+        -out certs/local.pem \
+        -days 365 \
+        -subj "/CN=localhost" \
+        -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
 
 .PHONY: all up dev down re clean fclean logs ps
