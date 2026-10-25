@@ -149,6 +149,7 @@ cd ft_transcendance
 
 2. Copy the environment files and fill in your values:
 ```bash
+cp .env.example .env
 cp backend/.env.docker.example backend/.env.docker
 ```
 
