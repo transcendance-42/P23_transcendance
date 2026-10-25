@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { authFetch } from '../../api/authFetch'
-import { useAuth } from '../../auth/AuthContext'
+import { authFetch, getToken } from '../../api/authFetch'
 import { uploadDogDocu } from '../../api/dogDocu'
 import Modal from '../ui/Modal'
 import ModalHeader from '../ui/ModalHeader'
@@ -10,7 +9,6 @@ import SecondaryButton from '../ui/SecondaryButton'
 
 export default function DogDocument({ dogId, editable }) {
     const { t } = useTranslation()
-    const { token } = useAuth()
     const [hasDoc, setHasDoc] = useState(null)
     const [progress, setProgress] = useState(null)
     const [error, setError] = useState('')
@@ -45,7 +43,7 @@ export default function DogDocument({ dogId, editable }) {
 
         setProgress(0)
         try {
-            await uploadDogDocu(dogId, file, token, setProgress)
+            await uploadDogDocu(dogId, file, getToken(), setProgress)
             setHasDoc(true)
         } catch {
             setError(t('DocuError'))
