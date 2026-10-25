@@ -8,8 +8,8 @@ import { AppError } from '../../error.js'
 const COOKIE_OPTIONS = {
         path:'/',
         httpOnly:true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite:'none',
+        secure:true,
         maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
