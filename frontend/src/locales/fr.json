@@ -130,7 +130,7 @@
     "CatchMapError": "Une erreur est survenue lors de la recherche",
     "SearchDistanceMessage": "Sur quelle distance souhaitez-vous faire des rencontres",
     "EmptySearch": "Vous devez indiquer une ville vias Rechercher",
-    "EmplyRadius": "le rayon doit être de au moins 1km",
+    "EmplyRadius": "le rayon doit être un nombre entre 1 et 500 km",
     "WhatEmail": "Quelle est ton email ?",
     "HealthRecord": "Carnet de santé",
     "DocuNone": "Aucun document",

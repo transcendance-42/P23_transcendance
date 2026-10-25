@@ -67,8 +67,6 @@ async function updateUserPosition(id , data){
       SET "position" = ST_setSRID(ST_Makepoint(${lng}::float8,${lat}::float8), 4326)::geography,
           "city" = ${data.city}
       WHERE "id" = ${Number(id)}`
-
-  return {succes:true}
 }
 
 async function updateUser(id, data) {

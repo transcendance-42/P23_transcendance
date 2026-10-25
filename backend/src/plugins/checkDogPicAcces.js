@@ -52,7 +52,7 @@ async function checkAccesDogPicDelete(request, reply) {
     if (!dogPic)
         throw new AppError(404, 'NOT FOUND', 'Dog pic not found')       
     if (userId.toString() !== dogPic.dogs.owner_id.toString())
-        return reply.code(403).send({error: 'Forbidden'})  
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')   
 }
 
 async function checkAccesDogPicPut(request, reply) {

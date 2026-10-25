@@ -129,7 +129,7 @@
     "CatchMapError": "Bei der Suche ist ein Fehler aufgetreten.",
     "SearchDistanceMessage": "Über welche Entfernung hinweg möchtest du Leute kennenlernen?",
     "EmptySearch": "Sie müssen über die Suche eine Stadt angeben.",
-    "EmplyRadius": "Der Radius muss mindestens 1 km betragen.",
+    "EmplyRadius": "Der Radius muss eine Zahl zwischen 1 und 500 km sein.",
     "WhatEmail": "Was ist deine E-Mail?",
     "HealthRecord": "Gesundheitsheft",
     "DocuNone": "Kein Dokument",

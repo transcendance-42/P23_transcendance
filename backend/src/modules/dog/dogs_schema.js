@@ -1,9 +1,17 @@
-const SchemaDogGetId = {
-	params: {
+const dogIdParams = {
 	type: 'object',
-	properties: { id: { type: 'integer' } },
-	required: ['id'] 
-	}
+	properties: {
+		dogId: {
+			type: 'string',
+			pattern: '^[1-9][0-9]*$',
+			maxLength: 18
+		}
+	},
+	required: ['dogId']
+}
+
+const SchemaDogGetId = {
+	params: dogIdParams
 }
 
 const SchemaDogPost = {
@@ -23,12 +31,7 @@ const SchemaDogPost = {
 }
 
 const SchemaDogsPut = {
-	params: {
-	type: 'object',
-	minProperties:1,
-	properties: { id: { type: 'integer' } },
-	required: ['id']
-	}, 
+	params: dogIdParams, 
 	body: {
 	type: 'object',
 	properties: {
@@ -44,11 +47,7 @@ const SchemaDogsPut = {
 }
 
 const SchemaDogsDelete = {
-      params: {
-        type: 'object',
-        properties: { id: { type: 'integer' } },
-        required: ['id']
-      }
-    }
+	params: dogIdParams
+}
 
-export {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete}
+export {SchemaDogGetId, SchemaDogPost, SchemaDogsPut, SchemaDogsDelete, dogIdParams}
