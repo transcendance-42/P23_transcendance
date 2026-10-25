@@ -12,7 +12,7 @@ async function checkMessageDeleteAcces(request, reply) {
     if (!message)
         throw new AppError(404, 'NOT_FOUND', 'Message not found')
     if (message.sender_id.toString() !== userId.toString())
-        throw new AppError(4043, 'FORBIDDEN', 'Forbidden')
+        throw new AppError(403, 'FORBIDDEN', 'Forbidden')
 }
 
 async function checkMessageAccessParams(request, reply) {
