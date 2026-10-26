@@ -38,7 +38,7 @@ function attachwebsocket(app){
     const io = new Server(app.server, {
         cors: {
             origin: [
-                'https:localhost',
+                'https:localhost:4443',
                 'http://localhost:5173',
                 'http://127.0.0.1:5173'
             ],
