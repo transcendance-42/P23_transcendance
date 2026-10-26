@@ -53,7 +53,7 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
                 body: JSON.stringify(formData)
             })
         if (!response.ok) {
-            setError(response.status === 409 ? 'Cet email est déjà utilisé' : 'Erreur serveur')
+            setError(response.status === 409 ? t('ErrEmailExists') : t('ErrServer'))
             return
         }
         const data = await response.json();
@@ -69,7 +69,7 @@ export default function UserProfile({ user, onSaved, missingFields = [] }) {
         setEditing(false);
         await refreshUser()
         } catch(e){
-            setError('Impossible de contacter le serveur');
+            setError(t('ErrServer'))
         }
     }
         
