@@ -83,11 +83,11 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
     const handleSave = async () => {
         setError('')
         if (!formData.dog_name || !formData.breed || !formData.gender || !formData.age || !formData.size) {
-            setError('Remplis tous les champs obligatoires')
+            setError(t('CompleteForm'))
             return
         }
         if (pics.length === 0) {
-            setError('Ajoute au moins une photo')
+            setError(t('ErrPhotoRequired'))
             return
         }
         try {
@@ -97,7 +97,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                 body: JSON.stringify(formData)
             })
             if (!response.ok) {
-                setError('Enregistrement impossible, réessaie')
+                setError(t('ErrServer'))
                 return
             }
             const data = await response.json()
@@ -105,7 +105,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
             setEditing(false)
             await refreshUser()
         } catch (e) {
-            setError('Impossible de contacter le serveur')
+            setError(t('ErrServer'))
         }
     }
  
@@ -113,9 +113,9 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         try {
             const response = await authFetch(`/api/dogs/${dog.id}`, { method: 'DELETE' })
             if (response.ok) onDeleted(dog.id)
-            else setError('Suppression impossible')
+            else setError(t('ErrServer'))
         } catch (e) {
-            setError('Impossible de contacter le serveur')
+            setError(t('ErrServer'))
         }
         await refreshUser()
         setShowDeleteModal(false)
@@ -129,7 +129,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                 return prev.filter(p => p.id !== picId)
             })
         } catch (e) {
-            setError('Impossible de supprimer la photo')
+            setError(t('ErrServer'))
         }
     }
  
@@ -165,13 +165,13 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                 const url = URL.createObjectURL(file)
                 setPics(prev => [...prev, { id: newPic.id, position: newPic.position, url }])
             } else {
-                setError("Impossible d'ajouter la photo")
+                setError(t('ErrServer'))
             }
         })
  
         xhr.addEventListener('error', () => {
             setUploadProgress(null)
-            setError('Impossible de contacter le serveur')
+            setError(t('ErrServer'))
         })
  
         xhr.send(fd)

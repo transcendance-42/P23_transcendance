@@ -205,5 +205,7 @@
     "DogCreated": "Profil du chien créé !", 
     "ErrInvalidFileType": "Le fichier doit être une image",
     "ErrAvatarUpload": "Échec de l'envoi de la photo", 
+    "ErrLoginFailed": "Email ou mot de passe incorrect", 
+    "DeactivateUserConfirm": "Désactiver {{name}} ?",
     "ErrLoginFailed": "Email ou mot de passe incorrect"
 }
