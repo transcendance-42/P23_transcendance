@@ -23,7 +23,9 @@ async function checkMessageAccessParams(request, reply) {
         return;
     const match = await findMatch(matchId)
     if (!match)
-        throw new AppError(404, 'NOT_FOUND', 'Match not found')
+        throw new AppError(404, 'NOT_FOUND', 'Messages not found')
+    if (!match.is_active)
+        throw new AppError(404, 'NOT_FOUND', 'Messages not found')
     if (match.matchesAsDog1.owner_id.toString() === userId.toString() || match.matchesAsDog2.owner_id.toString() === userId.toString())
         request.matchId = matchId
     else

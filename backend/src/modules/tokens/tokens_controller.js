@@ -45,7 +45,7 @@ async function GetRefreshToken(request, reply){
     return reply
             .code(200)
             .setCookie('refresh_token',refresh_token, COOKIE_OPTIONS)
-            .send({success:true, userId: user.id, message: 'Login successful', acces_token})
+            .send({userId: user.id, message: 'Login successful', acces_token})
 }
 
 export { GetRefreshToken }

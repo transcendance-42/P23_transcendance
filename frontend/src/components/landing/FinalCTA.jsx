@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom"
 import CallToAction from "./CallToAction"
 import { useTranslation } from 'react-i18next'
 
-export default function FinalCTA() {
+export default function FinalCTA({ onShowLogin }) {
     const { t } = useTranslation()
     return (
         <section className="bg-surface-sunken px-6 py-24">
@@ -17,14 +16,13 @@ export default function FinalCTA() {
                     {t('CTA3')}
                 </p>
 
-
                 <CallToAction to="/register">{t('CTA4')}</CallToAction>
 
                 <p className="font-body text-sm text-text-caption">
                     {t('AlreadyMember')}{" "}
-                    <Link to="/login" className="font-semibold text-primary hover:underline">
+                    <button onClick={onShowLogin} className="font-semibold text-primary hover:underline">
                         {t('LogIn')}
-                    </Link>
+                    </button>
                 </p>
             </div>
         </section>

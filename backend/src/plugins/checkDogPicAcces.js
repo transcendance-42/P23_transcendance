@@ -1,7 +1,36 @@
 import { findDogsIdParams, findDogByUserId } from "../modules/dog/dogs_queries.js";
+import { findUserById } from "../modules/users/users_queries.js";
 import { findPicsByDogId, findDogByPicId, findPicDogById } from "../modules/dog_upload/dog_pics/dog_pics_queries.js";
 import { findActiveMatch } from "../modules/matches/matches_queries.js";
 import { AppError } from "../error.js";
+
+async function checkActiveFromDogId(request, reply) {
+    const userId = request.userId
+    const dogId = request.params.id
+    if (request.role === 'admin')
+        return;
+    const dog = await findDogsIdParams(dogId)
+    if(!dog)
+        throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+    const user = await findUserById(dog.owner_id, request.userId)
+    if (!user)
+		throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+	if (!user.is_active)
+		throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+}
+
+async function checkActiveFromPicId(request, reply) {
+    if (request.role === 'admin')
+        return
+    const ownerDogPic = await findDogByPicId(request.params.id)
+    if (!ownerDogPic)
+        throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+    const user = await findUserById(ownerDogPic.dogs.owner_id, request.userId)
+    if (!user)
+        throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+    if (!user.is_active)
+		throw new AppError(404, 'NOT FOUND', 'Dog pic not found')    
+}
 
 async function checkAccesDogPicParams(request, reply) {
     const userId = request.userId
@@ -65,4 +94,4 @@ async function checkAccesDogPicPut(request, reply) {
         return reply.code(403).send({error: 'Forbidden'})  
 }
 
-export { checkAccesGetDogPic, checkAccesDogUpload, checkAccesDogPicDelete, checkAccesDogPicPut }
+export { checkAccesGetDogPic, checkAccesDogUpload, checkAccesDogPicDelete, checkAccesDogPicPut, checkActiveFromDogId, checkActiveFromPicId }

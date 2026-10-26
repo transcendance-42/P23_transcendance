@@ -10,6 +10,7 @@ import Mascot from '../components/ui/Mascot'
 import { useTranslation } from 'react-i18next'
 import Avatar from '../components/ui/Avatar'
 import LocationButton from '../components/Map/LocationButton'
+import LoginPopup from '../components/login/LoginPopup'
 import { validateImage } from '../utils/validateImage'
 
 const getErrors = (data, avatarFile) => {
@@ -55,6 +56,7 @@ export default function Register() {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { login, userId } = useAuth()
+    const [showLogin, setShowLogin] = useState(false)
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -63,8 +65,6 @@ export default function Register() {
         password: '',
         confirm_password: '',
         city: '',
-        latitude: null,
-        longitude: null,
         radius: '',
         date_of_birth: ''
     })
@@ -100,8 +100,12 @@ export default function Register() {
         setAvatarUrl(URL.createObjectURL(file))
     }
 
-    const handleLocationChange = (city, latitude, longitude, radius) => {
-        setFormData(prev => ({ ...prev, city, latitude, longitude, radius }))
+    const handleLocationChange = (city, radius) => {
+        setFormData(prev => ({
+            ...prev,
+            city,
+            radius
+        }))
     }
 
     const handleSubmit = async (e) => {
@@ -113,7 +117,11 @@ export default function Register() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         })
-        const data = await response.json()
+        let data = {}
+
+        if (response.status !== 204) {
+            data = await response.json()
+        }
 
         if (response.status === 400) return setError(t('ErrInvalidData'))
         if (response.status === 401) {
@@ -192,9 +200,10 @@ export default function Register() {
                 </form>
 
                 <Mascot index={4} size="lg" />
-                <p onClick={() => navigate('/')} className="text-primary text-sm underline cursor-pointer">
+                <p onClick={() => setShowLogin(true)} className="text-primary text-sm underline cursor-pointer">
                     {t('AlreadyAccount')}
                 </p>
+                {showLogin && <LoginPopup onClose={() => setShowLogin(false)} />}
             </Modal>
         </div>
     )

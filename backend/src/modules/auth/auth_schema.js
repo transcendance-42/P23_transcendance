@@ -61,16 +61,18 @@ const registerSchema = {
         minLength: 8,
         maxLength: 20
       },
-      city: {type: 'string'},
+      city: {
+          type: 'string',
+          minLength: 3,
+          maxLength: 100
+      },
       date_of_birth: { 
         type: 'string',
         format: 'date'
       },
-      longitude: { type: 'number', minimum: -180,  maximum: 180},
-      latitude: { type: 'number', minimum: -90,  maximum: 90 },
       radius: { type: 'integer', minimum: 1, maximum: 500}
     },
-    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'longitude', 'latitude'],
+    required: ['first_name', 'last_name', 'email', 'password', 'city', 'date_of_birth', 'radius'],
     additionalProperties: false
   }
 }

@@ -10,6 +10,6 @@ export default function RequireAuth({ children }) {
     if (waitInSeconds > 0)
         return <div className="min-h-screen flex items-center justify-center">{t('ErrorRefresh', { seconds: waitInSeconds })}</div>
     if (!token)
-        return <Navigate to="/" replace />
+        return <Navigate to="/" state={{ showLogin: true }} replace />
     return children
 }

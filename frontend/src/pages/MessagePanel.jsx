@@ -69,7 +69,7 @@ export default function MessagePanel({rooms})
                 logout()
                 socket.disconnect()
                 socketRef.current = null
-                navigate('/login')
+                navigate('/')
             }
         })
         socket.on('socket_error', () => {

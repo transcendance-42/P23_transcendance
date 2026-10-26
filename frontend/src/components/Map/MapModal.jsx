@@ -72,7 +72,7 @@ export default function MapModal({ onLocationChange, onClose }) {
             setError(t('EmplyRadius'))
             return
         }
-		onLocationChange(city, position[0], position[1], radius)
+		onLocationChange(city, radius)
         onClose()
     }
 
