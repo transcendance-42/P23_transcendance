@@ -204,5 +204,6 @@
     "ErrDogExists": "You already have a dog",
     "DogCreated": "Dog profile created!", 
     "ErrInvalidFileType": "The file must be an image",
-    "ErrAvatarUpload": "Failed to upload the photo"
+    "ErrAvatarUpload": "Failed to upload the photo", 
+    "ErrLoginFailed": "Invalid email or password"
   }

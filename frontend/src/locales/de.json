@@ -203,5 +203,6 @@
     "ErrDogExists": "Sie haben bereits einen Hund",
     "DogCreated": "Hundeprofil erstellt!", 
     "ErrInvalidFileType": "Die Datei muss ein Bild sein",
-    "ErrAvatarUpload": "Foto konnte nicht hochgeladen werden"
+    "ErrAvatarUpload": "Foto konnte nicht hochgeladen werden", 
+    "ErrLoginFailed": "E-Mail oder Passwort ist falsch"
 }
