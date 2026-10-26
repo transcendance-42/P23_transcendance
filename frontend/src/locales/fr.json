@@ -207,5 +207,6 @@
     "OwnedBy": "Propriétaire : {{name}}",
     "ErrAvatarUpload": "Échec de l'envoi de la photo", 
     "DeactivateUserConfirm": "Désactiver {{name}} ?",
-    "ErrLoginFailed": "Email ou mot de passe incorrect"
+    "ErrLoginFailed": "Email ou mot de passe incorrect", 
+    "Message" : "Message..."
 }

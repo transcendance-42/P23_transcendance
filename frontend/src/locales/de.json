@@ -206,5 +206,6 @@
     "ErrAvatarUpload": "Foto konnte nicht hochgeladen werden",
     "OwnedBy": "Besitzer: {{name}}",
     "Offline": "Offline",
-    "ErrLoginFailed": "E-Mail oder Passwort ist falsch"
+    "ErrLoginFailed": "E-Mail oder Passwort ist falsch",
+    "Message" : "Nachricht..."
 }

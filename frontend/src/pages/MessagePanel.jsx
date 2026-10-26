@@ -93,7 +93,7 @@ export default function MessagePanel({rooms})
 
         socket.emit('join_room', roomId)
         loadMessages(roomId)
-        authFetch(`/api/messages/${roomId}/read`, { method: 'PATCH' })  // ← ajoute cette ligne
+        authFetch(`/api/messages/${roomId}/read`, { method: 'PATCH' })
 
         return () => {
             socket.emit('leave_room', roomId)
@@ -142,7 +142,7 @@ export default function MessagePanel({rooms})
         <input
             onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage() }}
             name="content"
-            placeholder="Message..."
+            placeholder={t("Message")}
             value={formData.content}
             onChange={handleChange}
             type="text"

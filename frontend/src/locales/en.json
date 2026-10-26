@@ -206,5 +206,6 @@
     "ErrInvalidFileType": "The file must be an image",
     "OwnedBy": "Owned by {{name}}",
     "ErrAvatarUpload": "Failed to upload the photo", 
-    "ErrLoginFailed": "Invalid email or password"
+    "ErrLoginFailed": "Invalid email or password", 
+    "Message" : "Message..."
   }
