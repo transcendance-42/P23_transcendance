@@ -30,7 +30,7 @@ export default function ChatLayout(){
                 })
                 setRooms(sorted)
             } catch (e) {
-                console.error('Failed to load rooms', e)
+                //
             }
         }
         loadRooms();

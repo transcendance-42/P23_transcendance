@@ -48,7 +48,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                     setPics(loaded)
                 }
             } catch (e) {
-                console.error('Failed to load dog pics', e)
+                setError(t('ErrServer'))
             }
         }
  
@@ -270,6 +270,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                     </div>
                 ) : (
                     <>
+                        {error && <p className="text-action-pass text-xs mt-2">{error}</p>}
                         <dl className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                             <div>
                                 <dt className="text-xs uppercase tracking-wide text-text-caption">{t('Race')}</dt>
