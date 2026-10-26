@@ -67,19 +67,19 @@ The team used the following tools and practices to organize the work:
 
 | Module | Type | Points | Justification | Features | Team |
 |--------|------|--------|---------------|----------|------|
-| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | |
-| Real-time Features | Major | 2 | Online status must propagate instantly to all connected clients without polling | Socket.io updates `lastSeenAt` in real time, displayed in RoomList and profiles | |
-| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | |
-| Public REST API | Major | 2 | The API must be secured, documented and usable by third parties | JWT on all routes, rate limiting, Swagger documentation, full CRUD on users/dogs/matches | |
-| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | |
-| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | |
-| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | |
-| PWA | Minor | 1 | The app must be installable and usable offline on mobile and desktop | Service worker via Vite PWA plugin, manifest, asset caching, offline mode | |
-| Design System | Minor | 1 | A consistent design system speeds up development and ensures a uniform UI | Custom color palette, typography, 10+ reusable components (Button, Modal, InputField, Avatar, Badge…) | |
-| File Upload | Minor | 1 | Users must be able to personalize their profiles with photos and documents | Avatar upload (JPEG/PNG/WebP, max 5MB), dog photos (up to 5), health PDF; MIME validation on both frontend and backend via `file-type` | |
-| Internationalization | Minor | 1 | The app targets Swiss users — FR, DE and EN are the national languages | i18next with 3 locale files, language switcher in navbar, all UI keys translated | |
-| Additional Browser Support | Minor | 1 | Ensure an identical experience across the most widely used browsers | Tested and validated on Chrome and Firefox, cross-browser compatible CSS | |
-| OAuth 2.0 | Minor | 1 | Simplify login by allowing authentication via an existing Google account | Google OAuth flow, callback handler, automatic account creation on first login | |
+| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | pchatagn/dchellen |
+| Real-time Features | Major | 2 | Online status must propagate instantly to all connected clients without polling | Socket.io updates `lastSeenAt` in real time, displayed in RoomList and profiles | masase |
+| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | pchatagn/masase/dchellen/csarfati/jubelda |
+| Public REST API | Major | 2 | The API must be secured, documented and usable by third parties | JWT on all routes, rate limiting, Swagger documentation, full CRUD on users/dogs/matches | masase |
+| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | pchatagn/masase/dchellen/csarfati/jubelda |
+| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | pchatagn |
+| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | pchatagn |
+| PWA | Minor | 1 | The app must be installable and usable offline on mobile and desktop | Service worker via Vite PWA plugin, manifest, asset caching, offline mode | csarfati |
+| Design System | Minor | 1 | A consistent design system speeds up development and ensures a uniform UI | Custom color palette, typography, 10+ reusable components (Button, Modal, InputField, Avatar, Badge…) | jubelda/csarfati/pchatagn |
+| File Upload | Minor | 1 | Users must be able to personalize their profiles with photos and documents | Avatar upload (JPEG/PNG/WebP, max 5MB), dog photos (up to 5), health PDF; MIME validation on both frontend and backend via `file-type` | csarfati/dchellen |
+| Internationalization | Minor | 1 | The app targets Swiss users — FR, DE and EN are the national languages | i18next with 3 locale files, language switcher in navbar, all UI keys translated | pchatagn |
+| Additional Browser Support | Minor | 1 | Ensure an identical experience across the most widely used browsers | Tested and validated on Chrome and Firefox, cross-browser compatible CSS | jubelda |
+| OAuth 2.0 | Minor | 1 | Simplify login by allowing authentication via an existing Google account | Google OAuth flow, callback handler, automatic account creation on first login | masase |
 
 **Total: 6 Major (12 pts) + 7 Minor (7 pts) = 19 pts**
 
