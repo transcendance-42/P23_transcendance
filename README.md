@@ -67,13 +67,13 @@ The team used the following tools and practices to organize the work:
 
 | Module | Type | Points | Justification | Features | Team |
 |--------|------|--------|---------------|----------|------|
-| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | pchatagn/dchellen |
+| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | pchatagn / dchellen |
 | Real-time Features | Major | 2 | Online status must propagate instantly to all connected clients without polling | Socket.io updates `lastSeenAt` in real time, displayed in RoomList and profiles | masase |
-| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | pchatagn/masase/dchellen/csarfati/jubelda |
+| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | pchatagn/masase/ dchellen/csarfati/ jubelda |
 | Public REST API | Major | 2 | The API must be secured, documented and usable by third parties | JWT on all routes, rate limiting, Swagger documentation, full CRUD on users/dogs/matches | masase |
-| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | pchatagn/masase/dchellen/csarfati/jubelda |
-| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | pchatagn |
-| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | pchatagn |
+| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | pchatagn/masase/ dchellen/csarfati/ jubelda |
+| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | pchatagn/dchellen |
+| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | pchatagn/dchellen |
 | PWA | Minor | 1 | The app must be installable and usable offline on mobile and desktop | Service worker via Vite PWA plugin, manifest, asset caching, offline mode | csarfati |
 | Design System | Minor | 1 | A consistent design system speeds up development and ensures a uniform UI | Custom color palette, typography, 10+ reusable components (Button, Modal, InputField, Avatar, Badge…) | jubelda/csarfati/pchatagn |
 | File Upload | Minor | 1 | Users must be able to personalize their profiles with photos and documents | Avatar upload (JPEG/PNG/WebP, max 5MB), dog photos (up to 5), health PDF; MIME validation on both frontend and backend via `file-type` | csarfati/dchellen |
