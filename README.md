@@ -65,23 +65,23 @@ The team used the following tools and practices to organize the work:
 
 ## Modules
 
-| Module | Type | Points | Description |
-|--------|------|--------|-------------|
-| Frontend & Backend Frameworks | Major | 2 | React (frontend) + Fastify (backend) |
-| Real-time Features | Major | 2 | Online status updated in real-time across clients |
-| User Interaction | Major | 2 | Chat system, profile pages, match system |
-| Public REST API | Major | 2 | Secured API with rate limiting, Swagger documentation, and full CRUD endpoints |
-| Standard User Management | Major | 2 | Profile editing, avatar upload, online status, profile pages |
-| Advanced Permissions System | Major | 2 | Admin panel with CRUD on users, role-based views and actions |
-| ORM | Minor | 1 | Prisma ORM for all database interactions |
-| PWA | Minor | 1 | Installable as a mobile app with offline support |
-| Design System | Minor | 1 | Custom design system with Tailwind (color palette, typography, 10+ reusable components) |
-| File Upload | Minor | 1 | Image upload for avatars and dog photos and pdf for dog's documentation with type/size validation and secure storage |
-| Internationalization | Minor | 1 | 3 languages (English, French, German) with i18n and language switcher |
-| Additional Browser Support | Minor | 1 | Compatible with Chrome and Firefox |
-| OAuth 2.0 | Minor | 1 | Google OAuth login |
+| Module | Type | Points | Justification | Features | Team |
+|--------|------|--------|---------------|----------|------|
+| Frontend & Backend Frameworks | Major | 2 | React permet une UI réactive par composants réutilisables ; Fastify offre des performances supérieures à Express avec validation JSON Schema intégrée | Composants UI (NavBar, Modal, Button…), routes API REST, validation automatique des inputs | |
+| Real-time Features | Major | 2 | Le statut en ligne doit se propager instantanément à tous les clients connectés sans polling | Socket.io met à jour `lastSeenAt` en temps réel, affiché dans la RoomList et les profils | |
+| User Interaction | Major | 2 | L'application repose entièrement sur l'interaction entre utilisateurs via leurs chiens | Système de swipe (like/pass), chat en temps réel, pages de profil visitables, système de match | |
+| Public REST API | Major | 2 | L'API doit être sécurisée, documentée et utilisable par des tiers | JWT sur toutes les routes, rate limiting, documentation Swagger, CRUD complet sur users/dogs/matches | |
+| Standard User Management | Major | 2 | Chaque utilisateur doit pouvoir gérer son identité et sa présence sur la plateforme | Édition du profil, upload d'avatar, indicateur online/offline, pages de profil publiques | |
+| Advanced Permissions System | Major | 2 | Certaines actions sont réservées aux administrateurs pour protéger l'intégrité de la plateforme | Panel admin, activation/désactivation de comptes, CRUD utilisateurs, vues conditionnelles selon le rôle (`user` / `admin`) | |
+| ORM | Minor | 1 | Prisma garantit la cohérence entre le schéma DB et le code, avec typage automatique et migrations versionnées | Modèles Prisma pour toutes les entités, migrations, seed de données, requêtes type-safe | |
+| PWA | Minor | 1 | L'app doit être installable et utilisable hors connexion sur mobile et desktop | Service worker via Vite PWA plugin, manifest, cache des assets, mode offline | |
+| Design System | Minor | 1 | Un design system cohérent accélère le développement et garantit une UI uniforme | Palette de couleurs personnalisée, typographie, 10+ composants réutilisables (Button, Modal, InputField, Avatar, Badge…) | |
+| File Upload | Minor | 1 | Les utilisateurs doivent pouvoir personnaliser leurs profils avec des photos et documents | Upload d'avatar (JPEG/PNG/WebP, max 5MB), photos de chien (jusqu'à 5), PDF de santé ; validation MIME côté frontend et backend via `file-type` | |
+| Internationalization | Minor | 1 | L'app cible des utilisateurs suisses — FR, DE et EN sont les langues nationales | i18next avec 3 fichiers de locale, switcher de langue dans la navbar, toutes les clés UI traduites | |
+| Additional Browser Support | Minor | 1 | Garantir une expérience identique sur les navigateurs les plus utilisés | Testé et validé sur Chrome et Firefox, CSS compatible cross-browser | |
+| OAuth 2.0 | Minor | 1 | Simplifier la connexion en permettant l'authentification via un compte Google existant | Flow OAuth Google, callback handler, création automatique du compte si premier login | |
 
-**Total: 6 Major × 2pts + 7 Minor × 1pt = 19 points**
+**Total : 6 Major (12 pts) + 7 Minor (7 pts) = 19 pts**
 
 ## Technical Choices
 
