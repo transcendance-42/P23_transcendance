@@ -67,21 +67,21 @@ The team used the following tools and practices to organize the work:
 
 | Module | Type | Points | Justification | Features | Team |
 |--------|------|--------|---------------|----------|------|
-| Frontend & Backend Frameworks | Major | 2 | React permet une UI réactive par composants réutilisables ; Fastify offre des performances supérieures à Express avec validation JSON Schema intégrée | Composants UI (NavBar, Modal, Button…), routes API REST, validation automatique des inputs | |
-| Real-time Features | Major | 2 | Le statut en ligne doit se propager instantanément à tous les clients connectés sans polling | Socket.io met à jour `lastSeenAt` en temps réel, affiché dans la RoomList et les profils | |
-| User Interaction | Major | 2 | L'application repose entièrement sur l'interaction entre utilisateurs via leurs chiens | Système de swipe (like/pass), chat en temps réel, pages de profil visitables, système de match | |
-| Public REST API | Major | 2 | L'API doit être sécurisée, documentée et utilisable par des tiers | JWT sur toutes les routes, rate limiting, documentation Swagger, CRUD complet sur users/dogs/matches | |
-| Standard User Management | Major | 2 | Chaque utilisateur doit pouvoir gérer son identité et sa présence sur la plateforme | Édition du profil, upload d'avatar, indicateur online/offline, pages de profil publiques | |
-| Advanced Permissions System | Major | 2 | Certaines actions sont réservées aux administrateurs pour protéger l'intégrité de la plateforme | Panel admin, activation/désactivation de comptes, CRUD utilisateurs, vues conditionnelles selon le rôle (`user` / `admin`) | |
-| ORM | Minor | 1 | Prisma garantit la cohérence entre le schéma DB et le code, avec typage automatique et migrations versionnées | Modèles Prisma pour toutes les entités, migrations, seed de données, requêtes type-safe | |
-| PWA | Minor | 1 | L'app doit être installable et utilisable hors connexion sur mobile et desktop | Service worker via Vite PWA plugin, manifest, cache des assets, mode offline | |
-| Design System | Minor | 1 | Un design system cohérent accélère le développement et garantit une UI uniforme | Palette de couleurs personnalisée, typographie, 10+ composants réutilisables (Button, Modal, InputField, Avatar, Badge…) | |
-| File Upload | Minor | 1 | Les utilisateurs doivent pouvoir personnaliser leurs profils avec des photos et documents | Upload d'avatar (JPEG/PNG/WebP, max 5MB), photos de chien (jusqu'à 5), PDF de santé ; validation MIME côté frontend et backend via `file-type` | |
-| Internationalization | Minor | 1 | L'app cible des utilisateurs suisses — FR, DE et EN sont les langues nationales | i18next avec 3 fichiers de locale, switcher de langue dans la navbar, toutes les clés UI traduites | |
-| Additional Browser Support | Minor | 1 | Garantir une expérience identique sur les navigateurs les plus utilisés | Testé et validé sur Chrome et Firefox, CSS compatible cross-browser | |
-| OAuth 2.0 | Minor | 1 | Simplifier la connexion en permettant l'authentification via un compte Google existant | Flow OAuth Google, callback handler, création automatique du compte si premier login | |
+| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | |
+| Real-time Features | Major | 2 | Online status must propagate instantly to all connected clients without polling | Socket.io updates `lastSeenAt` in real time, displayed in RoomList and profiles | |
+| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | |
+| Public REST API | Major | 2 | The API must be secured, documented and usable by third parties | JWT on all routes, rate limiting, Swagger documentation, full CRUD on users/dogs/matches | |
+| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | |
+| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | |
+| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | |
+| PWA | Minor | 1 | The app must be installable and usable offline on mobile and desktop | Service worker via Vite PWA plugin, manifest, asset caching, offline mode | |
+| Design System | Minor | 1 | A consistent design system speeds up development and ensures a uniform UI | Custom color palette, typography, 10+ reusable components (Button, Modal, InputField, Avatar, Badge…) | |
+| File Upload | Minor | 1 | Users must be able to personalize their profiles with photos and documents | Avatar upload (JPEG/PNG/WebP, max 5MB), dog photos (up to 5), health PDF; MIME validation on both frontend and backend via `file-type` | |
+| Internationalization | Minor | 1 | The app targets Swiss users — FR, DE and EN are the national languages | i18next with 3 locale files, language switcher in navbar, all UI keys translated | |
+| Additional Browser Support | Minor | 1 | Ensure an identical experience across the most widely used browsers | Tested and validated on Chrome and Firefox, cross-browser compatible CSS | |
+| OAuth 2.0 | Minor | 1 | Simplify login by allowing authentication via an existing Google account | Google OAuth flow, callback handler, automatic account creation on first login | |
 
-**Total : 6 Major (12 pts) + 7 Minor (7 pts) = 19 pts**
+**Total: 6 Major (12 pts) + 7 Minor (7 pts) = 19 pts**
 
 ## Technical Choices
 
