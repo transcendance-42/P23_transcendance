@@ -23,7 +23,7 @@ export function RoomList ({rooms, setRooms}) {
             await authFetch(`/api/matches/${matchToDelete.id}`, { method: 'PATCH' })
             setRooms(rooms.filter(r => r.id !== matchToDelete.id))
         } catch (e) {
-            setError(e.message)
+            setError(t('ErrServer'))
         }
         setMatchToDelete(null)
     }

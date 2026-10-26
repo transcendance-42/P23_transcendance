@@ -30,7 +30,7 @@ export default function ChatLayout(){
                 })
                 setRooms(sorted)
             } catch (e) {
-                setError(e.message)
+                //
             }
         }
         loadRooms();
