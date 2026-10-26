@@ -52,7 +52,13 @@ export function RoomList ({rooms, setRooms}) {
         return (
             <div key={c.id} className="relative">
                 <Link to={`/chat/${c.id}`}>
-                    <Room  match_dog_name={matchDog.dog_name}  lastSeenAt={matchDog.users.lastSeenAt}  matchUserId={matchDog.users.id} hasUnread={!!unreadPerRoom[String(c.id)]} />
+                    <Room
+                        match_user_name={`${matchDog.users.first_name ?? ''}`.trim()}
+                        match_dog_name={matchDog.dog_name}
+                        lastSeenAt={matchDog.users.lastSeenAt}
+                        matchUserId={matchDog.users.id}
+                        hasUnread={!!unreadPerRoom[String(c.id)]}
+                    />
                 </Link>
                 <button
                     onClick={(e) => { e.preventDefault(); navigate(`/dogs/${matchDog.id}`) }}
