@@ -7,8 +7,11 @@ const sendRequestSwipes = async (direction, targetId) => {
         body: JSON.stringify({ direction, target_id: targetId })
     })
     const data = await response.json()
-    if (!response.ok)
-        throw new Error(data.error || 'Swipe failed')
+    if (!response.ok) {
+        const error = new Error(data.error || 'Swipe failed')
+        error.status = response.status
+        throw error
+    }
     return data
 }
 export { sendRequestSwipes }
