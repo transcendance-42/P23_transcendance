@@ -9,7 +9,12 @@ async function findMatchesByUserId(userId) {
         { matchesAsDog1: { owner_id: BigInt(userId) } },
         { matchesAsDog2: { owner_id: BigInt(userId) } },
       ],
-      is_active: true
+      is_active: true,
+      matchesAsDog1: { users: { is_active: true } },
+      matchesAsDog2: { users: { is_active: true } }
+
+
+      
     },
     include: {
       matchesAsDog1:{
