@@ -28,11 +28,13 @@ ps:
 
 certs:
 	@mkdir -p certs
-	@test -f certs/local.pem || openssl req -x509 -newkey rsa:2048 -nodes \
-        -keyout certs/local-key.pem \
-        -out certs/local.pem \
-        -days 365 \
-        -subj "/CN=localhost" \
-        -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
+	@IP=$$(hostname -I | awk '{print $$1}'); \
+	echo "Generating SSL certificate for localhost and $$IP"; \
+	openssl req -x509 -newkey rsa:2048 -nodes \
+		-keyout certs/local-key.pem \
+		-out certs/local.pem \
+		-days 365 \
+		-subj "/CN=localhost" \
+		-addext "subjectAltName=DNS:localhost,IP:127.0.0.1,IP:$$IP"
 
 .PHONY: all up dev down re clean fclean logs ps
