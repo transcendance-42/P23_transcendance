@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react"
 import { authFetch } from "../../api/authFetch"
 
-export function Room({match_dog_name, lastSeenAt, matchUserId, hasUnread}) {
+export function Room({match_user_name, match_dog_name, lastSeenAt, matchUserId, hasUnread}) {
     const [avatarUrl, setAvatarUrl] = useState(null)
     const { t } = useTranslation() 
     let isOnline;
@@ -29,8 +29,9 @@ export function Room({match_dog_name, lastSeenAt, matchUserId, hasUnread}) {
             <div className="flex min-w-0 flex-1 flex-col">
                 <span className="flex items-center gap-2 truncate font-semibold text-gray-900">
                     {match_dog_name}
-                    {hasUnread && <span className="w-2.5 h-2.5 bg-red-700 rounded-full shrink-0" />}
+                    {hasUnread && <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-700" />}
                 </span>
+                <span className="truncate text-xs text-gray-500">{t('OwnedBy', { name: match_user_name })}</span>
                 <span className="flex items-center gap-1.5 text-xs text-gray-500">
                     <span className={`h-2 w-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
                     {isOnline ? t('Online') : t('Offline')}

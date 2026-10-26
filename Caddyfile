@@ -1,20 +1,21 @@
-localhost {
-    tls /certs/local.pem /certs/local-key.pem
+    :443 {
+        tls /certs/local.pem /certs/local-key.pem
 
-    handle /api/* {
-        reverse_proxy backend:3000 {
-            transport http {
-                dial_timeout 5s
-                response_header_timeout 30s
+        handle /api/* {
+            reverse_proxy backend:3000 {
+                transport http {
+                    dial_timeout 5s
+                    response_header_timeout 30s
+                }
             }
+        }   
+
+        handle /socket.io/* {
+            reverse_proxy backend:3000
         }
-    }
 
-    handle /socket.io/* {
-        reverse_proxy backend:3000
+        handle {
+        reverse_proxy frontend:5173 
+        } 
     }
-
-    handle {
-       reverse_proxy frontend:5173 
-    } 
-}
+            
