@@ -205,5 +205,8 @@
     "DogCreated": "Dog profile created!", 
     "ErrInvalidFileType": "The file must be an image",
     "ErrAvatarUpload": "Failed to upload the photo", 
+    "ErrLoginFailed": "Invalid email or password",
+    "ErrAvatarUpload": "Failed to upload the photo",
     "ErrLoginFailed": "Invalid email or password"
+
   }

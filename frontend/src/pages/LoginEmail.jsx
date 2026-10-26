@@ -24,7 +24,7 @@ export default function LoginEmail() {
         try {
             await login(email, password)
             navigate('/swipes')
-        } catch {
+        } catch (e) {
             setError(t('ErrLoginFailed'))
         }
     }
