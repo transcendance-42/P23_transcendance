@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
             setUser(data)
         }
         catch (e) {
-            console.error('load user:', e)
+            // silencieux
         }
         finally {
             setLoading(false)
@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
         }
         catch(e)
         {
-            console.error(e.message)
+            // silencieux
         }
         finally{
             setToken(null)

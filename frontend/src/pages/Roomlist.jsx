@@ -16,13 +16,14 @@ export function RoomList ({rooms, setRooms}) {
     const { userId } = useAuth()
     const [matchToDelete, setMatchToDelete] = useState(null)
     const [unreadPerRoom, setUnreadPerRoom] = useState({})
+    const [error, setError] = useState('')
 
     const handleUnmatch = async () => {
         try {
             await authFetch(`/api/matches/${matchToDelete.id}`, { method: 'PATCH' })
             setRooms(rooms.filter(r => r.id !== matchToDelete.id))
         } catch (e) {
-            console.error(e)
+            setError(e.message)
         }
         setMatchToDelete(null)
     }
@@ -95,6 +96,7 @@ export function RoomList ({rooms, setRooms}) {
                     {t('RoomList2')}
                 </p>
             </div>
+            {error && <p className="text-action-pass text-xs text-center mb-2">{error}</p>}
             <div className="overflow-hidden rounded-2xl border border-surface-alt bg-surface-white shadow-soft">
                 <div className="divide-y divide-surface-alt">
                     {list}

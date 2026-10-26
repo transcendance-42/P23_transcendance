@@ -58,7 +58,6 @@ export default function MapModal({ onLocationChange, onClose }) {
             setPosition(newPosition)
             setHasSearch(true)
         } catch (error) {
-            console.error(error)
             setError(t('CatchMapError'))
         }
     }
