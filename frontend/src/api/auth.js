@@ -5,7 +5,7 @@ export async function apiLogin(email, password) {
         body: JSON.stringify({ email, password })
     })
     const data = await response.json()
-    if (!response.ok || !data.success)
+    if (!response.ok)
         throw new Error(data.message || data.error || 'Login failed')
     return { token: data.access_token, userId: data.userId }
 }
@@ -25,7 +25,7 @@ export async function apiRefresh() {
         error.retryAfter = retryAfter
         throw error
         }
-    if (!response.ok || !data.success)
+    if (!response.ok)
         throw new Error(data.message || data.error || 'Refresh failed')
     return { token: data.acces_token, userId: data.userId }
 }
@@ -36,7 +36,7 @@ export async function apiLogout() {
         credentials: 'include'
     })
     const data = await response.json()
-    if (!response.ok || !data.success)
-        throw new Error(data.message || data.error || 'Logout failed')
+    if (!response.ok)
+        throw new Error('Logout failed')
     return { success:true }    
 }
