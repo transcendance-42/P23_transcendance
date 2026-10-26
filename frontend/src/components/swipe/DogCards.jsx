@@ -34,8 +34,8 @@ const DogCards = ({ onMatch }) => {
                 otherPicId: frontDog.dog_pics?.[0]?.id,
                 otherDogId: frontDog.id
             })
-        } catch (e) {
-            console.error('Swipe error:', e.message)
+        } catch {
+            // swipe errors are silent — the card still animates away
         }
         setTimeout(() => {
             setSwipeDir(null)

@@ -41,7 +41,7 @@ async function issueSession(user, reply, redirect = false) {
     if (redirect) {
         return reply
             .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
-            .redirect(`https://localhost/oauth-callback?profileComplete=${isUserComplete(user)}`)
+            .redirect(`https://localhost:4443/oauth-callback?profileComplete=${isUserComplete(user)}`)
     }
 
     return reply

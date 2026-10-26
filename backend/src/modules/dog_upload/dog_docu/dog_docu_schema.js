@@ -1,11 +1,21 @@
-import { dogIdParams } from '../../dog/dogs_schema.js'
+const dogIdParamsDocu = {
+	type: 'object',
+	properties: {
+		dogId: {
+			type: 'string',
+			pattern: '^[1-9][0-9]*$',
+			maxLength: 18
+		}
+	},
+	required: ['dogId']
+}
 
 const getDocuDogSchema = {
-	params : dogIdParams
+	params : dogIdParamsDocu
 }
 
 const putDocuDogSchema = {
-	params: dogIdParams,
+	params: dogIdParamsDocu,
 	consumes: ['multipart/form-data'],
 	body: {
 		type: 'object',
@@ -18,7 +28,7 @@ const putDocuDogSchema = {
 }
 
 const deleteDocuDogSchema = {
-  	params: dogIdParams
+  	params: dogIdParamsDocu
 }
 
 export { getDocuDogSchema, putDocuDogSchema, deleteDocuDogSchema }

@@ -62,17 +62,17 @@ export default function Profile() {
         const load = async () => {
             try {
                 const response = await authFetch(`/api/users/${userId}`)
-                if (!response.ok) { setError('Profil introuvable'); return }
+                if (!response.ok) { setError(t('ErrServer')); return }
                 const data = await response.json()
                 setUser(data)
             } catch (e) {
-                setError('Impossible de contacter le serveur')
+                setError(t('ErrServer'))
             } finally {
                 setLoading(false)
             }
         }
         if (userId) load()
-        else { setError('Pas connecté'); setLoading(false) }
+        else { setError(t('ErrorConnection')); setLoading(false) }
     }, [userId])
 
     useEffect(() => {
