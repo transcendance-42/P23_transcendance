@@ -50,7 +50,7 @@ The team used the following tools and practices to organize the work:
 | Profile Setup | Fill in personal information (name, city, date of birth) | csarfati | dchellen |
 | Avatar Upload | Upload a profile photo | pchatagn | dchellen |
 | Dog Profile | Create a dog profile with name, breed, age and bio | jubelda | masase/dchellen |
-| Dog Photo Upload | Upload up to 5 photos per dog | csarfati/pchatagn | dchellen |
+| Upload for dog | Upload up to 5 photos per dog, one health_file | csarfati/pchatagn | dchellen |
 | Swipe | Like or pass on nearby dogs | jubelda | pchatagn/dchellen |
 | Matching | When two dogs mutually like each other, a match is created | pchatagn | dchellen/masase |
 | Chat | Real-time messaging between matched users | csarfati | masase |
