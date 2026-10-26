@@ -24,7 +24,7 @@ async function getUnreadCount(request, reply) {
 
 async function readRoom(request, reply) {
   await markRoomAsRead(request.params.matchId, request.userId)
-  return { success: true }
+  return reply.code(204).send()
 }
 
 async function unreadPerRoom(request, reply) {

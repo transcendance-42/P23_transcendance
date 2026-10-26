@@ -47,7 +47,7 @@ async function issueSession(user, reply, redirect = false) {
     return reply
         .code(201)
         .setCookie('refresh_token', refresh_token, COOKIE_OPTIONS)
-        .send({ success: true, userId: user.id, message: 'Login successful', access_token: token, profileComplete: isUserComplete(user) })
+        .send({ userId: user.id, message: 'Login successful', access_token: token, profileComplete: isUserComplete(user) })
 }
 
 async function login(request, reply) {
@@ -70,9 +70,9 @@ async function logout(request, reply) {
                 throw new AppError(401, 'REFRESH_TOKEN_INVALID', 'Invalid token')
         if (stored && !stored.is_revoked) {
             await revokeToken(stored)
-            return reply.code(200)
+            return reply.code(204)
                         .clearCookie('refresh_token', COOKIE_OPTIONS)
-                        .send({ success: 'Logout'  })
+                        .send()
         }
         else
                 throw new AppError(401, 'REFRESH_TOKEN_CONFLICT', 'Token already revoked')
