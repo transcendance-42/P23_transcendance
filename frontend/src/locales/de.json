@@ -204,5 +204,7 @@
     "DogCreated": "Hundeprofil erstellt!", 
     "ErrInvalidFileType": "Die Datei muss ein Bild sein",
     "ErrAvatarUpload": "Foto konnte nicht hochgeladen werden",
-    "OwnedBy": "Besitzer: {{name}}"
+    "OwnedBy": "Besitzer: {{name}}",
+    "Offline": "Offline",
+    "ErrLoginFailed": "E-Mail oder Passwort ist falsch"
 }

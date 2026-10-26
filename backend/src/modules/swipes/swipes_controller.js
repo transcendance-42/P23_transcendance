@@ -1,11 +1,21 @@
 import {creatSwipe, findReverseSwipe, findExistingMatch, createMatch} from './swipes_queries.js'
 import prisma from '../../utils/prisma.js'
 import { AppError } from '../../error.js'
+import { findUserById } from '../users/users_queries.js'
+import { findDogsIdParams} from '../dog/dogs_queries.js'
 
 async function postSwipe(request, reply) {
     const {target_id, direction } = request.body
     const userId = request.userId
 
+    const targetDog = await findDogsIdParams(target_id)
+    if(!targetDog)
+        throw new AppError(404, 'NOT_FOUND', 'Dog not found')
+    const targetUser = await findUserById(targetDog.owner_id, userId)
+    if(!targetUser)
+        throw new AppError(404, 'NOT_FOUND', 'Dog not found')
+    if(!targetUser.is_active)
+        throw new AppError(404, 'NOT_FOUND', 'Dog not found')
     const myDog = await prisma.dogs.findFirst({ where: { owner_id: BigInt(userId) } })
     if (!myDog)
         throw new AppError(404, 'NOT_FOUND', 'No dog found for this user')
