@@ -26,9 +26,9 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 |-------|--------------|
 | masase | Product Owner & Developer worked primarily on the backend of the project. Implemented Google OAuth authentication, including account creation on first login and JWT session handling. Built the real-time chat backend with Socket.IO, covering authenticated socket connections, message persistence and delivery. Designed the geolocation feature using PostgreSQL and PostGIS, with radius-based user search, distance sorting and spatial indexing. Developed the online status system, allowing users to see when others were last active|
 | dchellen | Project Manager & Developer. Coordinated the team by organizing meetings, following up on progress, monitoring each member’s contributions, and helping identify and resolve blockers. On the backend, restructured the API to follow a clear separation of concerns between schemas, controllers and database queries. Implemented most CRUD routes, file upload and deletion handling, access control and security measures. Managed regular database schema updates and migrations using Prisma and PostgreSQL/PostGIS. On the frontend, implemented the map functionality and contributed to integration, testing and documentation. |
-| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Set up the initial project structure: Docker, Docker Compose and Makefile. Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
+| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
 | jubedla | Frontend Developer. Built the dog profile page and its reusable profile card (photo carousel, owner card, and a “send message” button shown only for matched dogs), also used as the main card on the swipe page. Improved the user and dog registration forms with live per-field validation, password visibility toggle, field labels and photo error feedback.|
-| csarfati | ... |
+| csarfati | Frontend Developp. Built multiples features in the frontend such as user profile, dog profile, roomlist, chat. Also implement the PWA modules. Add the possibility to upload a pdf in the dog profile and handled the upload loading bar. |
 
 ## Project Management
 
@@ -50,7 +50,7 @@ The team used the following tools and practices to organize the work:
 | Profile Setup | Fill in personal information (name, city, date of birth) | csarfati | dchellen |
 | Avatar Upload | Upload a profile photo | pchatagn | dchellen |
 | Dog Profile | Create a dog profile with name, breed, age and bio | jubelda | masase/dchellen |
-| Dog Photo Upload | Upload up to 5 photos per dog | csarfati/pchatagn | dchellen |
+| Upload for dog | Upload up to 5 photos per dog, one health_file | csarfati/pchatagn | dchellen |
 | Swipe | Like or pass on nearby dogs | jubelda | pchatagn/dchellen |
 | Matching | When two dogs mutually like each other, a match is created | pchatagn | dchellen/masase |
 | Chat | Real-time messaging between matched users | csarfati | masase |

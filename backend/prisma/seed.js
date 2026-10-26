@@ -28,27 +28,27 @@ const cityCoords = {
 const jitter = () => (Math.random() - 0.5) * 0.04
 
 const users = [
-  { email: 'admin@tindog.com', password_hash: adminPasswordHash, first_name: 'admin', last_name: 'admin', city: 'Lausanne', date_of_birth: new Date('2000-01-01'), role: 'admin'},
-  { email: 'parissa@tindog.com', password_hash: passwordHash, first_name: 'Parissa', last_name: 'Chatagny', city: 'Lausanne', date_of_birth: new Date('2000-09-03') },
-  { email: 'davide@tindog.com', password_hash: passwordHash, first_name: 'Davide', last_name: 'Lepore', city: 'Renens', date_of_birth: new Date('2000-07-15') },
-  { email: 'jonathan@tindog.com', password_hash: passwordHash, first_name: 'Jonathan', last_name: 'Rime', city: 'Lausanne', date_of_birth: new Date('1998-11-10') },
-  { email: 'laetitia@tindog.com', password_hash: passwordHash, first_name: 'Laetitia', last_name: 'Rey', city: 'Lausanne', date_of_birth: new Date('2000-10-09') },
-  { email: 'chaely@tindog.com', password_hash: passwordHash, first_name: 'Chaely', last_name: 'Baudhuin', city: 'Lausanne', date_of_birth: new Date('2001-01-10') },
-  { email: 'alice@tindog.com', password_hash: passwordHash, first_name: 'Alice', last_name: 'Dupont', city: 'Lausanne', date_of_birth: new Date('1999-03-22') },
-  { email: 'marc@tindog.com', password_hash: passwordHash, first_name: 'Marc', last_name: 'Bernard', city: 'Lausanne', date_of_birth: new Date('1997-06-14') },
-  { email: 'sophie@tindog.com', password_hash: passwordHash, first_name: 'Sophie', last_name: 'Martin', city: 'Lausanne', date_of_birth: new Date('2002-12-01') },
-  { email: 'luca@tindog.com', password_hash: passwordHash, first_name: 'Luca', last_name: 'Rossi', city: 'Lugano', date_of_birth: new Date('1996-08-30') },
-  { email: 'emma@tindog.com', password_hash: passwordHash, first_name: 'Emma', last_name: 'Müller', city: 'Bâle', date_of_birth: new Date('2001-05-17') },
-  { email: 'thomas@tindog.com', password_hash: passwordHash, first_name: 'Thomas', last_name: 'Blanc', city: 'Fribourg', date_of_birth: new Date('1998-02-28') },
-  { email: 'julie@tindog.com', password_hash: passwordHash, first_name: 'Julie', last_name: 'Morel', city: 'Neuchâtel', date_of_birth: new Date('2000-07-04') },
-  { email: 'kevin@tindog.com', password_hash: passwordHash, first_name: 'Kevin', last_name: 'Favre', city: 'Sion', date_of_birth: new Date('1999-11-19') },
-  { email: 'clara@tindog.com', password_hash: passwordHash, first_name: 'Clara', last_name: 'Leroy', city: 'Lausanne', date_of_birth: new Date('2003-04-08') },
-  { email: 'noe@tindog.com', password_hash: passwordHash, first_name: 'Noé', last_name: 'Simon', city: 'Genève', date_of_birth: new Date('1997-09-25') },
-  { email: 'camille@tindog.com', password_hash: passwordHash, first_name: 'Camille', last_name: 'Girard', city: 'Renens', date_of_birth: new Date('2001-01-30') },
-  { email: 'hugo@tindog.com', password_hash: passwordHash, first_name: 'Hugo', last_name: 'Petit', city: 'Zürich', date_of_birth: new Date('1996-03-12') },
-  { email: 'lea@tindog.com', password_hash: passwordHash, first_name: 'Léa', last_name: 'Roux', city: 'Berne', date_of_birth: new Date('2002-06-21') },
-  { email: 'maxime@tindog.com', password_hash: passwordHash, first_name: 'Maxime', last_name: 'Lambert', city: 'Genève', date_of_birth: new Date('1998-10-03') },
-  { email: 'sarah@tindog.com', password_hash: passwordHash, first_name: 'Sarah', last_name: 'Bonnet', city: 'Lausanne', date_of_birth: new Date('2000-12-15') },
+  { email: 'admin@tindog.com',    password_hash: adminPasswordHash, first_name: 'admin',     last_name: 'admin',      city: 'Lausanne', date_of_birth: new Date('2000-01-01'), role: 'admin' },
+  { email: 'brad@tindog.com',     password_hash: passwordHash,      first_name: 'Brad',      last_name: 'Pitt',       city: 'Lausanne', date_of_birth: new Date('1963-12-18') },
+  { email: 'angelina@tindog.com', password_hash: passwordHash,      first_name: 'Angelina',  last_name: 'Jolie',      city: 'Renens',   date_of_birth: new Date('1975-06-04') },
+  { email: 'johnny@tindog.com',   password_hash: passwordHash,      first_name: 'Johnny',    last_name: 'Depp',       city: 'Lausanne', date_of_birth: new Date('1963-06-09') },
+  { email: 'vanessa@tindog.com',  password_hash: passwordHash,      first_name: 'Vanessa',   last_name: 'Paradis',    city: 'Lausanne', date_of_birth: new Date('1972-12-22') },
+  { email: 'rihanna@tindog.com',  password_hash: passwordHash,      first_name: 'Rihanna',   last_name: 'Fendy',      city: 'Lausanne', date_of_birth: new Date('1988-02-20') },
+  { email: 'asap@tindog.com',     password_hash: passwordHash,      first_name: 'Asap',      last_name: 'Rocky',      city: 'Lausanne', date_of_birth: new Date('1988-10-03') },
+  { email: 'blake@tindog.com',    password_hash: passwordHash,      first_name: 'Blake',     last_name: 'Lively',     city: 'Lausanne', date_of_birth: new Date('1987-08-25') },
+  { email: 'ryan@tindog.com',     password_hash: passwordHash,      first_name: 'Ryan',      last_name: 'Reynolds',   city: 'Lausanne', date_of_birth: new Date('1976-10-23') },
+  { email: 'zendaya@tindog.com',  password_hash: passwordHash,      first_name: 'Zendaya',   last_name: 'Coleman',    city: 'Pully',    date_of_birth: new Date('1996-09-01') },
+  { email: 'tom@tindog.com',      password_hash: passwordHash,      first_name: 'Tom',       last_name: 'Holland',    city: 'Morges',   date_of_birth: new Date('1996-06-01') },
+  { email: 'angele@tindog.com',   password_hash: passwordHash,      first_name: 'Angele',    last_name: 'Van Laeken', city: 'Ecublens', date_of_birth: new Date('1995-12-03') },
+  { email: 'damso@tindog.com',    password_hash: passwordHash,      first_name: 'Damso',     last_name: 'Mwamba',     city: 'Prilly',   date_of_birth: new Date('1992-07-12') },
+  { email: 'emma@tindog.com',     password_hash: passwordHash,      first_name: 'Emma',      last_name: 'Watson',     city: 'Lutry',    date_of_birth: new Date('1990-04-15') },
+  { email: 'daniel@tindog.com',   password_hash: passwordHash,      first_name: 'Daniel',    last_name: 'Radcliffe',  city: 'Lausanne', date_of_birth: new Date('1989-07-23') },
+  { email: 'jennifer@tindog.com', password_hash: passwordHash,      first_name: 'Jennifer',  last_name: 'Lopez',      city: 'Renens',   date_of_birth: new Date('1969-07-24') },
+  { email: 'drake@tindog.com',    password_hash: passwordHash,      first_name: 'Drake',     last_name: 'Graham',     city: 'Bussigny', date_of_birth: new Date('1986-10-24') },
+  { email: 'ariana@tindog.com',   password_hash: passwordHash,      first_name: 'Ariana',    last_name: 'Grande',     city: 'Vevey',    date_of_birth: new Date('1993-06-26') },
+  { email: 'travis@tindog.com',   password_hash: passwordHash,      first_name: 'Travis',    last_name: 'Scott',      city: 'Crissier', date_of_birth: new Date('1991-04-30') },
+  { email: 'theodora@tindog.com', password_hash: passwordHash,      first_name: 'Theodora',  last_name: 'Mujinga',    city: 'Paudex',   date_of_birth: new Date('2003-10-23') },
+  { email: 'sdm@tindog.com',      password_hash: passwordHash,      first_name: 'SDM',       last_name: 'Mosabu',     city: 'Lausanne', date_of_birth: new Date('1995-11-28') },
 ]
 
 const dogs = [
@@ -246,6 +246,23 @@ async function main() {
         data: { match_id: match.id, sender_id: createdUsers[userIndex2 + 1].id, content: msg2 }
     })
     console.log(`Messages added to match ${dogs[userIndex1].dog_name} & ${dogs[userIndex2].dog_name}`)
+}
+
+const healthDocs = [
+  { index: 0, dog: 'surf' },
+  { index: 1, dog: 'joya' },
+  { index: 2, dog: 'rocky' },
+]
+
+for (const { index, dog } of healthDocs) {
+  await prisma.dogs.update({
+    where: { id: createdDogs[index].id },
+    data: {
+      dog_formular_path: `/app/uploads/seed/health_${dog}.pdf`,
+      dog_formular_type: 'application/pdf',
+    }
+  })
+  console.log(`📄 Health record added for ${dogs[index].dog_name}`)
 }
 
   console.log('\n✅ Done!')
