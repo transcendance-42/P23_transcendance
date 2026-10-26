@@ -3,6 +3,18 @@ import { findActiveMatch } from '../modules/matches/matches_queries.js'
 import { findUserById } from '../modules/users/users_queries.js'
 import { AppError } from "../error.js";
 
+async function checkActiveFromUserId(request, reply) {
+    const userId = request.userId
+    const id = request.params.id
+    if (request.role === 'admin')
+        return;
+    const user = await findUserById(id, userId)
+    if (!user)
+        throw new AppError(404, 'NOT FOUND', 'User pic not found')
+	if (!user.is_active)
+		throw new AppError(404, 'NOT FOUND', 'Dog pic not found')
+}
+
 async function checkUserGetAcces(request, reply) {
     if (request.role === 'amdin')
         return
@@ -14,6 +26,8 @@ async function checkUserGetAcces(request, reply) {
     const dogUser = await findDogByUserId(request.userId)
     if (!dogUser)
 		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
+    if (!dogUser.is_active)
+		throw new AppError(404, 'NOT FOUND', 'Your Dog not found')
     const dogUserTarget = await findDogByUserId(request.params.id)
     if (!dogUserTarget)
 		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
@@ -59,4 +73,4 @@ async function checkUserAccesAdmin(request, reply) {
         throw new AppError(403, 'FORBIDDEN', 'Forbidden')      
 }
 
-export { checkUserAcces, checkUserGetAcces, checkUserGetPicAcces, checkUserAccesAdmin }
+export { checkUserAcces, checkUserGetAcces, checkUserGetPicAcces, checkUserAccesAdmin, checkActiveFromUserId }
