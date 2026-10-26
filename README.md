@@ -176,12 +176,7 @@ make dev
 
 ### Developer Tools
 
-- **Swagger API documentation**: https://localhost/api/documentation
-- **Prisma Studio** (database explorer):
-```bash
-docker compose exec backend npx prisma studio
-```
-Then open http://localhost:51212
+- **Swagger API documentation**: https://localhost:4443/api/documentation
 
 ### Makefile Commands
 
