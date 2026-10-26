@@ -3,11 +3,19 @@ import { creatFileBuffer, creaFilePath, allowedImagesMimeType, allowedPdfMimeTyp
 import { promises as fs } from 'node:fs'
 import { createReadStream, existsSync } from 'fs'
 import { AppError } from '../../error.js'
+import { access } from 'node:fs/promises'
 
 async function getUserPic(request, reply) {
 	const picPath = await findPicPathByUserId(request.params.id)
 	if (!picPath || !picPath.file_path)
 		throw new AppError(404, 'NOT_FOUND', 'User pic not found')
+	try {
+		await access(picPath.file_path)
+	} catch (e) {
+      if (e.code == 'ENOENT')
+        throw new AppError(404, 'NOT_FOUND', 'User pic not found')
+      throw e
+	}
 	reply.type(picPath.mime_type)
 	return reply.send(createReadStream(picPath.file_path))
 }

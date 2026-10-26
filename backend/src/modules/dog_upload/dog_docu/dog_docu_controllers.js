@@ -3,13 +3,19 @@ import { creatFileBuffer, creaFilePath, allowedPdfMimeType } from '../../../util
 import { promises as fs } from 'node:fs'
 import { createReadStream } from 'node:fs'
 import { AppError } from '../../../error.js'
+import { access } from 'node:fs/promises'
 
 async function getDogDocu(request, reply) {
 	const dog = await findDogDocuByDogId(request.params.dogId)
-	if (!dog)
-		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
-	if (!dog.dog_formular_path)
+	if (!dog || !dog.dog_formular_path)
 		throw new AppError(404, 'NOT_FOUND', 'Dog form not found')
+	try {
+		await access(dog.dog_formular_type)
+	} catch (e) {
+      if (e.code == 'ENOENT')
+        throw new AppError(404, 'NOT_FOUND', 'Dog form file not found')
+      throw e
+	}
 	reply.type(dog.dog_formular_type)
 	return reply.send(createReadStream(dog.dog_formular_path))
 }

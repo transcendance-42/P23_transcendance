@@ -4,11 +4,19 @@ import { promises as fs } from 'node:fs'
 import { createReadStream } from 'fs'
 import { AppError } from '../../../error.js'
 import { dogUploadsRoutes } from '../dog_upload_routes.js'
+import { access } from 'node:fs/promises'
 
 async function getDogPic(request, reply) {
     const pic = await findPicDogById(request.params.id)
-    if (!pic)
+    if (!pic || !pic.file_path)
       throw new AppError(404, 'NOT_FOUND', 'Dog Pic not found')
+    try {
+      await access(pic.file_path)
+    } catch (e) {
+      if (e.code == 'ENOENT')
+        throw new AppError(404, 'NOT_FOUND', 'Dog Pic file not found')
+      throw e
+    }
     reply.type(pic.mime_type)
     return reply.send(createReadStream(pic.file_path))
 }
