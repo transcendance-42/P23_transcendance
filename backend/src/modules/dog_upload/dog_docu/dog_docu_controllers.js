@@ -6,9 +6,7 @@ import { AppError } from '../../../error.js'
 
 async function getDogDocu(request, reply) {
 	const dog = await findDogDocuByDogId(request.params.dogId)
-	if (!dog)
-		throw new AppError(404, 'NOT_FOUND', 'Dog not found')
-	if (!dog.dog_formular_path)
+	if (!dog || !dog.dog_formular_path)
 		throw new AppError(404, 'NOT_FOUND', 'Dog form not found')
 	reply.type(dog.dog_formular_type)
 	return reply.send(createReadStream(dog.dog_formular_path))
