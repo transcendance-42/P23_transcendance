@@ -35,10 +35,10 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | Login | Challenges |
 |-------|-----------|
 | masase | Add a radius filter (5 km, 10 km, 25 km) |
-| dchellen | One of the main challenges was adapting to a new technology stack, particularly JavaScript and its specific features, such as file uploads and asynchronous operations. I also had to adapt to a large codebase and understand its architecture, while integrating my work with functions and components developed by other team members. This required me to understand how the different parts of the application interacted and ensure that my implementation worked correctly within the overall system. |
-| pchatagn | Add a search by name in the admin panel. |
+| dchellen | One of the main challenges was adapting to a new technology stack, particularly JavaScript and its specific features, such as file uploads and asynchronous operations. I also had to adapt to a large codebase and understand its architecture, while integrating my work with functions and components developed by other team member.|
+| pchatagn | Learning JavaScript as a new language, connecting the frontend and backend, handling file uploads with proper error management, choosing the right stack for our features, and reviewing code I wasn’t familiar with. |
 | jubedla | Coming late into the project i had to catch the rhythm fast |
-| csarfati | Uplaod PDF feature and loading progress bar|
+| csarfati | the upload progress bar could not be done with `fetch`, so we used `XMLHttpRequest` for avatar and PDF uploads. The PWA offline mode needs a production build and a trusted HTTPS certificate, so `make up` runs the production build and the README explains how to trust `certs/local.pem`.
 
 ### Team challenge
 
@@ -155,6 +155,7 @@ The database contains 7 tables:
 
 ### Prerequisites
 
+- **Make** 
 - **Docker** 
 - **Docker Compose**
 - **Git**
