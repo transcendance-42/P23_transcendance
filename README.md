@@ -34,7 +34,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 
 | Login | Challenges |
 |-------|-----------|
-| masase | Add a radius filter (5 km, 10 km, 25 km) |
+| masase | Understand how jwt tokens and cookie tokens works |
 | dchellen | Make sure deleting a dog also deletes its photos and files |
 | pchatagn | Add a search by name in the admin panel. |
 | jubedla | My biggest challenge was joining a project that was already well established. I had to quickly understand my teammates' code, adapt mine so it would fit in without breaking anything, and learn JavaScript, React and Tailwind in a short time |
@@ -163,7 +163,7 @@ The database contains 7 tables:
 - **Docker** 
 - **Docker Compose**
 - **Git**
-- **openssl** (used by `make certs` to create the self-signed HTTPS certificate)
+- **openssl** (used to create the self-signed HTTPS certificate)
 - A recent **Google Chrome**
 - These ports must be free on your machine:
 
@@ -184,6 +184,7 @@ Two files must be created from the examples (see step 2 of the installation):
 | `POSTGRES_DB` | database name |
 | `POSTGRES_USER` | database user |
 | `POSTGRES_PASSWORD` | database password |
+| `PORT` | database port |
 
 **`backend/.env.docker`** (backend container)
 
