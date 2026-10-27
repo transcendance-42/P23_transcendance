@@ -35,6 +35,10 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | Login | Challenges |
 |-------|-----------|
 | masase | Add a radius filter (5 km, 10 km, 25 km) |
+| dchellen | Make sure deleting a dog also deletes its photos and files |
+| pchatagn | Add a search by name in the admin panel. |
+| jubedla | My biggest challenge was joining a project that was already well established. I had to quickly understand my teammates' code, adapt mine so it would fit in without breaking anything, and learn JavaScript, React and Tailwind in a short time |
+| csarfati | Uplaod PDF feature and loading progress bar|
 | dchellen | One of the main challenges was adapting to a new technology stack, particularly JavaScript and its specific features, such as file uploads and asynchronous operations. I also had to adapt to a large codebase and understand its architecture, while integrating my work with functions and components developed by other team member.|
 | pchatagn | Learning JavaScript as a new language, connecting the frontend and backend, handling file uploads with proper error management, choosing the right stack for our features, and reviewing code I wasn’t familiar with. |
 | jubedla | Coming late into the project i had to catch the rhythm fast |
