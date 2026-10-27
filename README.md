@@ -143,6 +143,42 @@ The database contains 7 tables:
 - **Docker** 
 - **Docker Compose**
 - **Git**
+- **openssl** (used by `make certs` to create the self-signed HTTPS certificate)
+- A recent **Google Chrome**
+- These ports must be free on your machine:
+
+| Port | Used by |
+|------|---------|
+| 4443 | the site in HTTPS (`https://localhost:4443`) |
+| 8080 | HTTP (redirects to HTTPS) |
+| 5432 | PostgreSQL |
+
+### Environment variables
+
+Two files must be created from the examples (see step 2 of the installation):
+
+**`.env`** (database container)
+
+| Variable | Meaning |
+|----------|---------|
+| `POSTGRES_DB` | database name |
+| `POSTGRES_USER` | database user |
+| `POSTGRES_PASSWORD` | database password |
+
+**`backend/.env.docker`** (backend container)
+
+| Variable | Meaning |
+|----------|---------|
+| `DATABASE_URL` | PostgreSQL connection string; user, password and database name must match the `.env` values, and the host is the database service name |
+| `JWT_SECRET` | secret used to sign access tokens (any long random string) |
+| `COOKIE_SECRET` | secret used to sign cookies (any long random string) |
+| `PORT` | port of the backend inside Docker |
+| `SECURED_API_KEY` | key for the public API, sent in the `X-API-Key` header |
+| `CLIENT_ID`, `CLIENT_SECRET` | Google OAuth credentials |
+| `REDIRECT_URL` | URL Google redirects to after login (must match the one declared in the Google console) |
+
+Without the Google values (`CLIENT_ID`, `CLIENT_SECRET`, `REDIRECT_URL`), the
+"Sign in with Google" button does not work; email and password login works normally.
 
 ### Installation & Running
 
