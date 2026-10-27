@@ -30,6 +30,21 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | jubedla | Frontend Developer. Built the dog profile page and its reusable profile card (photo carousel, owner card, and a “send message” button shown only for matched dogs), also used as the main card on the swipe page. Improved the user and dog registration forms with live per-field validation, password visibility toggle, field labels and photo error feedback.|
 | csarfati | Frontend Developp. Built multiples features in the frontend such as user profile, dog profile, roomlist, chat. Also implement the PWA modules. Add the possibility to upload a pdf in the dog profile and handled the upload loading bar. |
 
+## Individual Challenges
+
+| Login | Challenges |
+|-------|-----------|
+| masase | Add a radius filter (5 km, 10 km, 25 km) |
+| dchellen | Make sure deleting a dog also deletes its photos and files |
+| pchatagn | Add a search by name in the admin panel. |
+| jubedla | Coming late into the project i had to catch the rhythm fast |
+| csarfati | Uplaod PDF feature and loading progress bar|
+
+### Team challenge
+
+- Each member reviews and tests **one feature built by another member** and reports 1 bug or 1 improvement idea.
+- Prepare a **5-minute final demo** where everyone presents their part.
+
 ## Project Management
 
 The team used the following tools and practices to organize the work:
