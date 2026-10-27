@@ -7,7 +7,7 @@ import { dogUploadsRoutes } from '../dog_upload_routes.js'
 
 async function getDogPic(request, reply) {
     const pic = await findPicDogById(request.params.id)
-    if (!pic)
+    if (!pic || !pic.file_path)
       throw new AppError(404, 'NOT_FOUND', 'Dog Pic not found')
     reply.type(pic.mime_type)
     return reply.send(createReadStream(pic.file_path))
