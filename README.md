@@ -165,6 +165,20 @@ make up
 
 The app is available at **https://localhost:4443**
 
+### HTTPS certificate and PWA (offline mode)
+
+`make up` creates a self-signed HTTPS certificate in `certs/`. The site works with it:
+the browser shows a warning, accept it to continue.
+
+Chrome only registers the service worker (installable app and offline mode) if it
+trusts the certificate. Without it, the app works normally but without offline mode.
+To enable it, after `make up`:
+
+1. Open `chrome://certificate-manager` (or `chrome://settings/certificates`).
+2. Import `certs/local.pem` as a trusted certificate
+   (Custom certificates > Installed by you > Import, or Authorities > Import).
+3. Quit Chrome completely and open `https://localhost:4443`.
+
 ### Development
 
 To work with hot reload:
