@@ -26,9 +26,9 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 |-------|--------------|
 | masase | Product Owner & Developer worked primarily on the backend of the project. Implemented Google OAuth authentication, including account creation on first login and JWT session handling. Built the real-time chat backend with Socket.IO, covering authenticated socket connections, message persistence and delivery. Designed the geolocation feature using PostgreSQL and PostGIS, with radius-based user search, distance sorting and spatial indexing. Developed the online status system, allowing users to see when others were last active|
 | dchellen | Project Manager & Developer. Coordinated the team by organizing meetings, following up on progress, monitoring each member’s contributions, and helping identify and resolve blockers. On the backend, restructured the API to follow a clear separation of concerns between schemas, controllers and database queries. Implemented most CRUD routes, file upload and deletion handling, access control and security measures. Managed regular database schema updates and migrations using Prisma and PostgreSQL/PostGIS. On the frontend, implemented the map functionality and contributed to integration, testing and documentation. |
-| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Set up the initial project structure: Docker, Docker Compose and Makefile. Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
+| pchatagn | Technical Lead & Full-Stack Developer. Defined the project architecture and selected the tech stack. Used Miro to plan the overall project structure, features, modules and API routes. Designed the initial database schema (which evolved throughout the project). Implemented early backend routes for swipes and matches (before the controller/queries split). On the frontend, built a large part of the app: registration, login, dog registration, swipe logic and buttons, admin panel, photo upload, and various UI components. |
 | jubedla | Frontend Developer. Built the dog profile page and its reusable profile card (photo carousel, owner card, and a “send message” button shown only for matched dogs), also used as the main card on the swipe page. Improved the user and dog registration forms with live per-field validation, password visibility toggle, field labels and photo error feedback.|
-| csarfati | ... |
+| csarfati | Frontend Developp. Built multiples features in the frontend such as user profile, dog profile, roomlist, chat. Also implement the PWA modules. Add the possibility to upload a pdf in the dog profile and handled the upload loading bar. |
 
 ## Project Management
 
@@ -50,7 +50,7 @@ The team used the following tools and practices to organize the work:
 | Profile Setup | Fill in personal information (name, city, date of birth) | csarfati | dchellen |
 | Avatar Upload | Upload a profile photo | pchatagn | dchellen |
 | Dog Profile | Create a dog profile with name, breed, age and bio | jubelda | masase/dchellen |
-| Dog Photo Upload | Upload up to 5 photos per dog | csarfati/pchatagn | dchellen |
+| Upload for dog | Upload up to 5 photos per dog, one health_file | csarfati/pchatagn | dchellen |
 | Swipe | Like or pass on nearby dogs | jubelda | pchatagn/dchellen |
 | Matching | When two dogs mutually like each other, a match is created | pchatagn | dchellen/masase |
 | Chat | Real-time messaging between matched users | csarfati | masase |
@@ -65,23 +65,23 @@ The team used the following tools and practices to organize the work:
 
 ## Modules
 
-| Module | Type | Points | Description |
-|--------|------|--------|-------------|
-| Frontend & Backend Frameworks | Major | 2 | React (frontend) + Fastify (backend) |
-| Real-time Features | Major | 2 | Online status updated in real-time across clients |
-| User Interaction | Major | 2 | Chat system, profile pages, match system |
-| Public REST API | Major | 2 | Secured API with rate limiting, Swagger documentation, and full CRUD endpoints |
-| Standard User Management | Major | 2 | Profile editing, avatar upload, online status, profile pages |
-| Advanced Permissions System | Major | 2 | Admin panel with CRUD on users, role-based views and actions |
-| ORM | Minor | 1 | Prisma ORM for all database interactions |
-| PWA | Minor | 1 | Installable as a mobile app with offline support |
-| Design System | Minor | 1 | Custom design system with Tailwind (color palette, typography, 10+ reusable components) |
-| File Upload | Minor | 1 | Image upload for avatars and dog photos and pdf for dog's documentation with type/size validation and secure storage |
-| Internationalization | Minor | 1 | 3 languages (English, French, German) with i18n and language switcher |
-| Additional Browser Support | Minor | 1 | Compatible with Chrome and Firefox |
-| OAuth 2.0 | Minor | 1 | Google OAuth login |
+| Module | Type | Points | Justification | Features | Team |
+|--------|------|--------|---------------|----------|------|
+| Frontend & Backend Frameworks | Major | 2 | React enables a reactive UI with reusable components; Fastify outperforms Express with built-in JSON Schema validation | Reusable UI components (NavBar, Modal, Button…), REST API routes, automatic input validation | pchatagn / dchellen |
+| Real-time Features | Major | 2 | Online status must propagate instantly to all connected clients without polling | Socket.io updates `lastSeenAt` in real time, displayed in RoomList and profiles | masase |
+| User Interaction | Major | 2 | The app is entirely built around user interaction through their dogs | Swipe system (like/pass), real-time chat, visitable profile pages, match system | pchatagn/masase/ dchellen/csarfati/ jubelda |
+| Public REST API | Major | 2 | The API must be secured, documented and usable by third parties | JWT on all routes, rate limiting, Swagger documentation, full CRUD on users/dogs/matches | masase |
+| Standard User Management | Major | 2 | Each user must be able to manage their identity and presence on the platform | Profile editing, avatar upload, online/offline indicator, public profile pages | pchatagn/masase/ dchellen/csarfati/ jubelda |
+| Advanced Permissions System | Major | 2 | Certain actions are reserved for administrators to protect platform integrity | Admin panel, account activation/deactivation, user CRUD, role-based views (`user` / `admin`) | pchatagn/dchellen |
+| ORM | Minor | 1 | Prisma ensures consistency between DB schema and code, with automatic typing and versioned migrations | Prisma models for all entities, migrations, seed data, type-safe queries | pchatagn/dchellen |
+| PWA | Minor | 1 | The app must be installable and usable offline on mobile and desktop | Service worker via Vite PWA plugin, manifest, asset caching, offline mode | csarfati |
+| Design System | Minor | 1 | A consistent design system speeds up development and ensures a uniform UI | Custom color palette, typography, 10+ reusable components (Button, Modal, InputField, Avatar, Badge…) | jubelda/csarfati/pchatagn |
+| File Upload | Minor | 1 | Users must be able to personalize their profiles with photos and documents | Avatar upload (JPEG/PNG/WebP, max 5MB), dog photos (up to 5), health PDF; MIME validation on both frontend and backend via `file-type` | csarfati/dchellen |
+| Internationalization | Minor | 1 | The app targets Swiss users — FR, DE and EN are the national languages | i18next with 3 locale files, language switcher in navbar, all UI keys translated | pchatagn |
+| Additional Browser Support | Minor | 1 | Ensure an identical experience across the most widely used browsers | Tested and validated on Chrome and Firefox, cross-browser compatible CSS | jubelda |
+| OAuth 2.0 | Minor | 1 | Simplify login by allowing authentication via an existing Google account | Google OAuth flow, callback handler, automatic account creation on first login | masase |
 
-**Total: 6 Major × 2pts + 7 Minor × 1pt = 19 points**
+**Total: 6 Major (12 pts) + 7 Minor (7 pts) = 19 pts**
 
 ## Technical Choices
 
@@ -176,12 +176,7 @@ make dev
 
 ### Developer Tools
 
-- **Swagger API documentation**: https://localhost/api/documentation
-- **Prisma Studio** (database explorer):
-```bash
-docker compose exec backend npx prisma studio
-```
-Then open http://localhost:51212
+- **Swagger API documentation**: https://localhost:4443/api/documentation
 
 ### Makefile Commands
 

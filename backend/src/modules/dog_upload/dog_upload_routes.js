@@ -16,7 +16,6 @@ async function dogUploadsRoutes(fastify) {
   fastify.get('/dog-docu/:dogId', {schema : getDocuDogSchema, preHandler: checkMyOtherAccess}, getDogDocu)
   fastify.put('/dog-docu/:dogId', {schema : putDocuDogSchema, config : rateLimitPhoto, preHandler: checkAccesDogUpload}, putDogDocu)
   fastify.delete('/dog-docu/:dogId', {schema : deleteDocuDogSchema, preHandler: checkAccesDogUpload}, removeDogDocu)
-  // add une route qui pourrait supprimer toutes les photos d'un dog?
 }
 
 export { dogUploadsRoutes }

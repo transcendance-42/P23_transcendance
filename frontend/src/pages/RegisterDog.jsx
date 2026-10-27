@@ -105,7 +105,7 @@ export default function RegisterDog() {
             const dogData = await dogRes.json()
             if (!dogRes.ok) {
             if (dogData.error === 'DOG_ALREADY_EXISTS') setError(t('ErrDogExists'))
-            else if (dogData.error === 'VALIIDATION_ERROR') setError(t('ErrInvalidData'))
+            else if (dogData.error === 'VALIDATION_ERROR') setError(t('ErrInvalidData'))
             else setError(t('ErrServer'))
             setIsSubmitting(false)
             return
