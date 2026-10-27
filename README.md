@@ -156,6 +156,7 @@ The database contains 7 tables:
 
 ### Prerequisites
 
+- **Make** 
 - **Docker** 
 - **Docker Compose**
 - **Git**
