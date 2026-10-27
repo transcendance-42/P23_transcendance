@@ -206,6 +206,8 @@
     "ErrInvalidFileType": "The file must be an image",
     "OwnedBy": "Owned by {{name}}",
     "ErrAvatarUpload": "Failed to upload the photo", 
+    "ErrSwipeFailed": "Your swipe could not be saved, please try again",
+    "ErrSwipeTooFast": "Too many swipes in a row, please wait a moment",
     "ErrLoginFailed": "Invalid email or password", 
     "Message" : "Message..."
   }

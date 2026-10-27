@@ -207,6 +207,8 @@
     "OwnedBy": "Propriétaire : {{name}}",
     "ErrAvatarUpload": "Échec de l'envoi de la photo", 
     "DeactivateUserConfirm": "Désactiver {{name}} ?",
-    "ErrLoginFailed": "Email ou mot de passe incorrect", 
+    "ErrLoginFailed": "Email ou mot de passe incorrect",
+    "ErrSwipeFailed": "Ton swipe n'a pas pu être enregistré, réessaie",
+    "ErrSwipeTooFast": "Trop de swipes d'affilée, attends un instant",
     "Message" : "Message..."
 }

@@ -15,6 +15,7 @@ const DogCards = ({ onMatch }) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [swipeDir, setSwipeDir] = useState(null)
+    const [swipeError, setSwipeError] = useState('')
 
     useEffect(() => {
         fetchDogs()
@@ -24,7 +25,10 @@ const DogCards = ({ onMatch }) => {
     }, [])
 
     const handleSwipe = async (direction) => {
-        setSwipeDir(direction)
+        if (swipeDir) 
+            return
+		setSwipeError('')
+		setSwipeDir(direction)
         const frontDog = dogs[0]
         try {
             const data = await sendRequestSwipes(direction, frontDog.id)
@@ -34,8 +38,10 @@ const DogCards = ({ onMatch }) => {
                 otherPicId: frontDog.dog_pics?.[0]?.id,
                 otherDogId: frontDog.id
             })
-        } catch {
-            // swipe errors are silent — the card still animates away
+        } catch (e) {
+            setSwipeDir(null)
+            setSwipeError(t(e.status === 429 ? 'ErrSwipeTooFast' : 'ErrSwipeFailed'))
+            return
         }
         setTimeout(() => {
             setSwipeDir(null)
@@ -86,10 +92,11 @@ const DogCards = ({ onMatch }) => {
                     )}
                 </AnimatePresence>
                 <DogProfileCard dog={dogs[0]} />
-            </div>
-            <div className="flex justify-center gap-8">
-                <SwipeButton direction="left" onClick={() => handleSwipe('left')} />
-                <SwipeButton direction="right" onClick={() => handleSwipe('right')} />
+			</div>
+				{swipeError && <p className="text-center text-xs text-action-pass">{swipeError}</p>}
+			<div className="flex justify-center gap-8">
+				<SwipeButton direction="left" onClick={() => handleSwipe('left')} disabled={!!swipeDir} />
+				<SwipeButton direction="right" onClick={() => handleSwipe('right')} disabled={!!swipeDir} />
             </div>
         </div>
     )

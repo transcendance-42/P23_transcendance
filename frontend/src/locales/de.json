@@ -207,5 +207,7 @@
     "OwnedBy": "Besitzer: {{name}}",
     "Offline": "Offline",
     "ErrLoginFailed": "E-Mail oder Passwort ist falsch",
+    "ErrSwipeFailed": "Dein Swipe konnte nicht gespeichert werden, bitte versuche es erneut",
+    "ErrSwipeTooFast": "Zu viele Swipes hintereinander, bitte warte einen Moment",
     "Message" : "Nachricht..."
 }
