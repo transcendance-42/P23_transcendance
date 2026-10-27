@@ -38,7 +38,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | dchellen | Make sure deleting a dog also deletes its photos and files |
 | pchatagn | Add a search by name in the admin panel. |
 | jubedla | Coming late into the project i had to catch the rhythm fast |
-| csarfati | Uplaod PDF feature and loading progress bar|
+| csarfati | the upload progress bar could not be done with `fetch`, so we used `XMLHttpRequest` for avatar and PDF uploads. The PWA offline mode needs a production build and a trusted HTTPS certificate, so `make up` runs the production build and the README explains how to trust `certs/local.pem`.
 
 ### Team challenge
 
