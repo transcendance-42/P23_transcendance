@@ -48,7 +48,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                     setPics(loaded)
                 }
             } catch (e) {
-                setError(t('ErrServer'))
+                setError(t('ErrInvalidFileType'))
             }
         }
  
@@ -138,6 +138,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
         if (!file) return
         e.target.value = ''
 
+        setError('')
         const err = validateImage(file, t)
         if (err) { setError(err); return }
  
@@ -165,7 +166,7 @@ export default function DogProfile({ dog, onSaved, onDeleted }) {
                 const url = URL.createObjectURL(file)
                 setPics(prev => [...prev, { id: newPic.id, position: newPic.position, url }])
             } else {
-                setError(t('ErrServer'))
+                setError(t('ErrInvalidFileType'))
             }
         })
  
