@@ -45,9 +45,14 @@ export default function DogDocument({ dogId, editable }) {
         try {
             await uploadDogDocu(dogId, file, getToken(), setProgress)
             setHasDoc(true)
-        } catch {
-            setError(t('DocuError'))
-        }
+        } catch (e) {
+            if (e.status === 400 || e.status === 415)
+                setError(t('DocuNotPdf'))
+            else if (e.status === 413)
+                setError(t('DocuTooBig'))
+            else
+                setError(t('DocuError'))
+        }            
         setProgress(null)
     }
 
