@@ -29,12 +29,8 @@ async function postSwipe(request, reply) {
     if (direction === 'right') {
         const isItAMatch = await findReverseSwipe(swiper_id, target_id)
         if (isItAMatch) {
-            const existingMatch = await findExistingMatch(swiper_id, target_id)
-            if (!existingMatch) {
                 const match = await createMatch(swiper_id, target_id)
                 return { swipe, match, matched: true }
-            }
-            return { matched: true }
         }
     }
     return { matched: false }

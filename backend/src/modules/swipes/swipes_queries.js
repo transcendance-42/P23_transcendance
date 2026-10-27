@@ -21,19 +21,42 @@ async function findReverseSwipe (swiper_id, target_id) {
 }
 
 async function findExistingMatch(dog1_id, dog2_id) {
-  return prisma.matches.findFirst({
-    where: {
-      OR: [
-        { id_dog1: BigInt(dog1_id), id_dog2: BigInt(dog2_id) },
-        { id_dog1: BigInt(dog2_id), id_dog2: BigInt(dog1_id) }
-      ]
-    }
-  })
+    const firstDog = BigInt(dog1_id)
+    const secondDog = BigInt(dog2_id)
+
+    const [idDog1, idDog2] = firstDog < secondDog
+        ? [firstDog, secondDog]
+        : [secondDog, firstDog]
+
+    return prisma.matches.findUnique({
+        where: {
+            id_dog1_id_dog2: {
+                id_dog1: idDog1,
+                id_dog2: idDog2
+            }
+        }
+    })
 }
 
 async function createMatch(dog1_id, dog2_id) {
-  return prisma.matches.create({
-    data: { id_dog1: BigInt(dog1_id), id_dog2: BigInt(dog2_id) }
+  const firstDog = BigInt(dog1_id)
+  const secondDog = BigInt(dog2_id)
+  const [idDog1, idDog2] = firstDog < secondDog
+    ? [firstDog, secondDog]
+    : [secondDog, firstDog]
+
+  return prisma.matches.upsert({
+    where: {
+      id_dog1_id_dog2: {
+        id_dog1: idDog1,
+        id_dog2: idDog2
+      }
+    },
+    create: {
+      id_dog1: idDog1,
+      id_dog2: idDog2
+    },
+    update: {}
   })
 }
 
