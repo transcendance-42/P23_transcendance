@@ -37,7 +37,7 @@ Tindog is designed as a social network for dog owners and supports multiple simu
 | masase | Add a radius filter (5 km, 10 km, 25 km) |
 | dchellen | Make sure deleting a dog also deletes its photos and files |
 | pchatagn | Add a search by name in the admin panel. |
-| jubedla | Coming late into the project i had to catch the rhythm fast |
+| jubedla | My biggest challenge was joining a project that was already well established. I had to quickly understand my teammates' code, adapt mine so it would fit in without breaking anything, and learn JavaScript, React and Tailwind in a short time |
 | csarfati | Uplaod PDF feature and loading progress bar|
 
 ### Team challenge
